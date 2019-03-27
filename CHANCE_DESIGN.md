@@ -1,0 +1,22 @@
+### A brief description of the primary APIs, focused on their behavior not state (like CRC cards). Your design description should clearly identify how you plan to allow new text and actions to be added.
+- Chance/Community Chest:
+    - In order to implement the community chest or change, you need to keep track and be able to change of the aspects of the player that can be affected by the cards, i.e. their assets, location, cards, etc.
+    - AbstractCards class to represent drawable cards
+        - Needs a random generator
+        - Extending classes need chance-to-be-drawn weights
+        - Use properties files to define cards?
+        - Needs a Card Bank list (cards currently not owned by a player and available to get)
+        - Each one has a method called updatePlayer -- keeps it card specific
+    - AbstractPlayer to associate the drawing of card to a player
+        - List<AbstractCards>
+        - double money?
+        - Extending classes can include actual human players and CPUs
+    - AbstractDeck:
+        - SHOULD BE IMPLEMENTED WITH QUEUE? Since we need ordering of cards and top cards drawn go back to the end of the queue. Or maybe just use an array/list to represent the whole list of cards, and simply change some int index value to keep track of where you are in the list (i.e. each time a card is drawn, index just +1 or if index is at end of list, go back to 0).
+- Dice: 
+    - Can abstract dice type 
+    - Needs random generator and could extend so it?s weighted
+    - In properties file, can set the number of doubles in a row needed to go to jail 
+    - Can have different properties files for each dice type? 
+- Players:
+    - Data structure needs to hold a set of players -- can iterate through the players 
