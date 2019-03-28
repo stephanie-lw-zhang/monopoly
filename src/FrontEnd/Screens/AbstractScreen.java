@@ -17,6 +17,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Represents an abstraction of any screen menu within the game app
+ *
+ * @author Sam
+ */
 public class AbstractScreen {
 
     private int    screenWidth;

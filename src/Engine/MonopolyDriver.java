@@ -10,6 +10,12 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * The Driver class of the Monopoly game, acts as the Controller and initializes the
+ * entire game framework
+ *
+ * @author Sam
+ */
 public class MonopolyDriver extends Application {
 
     private static String TITLE = "Monopoly";
