@@ -1,3 +1,4 @@
 # monopoly
 
-Put only source code, resource, or asset files related to your project here.
+Luis Fornes (laf30), Edward Hsieh (eh158), Matt Rose (mjr68), Connie Wu (cw342), Stephanie Zhang (slz6), Sam Zhang (syz5)
+
