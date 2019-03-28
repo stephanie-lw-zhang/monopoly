@@ -1,4 +1,4 @@
-package BackEnd;
+package BackEnd.Card;
 
 public class AbstractCard {
     

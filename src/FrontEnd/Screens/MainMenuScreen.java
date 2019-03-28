@@ -12,6 +12,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Extends AbstractScreen. Represents the main menu which is first loaded on game start
+ *
+ * @author Sam
+ */
 public class MainMenuScreen extends AbstractScreen {
     private static final String SCREEN_TITLE = "Monopoly";
     private Scene myIntro;

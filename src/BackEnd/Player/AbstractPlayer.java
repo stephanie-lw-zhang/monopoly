@@ -1,4 +1,4 @@
-package BackEnd;
+package BackEnd.Player;
 
 public class AbstractPlayer {
 }
