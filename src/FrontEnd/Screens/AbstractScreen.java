@@ -1,6 +1,6 @@
 package FrontEnd.Screens;
 
-import Engine.MonopolyDriver;
+import FrontEnd.Handlers;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,7 +22,7 @@ import javafx.stage.Stage;
  *
  * @author Sam
  */
-public class AbstractScreen {
+public class AbstractScreen extends Handlers {
 
     private int    screenWidth;
     private int    screenHeight;
@@ -78,12 +78,6 @@ public class AbstractScreen {
         bPane.setMargin(gPane, new Insets(0,0, 75, 0));
 
         return bPane;
-    }
-
-    private void handleBackToMainButton(Stage stage) {
-        stage.close();
-        MonopolyDriver md = new MonopolyDriver();
-        md.start(stage);
     }
 
     public int    getScreenWidth()  { return screenWidth; }

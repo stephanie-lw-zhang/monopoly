@@ -1,4 +1,4 @@
 package BackEnd.Player;
 
-public class AbstractPlayer {
+public abstract class AbstractPlayer {
 }
