@@ -57,7 +57,7 @@
 * Design Goals
     * Data Driven:
  ```xml
- <OGMonopoly>
+ <FamilyGuyMonopoly>
     <BoardLayout>OriginalMonopoly.csv</BoardLayout>
     <Tile>
         <TileNumber>0</TileNumber>
@@ -83,7 +83,7 @@
     <Tile>
         <TileType>Giggity Giggity Giggity</TileType>
        </Tile>
-</OGMonopoly>
+</FamilyGuyMonopoly>
 ``` 
 * Use Cases
     * Drawing a Card
