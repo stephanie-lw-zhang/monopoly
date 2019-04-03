@@ -51,7 +51,7 @@
 
 * API and Overview
 
-![alt text](https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/blob/master/doc/api/initial_uml_overview.jpg)
+![alt text](https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/blob/master/doc/api/initial_uml_overview.png)
 
 * Design Goals
     * Data Driven:
