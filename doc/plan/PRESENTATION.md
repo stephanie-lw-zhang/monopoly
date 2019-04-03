@@ -47,6 +47,7 @@
 
 ![alt text](https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame12.png "Frame 12")
 
+
 #Design Plan
 
 * API and Overview
