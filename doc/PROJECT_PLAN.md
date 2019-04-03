@@ -20,4 +20,3 @@
 # Challenges
 - Trade/Auction with others
 - Play on servers with other live players
-
