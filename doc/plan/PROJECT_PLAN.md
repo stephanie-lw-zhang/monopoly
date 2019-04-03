@@ -1,7 +1,7 @@
 #Project Plan
 
 # Responsibilities by people 
-- Sam -- Movement, engine, fullstack
+- Sam -- Movement, engine, full-stack
 - Luis -- configuration, data, integration
 - Edward -- fullstack, display, paths
 - Matt -- backend class: Board, Controller
