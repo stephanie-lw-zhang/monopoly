@@ -7,4 +7,5 @@ package BackEnd.Board;
  * @author Sam
  */
 public class RegularBoard extends AbstractBoard {
+
 }
