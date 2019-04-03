@@ -10,6 +10,8 @@ In this project, our team is trying to create a functional game of monopoly for 
 
 There is an abstract board class that keeps track of the players and tiles, and the coordinates of each. It can be extended to accommodate different types of boards. It also moves the player and has getter methods to report the coordinates of the player. A handler recognizes the necessary actions that need to be taken based on the change in coordinates. Each tile is extended from an abstract Tile class that could include Jail, DrawCard, Property, and GO. Each of these has specific actions and methods that pertain to its purpose.   Each player is extending an abstract Player class that could include a human user, simple computer, and complex computer. It contains key information about such as each player’s money, properties, cards, and piece. These attributes all have getter methods so that these values can be displayed and accessible to the user. We will also have an abstract dice class for different types of die, to account for any different number of sides for dice, fair vs weighted dice, speed dice, etc. There will also be an abstract Deck class so we can change up how cards in a deck are drawn and put back (putting it on the bottom, shuffling in between, etc).
 
+On the front-end, there are AbstractBoardGUI and AbstractTileGUI. AbstractBoardGUI will create different board patterns, while AbstractTileGUI will create different shapes of tiles that AbstractBoardGUI will add to the screen in the board pattern that is being asked for.
+
 ## User Interface
 *This section describes what components the user will interact with in your program (keep it simple to start) and how a game is represented to the designer and what support is provided to make it easy to create a game. Include design goals for the implementation of the UI that shows the kind of abstractions you plan to build on top of OpenJFX's standard components and how they can be flexibly exchanged within the GUI itself. Finally, describe any erroneous situations that are reported to the user (i.e., bad input data, empty data, etc.).*
 
@@ -70,6 +72,15 @@ We need the backend Model module (with Board, Tile, Dice, Player, etc) to encaps
 **Bank**
 * The bank class keeps track of the types and amount of each bill, which is relevant when playing with money bills because if there isn’t exact change the player just won’t get any money. Also, bank can have limited money and run out. 
 * Bank mainly interacts with the Player class.
+
+**AbstractBoardGUI**
+- AbstractBoardGUI will create different board patterns
+- AbstractBoardGUI will add tiles to the screen in the board pattern that is being asked for.
+- Abstract because there could be different board patterns depending on the game.
+
+**AbstractTileGUI**
+- AbstractTileGUI will create different shapes of tiles
+- Abstract because there can be different tile shapes (shape, hexagon, etc.)
 
 ## Example games
 *Describe three example games in detail that differ significantly. Clearly identify how the functional differences in these games is supported by your design. Use these examples to help clarify the abstractions in your design.*
