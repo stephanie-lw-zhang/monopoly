@@ -1,0 +1,66 @@
+<OGMonopoly>
+
+    <BoardLayout>OriginalMonopoly.csv</BoardLayout>
+
+    <Tile>
+        <TileNumber>0</TileNumber>
+        <TileType>GO</TileType>
+        <TileColor>GREEN</TileColor>
+    </Tile>
+
+    <Tile>
+        <TileNumber>1</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Brown</TileColor>
+        <TileName>Mediterranean Avenue</TileName>
+        <TileRent>2</TileRent>
+        <TileRentWithColorSet>4</TileRentWithColorSet>
+        <TileRent1House>10</TileRent1House>
+        <TileRent2House>30</TileRent2House>
+        <TileRent3House>90</TileRent3House>
+        <TileRent4House>160</TileRent4House>
+        <TileRentHotel>250</TileRentHotel>
+        <TileMortgageValue>30</TileMortgageValue>
+        <TileHousePrice>50</TileHousePrice>
+        <TileHotelPrice>50</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileType>Community Chest</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>3</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Brown</TileColor>
+        <TileName>Baltic Avenue</TileName>
+        <TileRent>4</TileRent>
+        <TileRentWithColorSet>8</TileRentWithColorSet>
+        <TileRent1House>20</TileRent1House>
+        <TileRent2House>60</TileRent2House>
+        <TileRent3House>180</TileRent3House>
+        <TileRent4House>320</TileRent4House>
+        <TileRentHotel>450</TileRentHotel>
+        <TileMortgageValue>30</TileMortgageValue>
+        <TileHousePrice>50</TileHousePrice>
+        <TileHotelPrice>50</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>4</TileNumber>
+        <TileType>Income Tax</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>5</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>None</TileColor>
+        <TileName>King's Cross Station</TileName>
+        <TileRent>25</TileRent>
+        <TileRent2Stations>50</TileRent2Stations>
+        <TileRent3Stations>100</TileRent3Stations>
+        <TileRent4Stations>200</TileRent4Stations>
+        <TileMortgageValue>100</TileMortgageValue>
+    </Tile>
+
+</OGMonopoly>
