@@ -1,4 +1,4 @@
-###Project Plan
+# Project Plan
 
 ### Responsibilities by people 
 - Sam -- Movement, engine, fullstack
@@ -21,7 +21,7 @@
 - Trade/Auction with others
 - Play on servers with other live players
 
-###User Interface Wireframe
+# User Interface Wireframe
 
 ![alt text](https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame1.png "Frame 1")
 
@@ -48,7 +48,7 @@
 ![alt text](https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame12.png "Frame 12")
 
 
-###Design Plan
+# Design Plan
 
 * API and Overview
 
