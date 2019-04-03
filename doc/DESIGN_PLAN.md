@@ -62,7 +62,7 @@ We need the backend Model module (with Board, Tile, Dice, Player, etc) to encaps
 * We made this abstract so that there may be a way to shuffle cards differently based on the game.
 * Abstraction makes this class flexible.
 
-**Abstract Tile Class **
+**Abstract Tile Class**
 * Each tile is extended from an abstract Tile class that could include Jail, DrawCard, Property, and GO. Each of these has specific actions and methods that pertain to its purpose. 
 * Abstraction makes this class flexible.
 * Because it is abstract, we can have each tile type associated with an action that it can perform (single responsibility per tile type).
