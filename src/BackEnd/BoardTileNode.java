@@ -1,6 +1,6 @@
 package BackEnd;
 
-import BackEnd.Board.AbstractTile;
+import BackEnd.Tile.AbstractTile;
 
 import java.util.ArrayList;
 import java.util.List;
