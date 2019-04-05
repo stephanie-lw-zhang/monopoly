@@ -1,8 +1,11 @@
-package BackEnd.Tile;
+package BackEnd.Tile.PropertyTiles;
+
+import BackEnd.Player.AbstractPlayer;
+import BackEnd.Tile.TileInterface;
 
 import java.awt.*;
 
-public class PropertyTile extends AbstractTile{
+public abstract class AbstractPropertyTile implements TileInterface {
     private String tiletype;
     private Color tilecolor;
     private int tilerent;
@@ -14,5 +17,15 @@ public class PropertyTile extends AbstractTile{
     private int tilemortgagevalue;
     private int tilehouseprice;
     private int tilehotelprice;
+
+    @Override
+    public void applyLandedOnAction(AbstractPlayer player) {
+
+    }
+
+    @Override
+    public void applyPassedAction(AbstractPlayer player) {
+        return;
+    }
 
 }
