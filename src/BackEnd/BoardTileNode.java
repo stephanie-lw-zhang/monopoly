@@ -10,6 +10,7 @@ import java.util.List;
  * to represent the network of tiles on the game board
  *
  * @author Sam
+ * @author Edward
  */
 public class BoardTileNode {
     AbstractTile tileInfo;
