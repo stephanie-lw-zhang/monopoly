@@ -1,6 +1,6 @@
 package BackEnd;
 
-import BackEnd.Tile.AbstractTile;
+import BackEnd.Tile.TileInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +12,15 @@ import java.util.List;
  * @author Sam
  */
 public class BoardTileNode {
-    AbstractTile tileInfo;
+    TileInterface tileInfo;
     List<BoardTileNode> nexts;
 
-    public BoardTileNode(AbstractTile tInfo, List<BoardTileNode> n) {
+    public BoardTileNode(TileInterface tInfo, List<BoardTileNode> n) {
         tileInfo = tInfo;
         nexts = n;
     }
 
-    public BoardTileNode(AbstractTile tInfo) {
+    public BoardTileNode(TileInterface tInfo) {
         this(tInfo, new ArrayList<BoardTileNode>());
     }
 
