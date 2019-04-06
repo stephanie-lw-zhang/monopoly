@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Project Plan</title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" media="print" href="file:///usr/local/lib/python2.7/site-packages/landslide/themes/default/css/print.css">
+    <link rel="stylesheet" media="screen, projection" href="file:///usr/local/lib/python2.7/site-packages/landslide/themes/default/css/screen.css">
+    
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="file:///usr/local/lib/python2.7/site-packages/landslide/themes/default/js/slides.js"></script>
+    
+    
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: PRESENTATION.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-1">
+          <div class="inner">
+            
+            <header><h1>Project Plan</h1></header>
+            
+            
+            <section><h3>Responsibilities by people</h3>
+<ul>
+<li>Sam -- Movement, engine, fullstack</li>
+<li>Luis -- configuration, data, integration</li>
+<li>Edward -- fullstack, display, paths</li>
+<li>Matt -- backend class: Board, Controller</li>
+<li>Connie -- backend class: Tile and all its subclasses</li>
+<li>Stephanie -- backend classes: Dice, Player, Bank, Deck, Card</li>
+</ul>
+<h3>Sprint 1</h3>
+<ul>
+<li>Goal: Play an original, standard game of monopoly with just one human player to make sure it runs </li>
+<li>Adv. Goal: Play original monopoly with multiple human players</li>
+</ul>
+<h3>Sprint 2</h3>
+<ul>
+<li>Goal: Play multiple types of monopolies (at least 3) with multiple players and be able to save</li>
+<li>Adv. Goal: Implement Hexagonal or other shaped cells, play against bots</li>
+</ul>
+<h3>Sprint 3</h3>
+<ul>
+<li>Goal: Play many monopolies with multiple shapes and players</li>
+<li>Adv Goal: Move in different directions, make front end beautiful (add little rectangles)</li>
+</ul>
+<h3>Challenges</h3>
+<ul>
+<li>Trade/Auction with others</li>
+<li>Play on servers with other live players</li>
+</ul>
+<h1>User Interface Wireframe</h1>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame1.png" title="Frame 1" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame2.png" title="Frame 2" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame3.png" title="Frame 3" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame4.png" title="Frame 4" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame5.png" title="Frame 5" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame6.png" title="Frame 6" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame7.png" title="Frame 7" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame8.png" title="Frame 8" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame9.png" title="Frame 9" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame10.png" title="Frame 10" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame11.png" title="Frame 11" /></p>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/raw/master/data/Frame12.png" title="Frame 12" /></p>
+<h1>Design Plan</h1>
+<ul>
+<li>API and Overview</li>
+</ul>
+<p><img alt="alt text" src="https://coursework.cs.duke.edu/compsci307_2019spring/monopoly_team05/blob/master/doc/api/initial_uml_overview.png" /></p>
+<ul>
+<li>Design Goals<ul>
+<li>Data Driven:
+ <code>xml
+ &lt;OGMonopoly&gt;
+&lt;BoardLayout&gt;OriginalMonopoly.csv&lt;/BoardLayout&gt;
+&lt;Tile&gt;
+    &lt;TileNumber&gt;0&lt;/TileNumber&gt;
+    &lt;TileType&gt;GO&lt;/TileType&gt;
+    &lt;TileColor&gt;GREEN&lt;/TileColor&gt;
+&lt;/Tile&gt;
+&lt;Tile&gt;
+    &lt;TileNumber&gt;1&lt;/TileNumber&gt;
+    &lt;TileType&gt;Property&lt;/TileType&gt;
+    &lt;TileColor&gt;Brown&lt;/TileColor&gt;
+    &lt;TileName&gt;Chris's Closet&lt;/TileName&gt;
+    &lt;TileRent&gt;2&lt;/TileRent&gt;
+    &lt;TileRentWithColorSet&gt;4&lt;/TileRentWithColorSet&gt;
+    &lt;TileRent1House&gt;10&lt;/TileRent1House&gt;
+    &lt;TileRent2House&gt;30&lt;/TileRent2House&gt;
+    &lt;TileRent3House&gt;90&lt;/TileRent3House&gt;
+    &lt;TileRent4House&gt;160&lt;/TileRent4House&gt;
+    &lt;TileRentHotel&gt;250&lt;/TileRentHotel&gt;
+    &lt;TileMortgageValue&gt;30&lt;/TileMortgageValue&gt;
+    &lt;TileHousePrice&gt;50&lt;/TileHousePrice&gt;
+    &lt;TileHotelPrice&gt;50&lt;/TileHotelPrice&gt;
+&lt;/Tile&gt;
+&lt;Tile&gt;
+    &lt;TileType&gt;Giggity Giggity Giggity&lt;/TileType&gt;
+   &lt;/Tile&gt;
+&lt;/OGMonopoly&gt;</code> </li>
+</ul>
+</li>
+<li>
+<p>Use Cases</p>
+<ul>
+<li>Drawing a Card</li>
+<li>Being in Jail</li>
+</ul>
+</li>
+<li>
+<p>Alternative Designs</p>
+<ul>
+<li>Storing Tiles in an Array<ul>
+<li>Doesnt allow for dynamic movement along tiles</li>
+<li>Would be good if movement was strictly linear</li>
+</ul>
+</li>
+<li>Tiles as Nodes in a Graph<ul>
+<li>Allows to dynamically move from one tile to another based on movement criteria</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="PRESENTATION.md">PRESENTATION.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/1
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide1">Project Plan</a></th>
+        <td><a href="#slide1">1</a></td>
+      </tr>
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Full screen slides</th>
+        <td>e</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide slide context</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+  </div>
+  <script>main()</script>
+</body>
+</html>
