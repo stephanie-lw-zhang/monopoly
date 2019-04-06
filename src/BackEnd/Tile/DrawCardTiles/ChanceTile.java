@@ -1,8 +1,7 @@
 package BackEnd.Tile.DrawCardTiles;
 
 import BackEnd.Deck.AbstractDeck;
-import BackEnd.Player.AbstractPlayer;
-import BackEnd.Tile.DrawCardTiles.AbstractDrawCardTile;
+import BackEnd.AssetHolder.AbstractPlayer;
 
 public class ChanceTile extends AbstractDrawCardTile {
 

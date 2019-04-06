@@ -1,6 +1,6 @@
 package BackEnd.Tile;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 
 public interface TileInterface {
     void applyLandedOnAction(AbstractPlayer p);

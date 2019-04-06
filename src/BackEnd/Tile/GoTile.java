@@ -1,6 +1,6 @@
 package BackEnd.Tile;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 
 public class GoTile implements TileInterface {
 

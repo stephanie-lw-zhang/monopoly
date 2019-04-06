@@ -1,6 +1,6 @@
 package BackEnd.Tile.PropertyTiles;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 
 public class RailroadTile extends AbstractPropertyTile {
 
