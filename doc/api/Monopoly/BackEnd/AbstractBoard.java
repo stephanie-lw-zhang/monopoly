@@ -1,3 +1,4 @@
+package api.Monopoly.BackEnd;
 
 import java.util.*;
 
@@ -6,63 +7,57 @@ import java.util.*;
  */
 public abstract class AbstractBoard {
 
+    private Map<AbstractPlayer, AbstractTile> playerToTileMap;
+    private List<List<AbstractTile>> adjacencyList;
+    private List<AbstractTile> tiles;
+
     /**
-     * Default constructor
+     * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-    public AbstractBoard() {
+    public AbstractBoard(List<AbstractPlayer> playerList, List<AbstractTile> tiles, List<List<AbstractTile>> adjacencyList) {
+        this.tiles = tiles;
+        this.adjacencyList = adjacencyList;
+        playerToTileMap = new HashMap<>();
+        for(AbstractPlayer p: playerList) playerToTileMap.put(p, tiles.get(0));
     }
 
     /**
-     * 
+     * gets the Tile that the player is currently on
      */
-    private HashMap playerToTileMap;
-
-    /**
-     * 
-     */
-    private List tilePath;
-
-    /**
-     * 
-     */
-    private List decks;
-
-    /**
-     * 
-     */
-    private int[][] myTilePath;
-
-
-
-
-
-
-    /**
-     * 
-     */
-    private void checkPassedGo() {
-        // TODO implement here
+    public AbstractTile getPlayerTile(AbstractPlayer p){
+        return playerToTileMap.get(p);
     }
 
     /**
-     * 
+     * Checks if the player is on the GO Tile and gives the player $200 if so
      */
-    private void movePlayers() {
+    public void checkIfGo(AbstractPlayer p, AbstractTile tile) {
         // TODO implement here
+        if (tile instanceof GoTile){
+            //p.addFunds(200);
+        }
     }
 
     /**
-     * 
+     * Moves the player on the board by reassigning its tile mapping
      */
-    private void checkIfJailed() {
-        // TODO implement here
+    public abstract void movePlayer(AbstractPlayer p, int[] rolls, boolean jailed);
+
+    public Map<AbstractPlayer, AbstractTile> getPlayerTileMap(){
+        return playerToTileMap;
+    }
+    public int getTileIndex(AbstractTile tile){
+        return tiles.indexOf(tile);
+    }
+    public List<AbstractTile> getAdjacentTiles(int tileIndex){
+        return adjacencyList.get(tileIndex);
     }
 
     /**
-     * @param Scanner config
+     * @param config
      */
-    public void initialize(void Scanner config) {
-        // TODO implement here
+    public void initialize(Scanner config) {
+
     }
 
 }

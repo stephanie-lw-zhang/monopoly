@@ -1,10 +1,11 @@
+package api.Monopoly.BackEnd;
 
 import java.util.*;
 
 /**
  * 
  */
-private class PropertyTile extends AbstractTile {
+public class PropertyTile extends AbstractTile {
 
     /**
      * Default constructor
