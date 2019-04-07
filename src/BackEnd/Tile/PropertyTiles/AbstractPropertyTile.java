@@ -1,6 +1,6 @@
 package BackEnd.Tile.PropertyTiles;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.TileInterface;
 
 import java.awt.*;
@@ -8,15 +8,15 @@ import java.awt.*;
 public abstract class AbstractPropertyTile implements TileInterface {
     private String tiletype;
     private Color tilecolor;
-    private int tilerent;
-    private int tilerentwithcolorset;
-    private int tilerent1house;
-    private int tilerent2house;
-    private int tilerent3house;
-    private int tilerenthotel;
-    private int tilemortgagevalue;
-    private int tilehouseprice;
-    private int tilehotelprice;
+    private double tilerent;
+    private double tilerentwithcolorset;
+    private double tilerent1house;
+    private double tilerent2house;
+    private double tilerent3house;
+    private double tilerenthotel;
+    private double tilemortgagevalue;
+    private double tilehouseprice;
+    private double tilehotelprice;
 
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
@@ -26,6 +26,23 @@ public abstract class AbstractPropertyTile implements TileInterface {
     @Override
     public void applyPassedAction(AbstractPlayer player) {
         return;
+    }
+
+
+    private int numberOfHouses(){
+        return 0;
+        //placeholder
+    }
+
+    private int numberOfHotels(){
+        return 0;
+        //placeholder
+    }
+
+    public Double sellToBankPrice (){
+        Double total = (numberOfHouses() * tilehouseprice + numberOfHotels() + tilehotelprice)/2;
+        return total;
+        //assume not mortgaged
     }
 
 }

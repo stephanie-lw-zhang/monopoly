@@ -1,7 +1,7 @@
 package BackEnd.Tile.DrawCardTiles;
 
 import BackEnd.Deck.AbstractDeck;
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.TileInterface;
 
 public abstract class AbstractDrawCardTile implements TileInterface {
