@@ -35,7 +35,28 @@ public class BuildingTile extends AbstractPropertyTile {
 //            }
         }
         else if (!player.equals(getOwner())) {
+            player.paysTo(getOwner(),priceToPay());
+        }
+    }
 
+    private double priceToPay() {
+        if (numberOfHouses == 1) {
+            return card.getPropertyRent1House();
+        }
+        else if (numberOfHouses == 2) {
+            return card.getPropertyRent2House();
+        }
+        else if (numberOfHouses == 3) {
+            return card.getPropertyRent3House();
+        }
+        else if (numberOfHouses == 4) {
+            return card.getPropertyRent4House();
+        }
+        else if (numberOfHotels == 1) {
+            return card.getPropertyRentHotel();
+        }
+        else {
+            return card.getNoHousesOrHotelsRent();
         }
     }
 
@@ -71,7 +92,7 @@ public class BuildingTile extends AbstractPropertyTile {
 
     @Override
     public double sellToBankPrice() {
-        if (!isMortaged()) {
+        if (!isMortgaged()) {
             return (numberOfHouses * card.getPropertyHousePrice() + numberOfHotels + card.getPropertyHotelPrice()) / 2;
         }
         else {
