@@ -1,6 +1,6 @@
 package BackEnd.Tile;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,10 +18,10 @@ public class JailTile implements TileInterface {
         return;
     }
 
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
-    }
+    // @Override
+//    public void applyPassedAction(AbstractPlayer player) {
+//        return;
+//    }
 
     public void addCriminal(AbstractPlayer player) {
         criminals.add(player);
