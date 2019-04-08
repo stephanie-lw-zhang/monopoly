@@ -10,7 +10,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     private String tiletype;
     private double tileprice;
-    private boolean mortaged;
+    private boolean mortgaged;
     private AbstractAssetHolder owner;
     private AbstractCard card;
 
@@ -19,7 +19,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
         this.card = card;
         this.tiletype = tiletype;
         this.tileprice = tileprice;
-        this.mortaged = false;
+        this.mortgaged = false;
     }
 
     @Override
@@ -27,7 +27,15 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return;
     }
 
-    public abstract double sellToBankPrice();
+    public double sellToBankPrice() {
+        if (!isMortgaged()) {
+            return tileprice/2;
+        }
+        else {
+            //throw exception?
+        }
+        return 0;
+    }
 
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;
@@ -41,8 +49,8 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return owner;
     }
 
-    public boolean isMortaged() {
-        return mortaged;
+    public boolean isMortgaged() {
+        return mortgaged;
     }
 
     public void buyProperty(AbstractPlayer player) {

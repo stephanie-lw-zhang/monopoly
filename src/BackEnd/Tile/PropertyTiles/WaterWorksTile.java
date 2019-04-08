@@ -12,11 +12,6 @@ public class WaterWorksTile extends AbstractPropertyTile {
     }
 
     @Override
-    public double sellToBankPrice() {
-        return 0;
-    }
-
-    @Override
     public void applyLandedOnAction(AbstractPlayer p) {
 
     }
