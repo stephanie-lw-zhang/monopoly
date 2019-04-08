@@ -1,26 +1,25 @@
 package BackEnd.Tile.PropertyTiles;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractAssetHolder;
+import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.AssetHolder.Bank;
+import BackEnd.Card.AbstractCard;
 import BackEnd.Tile.TileInterface;
 
-import java.awt.*;
-
 public abstract class AbstractPropertyTile implements TileInterface {
+
     private String tiletype;
-    private Color tilecolor;
-    private int tilerent;
-    private int tilerentwithcolorset;
-    private int tilerent1house;
-    private int tilerent2house;
-    private int tilerent3house;
-    private int tilerenthotel;
-    private int tilemortgagevalue;
-    private int tilehouseprice;
-    private int tilehotelprice;
+    private double tileprice;
+    private boolean mortaged;
+    private AbstractAssetHolder owner;
+    private AbstractCard card;
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-
+    public AbstractPropertyTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
+        this.owner = bank;
+        this.card = card;
+        this.tiletype = tiletype;
+        this.tileprice = tileprice;
+        this.mortaged = false;
     }
 
     @Override
@@ -28,4 +27,32 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return;
     }
 
+    public abstract double sellToBankPrice();
+
+    public void switchOwner(AbstractAssetHolder player) {
+        this.owner = player;
+    }
+
+    public AbstractCard getCard() {
+        return card;
+    }
+
+    public AbstractAssetHolder getOwner() {
+        return owner;
+    }
+
+    public boolean isMortaged() {
+        return mortaged;
+    }
+
+    public void buyProperty(AbstractPlayer player) {
+        player.addProperty(this);
+        switchOwner(player);
+    }
+
+//    public void auctionProperty() {
+//        //interact with front-end ?
+//        double maxMoney = 0;
+//        if ()
+//    }
 }

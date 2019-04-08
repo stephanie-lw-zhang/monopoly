@@ -1,20 +1,20 @@
 package BackEnd.Tile.DrawCardTiles;
 
-import BackEnd.Deck.AbstractDeck;
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.Deck.DeckInterface;
 import BackEnd.Tile.TileInterface;
 
 public abstract class AbstractDrawCardTile implements TileInterface {
 
-    private AbstractDeck myDeck;
+    private DeckInterface myDeck;
 
-    public AbstractDrawCardTile(AbstractDeck deck) {
+    public AbstractDrawCardTile(DeckInterface deck) {
         myDeck = deck;
     }
 
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
-        myDeck.drawTopCard();
+        myDeck.drawCard();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package BackEnd.Tile.UtilitiesTiles;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.TileInterface;
 
 public abstract class AbstractUtilitiesTile implements TileInterface {

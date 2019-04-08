@@ -1,6 +1,6 @@
 package BackEnd.Tile;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 
 import java.util.HashSet;
 import java.util.Set;
