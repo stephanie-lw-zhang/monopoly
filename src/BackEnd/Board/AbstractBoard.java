@@ -1,5 +1,7 @@
 package BackEnd.Board;
 
+import BackEnd.Player.AbstractPlayer;
+
 /**
  * This class is an abstraction of the game board which contains
  * fundamental pieces to the game itself
@@ -7,4 +9,5 @@ package BackEnd.Board;
  * @author Sam
  */
 public abstract class AbstractBoard {
+    
 }
