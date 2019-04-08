@@ -77,6 +77,4 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
             receiver.setMoney( receiver.getMoney() + debt );
         }
     }
-
-
 }
