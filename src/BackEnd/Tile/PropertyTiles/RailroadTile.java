@@ -14,14 +14,4 @@ public class RailroadTile extends AbstractPropertyTile {
     public void applyLandedOnAction(AbstractPlayer player) {
 
     }
-
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-
-    }
-
-    @Override
-    public double sellToBankPrice() {
-        return 0;
-    }
 }

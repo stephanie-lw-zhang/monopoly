@@ -3,6 +3,7 @@ package BackEnd.Card;
 import java.awt.*;
 
 public class BuildingCard extends PropertyCard {
+    //make constants??
     private Color propertyColor;
     private double propertyRentWithColorSet;
     private double propertyRent1House;

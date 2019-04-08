@@ -9,8 +9,4 @@ public class ChanceTile extends AbstractDrawCardTile {
         super(deck);
     }
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-
-    }
 }
