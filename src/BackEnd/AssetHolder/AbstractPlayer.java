@@ -7,12 +7,15 @@ import java.util.List;
 
 public abstract class AbstractPlayer extends AbstractAssetHolder{
     private String icon;
-    private boolean isInJail;
+    private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private Boolean bankrupt;
     private List<AbstractCard> cards;
+    private Bank bank;
 
-    public AbstractPlayer(Double money) {
+
+    public AbstractPlayer(Double money, Bank bank) {
         super( money );
+        this.bank = bank;
     }
 
 
@@ -20,12 +23,17 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         return icon;
     }
 
-    public boolean getIsInJail() {
-        return isInJail;
+    public int getTurnsInJail() {
+        return turnsInJail;
     }
 
-    public void setIsInJail(boolean jail) {
-        isInJail = jail;
+    public void addTurnInJail() {
+        turnsInJail += 1;
+        //must call this when going to jail to set value to 0
+    }
+
+    public void getOutOfJail(){
+        turnsInJail = -1;
     }
 
     public Boolean isBankrupt(){
@@ -54,27 +62,41 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
             receiver.setMoney( receiver.getMoney() + this.getMoney() );
             this.setMoney( 0.0 );
             debt = debt - this.getMoney();
-            Double totalAssetValue = 0.0;
-            for(AbstractPropertyTile each: this.getProperties()){
-                totalAssetValue += each.sellToBankPrice();
-                //assume can only sell to bank, no trading
-            }
-            if (totalAssetValue < debt){
+            if (getTotalAssetValue() < debt){
                 this.declareBankruptcyTo(receiver);
             } else{
-                int i = 0;
-                while(debt > 0){
-                    AbstractPropertyTile currentProperty = this.getProperties().get( i );
-                    //assume selling in order of buying property, but can change this to own choice
-                    debt -= currentProperty.sellToBankPrice();
-
-                    receiver.addProperty( currentProperty );
-                    i++;
-                }
+                payBackDebt( receiver, debt );
             }
         } else{
             this.setMoney( this.getMoney()-debt );
             receiver.setMoney( receiver.getMoney() + debt );
         }
     }
+
+    public void addProperty(AbstractPropertyTile property){
+        this.getProperties().add( property );
+    }
+
+    private void payBackDebt(AbstractAssetHolder receiver, Double debt) {
+        //right now you pay back debt by selling properties until you can pay back, but made separate method cuz this can be changed
+        int i = 0;
+        while(debt > 0){
+            AbstractPropertyTile currentProperty = this.getProperties().get( i );
+            //assume selling in order of buying property, but can change this to own choice
+            debt -= currentProperty.sellToBankPrice();
+            bank.addProperty( currentProperty );
+            i++;
+        }
+    }
+
+    private Double getTotalAssetValue() {
+        Double totalAssetValue = 0.0;
+        for(AbstractPropertyTile each: this.getProperties()){
+            totalAssetValue += each.sellToBankPrice();
+            //assume can only sell to bank, no trading
+        }
+        return totalAssetValue;
+    }
+
+
 }

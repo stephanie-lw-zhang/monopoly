@@ -7,4 +7,6 @@ package BackEnd.Board;
  * @author Sam
  */
 public abstract class AbstractBoard {
+
+    //TO DO: map of all colors on board and the properties in that color
 }
