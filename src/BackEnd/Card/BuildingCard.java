@@ -5,7 +5,7 @@ import java.awt.*;
 public class BuildingCard extends PropertyCard {
     //make constants??
     private Color propertyColor;
-    private double propertyRentWithColorSet;
+    private double noHousesOrHotelsRent;
     private double propertyRent1House;
     private double propertyRent2House;
     private double propertyRent3House;
@@ -21,7 +21,7 @@ public class BuildingCard extends PropertyCard {
                         double propertyRentHotel, double propertyHousePrice, double propertyHotelPrice) {
         super(propertyType, propertyRent, propertyMortgageValue);
         this.propertyColor = propertyColor;
-        this.propertyRentWithColorSet = propertyRentWithColorSet;
+        this.noHousesOrHotelsRent = propertyRentWithColorSet;
         this.propertyRent1House = propertyRent1House;
         this.propertyRent2House = propertyRent2House;
         this.propertyRent3House = propertyRent3House;
@@ -59,7 +59,7 @@ public class BuildingCard extends PropertyCard {
         return propertyRent1House;
     }
 
-    public double getPropertyRentWithColorSet() {
-        return propertyRentWithColorSet;
+    public double getNoHousesOrHotelsRent() {
+        return noHousesOrHotelsRent;
     }
 }
