@@ -5,15 +5,17 @@ package BackEnd.Board;
  * format of a Monopoly board
  */
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.TileInterface;
+import javafx.scene.paint.Color;
 
 import java.util.List;
+import java.util.Map;
 
 public class StandardBoard extends AbstractBoard {
 
-    public StandardBoard(List<AbstractPlayer> playerList, List<TileInterface> tiles, List<List<TileInterface>> adjacencyList){
-        super(playerList, tiles, adjacencyList);
+    public StandardBoard(List<AbstractPlayer> playerList, List<TileInterface> tiles, List<List<TileInterface>> adjacencyList, Map<Color, List<TileInterface>> colorListMap){
+        super(playerList, tiles, adjacencyList, colorListMap);
     }
 
     public void movePlayer(AbstractPlayer p, int[] rolls) {

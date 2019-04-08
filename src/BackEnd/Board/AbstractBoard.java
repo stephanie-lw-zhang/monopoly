@@ -4,9 +4,10 @@ package BackEnd.Board;
  * This class is an abstraction of the game board which contains
  * fundamental pieces to the game itself
  */
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.TileInterface;
 import BackEnd.Tile.GoTile;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -18,13 +19,15 @@ public abstract class AbstractBoard {
     private Map<AbstractPlayer, TileInterface> playerPositionMap;
     private List<List<TileInterface>> adjacencyList;
     private List<TileInterface> tiles;
+    private Map<Color, List<TileInterface>> colorListMap;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-    public AbstractBoard(List<AbstractPlayer> playerList, List<TileInterface> tiles, List<List<TileInterface>> adjacencyList) {
+    public AbstractBoard(List<AbstractPlayer> playerList, List<TileInterface> tiles, List<List<TileInterface>> adjacencyList,Map<Color, List<TileInterface>> colorListMap) {
         this.tiles = tiles;
         this.adjacencyList = adjacencyList;
+        this.colorListMap = colorListMap;
         playerPositionMap = new HashMap<>();
         for (AbstractPlayer p : playerList) playerPositionMap.put(p, tiles.get(0));
     }
