@@ -1,26 +1,25 @@
 package BackEnd.Tile.PropertyTiles;
 
+import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.AssetHolder.Bank;
+import BackEnd.Card.AbstractCard;
 import BackEnd.Tile.TileInterface;
 
-import java.awt.*;
-
 public abstract class AbstractPropertyTile implements TileInterface {
+
     private String tiletype;
-    private Color tilecolor;
-    private double tilerent;
-    private double tilerentwithcolorset;
-    private double tilerent1house;
-    private double tilerent2house;
-    private double tilerent3house;
-    private double tilerenthotel;
-    private double tilemortgagevalue;
-    private double tilehouseprice;
-    private double tilehotelprice;
+    private double tileprice;
+    private boolean mortaged;
+    private AbstractAssetHolder owner;
+    private AbstractCard card;
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-
+    public AbstractPropertyTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
+        this.owner = bank;
+        this.card = card;
+        this.tiletype = tiletype;
+        this.tileprice = tileprice;
+        this.mortaged = false;
     }
 
     @Override
@@ -28,21 +27,32 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return;
     }
 
+    public abstract double sellToBankPrice();
 
-    public int getNumberOfHouses(){
-        return 0;
-        //placeholder
+    public void switchOwner(AbstractAssetHolder player) {
+        this.owner = player;
     }
 
-    public int getNumberOfHotels(){
-        return 0;
-        //placeholder
+    public AbstractCard getCard() {
+        return card;
     }
 
-    public Double sellToBankPrice (){
-        Double total = (getNumberOfHouses() * tilehouseprice + getNumberOfHotels() + tilehotelprice)/2;
-        return total;
-        //assume not mortgaged
+    public AbstractAssetHolder getOwner() {
+        return owner;
     }
 
+    public boolean isMortaged() {
+        return mortaged;
+    }
+
+    public void buyProperty(AbstractPlayer player) {
+        player.addProperty(this);
+        switchOwner(player);
+    }
+
+//    public void auctionProperty() {
+//        //interact with front-end ?
+//        double maxMoney = 0;
+//        if ()
+//    }
 }
