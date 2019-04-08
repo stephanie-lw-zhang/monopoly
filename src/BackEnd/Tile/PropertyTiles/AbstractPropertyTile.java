@@ -29,18 +29,18 @@ public abstract class AbstractPropertyTile implements TileInterface {
     }
 
 
-    private int numberOfHouses(){
+    public int getNumberOfHouses(){
         return 0;
         //placeholder
     }
 
-    private int numberOfHotels(){
+    public int getNumberOfHotels(){
         return 0;
         //placeholder
     }
 
     public Double sellToBankPrice (){
-        Double total = (numberOfHouses() * tilehouseprice + numberOfHotels() + tilehotelprice)/2;
+        Double total = (getNumberOfHouses() * tilehouseprice + getNumberOfHotels() + tilehotelprice)/2;
         return total;
         //assume not mortgaged
     }
