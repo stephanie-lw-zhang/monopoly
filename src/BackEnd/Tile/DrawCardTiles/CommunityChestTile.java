@@ -1,12 +1,11 @@
 package BackEnd.Tile.DrawCardTiles;
 
-import BackEnd.Deck.AbstractDeck;
-import BackEnd.Player.AbstractPlayer;
-import BackEnd.Tile.DrawCardTiles.AbstractDrawCardTile;
+import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.Deck.DeckInterface;
 
 public class CommunityChestTile extends AbstractDrawCardTile {
 
-    public CommunityChestTile(AbstractDeck deck) {
+    public CommunityChestTile(DeckInterface deck) {
         super(deck);
     }
 
