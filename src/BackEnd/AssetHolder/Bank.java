@@ -13,6 +13,17 @@ public class Bank extends AbstractAssetHolder {
         super(money);
     }
 
+    @Override
+    public void addProperty(AbstractPropertyTile property) {
+        this.getProperties().add( property );
+        if(property instanceof AbstractPropertyTile){
+            //SWITCH TO BUILDINGTILE
+            numHousesLeft -= property.getNumberOfHouses();
+            numHotelsLeft -= property.getNumberOfHouses();
+        }
+
+    }
+
     public int getNumHousesLeft(){
         return numHousesLeft;
     }
@@ -29,17 +40,6 @@ public class Bank extends AbstractAssetHolder {
 //        numHotelsLeft = number;
 //    }
 
-    public void updateNumHousesAndHotels(){
-        numHousesLeft = 32; //total number, change from magic number
-        numHotelsLeft = 12; //total number, change from magic number
-        for(AbstractPropertyTile property: this.getProperties()){
-            if(property instanceof AbstractPropertyTile){
-                //SWITCH TO BUILDINGTILE
-                numHousesLeft -= property.getNumberOfHouses();
-                numHotelsLeft -= property.getNumberOfHouses();
-            }
-        }
-    }
 
 
     //money is supposed to be unlimited in standard version

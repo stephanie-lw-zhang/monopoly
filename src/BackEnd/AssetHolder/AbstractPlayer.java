@@ -10,10 +10,12 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
     private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private Boolean bankrupt;
     private List<AbstractCard> cards;
+    private Bank bank;
 
 
-    public AbstractPlayer(Double money) {
+    public AbstractPlayer(Double money, Bank bank) {
         super( money );
+        this.bank = bank;
     }
 
 
@@ -71,6 +73,10 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         }
     }
 
+    public void addProperty(AbstractPropertyTile property){
+        this.getProperties().add( property );
+    }
+
     private void payBackDebt(AbstractAssetHolder receiver, Double debt) {
         //right now you pay back debt by selling properties until you can pay back, but made separate method cuz this can be changed
         int i = 0;
@@ -78,7 +84,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
             AbstractPropertyTile currentProperty = this.getProperties().get( i );
             //assume selling in order of buying property, but can change this to own choice
             debt -= currentProperty.sellToBankPrice();
-            receiver.addProperty( currentProperty );
+            bank.addProperty( currentProperty );
             i++;
         }
     }
