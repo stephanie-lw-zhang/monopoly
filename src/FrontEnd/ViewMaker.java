@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- *
+ * Makes the Screen (Scene object) on first load of this
+ * game app.
  *
  * @author Sam
  * @author Edward

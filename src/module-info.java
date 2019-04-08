@@ -10,4 +10,3 @@ module monopoly {
 
     exports Engine;
 }
-
