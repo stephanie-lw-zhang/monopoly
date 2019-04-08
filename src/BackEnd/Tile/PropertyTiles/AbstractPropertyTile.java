@@ -89,6 +89,8 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return bank;
     }
 
+
+
 //    public void auctionProperty() {
 //        //interact with front-end ?
 //        double maxMoney = 0;
