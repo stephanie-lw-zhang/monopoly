@@ -22,10 +22,10 @@ public abstract class AbstractPropertyTile implements TileInterface {
         this.mortgaged = false;
     }
 
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
-    }
+//    @Override
+//    public void applyPassedAction(AbstractPlayer player) {
+//        return;
+//    }
 
     public double sellToBankPrice() {
         if (!isMortgaged()) {
@@ -54,9 +54,16 @@ public abstract class AbstractPropertyTile implements TileInterface {
     }
 
     public void buyProperty(AbstractPlayer player) {
-        player.addProperty(this);
-        switchOwner(player);
+        if(player.getMoney() < tileprice) {
+            //THROW EXCEPTION
+        }
+        else{
+            player.addProperty(this);
+            player.paysTo( owner, tileprice );
+            switchOwner(player);
+        }
     }
+
 
 //    public void auctionProperty() {
 //        //interact with front-end ?
