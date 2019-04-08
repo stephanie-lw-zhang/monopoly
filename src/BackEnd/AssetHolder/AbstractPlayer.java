@@ -11,6 +11,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
     private Boolean bankrupt;
     private List<AbstractCard> cards;
     private Bank bank;
+    private int roll;
 
 
     public AbstractPlayer(Double money, Bank bank) {
@@ -56,6 +57,13 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         this.setMoney( 0 );
     }
 
+    public int getRoll(){
+        return roll;
+    }
+
+    public void setRoll(int roll){
+        this.roll = roll;
+    }
 
     public void paysTo (AbstractAssetHolder receiver, Double debt){
         if(this.getMoney() > debt){

@@ -14,10 +14,10 @@ public abstract class AbstractTaxTile implements TileInterface {
         this.bank = bank;
     }
 
-    @Override
-    public void applyPassedAction(AbstractPlayer p) {
-        return;
-    }
+//    @Override
+//    public void applyPassedAction(AbstractPlayer p) {
+//        return;
+//    }
 
     public Bank getBank() {
         return bank;
