@@ -9,9 +9,4 @@ public class CommunityChestTile extends AbstractDrawCardTile {
         super(deck);
     }
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-
-    }
-
 }

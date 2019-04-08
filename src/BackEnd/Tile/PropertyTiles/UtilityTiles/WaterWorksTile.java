@@ -12,10 +12,4 @@ public class WaterWorksTile extends AbstractUtilityTile {
         super(bank, card, tiletype, tileprice);
     }
 
-    @Override
-    public double sellToBankPrice() {
-        return 0;
-    }
-
-
 }

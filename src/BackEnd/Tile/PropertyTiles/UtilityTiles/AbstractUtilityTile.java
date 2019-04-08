@@ -15,9 +15,6 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
     }
 
     @Override
-    public abstract double sellToBankPrice();
-
-    @Override
     public void applyLandedOnAction(AbstractPlayer p) {
         int utilitiesOwned = 0;
         for(AbstractPropertyTile property: this.getOwner().getProperties()){

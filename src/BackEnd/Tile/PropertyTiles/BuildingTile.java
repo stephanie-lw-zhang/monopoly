@@ -71,7 +71,7 @@ public class BuildingTile extends AbstractPropertyTile {
 
     @Override
     public double sellToBankPrice() {
-        if (!isMortaged()) {
+        if (!isMortgaged()) {
             return (numberOfHouses * card.getPropertyHousePrice() + numberOfHotels + card.getPropertyHotelPrice()) / 2;
         }
         else {
