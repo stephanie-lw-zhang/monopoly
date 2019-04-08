@@ -30,7 +30,7 @@ public class Game {
     }
 
     public void movePlayer(AbstractPlayer p, int[] rolls){
-        //if((p.getTurnsInJail() != -1) && rolls[0]!=rolls[1]){
+        if((p.getTurnsInJail() != -1) && rolls[0]!=rolls[1]){
             //this should be in a properties file
         //    throw new JailException("You have been in Jail for " + p.getTurnsInJail() + " turns");
        // }
@@ -38,8 +38,8 @@ public class Game {
         //board.getPlayerTile(p).applyLandedOnAction();
     }
 
-    //public void turn(AbstractPlayer p, int[] rolls){
+    public void turn(AbstractPlayer p, int[] rolls){
 
-    //}
+    }
 
 }

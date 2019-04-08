@@ -11,6 +11,7 @@ public class AbstractDice {
      * Default constructor
      */
     public AbstractDice() {
+
     }
 
 

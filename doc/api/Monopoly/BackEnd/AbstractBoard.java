@@ -59,11 +59,9 @@ public abstract class AbstractBoard {
     }
 
     /**
-     * @param Scanner config
+     * @param config
      */
-    public void initialize(void Scanner config) {
+    public void initialize(Scanner config) {
         // TODO implement here
     }
-
-}
 }

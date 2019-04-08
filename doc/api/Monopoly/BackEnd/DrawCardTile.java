@@ -14,9 +14,9 @@ public class DrawCardTile extends AbstractTile {
     }
 
     /**
-     * @param Deck drawFrom
+     * @param drawFrom
      */
-    public void drawCard(void Deck drawFrom) {
+    public void drawCard(AbstractDeck drawFrom) {
         // TODO implement here
     }
 

@@ -43,7 +43,6 @@ public abstract class AbstractBoard {
      * Checks if the player is on the GO Tile and gives the player $200 if so
      */
     public void checkIfGo(AbstractPlayer p, TileInterface tile) {
-        // TODO implement here
         if (tile instanceof GoTile) {
             p.setMoney(p.getMoney() + 200);
         }
@@ -64,13 +63,6 @@ public abstract class AbstractBoard {
 
     public List<TileInterface> getAdjacentTiles(int tileIndex) {
         return adjacencyList.get(tileIndex);
-    }
-
-    /**
-     * @param config
-     */
-    public void initialize(Scanner config) {
-
     }
 
 }

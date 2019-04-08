@@ -1,6 +1,6 @@
 package api.Monopoly.BackEnd;
 
-import BackEnd.Dice.AbstractDice;
+import api.Monopoly.BackEnd.AbstractDice;
 
 import java.util.*;
 
