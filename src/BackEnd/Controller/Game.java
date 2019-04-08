@@ -6,20 +6,23 @@ import BackEnd.Exceptions.JailException;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 
+import java.util.List;
+
 public class Game {
 
     private AbstractDice dice;
     private DeckInterface chanceDeck;
     private DeckInterface chestDeck;
     private AbstractBoard board;
+    private List<AbstractPlayer> players;
     //private Bank bank;
 
-    public Game(AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board){
+    public Game(AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, List<AbstractPlayer> players){
         this.dice = dice;
         this.chanceDeck = chanceDeck;
         this.chestDeck = chestDeck;
         this.board = board;
-        //this.bank = bank;
+        this.players = players;
     }
 
     public int[] rollValue(){
@@ -29,17 +32,9 @@ public class Game {
         return rolls;
     }
 
-    public void movePlayer(AbstractPlayer p, int[] rolls){
-        if((p.getTurnsInJail() != -1) && rolls[0]!=rolls[1]){
-            //this should be in a properties file
-        //    throw new JailException("You have been in Jail for " + p.getTurnsInJail() + " turns");
-       // }
-        board.movePlayer(p, rolls);
-        //board.getPlayerTile(p).applyLandedOnAction();
-    }
-
-    public void turn(AbstractPlayer p, int[] rolls){
+    public void play(){
 
     }
+
 
 }

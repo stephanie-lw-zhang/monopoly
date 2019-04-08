@@ -12,7 +12,7 @@ public class GoToJailTile implements TileInterface {
 
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
-        player.setIsInJail(true);
+        player.addTurnInJail();
         jail.addCriminal(player);
     }
 

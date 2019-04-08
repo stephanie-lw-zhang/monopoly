@@ -22,12 +22,12 @@ public abstract class AbstractAssetHolder{
         this.money = newValue;
     }
 
-    public void addProperty(AbstractPropertyTile property){
-        this.properties.add( property );
-    }
+    public abstract void addProperty(AbstractPropertyTile property);
 
     public void addAllProperties(List<AbstractPropertyTile> propertyList){
-        this.properties.addAll( propertyList );
+        for(AbstractPropertyTile property: propertyList){
+            addProperty( property );
+        }
     }
 
     public List<AbstractPropertyTile> getProperties() {
