@@ -1,9 +1,5 @@
 package BackEnd.AssetHolder;
 
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-
-import java.util.List;
-
 public class Bank extends AbstractAssetHolder {
 
     public Bank(Double money) {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractAssetHolder{
-    private List<AbstractPropertyTile> properties  = new ArrayList<AbstractPropertyTile>(  );
+    private List<AbstractPropertyTile> properties  = new ArrayList<>(  );
     private Double money;
 
     public AbstractAssetHolder(Double money) {
@@ -36,4 +36,13 @@ public abstract class AbstractAssetHolder{
 
     public abstract void paysTo (AbstractAssetHolder receiver, Double debt);
 
+    @Override
+    public boolean equals (Object o) {
+        if (o == this) { return true; }
+        if (!(o instanceof AbstractAssetHolder)) {
+            return false;
+        }
+        AbstractAssetHolder player2 = (AbstractAssetHolder) o;
+        return ((player2.getProperties().equals(this.getProperties())) && (player2.getMoney() == this.getMoney()));
+    }
 }
