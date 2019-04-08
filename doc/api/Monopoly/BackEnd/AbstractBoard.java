@@ -1,8 +1,8 @@
-
+package api.Monopoly.BackEnd;
 import java.util.*;
 
 /**
- * 
+ *
  */
 public abstract class AbstractBoard {
 
@@ -13,22 +13,22 @@ public abstract class AbstractBoard {
     }
 
     /**
-     * 
+     *
      */
     private HashMap playerToTileMap;
 
     /**
-     * 
+     *
      */
     private List tilePath;
 
     /**
-     * 
+     *
      */
     private List decks;
 
     /**
-     * 
+     *
      */
     private int[][] myTilePath;
 
@@ -38,31 +38,30 @@ public abstract class AbstractBoard {
 
 
     /**
-     * 
+     *
      */
     private void checkPassedGo() {
         // TODO implement here
     }
 
     /**
-     * 
+     *
      */
     private void movePlayers() {
         // TODO implement here
     }
 
     /**
-     * 
+     *
      */
     private void checkIfJailed() {
         // TODO implement here
     }
 
     /**
-     * @param Scanner config
+     * @param config
      */
-    public void initialize(void Scanner config) {
+    public void initialize(Scanner config) {
         // TODO implement here
     }
-
 }

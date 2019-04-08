@@ -1,3 +1,4 @@
+package api.Monopoly.BackEnd;
 
 import java.util.*;
 
@@ -24,16 +25,16 @@ public class Bank {
 
 
     /**
-     * @param int[] bills
+     * @param  bills
      */
-    public void void pay(void int[] bills) {
+    public void  pay(int[] bills) {
         // TODO implement here
     }
 
     /**
-     * @param int amount
+     * @param  amount
      */
-    public void void withdraw(void int amount) {
+    public void withdraw(int amount) {
         // TODO implement here
     }
 

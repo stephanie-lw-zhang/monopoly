@@ -1,17 +1,11 @@
 package BackEnd.Tile.DrawCardTiles;
 
-import BackEnd.Deck.AbstractDeck;
-import BackEnd.Player.AbstractPlayer;
-import BackEnd.Tile.DrawCardTiles.AbstractDrawCardTile;
+import BackEnd.Deck.DeckInterface;
 
 public class ChanceTile extends AbstractDrawCardTile {
 
-    public ChanceTile(AbstractDeck deck) {
+    public ChanceTile(DeckInterface deck) {
         super(deck);
     }
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-
-    }
 }

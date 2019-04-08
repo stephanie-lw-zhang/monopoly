@@ -1,10 +1,9 @@
 package BackEnd.Card;
 
-/**
- * This class represents an abstraction of a game card in Monopoly
- *
- * @author Sam
- */
+import BackEnd.AssetHolder.AbstractPlayer;
+
 public abstract class AbstractCard {
-    
+
+    public abstract void applyTo(AbstractPlayer player);
+
 }

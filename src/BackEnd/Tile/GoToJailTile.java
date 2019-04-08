@@ -1,6 +1,6 @@
 package BackEnd.Tile;
 
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 
 public class GoToJailTile implements TileInterface {
 
@@ -12,12 +12,12 @@ public class GoToJailTile implements TileInterface {
 
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
-        player.setIsInJail(true);
+        player.addTurnInJail();
         jail.addCriminal(player);
     }
 
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
-    }
+//    @Override
+//    public void applyPassedAction(AbstractPlayer player) {
+//        return;
+//    }
 }
