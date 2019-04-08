@@ -10,10 +10,5 @@ import BackEnd.Player.AbstractPlayer;
  */
 public abstract class AbstractBoard {
 
-    private void calculatePath(AbstractPlayer player){
-        var moves = myDice.roll();
-        for(int i=0;i<moves;i++){
-            
-        }
-    }
+
 }
