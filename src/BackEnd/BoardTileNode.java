@@ -28,4 +28,6 @@ public class BoardTileNode {
     public void addNext(BoardTileNode n) {
         nexts.add(n);
     }
+
+
 }
