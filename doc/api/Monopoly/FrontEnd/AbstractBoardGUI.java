@@ -1,3 +1,4 @@
+package api.Monopoly.FrontEnd;
 
 import java.util.*;
 
@@ -15,7 +16,7 @@ public class AbstractBoardGUI {
     /**
      * 
      */
-    public void Attribute1;
+    public void Attribute1(){};
 
 
 

@@ -1,6 +1,5 @@
 package BackEnd.Tile.DrawCardTiles;
 
-import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
 
 public class ChanceTile extends AbstractDrawCardTile {
@@ -9,8 +8,4 @@ public class ChanceTile extends AbstractDrawCardTile {
         super(deck);
     }
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-
-    }
 }

@@ -10,24 +10,51 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     private String tiletype;
     private double tileprice;
-    private boolean mortaged;
+    private boolean mortgaged;
+    private Bank bank;
     private AbstractAssetHolder owner;
     private AbstractCard card;
 
     public AbstractPropertyTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
         this.owner = bank;
+        this.bank = bank;
         this.card = card;
         this.tiletype = tiletype;
         this.tileprice = tileprice;
-        this.mortaged = false;
+        this.mortgaged = false;
     }
 
+    //fix this
     @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
+    public void applyLandedOnAction(AbstractPlayer player) {
+        //controller will send player option to buy property? interact with front-end
+        if (getOwner() instanceof Bank) {
+            if (true) {
+                buyProperty(player);
+            }
+//            else {
+//                auctionProperty();
+//            }
+        }
+        else if (!player.equals(getOwner())) {
+            player.paysTo(getOwner(),priceToPay());
+        }
     }
 
-    public abstract double sellToBankPrice();
+//    @Override
+//    public void applyPassedAction(AbstractPlayer player) {
+//        return;
+//    }
+
+    public double sellToBankPrice() {
+        if (!isMortgaged()) {
+            return tileprice/2;
+        }
+        else {
+            //throw exception: CANNOT SELL MORTGAGED PROPERTY
+        }
+        return 0;
+    }
 
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;
@@ -41,14 +68,29 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return owner;
     }
 
-    public boolean isMortaged() {
-        return mortaged;
+    public boolean isMortgaged() {
+        return mortgaged;
     }
 
     public void buyProperty(AbstractPlayer player) {
-        player.addProperty(this);
-        switchOwner(player);
+        if(player.getMoney() < tileprice) {
+            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
+            //maybe options to sell other properties or mortgage or something from front end?
+        }
+        else{
+            player.addProperty(this);
+            player.paysTo( owner, tileprice );
+            switchOwner(player);
+        }
     }
+
+    public abstract double priceToPay();
+
+    public Bank getBank() {
+        return bank;
+    }
+
+
 
 //    public void auctionProperty() {
 //        //interact with front-end ?
