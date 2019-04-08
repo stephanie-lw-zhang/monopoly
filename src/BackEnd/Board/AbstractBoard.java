@@ -5,6 +5,8 @@ package BackEnd.Board;
  * fundamental pieces to the game itself
  */
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
+import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.TileInterface;
 import BackEnd.Tile.GoTile;
 import javafx.scene.paint.Color;
@@ -19,12 +21,12 @@ public abstract class AbstractBoard {
     private Map<AbstractPlayer, TileInterface> playerPositionMap;
     private List<List<TileInterface>> adjacencyList;
     private List<TileInterface> tiles;
-    private Map<Color, List<TileInterface>> colorListMap;
+    private Map<Color, List<BuildingTile>> colorListMap;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-    public AbstractBoard(List<AbstractPlayer> playerList, List<TileInterface> tiles, List<List<TileInterface>> adjacencyList,Map<Color, List<TileInterface>> colorListMap) {
+    public AbstractBoard(List<AbstractPlayer> playerList, List<TileInterface> tiles, List<List<TileInterface>> adjacencyList,Map<Color, List<BuildingTile>> colorListMap) {
         this.tiles = tiles;
         this.adjacencyList = adjacencyList;
         this.colorListMap = colorListMap;
@@ -65,4 +67,7 @@ public abstract class AbstractBoard {
         return adjacencyList.get(tileIndex);
     }
 
+    public Map<Color, List<BuildingTile>> getColorListMap() {
+        return colorListMap;
+    }
 }

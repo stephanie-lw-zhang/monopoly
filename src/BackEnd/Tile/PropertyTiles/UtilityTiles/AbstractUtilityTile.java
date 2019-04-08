@@ -8,14 +8,23 @@ import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 public abstract class AbstractUtilityTile extends AbstractPropertyTile {
     private Double rentMultiplierOwnSingle = 4.0;
     private Double rentMultiplierOwnDouble = 10.0;
+    private int roll;
 
 
     public AbstractUtilityTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
         super( bank, card, tiletype, tileprice );
     }
 
+    public void setRoll(AbstractPlayer p) {
+        roll = p.getRoll();
+    }
+
+    private int getRoll(){
+        return roll;
+    }
+
     @Override
-    public void applyLandedOnAction(AbstractPlayer p) {
+    public double priceToPay() {
         int utilitiesOwned = 0;
         for(AbstractPropertyTile property: this.getOwner().getProperties()){
             if(property instanceof AbstractUtilityTile){
@@ -23,9 +32,9 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
             }
         }
         if(utilitiesOwned == 1){
-            p.paysTo( this.getOwner(), rentMultiplierOwnSingle * p.getRoll() );
+            return rentMultiplierOwnSingle * getRoll();
         } else {
-            p.paysTo( this.getOwner(), rentMultiplierOwnDouble * p.getRoll() );
+            return rentMultiplierOwnDouble * getRoll();
         }
     }
 }

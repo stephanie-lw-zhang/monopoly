@@ -2,8 +2,10 @@ package BackEnd.Tile.PropertyTiles;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
+import BackEnd.Board.AbstractBoard;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
+import BackEnd.Tile.TileInterface;
 
 import java.awt.*;
 import java.util.List;
@@ -15,31 +17,15 @@ public class BuildingTile extends AbstractPropertyTile {
     private int numberOfHotels;
     private BuildingCard card;
 
-    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
+    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, Color tilecolor) {
         super(bank, card, tiletype, tileprice);
-        card = (BuildingCard)this.getCard();
+        this.card = (BuildingCard)this.getCard();
+        this.tilecolor = tilecolor;
         numberOfHouses = 0;
         numberOfHotels = 0;
     }
 
-    //fix this
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-        //controller will send player option to buy property? interact with front-end
-        if (getOwner() instanceof Bank) {
-            if (true) {
-                buyProperty(player);
-            }
-//            else {
-//                auctionProperty();
-//            }
-        }
-        else if (!player.equals(getOwner())) {
-            player.paysTo(getOwner(),priceToPay());
-        }
-    }
-
-    private double priceToPay() {
+    public double priceToPay() {
         if (numberOfHouses == 1) {
             return card.getPropertyRent1House();
         }
@@ -61,30 +47,41 @@ public class BuildingTile extends AbstractPropertyTile {
     }
 
     //fix this
-    public void upgrade(AbstractPlayer player) {
-        List<AbstractPropertyTile> properties = player.getProperties();
+    public void upgrade(AbstractPlayer player, AbstractBoard board) {
+        //List<AbstractPropertyTile> properties = player.getProperties();
         Color thisColor = this.getTilecolor();
-        if (properties.size() == 0) {
+        if (player.getProperties().size() == 0) {
             //throw exception: NO PROPERTIES
         }
         else if (!this.getOwner().equals(player)) {
             //throw exception: YOU DO NOT OWN THIS PROPERTY
         }
         else {
-            if (checkIfPlayerOwnsAllOfOneColor(properties, thisColor)) {
-
+            List<BuildingTile> properties = board.getColorListMap().get(thisColor);
+            if (checkIfPlayerOwnsAllOfOneColor(properties) && checkIfUpgradePossible(properties)) {
+                if (this.getNumberOfHouses() < 4) {
+                    this.numberOfHouses++;
+                    getBank().subtractOneHouse();
+                }
             }
         }
     }
 
-    private boolean checkIfPlayerOwnsAllOfOneColor(List<AbstractPropertyTile> properties, Color thisColor) {
-        int totalNumber = 0;
-        for (AbstractPropertyTile tile : properties) {
-            if (tile instanceof BuildingTile) {
-                BuildingTile building = (BuildingTile)tile;
-                if (building.getTilecolor().equals(thisColor)) {
-                    totalNumber++;
-                }
+    private boolean checkIfPlayerOwnsAllOfOneColor(List<BuildingTile> properties) {
+        for (BuildingTile tile : properties) {
+            if (!(tile.getOwner().equals(this.getOwner()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkIfUpgradePossible(List<BuildingTile> properties) {
+        int minToUpgrade = this.getNumberOfHouses();
+        for (BuildingTile tile : properties) {
+            if (tile.getNumberOfHouses() < minToUpgrade) {
+                //throw exception
+                return false;
             }
         }
         return true;

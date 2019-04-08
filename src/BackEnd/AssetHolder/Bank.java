@@ -19,10 +19,9 @@ public class Bank extends AbstractAssetHolder {
         this.getProperties().add( property );
         if(property instanceof BuildingTile){
             //SWITCH TO BUILDINGTILE
-            numHousesLeft -= ((BuildingTile) property).getNumberOfHouses();
-            numHotelsLeft -= ((BuildingTile) property).getNumberOfHouses();
+            numHousesLeft += ((BuildingTile) property).getNumberOfHouses();
+            numHotelsLeft += ((BuildingTile) property).getNumberOfHotels();
         }
-
     }
 
     public int getNumHousesLeft(){
