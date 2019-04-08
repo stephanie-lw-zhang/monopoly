@@ -1,21 +1,20 @@
 package BackEnd.Controller;
 
-import BackEnd.Deck.ChanceDeck;
-import BackEnd.Deck.CommunityChestDeck;
+import BackEnd.Deck.DeckInterface;
 import BackEnd.Dice.AbstractDice;
 import BackEnd.Exceptions.JailException;
-import BackEnd.Player.AbstractPlayer;
+import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 
 public class Game {
 
     private AbstractDice dice;
-    private ChanceDeck chanceDeck;
-    private CommunityChestDeck chestDeck;
+    private DeckInterface chanceDeck;
+    private DeckInterface chestDeck;
     private AbstractBoard board;
     //private Bank bank;
 
-    public Game(AbstractDice dice, ChanceDeck chanceDeck, CommunityChestDeck chestDeck, AbstractBoard board){
+    public Game(AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board){
         this.dice = dice;
         this.chanceDeck = chanceDeck;
         this.chestDeck = chestDeck;
