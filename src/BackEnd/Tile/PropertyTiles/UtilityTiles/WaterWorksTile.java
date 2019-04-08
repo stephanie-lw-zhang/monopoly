@@ -1,10 +1,11 @@
-package BackEnd.Tile.PropertyTiles;
+package BackEnd.Tile.PropertyTiles.UtilityTiles;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
+import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
-public class WaterWorksTile extends AbstractPropertyTile {
+public class WaterWorksTile extends AbstractUtilityTile {
     //maybe abstract utilities? so no duplicate code on applylandedonaction
 
     public WaterWorksTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
@@ -16,8 +17,5 @@ public class WaterWorksTile extends AbstractPropertyTile {
         return 0;
     }
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer p) {
 
-    }
 }

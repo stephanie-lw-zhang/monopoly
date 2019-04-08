@@ -1,11 +1,12 @@
-package BackEnd.Tile.PropertyTiles;
+package BackEnd.Tile.PropertyTiles.UtilityTiles;
 
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
+import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
-public class ElectricCompanyTile extends AbstractPropertyTile {
+public class ElectricCompanyTile extends AbstractUtilityTile {
 
 
     public ElectricCompanyTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
@@ -14,11 +15,8 @@ public class ElectricCompanyTile extends AbstractPropertyTile {
 
     @Override
     public double sellToBankPrice() {
-        return 0;
+        return getTileprice()/2;
+        //assumption.
     }
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer p) {
-
-    }
 }

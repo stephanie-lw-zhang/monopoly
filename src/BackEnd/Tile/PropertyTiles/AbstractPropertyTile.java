@@ -50,6 +50,11 @@ public abstract class AbstractPropertyTile implements TileInterface {
         switchOwner(player);
     }
 
+    public double getTileprice(){
+        return tileprice;
+        //make immutable??
+    }
+
 //    public void auctionProperty() {
 //        //interact with front-end ?
 //        double maxMoney = 0;
