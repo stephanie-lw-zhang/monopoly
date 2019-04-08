@@ -1,6 +1,7 @@
 package BackEnd.AssetHolder;
 
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
+import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.PropertyTiles.RailroadTile;
 
 import java.util.List;
@@ -16,10 +17,10 @@ public class Bank extends AbstractAssetHolder {
     @Override
     public void addProperty(AbstractPropertyTile property) {
         this.getProperties().add( property );
-        if(property instanceof AbstractPropertyTile){
+        if(property instanceof BuildingTile){
             //SWITCH TO BUILDINGTILE
-            numHousesLeft -= property.getNumberOfHouses();
-            numHotelsLeft -= property.getNumberOfHouses();
+            numHousesLeft -= ((BuildingTile) property).getNumberOfHouses();
+            numHotelsLeft -= ((BuildingTile) property).getNumberOfHouses();
         }
 
     }

@@ -98,5 +98,4 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         return totalAssetValue;
     }
 
-
 }
