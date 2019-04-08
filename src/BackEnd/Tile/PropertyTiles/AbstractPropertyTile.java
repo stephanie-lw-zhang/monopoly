@@ -51,7 +51,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
             return tileprice/2;
         }
         else {
-            //throw exception?
+            //throw exception: CANNOT SELL MORTGAGED PROPERTY
         }
         return 0;
     }
@@ -74,7 +74,8 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     public void buyProperty(AbstractPlayer player) {
         if(player.getMoney() < tileprice) {
-            //THROW EXCEPTION
+            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
+            //maybe options to sell other properties or mortgage or something from front end?
         }
         else{
             player.addProperty(this);

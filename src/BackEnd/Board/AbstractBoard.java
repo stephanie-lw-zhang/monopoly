@@ -5,7 +5,6 @@ package BackEnd.Board;
  * fundamental pieces to the game itself
  */
 import BackEnd.AssetHolder.AbstractPlayer;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.TileInterface;
 import BackEnd.Tile.GoTile;

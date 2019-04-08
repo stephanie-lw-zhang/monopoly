@@ -32,6 +32,10 @@ public class Bank extends AbstractAssetHolder {
         numHotelsLeft -= 1;
     }
 
+    public void addHouses(int x) { numHousesLeft += x; }
+
+    public void addHotels(int x) { numHotelsLeft += x; }
+
     public int getNumHousesLeft(){
         return numHousesLeft;
     }

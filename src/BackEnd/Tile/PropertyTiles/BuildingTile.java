@@ -16,15 +16,18 @@ public class BuildingTile extends AbstractPropertyTile {
     private int numberOfHouses;
     private int numberOfHotels;
     private BuildingCard card;
+    private AbstractBoard board;
 
-    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, Color tilecolor) {
+    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, Color tilecolor, AbstractBoard board) {
         super(bank, card, tiletype, tileprice);
         this.card = (BuildingCard)this.getCard();
         this.tilecolor = tilecolor;
         numberOfHouses = 0;
         numberOfHotels = 0;
+        this.board = board;
     }
 
+    //this is hardcoded loL!
     public double priceToPay() {
         if (numberOfHouses == 1) {
             return card.getPropertyRent1House();
@@ -42,26 +45,32 @@ public class BuildingTile extends AbstractPropertyTile {
             return card.getPropertyRentHotel();
         }
         else {
-            return card.getNoHousesOrHotelsRent();
+            if (checkIfPlayerOwnsAllOfOneColor(board.getColorListMap().get(this.getTilecolor()))) {
+                return (card.getNoHousesOrHotelsRent() * 2);
+            }
+            else {
+                return card.getNoHousesOrHotelsRent();
+            }
         }
     }
 
     //fix this
-    public void upgrade(AbstractPlayer player, AbstractBoard board) {
-        //List<AbstractPropertyTile> properties = player.getProperties();
-        Color thisColor = this.getTilecolor();
-        if (player.getProperties().size() == 0) {
-            //throw exception: NO PROPERTIES
-        }
-        else if (!this.getOwner().equals(player)) {
+    public void upgrade(AbstractPlayer player) {
+        if (!this.getOwner().equals(player)) {
             //throw exception: YOU DO NOT OWN THIS PROPERTY
         }
         else {
-            List<BuildingTile> properties = board.getColorListMap().get(thisColor);
+            List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
             if (checkIfPlayerOwnsAllOfOneColor(properties) && checkIfUpgradePossible(properties)) {
                 if (this.getNumberOfHouses() < 4) {
                     this.numberOfHouses++;
                     getBank().subtractOneHouse();
+                }
+                else {
+                    this.numberOfHouses = 0;
+                    this.numberOfHotels++;
+                    getBank().subtractOneHotel();
+                    getBank().addHouses(4);
                 }
             }
         }
@@ -70,6 +79,7 @@ public class BuildingTile extends AbstractPropertyTile {
     private boolean checkIfPlayerOwnsAllOfOneColor(List<BuildingTile> properties) {
         for (BuildingTile tile : properties) {
             if (!(tile.getOwner().equals(this.getOwner()))) {
+                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
                 return false;
             }
         }
@@ -80,7 +90,7 @@ public class BuildingTile extends AbstractPropertyTile {
         int minToUpgrade = this.getNumberOfHouses();
         for (BuildingTile tile : properties) {
             if (tile.getNumberOfHouses() < minToUpgrade) {
-                //throw exception
+                //throw exception: YOU CANNOT UPGRADE UNEVENLY
                 return false;
             }
         }
@@ -93,7 +103,7 @@ public class BuildingTile extends AbstractPropertyTile {
             return (numberOfHouses * card.getPropertyHousePrice() + numberOfHotels + card.getPropertyHotelPrice()) / 2;
         }
         else {
-            //throw exception?
+            //throw exception: CANNOT SELL WHEN MORTGAGED
         }
         return 0;
     }
