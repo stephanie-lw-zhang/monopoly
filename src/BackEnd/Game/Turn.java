@@ -2,21 +2,36 @@ package BackEnd.Game;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
+import BackEnd.Dice.AbstractDice;
 
 public class Turn {
 
     private AbstractPlayer player;
     private int[] rolls;
+    private AbstractDice dice;
     private AbstractBoard board;
+    private boolean isOver;
 
 
-    public Turn(AbstractPlayer player, int[] rolls, AbstractBoard board){
+    public Turn(AbstractPlayer player, AbstractDice dice, AbstractBoard board){
         this.player = player;
-        this.rolls = rolls;
+        this.dice = dice;
         this.board = board;
+        isOver = false;
     }
 
-    public void completeTurn(){
+    public int[] rollDice(){
+        rolls = new int[2];
+        rolls[0] = dice.roll();
+        rolls[1] = dice.roll();
+        rolls = rollDice();
+        return rolls;
+    }
+
+    public void move(){
+        if(rolls==null){
+            //throw exception that dice must be rolled first
+        }
         if(player.isBankrupt()){
             return;
         }
@@ -54,6 +69,9 @@ public class Turn {
 
     public boolean rolledDoubles(){
         return rolls[0] == rolls[1];
+    }
+    public boolean isTurnOver(){
+        return isOver;
     }
 
 }

@@ -24,19 +24,12 @@ public class Game {
         this.players = players;
     }
 
-    public int[] getRolls(){
-        int[] rolls = new int[2];
-        rolls[0] = dice.roll();
-        rolls[1] = dice.roll();
-        return rolls;
-    }
-
     public void play(){
         while(!gameIsOver()){
             for(AbstractPlayer p: players){
                 int turns = 1;
-                Turn t = new Turn(p, getRolls(), board);
-                t.completeTurn();
+                Turn t = new Turn(p, dice, board);
+                t.rollAndMove();
                 //if rolled doubles and not in jail
                 while(t.rolledDoubles() && p.getTurnsInJail()==-1){
                     //send to jail if three consecutive doubles
@@ -44,8 +37,8 @@ public class Game {
                         board.getPlayerTileMap().put(p, board.getJailTile());
                         p.addTurnInJail();
                     }
-                    t = new Turn(p, getRolls(), board);
-                    t.completeTurn();
+                    t = new Turn(p, dice, board);
+                    t.rollAndMove();
                     turns++;
                 }
             }
