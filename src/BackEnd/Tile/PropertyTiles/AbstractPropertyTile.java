@@ -5,6 +5,7 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Controller.Game;
+import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
 
 public abstract class AbstractPropertyTile implements TileInterface {
@@ -44,7 +45,6 @@ public abstract class AbstractPropertyTile implements TileInterface {
     }
 
 
-
     @Override
     public void applyPassedAction(AbstractPlayer player) {
         return;
@@ -55,7 +55,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
             return tileprice/2;
         }
         else {
-            //throw exception: CANNOT SELL MORTGAGED PROPERTY
+            //throw exception: CANNOT SELL MORTGAGED PROPERTY BACK TO BANK
         }
         return 0;
     }
@@ -77,15 +77,14 @@ public abstract class AbstractPropertyTile implements TileInterface {
     }
 
     public void buyProperty(AbstractPlayer player) {
-        if(player.getMoney() < tileprice) {
-            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
-            //maybe options to sell other properties or mortgage or something from front end?
-        }
-        else{
-            player.addProperty(this);
-            player.paysTo( owner, tileprice );
-            switchOwner(player);
-        }
+        //in controller, we first check if player can buy property --> sends to front-end
+//        if(player.getMoney() < tileprice) {
+//            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
+//            //maybe options to sell other properties or mortgage or something from front end?
+//        }
+        player.addProperty(this);
+        player.paysTo( owner, tileprice );
+        switchOwner(player);
     }
 
     public abstract double calculateRentPrice(Game game);
@@ -94,10 +93,58 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return bank;
     }
 
+    public void mortgageProperty() {
+        //need to turn over card on front end
+        if (!isMortgaged()) {
+            if(card instanceof PropertyCard) {
+                bank.paysTo(owner, ((PropertyCard) card).getMortgageValue() );
+                this.mortgaged = true;
+            }
+        }
+        else {
+            //throw exception: HOUSE IS ALREADY MORTGAGED
+        }
+    }
+
+    public void unmortgageProperty() {
+        if (isMortgaged()) {
+            if (card instanceof PropertyCard) {
+                owner.paysTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+                this.mortgaged = false;
+            }
+        }
+        else {
+            //throw exception: HOUSE IS NOT MORTGAGED
+        }
+    }
+
+    // If you are the new owner, you may lift the mortgage at once if you wish by paying
+    // off the mortgage plus 10% interest to the Bank.
+    // TO DO: If the mortgage if not lifted at once, you must pay the Bank
+    // 10% interest when you buy the property and if you lift the mortgage later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
+    public void sellMortgagedPropertyToAnotherPlayer(AbstractPlayer player, double price) {
+        if (isMortgaged()) {
+            player.paysTo(owner,price);
+            player.paysTo(bank,((PropertyCard)card).getMortgageValue() * 1.1);
+            switchOwner(player);
+        }
+        else {
+            //throw exception: HOUSE IS NOT MORTGAGED
+        }
+    }
+
+    public boolean isBuyable(){
+        return owner.equals(bank);
+    }
+
+    public boolean isRentNeeded(AbstractPlayer player) {
+        return (!player.equals(getOwner()) && !mortgaged);
+    }
 
 //    public void auctionProperty() {
 //        //interact with front-end ?
 //        double maxMoney = 0;
 //        if ()
 //    }
+
 }

@@ -53,23 +53,24 @@ public class BuildingTile extends AbstractPropertyTile {
         }
     }
 
-    public void upgrade(AbstractPlayer player, AbstractBoard board) {
-        if (!this.getOwner().equals(player)) {
+    public boolean checkIfOwnerIsCurrentPlayer(AbstractPlayer player) {
+        return (!this.getOwner().equals(player));
             //throw exception: YOU DO NOT OWN THIS PROPERTY
-        }
-        else {
-            List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
-            if (checkIfPlayerOwnsAllOfOneColor(properties) && checkIfUpgradePossible(properties)) {
-                if (this.getNumberOfHouses() < 4) {
-                    this.numberOfHouses++;
-                    getBank().subtractOneHouse();
-                }
-                else {
-                    this.numberOfHouses = 0;
-                    this.numberOfHotels++;
-                    getBank().subtractOneHotel();
-                    getBank().addHouses(4);
-                }
+    }
+
+    public void upgrade(AbstractPlayer player, AbstractBoard board) {
+        //this can only happen if owner is player -- controller must call checkIfOwnerIsCurrentPlayer
+        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
+        if (checkIfPlayerOwnsAllOfOneColor(properties) && checkIfUpgradePossible(properties)) {
+            if (this.getNumberOfHouses() < 4) {
+                this.numberOfHouses++;
+                getBank().subtractOneHouse();
+            }
+            else {
+                this.numberOfHouses = 0;
+                this.numberOfHotels++;
+                getBank().subtractOneHotel();
+                getBank().addHouses(4);
             }
         }
     }
@@ -104,6 +105,21 @@ public class BuildingTile extends AbstractPropertyTile {
             //throw exception: CANNOT SELL WHEN MORTGAGED
         }
         return 0;
+    }
+
+    // Before an improved property can be mortgaged, all the Houses and Hotels on all the properties of its color-group must be sold back to the Bank at half price.
+    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
+        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
+        for (BuildingTile building : properties) {
+            getBank().paysTo(player,building.sellToBankPrice());
+            getBank().addHouses(this.getNumberOfHouses());
+            getBank().addHotels(this.getNumberOfHotels());
+        }
+        super.mortgageProperty();
+    }
+
+    public boolean checkIfMortgagingImprovedProperty() {
+        return (this.numberOfHotels > 0 || this.numberOfHouses > 0);
     }
 
     public Color getTilecolor() {
