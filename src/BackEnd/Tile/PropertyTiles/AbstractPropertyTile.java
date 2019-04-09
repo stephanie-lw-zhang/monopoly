@@ -4,6 +4,7 @@ import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
+import BackEnd.Controller.Game;
 import BackEnd.Tile.TileInterface;
 
 public abstract class AbstractPropertyTile implements TileInterface {
@@ -27,24 +28,27 @@ public abstract class AbstractPropertyTile implements TileInterface {
     //fix this
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
-        //controller will send player option to buy property? interact with front-end
-        if (getOwner() instanceof Bank) {
-            if (true) {
-                buyProperty(player);
-            }
-//            else {
-//                auctionProperty();
+//        //controller will send player option to buy property? interact with front-end
+//        if (getOwner() instanceof Bank) {
+//            if (true) {
+//                buyProperty(player);
 //            }
-        }
-        else if (!player.equals(getOwner())) {
-            player.paysTo(getOwner(),priceToPay());
-        }
+////            else {
+////                auctionProperty();
+////            }
+//        }
+//        else if (!player.equals(getOwner())) {
+//            player.paysTo(getOwner(), calculateRentPrice());
+//        }
+        return;
     }
 
-//    @Override
-//    public void applyPassedAction(AbstractPlayer player) {
-//        return;
-//    }
+
+
+    @Override
+    public void applyPassedAction(AbstractPlayer player) {
+        return;
+    }
 
     public double sellToBankPrice() {
         if (!isMortgaged()) {
@@ -84,12 +88,11 @@ public abstract class AbstractPropertyTile implements TileInterface {
         }
     }
 
-    public abstract double priceToPay();
+    public abstract double calculateRentPrice(Game game);
 
     public Bank getBank() {
         return bank;
     }
-
 
 
 //    public void auctionProperty() {

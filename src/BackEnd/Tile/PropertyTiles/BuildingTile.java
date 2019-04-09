@@ -5,7 +5,7 @@ import BackEnd.AssetHolder.Bank;
 import BackEnd.Board.AbstractBoard;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
-import BackEnd.Tile.TileInterface;
+import BackEnd.Controller.Game;
 
 import java.awt.*;
 import java.util.List;
@@ -16,19 +16,18 @@ public class BuildingTile extends AbstractPropertyTile {
     private int numberOfHouses;
     private int numberOfHotels;
     private BuildingCard card;
-    private AbstractBoard board;
 
-    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, Color tilecolor, AbstractBoard board) {
+    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, Color tilecolor) {
         super(bank, card, tiletype, tileprice);
         this.card = (BuildingCard)this.getCard();
         this.tilecolor = tilecolor;
         numberOfHouses = 0;
         numberOfHotels = 0;
-        this.board = board;
     }
 
     //this is hardcoded loL!
-    public double priceToPay() {
+    //store these as strings and make a hashmap of price lookup
+    public double calculateRentPrice(Game game) {
         if (numberOfHouses == 1) {
             return card.getPropertyRent1House();
         }
@@ -45,7 +44,7 @@ public class BuildingTile extends AbstractPropertyTile {
             return card.getPropertyRentHotel();
         }
         else {
-            if (checkIfPlayerOwnsAllOfOneColor(board.getColorListMap().get(this.getTilecolor()))) {
+            if (checkIfPlayerOwnsAllOfOneColor(game.getBoard().getColorListMap().get(this.getTilecolor()))) {
                 return (card.getNoHousesOrHotelsRent() * 2);
             }
             else {
@@ -54,8 +53,7 @@ public class BuildingTile extends AbstractPropertyTile {
         }
     }
 
-    //fix this
-    public void upgrade(AbstractPlayer player) {
+    public void upgrade(AbstractPlayer player, AbstractBoard board) {
         if (!this.getOwner().equals(player)) {
             //throw exception: YOU DO NOT OWN THIS PROPERTY
         }

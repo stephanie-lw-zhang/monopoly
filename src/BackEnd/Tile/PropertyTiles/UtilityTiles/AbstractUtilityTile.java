@@ -3,6 +3,7 @@ package BackEnd.Tile.PropertyTiles.UtilityTiles;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
+import BackEnd.Controller.Game;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
 public abstract class AbstractUtilityTile extends AbstractPropertyTile {
@@ -24,7 +25,7 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
     }
 
     @Override
-    public double priceToPay() {
+    public double calculateRentPrice(Game game) {
         int utilitiesOwned = 0;
         for(AbstractPropertyTile property: this.getOwner().getProperties()){
             if(property instanceof AbstractUtilityTile){

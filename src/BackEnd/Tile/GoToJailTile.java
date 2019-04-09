@@ -16,8 +16,8 @@ public class GoToJailTile implements TileInterface {
         jail.addCriminal(player);
     }
 
-//    @Override
-//    public void applyPassedAction(AbstractPlayer player) {
-//        return;
-//    }
+    @Override
+    public void applyPassedAction(AbstractPlayer player) {
+        return;
+    }
 }
