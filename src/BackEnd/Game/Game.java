@@ -29,7 +29,8 @@ public class Game {
             for(AbstractPlayer p: players){
                 int turns = 1;
                 Turn t = new Turn(p, dice, board);
-                t.rollAndMove();
+                t.rollDice();
+                t.move();
                 //if rolled doubles and not in jail
                 while(t.rolledDoubles() && p.getTurnsInJail()==-1){
                     //send to jail if three consecutive doubles
@@ -38,13 +39,13 @@ public class Game {
                         p.addTurnInJail();
                     }
                     t = new Turn(p, dice, board);
-                    t.rollAndMove();
+                    t.rollDice();
+                    t.move();
                     turns++;
                 }
             }
         }
     }
-
     public boolean gameIsOver(){
         int sum = 0;
         for(AbstractPlayer p: players){
