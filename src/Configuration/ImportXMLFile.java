@@ -16,7 +16,7 @@ public class ImportXMLFile {
 
         try {
 
-            File xmlFile = new File("/Users/luisfornes/IdeaProjects/monopoly_team05/properties/OriginalMonopoly.xml");
+            File xmlFile = new File("/properties/OriginalMonopoly.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
