@@ -12,7 +12,7 @@ import java.io.ByteArrayInputStream;
 
 public class ImportXMLFile {
 
-    public static void main(String argv[]) {
+    public static void main(String args[]) {
 
         try {
 
