@@ -4,6 +4,7 @@ import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
+import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
 
 public abstract class AbstractPropertyTile implements TileInterface {
@@ -90,7 +91,16 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return bank;
     }
 
+    public void mortgageProperty(){
+        if(card instanceof PropertyCard){
+            owner.paysTo(bank, ((PropertyCard) card).getMortgageValue() );
+            bank.addProperty( this );
+        }
+    }
 
+    public Boolean isBuyable(){
+        return owner == bank;
+    }
 
 //    public void auctionProperty() {
 //        //interact with front-end ?
