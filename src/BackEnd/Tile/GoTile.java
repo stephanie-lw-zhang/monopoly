@@ -17,6 +17,7 @@ public class GoTile implements TileInterface {
         player.setMoney(player.getMoney() + landedOnMoney);
     }
 
+    @Override
     public void applyPassedAction(AbstractPlayer player) {
         player.setMoney(player.getMoney() + passedMoney);
     }
