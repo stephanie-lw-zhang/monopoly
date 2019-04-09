@@ -6,6 +6,7 @@ package BackEnd.Board;
  */
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.TileInterface;
 import javafx.scene.paint.Color;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class StandardBoard extends AbstractBoard {
 
-    public StandardBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<TileInterface>> colorListMap){
+    public StandardBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap){
         super(playerList, adjacencyList, colorListMap);
     }
 

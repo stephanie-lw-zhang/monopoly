@@ -11,15 +11,34 @@ public abstract class AbstractPropertyTile implements TileInterface {
     private String tiletype;
     private double tileprice;
     private boolean mortgaged;
+    private Bank bank;
     private AbstractAssetHolder owner;
     private AbstractCard card;
 
     public AbstractPropertyTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
         this.owner = bank;
+        this.bank = bank;
         this.card = card;
         this.tiletype = tiletype;
         this.tileprice = tileprice;
         this.mortgaged = false;
+    }
+
+    //fix this
+    @Override
+    public void applyLandedOnAction(AbstractPlayer player) {
+        //controller will send player option to buy property? interact with front-end
+        if (getOwner() instanceof Bank) {
+            if (true) {
+                buyProperty(player);
+            }
+//            else {
+//                auctionProperty();
+//            }
+        }
+        else if (!player.equals(getOwner())) {
+            player.paysTo(getOwner(),priceToPay());
+        }
     }
 
 //    @Override
@@ -32,7 +51,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
             return tileprice/2;
         }
         else {
-            //throw exception?
+            //throw exception: CANNOT SELL MORTGAGED PROPERTY
         }
         return 0;
     }
@@ -55,7 +74,8 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     public void buyProperty(AbstractPlayer player) {
         if(player.getMoney() < tileprice) {
-            //THROW EXCEPTION
+            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
+            //maybe options to sell other properties or mortgage or something from front end?
         }
         else{
             player.addProperty(this);
@@ -63,6 +83,13 @@ public abstract class AbstractPropertyTile implements TileInterface {
             switchOwner(player);
         }
     }
+
+    public abstract double priceToPay();
+
+    public Bank getBank() {
+        return bank;
+    }
+
 
 
 //    public void auctionProperty() {

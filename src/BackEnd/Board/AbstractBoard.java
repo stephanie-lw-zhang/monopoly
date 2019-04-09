@@ -6,6 +6,7 @@ package BackEnd.Board;
  */
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.JailTile;
+import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.TileInterface;
 import BackEnd.Tile.GoTile;
 import javafx.scene.paint.Color;
@@ -19,12 +20,13 @@ public abstract class AbstractBoard {
 
     private Map<AbstractPlayer, TileInterface> playerPositionMap;
     private Map<TileInterface, List<TileInterface>> adjacencyList;
-    private Map<Color, List<TileInterface>> colorListMap;
+    private Map<Color, List<BuildingTile>> colorListMap;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList,Map<Color, List<TileInterface>> colorListMap) {
+
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap) {
         this.adjacencyList = adjacencyList;
         this.colorListMap = colorListMap;
         playerPositionMap = new HashMap<>();
@@ -70,4 +72,7 @@ public abstract class AbstractBoard {
         return tile;
     }
 
+    public Map<Color, List<BuildingTile>> getColorListMap() {
+        return colorListMap;
+    }
 }
