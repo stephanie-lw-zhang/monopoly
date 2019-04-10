@@ -37,4 +37,7 @@ public class Game {
     }
 
 
+    public AbstractBoard getBoard() {
+        return board;
+    }
 }

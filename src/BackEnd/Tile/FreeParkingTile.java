@@ -17,9 +17,9 @@ public class FreeParkingTile implements TileInterface {
         return;
     }
 
-//    @Override
-//    public void applyPassedAction(AbstractPlayer player) {
-//        return;
-//    }
+    @Override
+    public void applyPassedAction(AbstractPlayer player) {
+        return;
+    }
 
 }

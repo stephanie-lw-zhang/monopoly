@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * The Driver class of the Monopoly game, acts as the Controller and initializes the
+ * The Driver class of the Monopoly game, acts as the Game and initializes the
  * entire game framework
  *
  * @author Sam

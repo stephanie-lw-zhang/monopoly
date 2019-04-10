@@ -13,6 +13,7 @@
         <TileType>Property</TileType>
         <TileColor>Brown</TileColor>
         <TileName>Mediterranean Avenue</TileName>
+        <TilePrice>60</TilePrice>
         <TileRent>2</TileRent>
         <TileRentWithColorSet>4</TileRentWithColorSet>
         <TileRent1House>10</TileRent1House>
@@ -26,6 +27,7 @@
     </Tile>
 
     <Tile>
+        <TileNumber>2</TileNumber>
         <TileType>Community Chest</TileType>
     </Tile>
 
@@ -34,6 +36,7 @@
         <TileType>Property</TileType>
         <TileColor>Brown</TileColor>
         <TileName>Baltic Avenue</TileName>
+        <TilePrice>60</TilePrice>
         <TileRent>4</TileRent>
         <TileRentWithColorSet>8</TileRentWithColorSet>
         <TileRent1House>20</TileRent1House>
@@ -49,6 +52,7 @@
     <Tile>
         <TileNumber>4</TileNumber>
         <TileType>Income Tax</TileType>
+        <TileRent>200</TileRent>
     </Tile>
 
     <Tile>
@@ -56,11 +60,474 @@
         <TileType>Property</TileType>
         <TileColor>None</TileColor>
         <TileName>King's Cross Station</TileName>
+        <TilePrice>200</TilePrice>
         <TileRent>25</TileRent>
         <TileRent2Stations>50</TileRent2Stations>
         <TileRent3Stations>100</TileRent3Stations>
         <TileRent4Stations>200</TileRent4Stations>
         <TileMortgageValue>100</TileMortgageValue>
+    </Tile>
+
+    <Tile>
+        <TileNumber>6</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Sky Blue</TileColor>
+        <TileName>Oriental Avenue</TileName>
+        <TilePrice>100</TilePrice>
+        <TileRent>6</TileRent>
+        <TileRentWithColorSet>12</TileRentWithColorSet>
+        <TileRent1House>30</TileRent1House>
+        <TileRent2House>90</TileRent2House>
+        <TileRent3House>270</TileRent3House>
+        <TileRent4House>400</TileRent4House>
+        <TileRentHotel>550</TileRentHotel>
+        <TileMortgageValue>50</TileMortgageValue>
+        <TileHousePrice>50</TileHousePrice>
+        <TileHotelPrice>50</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>7</TileNumber>
+        <TileType>Chance</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>8</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Sky Blue</TileColor>
+        <TileName>Vermont Avenue</TileName>
+        <TilePrice>100</TilePrice>
+        <TileRent>6</TileRent>
+        <TileRentWithColorSet>12</TileRentWithColorSet>
+        <TileRent1House>30</TileRent1House>
+        <TileRent2House>90</TileRent2House>
+        <TileRent3House>270</TileRent3House>
+        <TileRent4House>400</TileRent4House>
+        <TileRentHotel>550</TileRentHotel>
+        <TileMortgageValue>50</TileMortgageValue>
+        <TileHousePrice>50</TileHousePrice>
+        <TileHotelPrice>50</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>9</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Sky Blue</TileColor>
+        <TileName>Connecticut Avenue</TileName>
+        <TilePrice>120</TilePrice>
+        <TileRent>8</TileRent>
+        <TileRentWithColorSet>16</TileRentWithColorSet>
+        <TileRent1House>40</TileRent1House>
+        <TileRent2House>100</TileRent2House>
+        <TileRent3House>300</TileRent3House>
+        <TileRent4House>450</TileRent4House>
+        <TileRentHotel>600</TileRentHotel>
+        <TileMortgageValue>50</TileMortgageValue>
+        <TileHousePrice>50</TileHousePrice>
+        <TileHotelPrice>50</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>10</TileNumber>
+        <TileType>Jail/Just Visiting</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>11</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Magenta</TileColor>
+        <TileName>St. Charles Place</TileName>
+        <TilePrice>140</TilePrice>
+        <TileRent>10</TileRent>
+        <TileRentWithColorSet>20</TileRentWithColorSet>
+        <TileRent1House>50</TileRent1House>
+        <TileRent2House>150</TileRent2House>
+        <TileRent3House>450</TileRent3House>
+        <TileRent4House>625</TileRent4House>
+        <TileRentHotel>750</TileRentHotel>
+        <TileMortgageValue>70</TileMortgageValue>
+        <TileHousePrice>100</TileHousePrice>
+        <TileHotelPrice>100</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>12</TileNumber>
+        <TileType>Electric Company</TileType>
+        <TilePrice>150</TilePrice>
+        <RentFactor1Utility>4</RentFactor1Utility>
+        <RentFactor2Utility>10</RentFactor2Utility>
+        <TileMortgageValue>75</TileMortgageValue>
+    </Tile>
+
+    <Tile>
+        <TileNumber>13</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Magenta</TileColor>
+        <TileName>States Avenue</TileName>
+        <TileRent>10</TileRent>
+        <TileRentWithColorSet>20</TileRentWithColorSet>
+        <TileRent1House>50</TileRent1House>
+        <TileRent2House>150</TileRent2House>
+        <TileRent3House>450</TileRent3House>
+        <TileRent4House>625</TileRent4House>
+        <TileRentHotel>750</TileRentHotel>
+        <TileMortgageValue>70</TileMortgageValue>
+        <TileHousePrice>100</TileHousePrice>
+        <TileHotelPrice>100</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>14</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Magenta</TileColor>
+        <TileName>Virginia Avenue</TileName>
+        <TileRent>12</TileRent>
+        <TileRentWithColorSet>24</TileRentWithColorSet>
+        <TileRent1House>60</TileRent1House>
+        <TileRent2House>180</TileRent2House>
+        <TileRent3House>500</TileRent3House>
+        <TileRent4House>700</TileRent4House>
+        <TileRentHotel>950</TileRentHotel>
+        <TileMortgageValue>80</TileMortgageValue>
+        <TileHousePrice>100</TileHousePrice>
+        <TileHotelPrice>100</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>15</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>None</TileColor>
+        <TileName>Pennsylvania Railroad</TileName>
+        <TilePrice>200</TilePrice>
+        <TileRent>25</TileRent>
+        <TileRent2Stations>50</TileRent2Stations>
+        <TileRent3Stations>100</TileRent3Stations>
+        <TileRent4Stations>200</TileRent4Stations>
+        <TileMortgageValue>100</TileMortgageValue>
+    </Tile>
+
+    <Tile>
+        <TileNumber>16</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Orange</TileColor>
+        <TileName>St. James Place</TileName>
+        <TilePrice>180</TilePrice>
+        <TileRent>14</TileRent>
+        <TileRentWithColorSet>28</TileRentWithColorSet>
+        <TileRent1House>70</TileRent1House>
+        <TileRent2House>200</TileRent2House>
+        <TileRent3House>550</TileRent3House>
+        <TileRent4House>750</TileRent4House>
+        <TileRentHotel>950</TileRentHotel>
+        <TileMortgageValue>90</TileMortgageValue>
+        <TileHousePrice>100</TileHousePrice>
+        <TileHotelPrice>100</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>17</TileNumber>
+        <TileType>Community Chest</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>18</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Orange</TileColor>
+        <TileName>Tennessee Avenue</TileName>
+        <TilePrice>180</TilePrice>
+        <TileRent>14</TileRent>
+        <TileRentWithColorSet>28</TileRentWithColorSet>
+        <TileRent1House>70</TileRent1House>
+        <TileRent2House>200</TileRent2House>
+        <TileRent3House>550</TileRent3House>
+        <TileRent4House>750</TileRent4House>
+        <TileRentHotel>950</TileRentHotel>
+        <TileMortgageValue>90</TileMortgageValue>
+        <TileHousePrice>100</TileHousePrice>
+        <TileHotelPrice>100</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>19</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Orange</TileColor>
+        <TileName>Tennessee Avenue</TileName>
+        <TilePrice>200</TilePrice>
+        <TileRent>16</TileRent>
+        <TileRentWithColorSet>32</TileRentWithColorSet>
+        <TileRent1House>80</TileRent1House>
+        <TileRent2House>220</TileRent2House>
+        <TileRent3House>600</TileRent3House>
+        <TileRent4House>800</TileRent4House>
+        <TileRentHotel>1000</TileRentHotel>
+        <TileMortgageValue>100</TileMortgageValue>
+        <TileHousePrice>100</TileHousePrice>
+        <TileHotelPrice>100</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>20</TileNumber>
+        <TileType>Free Parking</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>21</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Red</TileColor>
+        <TileName>Kentucky Avenue</TileName>
+        <TilePrice>220</TilePrice>
+        <TileRent>18</TileRent>
+        <TileRentWithColorSet>36</TileRentWithColorSet>
+        <TileRent1House>90</TileRent1House>
+        <TileRent2House>250</TileRent2House>
+        <TileRent3House>700</TileRent3House>
+        <TileRent4House>875</TileRent4House>
+        <TileRentHotel>1050</TileRentHotel>
+        <TileMortgageValue>110</TileMortgageValue>
+        <TileHousePrice>150</TileHousePrice>
+        <TileHotelPrice>150</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>22</TileNumber>
+        <TileType>Chance</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>23</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Red</TileColor>
+        <TileName>Indiana Avenue</TileName>
+        <TilePrice>220</TilePrice>
+        <TileRent>18</TileRent>
+        <TileRentWithColorSet>36</TileRentWithColorSet>
+        <TileRent1House>90</TileRent1House>
+        <TileRent2House>250</TileRent2House>
+        <TileRent3House>700</TileRent3House>
+        <TileRent4House>875</TileRent4House>
+        <TileRentHotel>1050</TileRentHotel>
+        <TileMortgageValue>110</TileMortgageValue>
+        <TileHousePrice>150</TileHousePrice>
+        <TileHotelPrice>150</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>24</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Red</TileColor>
+        <TileName>Illinois Avenue</TileName>
+        <TilePrice>240</TilePrice>
+        <TileRent>20</TileRent>
+        <TileRentWithColorSet>40</TileRentWithColorSet>
+        <TileRent1House>100</TileRent1House>
+        <TileRent2House>300</TileRent2House>
+        <TileRent3House>750</TileRent3House>
+        <TileRent4House>925</TileRent4House>
+        <TileRentHotel>1100</TileRentHotel>
+        <TileMortgageValue>120</TileMortgageValue>
+        <TileHousePrice>150</TileHousePrice>
+        <TileHotelPrice>150</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>25</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>None</TileColor>
+        <TileName>B. & O. Railroad</TileName>
+        <TilePrice>200</TilePrice>
+        <TileRent>25</TileRent>
+        <TileRent2Stations>50</TileRent2Stations>
+        <TileRent3Stations>100</TileRent3Stations>
+        <TileRent4Stations>200</TileRent4Stations>
+        <TileMortgageValue>100</TileMortgageValue>
+    </Tile>
+
+    <Tile>
+        <TileNumber>26</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Yellow</TileColor>
+        <TileName>Atlantic Avenue</TileName>
+        <TilePrice>260</TilePrice>
+        <TileRent>22</TileRent>
+        <TileRentWithColorSet>44</TileRentWithColorSet>
+        <TileRent1House>110</TileRent1House>
+        <TileRent2House>330</TileRent2House>
+        <TileRent3House>800</TileRent3House>
+        <TileRent4House>975</TileRent4House>
+        <TileRentHotel>1150</TileRentHotel>
+        <TileMortgageValue>130</TileMortgageValue>
+        <TileHousePrice>150</TileHousePrice>
+        <TileHotelPrice>150</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>27</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Yellow</TileColor>
+        <TileName>Ventnor Avenue</TileName>
+        <TilePrice>260</TilePrice>
+        <TileRent>22</TileRent>
+        <TileRentWithColorSet>44</TileRentWithColorSet>
+        <TileRent1House>110</TileRent1House>
+        <TileRent2House>330</TileRent2House>
+        <TileRent3House>800</TileRent3House>
+        <TileRent4House>975</TileRent4House>
+        <TileRentHotel>1150</TileRentHotel>
+        <TileMortgageValue>130</TileMortgageValue>
+        <TileHousePrice>150</TileHousePrice>
+        <TileHotelPrice>150</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>28</TileNumber>
+        <TileType>Water Works</TileType>
+        <TilePrice>150</TilePrice>
+        <RentFactor1Utility>4</RentFactor1Utility>
+        <RentFactor2Utility>10</RentFactor2Utility>
+        <TileMortgageValue>75</TileMortgageValue>
+    </Tile>
+
+    <Tile>
+        <TileNumber>29</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Yellow</TileColor>
+        <TileName>Marvin Gardens</TileName>
+        <TilePrice>280</TilePrice>
+        <TileRent>24</TileRent>
+        <TileRentWithColorSet>48</TileRentWithColorSet>
+        <TileRent1House>120</TileRent1House>
+        <TileRent2House>360</TileRent2House>
+        <TileRent3House>850</TileRent3House>
+        <TileRent4House>1025</TileRent4House>
+        <TileRentHotel>1200</TileRentHotel>
+        <TileMortgageValue>140</TileMortgageValue>
+        <TileHousePrice>150</TileHousePrice>
+        <TileHotelPrice>150</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>30</TileNumber>
+        <TileType>Go to Jail</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>31</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Green</TileColor>
+        <TileName>Pacific Avenue</TileName>
+        <TilePrice>300</TilePrice>
+        <TileRent>26</TileRent>
+        <TileRentWithColorSet>52</TileRentWithColorSet>
+        <TileRent1House>130</TileRent1House>
+        <TileRent2House>390</TileRent2House>
+        <TileRent3House>900</TileRent3House>
+        <TileRent4House>1100</TileRent4House>
+        <TileRentHotel>1275</TileRentHotel>
+        <TileMortgageValue>150</TileMortgageValue>
+        <TileHousePrice>200</TileHousePrice>
+        <TileHotelPrice>200</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>32</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Green</TileColor>
+        <TileName>North Carolina Avenue</TileName>
+        <TilePrice>300</TilePrice>
+        <TileRent>26</TileRent>
+        <TileRentWithColorSet>52</TileRentWithColorSet>
+        <TileRent1House>130</TileRent1House>
+        <TileRent2House>390</TileRent2House>
+        <TileRent3House>900</TileRent3House>
+        <TileRent4House>1100</TileRent4House>
+        <TileRentHotel>1275</TileRentHotel>
+        <TileMortgageValue>150</TileMortgageValue>
+        <TileHousePrice>200</TileHousePrice>
+        <TileHotelPrice>200</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>33</TileNumber>
+        <TileType>Community Chest</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>34</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Green</TileColor>
+        <TileName>Pennsylvania Avenue</TileName>
+        <TilePrice>320</TilePrice>
+        <TileRent>28</TileRent>
+        <TileRentWithColorSet>56</TileRentWithColorSet>
+        <TileRent1House>150</TileRent1House>
+        <TileRent2House>450</TileRent2House>
+        <TileRent3House>1000</TileRent3House>
+        <TileRent4House>1200</TileRent4House>
+        <TileRentHotel>1400</TileRentHotel>
+        <TileMortgageValue>160</TileMortgageValue>
+        <TileHousePrice>200</TileHousePrice>
+        <TileHotelPrice>200</TileHotelPrice>
+    </Tile>
+
+    <Tile>
+        <TileNumber>35</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>None</TileColor>
+        <TileName>Short Line Railroad</TileName>
+        <TilePrice>200</TilePrice>
+        <TileRent>25</TileRent>
+        <TileRent2Stations>50</TileRent2Stations>
+        <TileRent3Stations>100</TileRent3Stations>
+        <TileRent4Stations>200</TileRent4Stations>
+        <TileMortgageValue>100</TileMortgageValue>
+    </Tile>
+
+    <Tile>
+        <TileNumber>36</TileNumber>
+        <TileType>Chance</TileType>
+    </Tile>
+
+    <Tile>
+        <TileNumber>37</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Blue</TileColor>
+        <TileName>Park Place</TileName>
+        <TilePrice>350</TilePrice>
+        <TileRent>35</TileRent>
+        <TileRentWithColorSet>70</TileRentWithColorSet>
+        <TileRent1House>175</TileRent1House>
+        <TileRent2House>500</TileRent2House>
+        <TileRent3House>1100</TileRent3House>
+        <TileRent4House>1300</TileRent4House>
+        <TileRentHotel>1500</TileRentHotel>
+        <TileMortgageValue>175</TileMortgageValue>
+        <TileHousePrice>200</TileHousePrice>
+        <TileHotelPrice>200</TileHotelPrice>
+    </Tile>
+
+
+    <Tile>
+        <TileNumber>38</TileNumber>
+        <TileType>Luxury Tax</TileType>
+        <TileRent>100</TileRent>
+    </Tile>
+
+    <Tile>
+        <TileNumber>39</TileNumber>
+        <TileType>Property</TileType>
+        <TileColor>Blue</TileColor>
+        <TileName>Boardwalk</TileName>
+        <TilePrice>400</TilePrice>
+        <TileRent>50</TileRent>
+        <TileRentWithColorSet>100</TileRentWithColorSet>
+        <TileRent1House>200</TileRent1House>
+        <TileRent2House>600</TileRent2House>
+        <TileRent3House>1400</TileRent3House>
+        <TileRent4House>1700</TileRent4House>
+        <TileRentHotel>2000</TileRentHotel>
+        <TileMortgageValue>200</TileMortgageValue>
+        <TileHousePrice>200</TileHousePrice>
+        <TileHotelPrice>200</TileHotelPrice>
     </Tile>
 
 </OGMonopoly>

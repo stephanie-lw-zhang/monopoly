@@ -5,7 +5,7 @@ import BackEnd.AssetHolder.Bank;
 import BackEnd.Board.AbstractBoard;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
-import BackEnd.Tile.TileInterface;
+import BackEnd.Controller.Game;
 
 import java.awt.*;
 import java.util.List;
@@ -16,19 +16,18 @@ public class BuildingTile extends AbstractPropertyTile {
     private int numberOfHouses;
     private int numberOfHotels;
     private BuildingCard card;
-    private AbstractBoard board;
 
-    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, Color tilecolor, AbstractBoard board) {
+    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, Color tilecolor) {
         super(bank, card, tiletype, tileprice);
         this.card = (BuildingCard)this.getCard();
         this.tilecolor = tilecolor;
         numberOfHouses = 0;
         numberOfHotels = 0;
-        this.board = board;
     }
 
     //this is hardcoded loL!
-    public double priceToPay() {
+    //store these as strings and make a hashmap of price lookup
+    public double calculateRentPrice(Game game) {
         if (numberOfHouses == 1) {
             return card.getPropertyRent1House();
         }
@@ -45,7 +44,7 @@ public class BuildingTile extends AbstractPropertyTile {
             return card.getPropertyRentHotel();
         }
         else {
-            if (checkIfPlayerOwnsAllOfOneColor(board.getColorListMap().get(this.getTilecolor()))) {
+            if (checkIfPlayerOwnsAllOfOneColor(game.getBoard().getColorListMap().get(this.getTilecolor()))) {
                 return (card.getNoHousesOrHotelsRent() * 2);
             }
             else {
@@ -54,24 +53,24 @@ public class BuildingTile extends AbstractPropertyTile {
         }
     }
 
-    //fix this
-    public void upgrade(AbstractPlayer player) {
-        if (!this.getOwner().equals(player)) {
+    public boolean checkIfOwnerIsCurrentPlayer(AbstractPlayer player) {
+        return (!this.getOwner().equals(player));
             //throw exception: YOU DO NOT OWN THIS PROPERTY
-        }
-        else {
-            List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
-            if (checkIfPlayerOwnsAllOfOneColor(properties) && checkIfUpgradePossible(properties)) {
-                if (this.getNumberOfHouses() < 4) {
-                    this.numberOfHouses++;
-                    getBank().subtractOneHouse();
-                }
-                else {
-                    this.numberOfHouses = 0;
-                    this.numberOfHotels++;
-                    getBank().subtractOneHotel();
-                    getBank().addHouses(4);
-                }
+    }
+
+    public void upgrade(AbstractPlayer player, AbstractBoard board) {
+        //this can only happen if owner is player -- controller must call checkIfOwnerIsCurrentPlayer
+        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
+        if (checkIfPlayerOwnsAllOfOneColor(properties) && checkIfUpgradePossible(properties)) {
+            if (this.getNumberOfHouses() < 4) {
+                this.numberOfHouses++;
+                getBank().subtractOneHouse();
+            }
+            else {
+                this.numberOfHouses = 0;
+                this.numberOfHotels++;
+                getBank().subtractOneHotel();
+                getBank().addHouses(4);
             }
         }
     }
@@ -106,6 +105,21 @@ public class BuildingTile extends AbstractPropertyTile {
             //throw exception: CANNOT SELL WHEN MORTGAGED
         }
         return 0;
+    }
+
+    // Before an improved property can be mortgaged, all the Houses and Hotels on all the properties of its color-group must be sold back to the Bank at half price.
+    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
+        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
+        for (BuildingTile building : properties) {
+            getBank().paysTo(player,building.sellToBankPrice());
+            getBank().addHouses(this.getNumberOfHouses());
+            getBank().addHotels(this.getNumberOfHotels());
+        }
+        super.mortgageProperty();
+    }
+
+    public boolean checkIfMortgagingImprovedProperty() {
+        return (this.numberOfHotels > 0 || this.numberOfHouses > 0);
     }
 
     public Color getTilecolor() {
