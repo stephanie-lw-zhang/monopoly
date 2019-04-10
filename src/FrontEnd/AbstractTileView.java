@@ -5,12 +5,10 @@ import javafx.scene.Node;
 public abstract class AbstractTileView {
     private String myTileName;
     private String myDescription;
-    private String myColor;
 
-    public AbstractTileView(String name, String description, String color){
+    public AbstractTileView(String name, String description){
         myTileName = name;
         myDescription = description;
-        myColor = color;
     }
 
     abstract public Node getNodeOfTileView();
@@ -21,6 +19,5 @@ public abstract class AbstractTileView {
 
     public String getMyDescription(){ return myDescription; }
 
-    public String getMyColor(){ return myColor;}
 
 }

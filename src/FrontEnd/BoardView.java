@@ -1,9 +1,13 @@
 package FrontEnd;
 
 import BackEnd.Board.AbstractBoard;
+import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+
 
 public class BoardView {
     private AbstractBoard myModel;
@@ -27,7 +31,7 @@ public class BoardView {
     }
 
     private double calculateTileWidth(double sideLength, double totalTiles){
-        return (sideLength-myTileHeight*2)/(totalTiles-2);
+        return (double) (sideLength-myTileHeight*2)/(totalTiles-2);
     }
 
     public Pane getBoardPane(){ return myRoot; }
@@ -38,30 +42,117 @@ public class BoardView {
 
     public void makeBoard(){
         makeCorners();
-        placePropertyTile("test","test","BLUE",1,1,myHorizontals,myScreenWidth);
-        placePropertyTile("test","test","BLUE",2,1,myHorizontals,myScreenWidth);
-        placePropertyTile("test","test","BLUE",3,1,myHorizontals,myScreenWidth);
-        placePropertyTile("test","test","BLUE",4,1,myHorizontals,myScreenWidth);
-        placePropertyTile("test","test","BLUE",5,1,myHorizontals,myScreenWidth);
-        placePropertyTile("test","test","BLUE",6,1,myHorizontals,myScreenWidth);
-        placePropertyTile("test","test","BLUE",7,1,myHorizontals,myScreenWidth);
-        placePropertyTile("test","test","BLUE",8,1,myHorizontals,myScreenWidth);
+        makeBottomRow();
+        makeLeftRow();
+        makeTopRow();
+        makeRightRow();
     }
+
+    private void makeBottomRow() {
+        placePropertyTile("Mediterranean Avenue","test", Color.BROWN,1,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile("Community Chest","",2,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile("Baltic Avenue","test",Color.BROWN,3,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile("Income Tax","",4,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile("Reading Railroad","",Color.BLACK ,5,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile("Oriental Avenue","test",Color.AZURE,6,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile("Chance","",7,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile("Vermont Avenue","test",Color.AZURE,8,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile("Connecticut Avenue","test",Color.AZURE,9,1,myHorizontals,myScreenWidth,0);
+    }
+
+    private void makeLeftRow(){
+        placePropertyTile("St. Charles Place","test",Color.DEEPPINK,9,1,myVerticals,myScreenHeight,90);
+        placePropertyTile("Electric Company","",Color.BEIGE,9,2,myVerticals,myScreenHeight,90);
+        placePropertyTile("States Avenue","test",Color.DEEPPINK,9,3 ,myVerticals,myScreenHeight,90);
+        placePropertyTile("Virginia Avenue","test",Color.DEEPPINK,9,4,myVerticals,myScreenHeight,90);
+        placePropertyTile("Pennsylvania Railroad","",Color.BLACK,9,5,myVerticals,myScreenHeight,90);
+        placePropertyTile("St. James Place","",Color.ORANGE,9,6,myVerticals,myScreenHeight,90);
+        placeNonPropertyTile("Community Chest","",9,7,myVerticals,myScreenHeight,90);
+        placePropertyTile("Tennessee Avenue","",Color.ORANGE,9,8,myVerticals,myScreenHeight,90);
+        placePropertyTile("New York Avenue","",Color.ORANGE,9,9,myVerticals,myScreenHeight,90);
+    }
+
+    private void makeTopRow() {
+        placePropertyTile("Kentucky Avenue","test", Color.RED,1,1,myHorizontals,myScreenWidth,180);
+        placeNonPropertyTile("Chance","",2,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile("Indiana Avenue","test",Color.RED,3,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile("Illinois Avenue","test",Color.RED,4,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile("B&O Railroad","",Color.BLACK,5,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile("Atlantic Avenue","test",Color.YELLOW,6,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile("Ventnor Avenue","test",Color.YELLOW,7,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile("Water Works","",Color.BEIGE,8,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile("Marvin Gardens","test",Color.YELLOW,9,1,myHorizontals,myScreenWidth,180);
+
+    }
+
+    private void makeRightRow(){
+        placePropertyTile("Pacific Avenue","",Color.GREEN,1,1,myVerticals,myScreenHeight,270);
+        placePropertyTile("North Carolina Avenue","",Color.GREEN,2,2,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile("Community Chest","",3,3,myVerticals,myScreenHeight,270);
+        placePropertyTile("Pennsylvania Avenue","",Color.GREEN,4,4,myVerticals,myScreenHeight,270);
+        placePropertyTile("Short Line","",Color.BLACK,5,5,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile("Community Chest","",6,6,myVerticals,myScreenHeight,270);
+        placePropertyTile("Park Place","",Color.BLUE,7,7,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile("Luxury Tax","",8,8,myVerticals,myScreenHeight,270);
+        placePropertyTile("Boardwalk","",Color.BLUE,9,9,myVerticals,myScreenHeight,270);
+    }
+
 
     public void placePropertyTile(String tileName,
                                   String tileDescription,
-                                  String tileColor,
+                                  Paint tileColor,
                                   int xoffset,
                                   int yoffset,
                                   int totalTiles,
-                                  double sideLength){
-        var tile = new RectangularTileView(tileName,tileDescription,tileColor);
+                                  double sideLength,double rotationAngle){
+        var tile = new PropertyTileView(tileName,tileDescription,tileColor);
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
-        myRoot.setTopAnchor(tileNode, myScreenHeight-height*yoffset);
-        myRoot.setLeftAnchor(tileNode, myScreenWidth-width*xoffset-myTileHeight);
+        if(rotationAngle==0) {
+            myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
+            myRoot.setLeftAnchor(tileNode, myScreenWidth - width * xoffset - myTileHeight);
+        } else if (rotationAngle==90){
+            myRoot.setTopAnchor(tileNode, myScreenHeight-myTileHeight*1.5-width*(yoffset-0.5));
+            myRoot.setLeftAnchor(tileNode, (height-width)/2);
+        } else if (rotationAngle==180){
+            myRoot.setTopAnchor(tileNode,0.0);
+            myRoot.setLeftAnchor(tileNode,myTileHeight/2+width*xoffset);
+        } else if (rotationAngle==270){
+            myRoot.setTopAnchor(tileNode, width*(yoffset+0.5));
+            myRoot.setRightAnchor(tileNode,width/2);
+        }
+        tileNode.setRotate(rotationAngle);
+
+        myRoot.getChildren().add(tileNode);
+    }
+
+    public void placeNonPropertyTile(String tileName,
+    String tileDescription,
+    int xoffset,
+    int yoffset,
+    int totalTiles,
+    double sideLength,double rotationAngle){
+        var tile = new RectangularTileView(tileName,tileDescription,"");
+        var height = myTileHeight;
+        var width = calculateTileWidth(sideLength,totalTiles);
+        tile.makeTileViewNode(new double[]{width,height});
+        Node tileNode = tile.getNodeOfTileView();
+        if(rotationAngle==0) {
+            myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
+            myRoot.setLeftAnchor(tileNode, myScreenWidth - width * xoffset - myTileHeight);
+        } else if (rotationAngle==90){
+            myRoot.setTopAnchor(tileNode, myScreenHeight-myTileHeight*1.5-width*(yoffset-0.5));
+            myRoot.setLeftAnchor(tileNode, (height-width)/2);
+        } else if (rotationAngle==180){
+            myRoot.setTopAnchor(tileNode,0.0);
+            myRoot.setLeftAnchor(tileNode,myTileHeight/2+width*xoffset);
+        } else if (rotationAngle==270){
+            myRoot.setTopAnchor(tileNode, width*(yoffset+0.5));
+            myRoot.setRightAnchor(tileNode,width/2);
+        }
+        tileNode.setRotate(rotationAngle);
         myRoot.getChildren().add(tileNode);
     }
 

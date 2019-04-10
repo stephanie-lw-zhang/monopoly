@@ -18,7 +18,7 @@ import javafx.util.Duration;
 public class ViewMaker {
 
     private static final int SCREEN_WIDTH = 600;
-    private static final int SCREEN_HEIGHT = 400;
+    private static final int SCREEN_HEIGHT = 600;
 
     private double FRAMES_PER_SECOND = 3;
     private double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
