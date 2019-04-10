@@ -6,6 +6,7 @@ package BackEnd.Board;
  * fundamental pieces to the game itself
  */
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.Tile.JailTile;
 import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.TileInterface;
 import BackEnd.Tile.GoTile;
@@ -19,19 +20,18 @@ import java.util.*;
 public abstract class AbstractBoard {
 
     private Map<AbstractPlayer, TileInterface> playerPositionMap;
-    private List<List<TileInterface>> adjacencyList;
-    private List<TileInterface> tiles;
+    private Map<TileInterface, List<TileInterface>> adjacencyList;
     private Map<Color, List<BuildingTile>> colorListMap;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-    public AbstractBoard(List<AbstractPlayer> playerList, List<TileInterface> tiles, List<List<TileInterface>> adjacencyList,Map<Color, List<BuildingTile>> colorListMap) {
-        this.tiles = tiles;
+
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap) {
         this.adjacencyList = adjacencyList;
         this.colorListMap = colorListMap;
         playerPositionMap = new HashMap<>();
-        for (AbstractPlayer p : playerList) playerPositionMap.put(p, tiles.get(0));
+        for (AbstractPlayer p : playerList) playerPositionMap.put(p, adjacencyList.keySet().stream().findFirst().get());
     }
 
     /**
@@ -59,12 +59,18 @@ public abstract class AbstractBoard {
         return playerPositionMap;
     }
 
-    public int getTileIndex(TileInterface tile) {
-        return tiles.indexOf(tile);
+    public List<TileInterface> getAdjacentTiles(TileInterface tile) {
+        return adjacencyList.get(tile);
     }
 
-    public List<TileInterface> getAdjacentTiles(int tileIndex) {
-        return adjacencyList.get(tileIndex);
+    public TileInterface getJailTile(){
+        TileInterface tile = null;
+        for (TileInterface key: adjacencyList.keySet()) {
+            if(key instanceof JailTile){
+                tile = key;
+            }
+        }
+        return tile;
     }
 
     public Map<Color, List<BuildingTile>> getColorListMap() {

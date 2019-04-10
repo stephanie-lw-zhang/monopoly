@@ -3,6 +3,7 @@ package BackEnd.Tile.PropertyTiles;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.RailroadCard;
+import BackEnd.Controller.Game;
 
 public class RailroadTile extends AbstractPropertyTile {
 
@@ -13,7 +14,7 @@ public class RailroadTile extends AbstractPropertyTile {
         this.card = (RailroadCard)card;
     }
 
-    public double priceToPay() {
+    public double calculateRentPrice(Game game) {
         int railroadsOwned = 0;
         for(AbstractPropertyTile property: this.getOwner().getProperties()){
             if(property instanceof RailroadTile){

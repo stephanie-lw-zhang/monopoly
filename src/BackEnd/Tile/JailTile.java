@@ -18,10 +18,10 @@ public class JailTile implements TileInterface {
         return;
     }
 
-    // @Override
-//    public void applyPassedAction(AbstractPlayer player) {
-//        return;
-//    }
+     @Override
+    public void applyPassedAction(AbstractPlayer player) {
+        return;
+    }
 
     public void addCriminal(AbstractPlayer player) {
         criminals.add(player);
