@@ -1,9 +1,8 @@
 package BackEnd.Tile.PropertyTiles.UtilityTiles;
 
-import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
-import BackEnd.Controller.Game;
+import Controller.Game;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
 public abstract class AbstractUtilityTile extends AbstractPropertyTile {
@@ -32,16 +31,17 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
                 utilitiesOwned += 1;
             }
         }
-        int[] diceTotal = game.rollValue();
-        int diceSum = 0;
-        for (int i = 0; i < diceTotal.length; i++) {
-            diceSum += diceTotal[i];
-        }
-        if(utilitiesOwned == 1){
-
-            return rentMultiplierOwnSingle * diceSum;
-        } else {
-            return rentMultiplierOwnDouble * diceSum;
-        }
+//        int[] diceTotal = game.rollValue();
+//        int diceSum = 0;
+//        for (int i = 0; i < diceTotal.length; i++) {
+//            diceSum += diceTotal[i];
+//        }
+//        if(utilitiesOwned == 1){
+//
+//            return rentMultiplierOwnSingle * diceSum;
+//        } else {
+//            return rentMultiplierOwnDouble * diceSum;
+//        }
+        return -1;
     }
 }

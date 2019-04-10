@@ -34,7 +34,7 @@ public class MainMenuScreen extends AbstractScreen {
         Button playButton = new Button("PLAY: Normal mode");
         playButton.setOnAction(f -> handleNormalModeButton(getMyStage()));
 
-        Button randomModeButton = new Button("PLAY: some other mode???");
+        Button randomModeButton = new Button("TESTING");
         // TODO:
         randomModeButton.setOnAction(r -> handleCustomModeButton(getMyStage()));
 
@@ -76,12 +76,13 @@ public class MainMenuScreen extends AbstractScreen {
 //            getScreenHeight(),
 //            stage
 //        );
-        AbstractScreen test = new TestingScreen(
+        TestingScreen test = new TestingScreen(
             getScreenWidth(),
             getScreenHeight(),
             stage
         );
-        completeStage(stage, test);
+
+        completeTestStage(stage, test);
     }
 
     private void handleInstructButton(Stage stage) {
@@ -91,6 +92,13 @@ public class MainMenuScreen extends AbstractScreen {
             stage
         );
         completeStage(stage, instructionsScreen);
+    }
+
+    private void completeTestStage(Stage stage, TestingScreen menu) {
+        menu.makeScreen();
+        stage.close();
+        stage.setScene(menu.getTestScene());
+        stage.show();
     }
 
     private void completeStage(Stage stage, AbstractScreen menu) {
