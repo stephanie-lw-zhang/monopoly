@@ -60,9 +60,10 @@ public class BoardModeScreen extends AbstractScreen{
     public BorderPane setBorderPane(int sWidth, int sHeight, GridPane gPane) {
         BorderPane bPane = new BorderPane();
 
-        ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("DESIGNPLAN.jpg")));
+        ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
+        bPane.getChildren().add(backgroundImg);
         bPane.setCenter(myBoardView.getBoardPane());
         bPane.setBottom(gPane);
 

@@ -1,5 +1,6 @@
 package FrontEnd.Screens;
 
+import FrontEnd.BoardView;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,6 +25,8 @@ public class TestingScreen extends AbstractScreen {
     private int    screenHeight;
     private Stage  testStage;
     private Scene  testScene;
+    private Scene myScene;
+    private BoardView myBoardView;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
 
@@ -32,6 +35,8 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
+        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11);
+
     }
 
     @Override
@@ -52,7 +57,6 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setFitHeight(screenHeight);
 
         bPane.getChildren().add(backgroundImg);
-
         bPane.setAlignment(title, Pos.CENTER);
         bPane.setTop(title);
         bPane.setAlignment(backToMainButton, Pos.CENTER);
@@ -69,8 +73,9 @@ public class TestingScreen extends AbstractScreen {
         TilePane playerOptionsModal = new TilePane();
         playerOptionsModal.getChildren().add(ROLL_BUTTON);
 
-        bPane.setAlignment(playerOptionsModal, Pos.BOTTOM_CENTER);
-        bPane.setCenter(playerOptionsModal);
+        bPane.setAlignment(playerOptionsModal, Pos.TOP_CENTER);
+        bPane.setCenter(myBoardView.getBoardPane());
+        bPane.setTop(playerOptionsModal);
 
         ROLL_BUTTON.setOnAction(f -> Game.handleRollButton());
     }
