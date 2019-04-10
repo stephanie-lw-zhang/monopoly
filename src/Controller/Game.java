@@ -7,59 +7,36 @@ import BackEnd.Board.AbstractBoard;
 
 import java.util.List;
 
-/**
- * Game Controller
- *
- * @author Matt
- * @author Sam
- */
 public class Game {
 
-    public enum GameState {
-        PRE_GAME,
-        INTRA_GAME,
-        POST_GAME;
-    }
-
-    private List<AbstractPlayer> myPlayers;
-    private DeckInterface        myChanceDeck;
-    private DeckInterface        myChestDeck;
-    private AbstractBoard        myBoard;
-    private AbstractDice         myDice;
-    private GameState            gameState;
-    private Turn                 myCurrentTurn;
+    private AbstractDice dice;
+    private DeckInterface chanceDeck;
+    private DeckInterface chestDeck;
+    private AbstractBoard board;
+    private List<AbstractPlayer> players;
     //private Bank bank;
 
     public Game(AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, List<AbstractPlayer> players){
-        gameState = GameState.PRE_GAME;
-        myDice = dice;
-        myChanceDeck = chanceDeck;
-        myChestDeck = chestDeck;
-        myBoard = board;
-        myPlayers = players;
-
-        myCurrentTurn = new Turn(myPlayers.get(0), myDice, myBoard);
+        this.dice = dice;
+        this.chanceDeck = chanceDeck;
+        this.chestDeck = chestDeck;
+        this.board = board;
+        this.players = players;
     }
 
-    public void play() {
-        while (! gameIsOver()) {
-
-        }
+    public int[] rollValue(){
+        int[] rolls = new int[2];
+        rolls[0] = dice.roll();
+        rolls[1] = dice.roll();
+        return rolls;
     }
 
-    public boolean gameIsOver() {
-        int sum = 0;
-        for(AbstractPlayer p: myPlayers)
-            if (p.isBankrupt()) sum++;
+    public void play(){
 
-        return sum == myPlayers.size() - 1;
     }
+
 
     public AbstractBoard getBoard() {
-        return myBoard;
-    }
-
-    public static void handleRollButton() {
-
+        return board;
     }
 }
