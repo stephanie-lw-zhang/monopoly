@@ -36,6 +36,7 @@ public class Turn {
             return;
         }
         else if (player.getTurnsInJail() == 3) {
+
             //player must either pay 50 and move or skip one turn
             //series of states OR dialogue boxes
             //try to get out of jail() {

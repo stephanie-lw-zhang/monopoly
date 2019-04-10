@@ -3,6 +3,7 @@ package BackEnd.Board;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.AssetHolder.HumanPlayer;
+import BackEnd.Board.StandardBoard;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Tile.GoToJailTile;
 import BackEnd.Tile.JailTile;
