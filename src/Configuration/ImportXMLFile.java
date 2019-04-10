@@ -15,7 +15,6 @@ public class ImportXMLFile {
     public static void main(String args[]) {
 
         try {
-
             File xmlFile = new File("/properties/OriginalMonopoly.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

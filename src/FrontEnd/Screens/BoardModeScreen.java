@@ -24,7 +24,7 @@ public class BoardModeScreen extends AbstractScreen{
     private BoardView myBoardView;
     public BoardModeScreen(int sWidth, int sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myBoardView = new BoardView(sWidth, sHeight,90,11,11);
+        myBoardView = new BoardView(sWidth, sHeight*0.9,90,11,11);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class BoardModeScreen extends AbstractScreen{
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
         bPane.setCenter(myBoardView.getBoardPane());
-        //bPane.setBottom(gPane);
+        bPane.setBottom(gPane);
 
         bPane.setMargin(gPane, new Insets(0,0, 75, 0));
 

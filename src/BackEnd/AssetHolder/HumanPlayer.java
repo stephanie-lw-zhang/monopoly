@@ -6,6 +6,14 @@ public class HumanPlayer extends AbstractPlayer {
         super( money, bank );
     }
 
+    // DEFAULT CONSTRUCTOR FOR STANDARD GAME PLAYER
+    public HumanPlayer(Bank bank) {
+        this(1500.00, bank);
+    }
 
 
+    @Override
+    public void paysTo(AbstractAssetHolder receiver, Double debt) {
+
+    }
 }

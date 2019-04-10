@@ -1,8 +1,7 @@
-package BackEnd.Controller;
+package Controller;
 
 import BackEnd.Deck.DeckInterface;
 import BackEnd.Dice.AbstractDice;
-import BackEnd.Exceptions.JailException;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 
@@ -36,6 +35,9 @@ public class Game {
 
     }
 
+    public static void handleRollButton() {
+
+    }
 
     public AbstractBoard getBoard() {
         return board;

@@ -5,7 +5,7 @@ import BackEnd.AssetHolder.Bank;
 import BackEnd.Board.AbstractBoard;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
-import BackEnd.Controller.Game;
+import Controller.Game;
 
 import java.awt.*;
 import java.util.List;
@@ -28,27 +28,32 @@ public class BuildingTile extends AbstractPropertyTile {
     //this is hardcoded loL!
     //store these as strings and make a hashmap of price lookup
     public double calculateRentPrice(Game game) {
-        if (numberOfHouses == 1) {
-            return card.getPropertyRent1House();
-        }
-        else if (numberOfHouses == 2) {
-            return card.getPropertyRent2House();
-        }
-        else if (numberOfHouses == 3) {
-            return card.getPropertyRent3House();
-        }
-        else if (numberOfHouses == 4) {
-            return card.getPropertyRent4House();
-        }
-        else if (numberOfHotels == 1) {
-            return card.getPropertyRentHotel();
+        if (isMortgaged()) {
+            return 0;
         }
         else {
-            if (checkIfPlayerOwnsAllOfOneColor(game.getBoard().getColorListMap().get(this.getTilecolor()))) {
-                return (card.getNoHousesOrHotelsRent() * 2);
+            if (numberOfHouses == 1) {
+                return card.getPropertyRent1House();
+            }
+            else if (numberOfHouses == 2) {
+                return card.getPropertyRent2House();
+            }
+            else if (numberOfHouses == 3) {
+                return card.getPropertyRent3House();
+            }
+            else if (numberOfHouses == 4) {
+                return card.getPropertyRent4House();
+            }
+            else if (numberOfHotels == 1) {
+                return card.getPropertyRentHotel();
             }
             else {
-                return card.getNoHousesOrHotelsRent();
+                if (checkIfPlayerOwnsAllOfOneColor(game.getBoard().getColorListMap().get(this.getTilecolor()))) {
+                    return (card.getNoHousesOrHotelsRent() * 2);
+                }
+                else {
+                    return card.getNoHousesOrHotelsRent();
+                }
             }
         }
     }

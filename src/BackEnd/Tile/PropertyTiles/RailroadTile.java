@@ -3,7 +3,7 @@ package BackEnd.Tile.PropertyTiles;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.RailroadCard;
-import BackEnd.Controller.Game;
+import Controller.Game;
 
 public class RailroadTile extends AbstractPropertyTile {
 
@@ -15,26 +15,31 @@ public class RailroadTile extends AbstractPropertyTile {
     }
 
     public double calculateRentPrice(Game game) {
-        int railroadsOwned = 0;
-        for(AbstractPropertyTile property: this.getOwner().getProperties()){
-            if(property instanceof RailroadTile){
-                railroadsOwned += 1;
-            }
-        }
-        if (railroadsOwned == 1) {
-            return card.getRailroadRent1Owned();
-        }
-        else if (railroadsOwned == 2) {
-            return card.getRailroadRent2Owned();
-        }
-        else if (railroadsOwned == 3) {
-            return card.getRailroadRent3Owned();
-        }
-        else if (railroadsOwned == 4) {
-            return card.getRailroadrent4Owned();
+        if (isMortgaged()) {
+            return 0;
         }
         else {
-            return 0;
+            int railroadsOwned = 0;
+            for(AbstractPropertyTile property: this.getOwner().getProperties()){
+                if(property instanceof RailroadTile){
+                    railroadsOwned += 1;
+                }
+            }
+            if (railroadsOwned == 1) {
+                return card.getRailroadRent1Owned();
+            }
+            else if (railroadsOwned == 2) {
+                return card.getRailroadRent2Owned();
+            }
+            else if (railroadsOwned == 3) {
+                return card.getRailroadRent3Owned();
+            }
+            else if (railroadsOwned == 4) {
+                return card.getRailroadrent4Owned();
+            }
+            else {
+                return 0;
+            }
         }
     }
 }

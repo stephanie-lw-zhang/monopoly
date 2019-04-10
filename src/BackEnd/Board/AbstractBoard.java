@@ -22,16 +22,17 @@ public abstract class AbstractBoard {
     private Map<AbstractPlayer, TileInterface> playerPositionMap;
     private Map<TileInterface, List<TileInterface>> adjacencyList;
     private Map<Color, List<BuildingTile>> colorListMap;
+    private int numDie;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap) {
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap, TileInterface go, int nDie) {
         this.adjacencyList = adjacencyList;
         this.colorListMap = colorListMap;
         playerPositionMap = new HashMap<>();
-        for (AbstractPlayer p : playerList) playerPositionMap.put(p, adjacencyList.keySet().stream().findFirst().get());
+        numDie = nDie;
+        for (AbstractPlayer p : playerList) playerPositionMap.put(p, go);
     }
 
     /**
@@ -42,18 +43,9 @@ public abstract class AbstractBoard {
     }
 
     /**
-     * Checks if the player is on the GO Tile and gives the player $200 if so
-     */
-    public void checkIfGo(AbstractPlayer p, TileInterface tile) {
-        if (tile instanceof GoTile) {
-            p.setMoney(p.getMoney() + 200);
-        }
-    }
-
-    /**
      * Moves the player on the board by reassigning its tile mapping
      */
-    public abstract void movePlayer(AbstractPlayer p, int[] rolls);
+    public abstract void movePlayer(AbstractPlayer p, int numMoves);
 
     public Map<AbstractPlayer, TileInterface> getPlayerTileMap() {
         return playerPositionMap;
@@ -76,4 +68,6 @@ public abstract class AbstractBoard {
     public Map<Color, List<BuildingTile>> getColorListMap() {
         return colorListMap;
     }
+
+    public int getNumDie() { return numDie; }
 }
