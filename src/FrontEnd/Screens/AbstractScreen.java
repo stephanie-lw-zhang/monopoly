@@ -67,7 +67,7 @@ public class AbstractScreen extends Handlers {
     public BorderPane setBorderPane(int sWidth, int sHeight, GridPane gPane) {
         BorderPane bPane = new BorderPane();
 
-        ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("img/DESIGNPLAN.jpg")));
+        ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("DESIGNPLAN.jpg")));
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
 

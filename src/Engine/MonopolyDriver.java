@@ -32,6 +32,7 @@ public class MonopolyDriver extends Application {
 
         myStage.setScene(myIntroScene);
         myStage.setTitle(TITLE);
+        myIntroScene.setOnKeyPressed(f-> handleKeyInput(f.getCode()));
         myStage.show();
     }
 
@@ -53,7 +54,11 @@ public class MonopolyDriver extends Application {
         dialog.show();
     }
 
-    private void handleKeyInput(KeyCode code) {}
+    private void handleKeyInput(KeyCode code) {
+        if(code==KeyCode.K){
+            showPopUp();
+        }
+    }
 
     public static void main(String[] args) { launch(args); }
 }
