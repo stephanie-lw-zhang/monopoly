@@ -14,8 +14,8 @@ public abstract class AbstractTileView {
     }
 
     abstract public Node getNodeOfTileView();
-    abstract public void makeTileViewNode(int[] dimensions);
-    abstract public void placeTileView(int x, int y);
+    abstract public void makeTileViewNode(double[] dimensions);
+    //abstract public void placeTileView(int x, int y);
 
     public String getMyTileName(){ return myTileName; }
 
