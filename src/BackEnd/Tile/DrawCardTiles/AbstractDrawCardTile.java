@@ -17,9 +17,9 @@ public abstract class AbstractDrawCardTile implements TileInterface {
         myDeck.drawCard();
     }
 
-//    @Override
-//    public void applyPassedAction(AbstractPlayer player) {
-//        return;
-//    }
+    @Override
+    public void applyPassedAction(AbstractPlayer player) {
+        return;
+    }
 
 }

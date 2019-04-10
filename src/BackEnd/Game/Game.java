@@ -46,7 +46,6 @@ public class Game {
             }
         }
     }
-
     public boolean gameIsOver(){
         int sum = 0;
         for(AbstractPlayer p: players){

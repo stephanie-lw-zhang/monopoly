@@ -14,6 +14,10 @@ public class PropertyCard extends AbstractCard {
         this.propertyMortgageValue = propertyMortgageValue;
     }
 
+    public double getMortgageValue(){
+        return propertyMortgageValue;
+    }
+
     @Override
     public void applyTo(AbstractPlayer player) {
         return;
