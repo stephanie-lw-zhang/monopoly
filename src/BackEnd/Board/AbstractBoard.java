@@ -30,6 +30,7 @@ public abstract class AbstractBoard {
         this.adjacencyList = adjacencyList;
         this.colorListMap = colorListMap;
         playerPositionMap = new HashMap<>();
+        //assumes that the GO tile is the first in the adjacency list
         for (AbstractPlayer p : playerList) playerPositionMap.put(p, adjacencyList.keySet().stream().findFirst().get());
     }
 

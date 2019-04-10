@@ -20,7 +20,7 @@ public class ImportPropertyFile {
             try{
                 prop.load(input);
             } catch (IOException e) {
-                e.printStackTrace();     //apparentlty not supposed to just print stack trace but return an exceptioon or something
+                e.printStackTrace();     //apparently not supposed to just print stack trace but return an exception or something
             }
         }
 
