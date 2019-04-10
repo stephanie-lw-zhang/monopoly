@@ -46,6 +46,8 @@ public class BoardView {
         makeLeftRow();
         makeTopRow();
         makeRightRow();
+        placeDeck("Community Chest","",100,50,0.6);
+        placeDeck("Chance","",100,50,0.25);
     }
 
     private void makeBottomRow() {
@@ -97,6 +99,19 @@ public class BoardView {
         placePropertyTile("Boardwalk","",Color.BLUE,9,9,myVerticals,myScreenHeight,270);
     }
 
+
+    public void placeDeck(String tileName,
+                                  String tileDescription,
+                                  double width, double length, double prop){
+        var tile = new NormalDeckView(tileName,tileDescription,"");
+        var height = length;
+        tile.makeTileViewNode(new double[]{width,height});
+        Node tileNode = tile.getNodeOfTileView();
+        tileNode.setRotate(-45);
+        myRoot.setTopAnchor(tileNode,myScreenHeight*prop);
+        myRoot.setLeftAnchor(tileNode,myScreenWidth*prop);
+        myRoot.getChildren().add(tileNode);
+    }
 
     public void placePropertyTile(String tileName,
                                   String tileDescription,
