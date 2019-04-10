@@ -8,6 +8,8 @@ import Controller.Game;
 import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
 
+import java.util.Map;
+
 public abstract class AbstractPropertyTile implements TileInterface {
 
     private String tiletype;
@@ -44,7 +46,6 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return;
     }
 
-
     @Override
     public void applyPassedAction(AbstractPlayer player) {
         return;
@@ -76,15 +77,16 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return mortgaged;
     }
 
-    public void buyProperty(AbstractPlayer player) {
-        //in controller, we first check if player can buy property --> sends to front-end
-//        if(player.getMoney() < tileprice) {
-//            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
-//            //maybe options to sell other properties or mortgage or something from front end?
-//        }
-        player.addProperty(this);
-        player.paysTo( owner, tileprice );
-        switchOwner(player);
+    /**
+     * IN CONTROLLER: First check if (isBuyable) --> if true, sellTo(player,tileprice)
+     * else --> getAgreedPrice (from front end), then call sellTo(player, agreedPrice)
+     * --> then need to check if (want to lift mortgage immediately), then call unmortgageProperty()
+     * --> else, call soldMortgagedPropertyLaterUnmortgages()
+     */
+    public void sellTo(AbstractAssetHolder assetHolder, double price) {
+        assetHolder.addProperty(this);
+        assetHolder.paysTo( owner, price );
+        switchOwner(assetHolder);
     }
 
     public abstract double calculateRentPrice(Game game);
@@ -118,33 +120,82 @@ public abstract class AbstractPropertyTile implements TileInterface {
         }
     }
 
-    // If you are the new owner, you may lift the mortgage at once if you wish by paying
-    // off the mortgage plus 10% interest to the Bank.
-    // TO DO: If the mortgage if not lifted at once, you must pay the Bank
-    // 10% interest when you buy the property and if you lift the mortgage later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
-    public void sellMortgagedPropertyToAnotherPlayer(AbstractPlayer player, double price) {
+    // If the mortgage if not lifted at once, you must pay the Bank
+    // 10% interest when you buy the property and if you lift the mortgage
+    // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
+    public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
-            player.paysTo(owner,price);
-            player.paysTo(bank,((PropertyCard)card).getMortgageValue() * 1.1);
-            switchOwner(player);
+            owner.paysTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
         }
     }
 
-    public boolean isBuyable(){
+    public boolean isBuyableFromBank(){
         return owner.equals(bank);
     }
 
-    public boolean isRentNeeded(AbstractPlayer player) {
-        return (!player.equals(getOwner()) && !mortgaged);
+    /**
+     * front-end will ask players to all input a value at once (simple implementation)
+     * this method will take the max
+     * https://stackoverflow.com/questions/5911174/finding-key-associated-with-max-value-in-a-java-map
+     */
+    public Map.Entry<AbstractPlayer, Double> determineAuctionResults(Map<AbstractPlayer,Double> auctionBidValues) {
+        //assume first person in list to tie will win if there is a tie
+        Map.Entry<AbstractPlayer, Double> maxEntry = null;
+        for (Map.Entry<AbstractPlayer, Double> entry : auctionBidValues.entrySet()) {
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
+            {
+                maxEntry = entry;
+            }
+        }
+        return maxEntry;
     }
 
-//    public void auctionProperty() {
-//        //interact with front-end ?
-//        double maxMoney = 0;
-//        if ()
+    public double getWinningBid(Map<AbstractPlayer,Double> auctionBidValues){
+        return determineAuctionResults(auctionBidValues).getValue();
+    }
+
+    public AbstractPlayer getAuctionWinner(Map<AbstractPlayer,Double> auctionBidValues){
+        return determineAuctionResults(auctionBidValues).getKey();
+    }
+
+    //    public boolean isRentNeeded(AbstractPlayer player) {
+//        return (!player.equals(getOwner()) && !mortgaged);
 //    }
 
+    //    public void buyPropertyFromPlayer(AbstractPlayer player, double price) {
+//        player.paysTo(owner,price);
+//        switchOwner(player);
+//        player.addProperty(this);
+//    }
+
+    //    public void buyPropertyFromBank(AbstractPlayer player) {
+//        //in controller, we first check if player can buy property --> sends to front-end
+////        if(player.getMoney() < tileprice) {
+////            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
+////            //maybe options to sell other properties or mortgage or something from front end?
+////        }
+//        if (owner.equals(bank)) {
+//            player.addProperty(this);
+//            player.paysTo( bank, tileprice );
+//            switchOwner(player);
+//        }
+//        else {
+//            //throw exception: CAN'T BUY BECAUSE BANK DOESN'T OWN
+//        }
+//    }
+
+
+    // If you are the new owner, you may lift the mortgage at once if you wish by paying
+    // off the mortgage plus 10% interest to the Bank.
+//       public void soldMortgagedPropertyImmediatelyUnmortgages(AbstractPlayer player, double price) {
+//        if (isMortgaged()) {
+//            unmortgageProperty();
+//        }
+//        else {
+//            //throw exception: HOUSE IS NOT MORTGAGED
+//        }
+//    }
 }

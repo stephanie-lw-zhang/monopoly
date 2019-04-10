@@ -71,12 +71,17 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void handleCustomModeButton(Stage stage) {
-        AbstractScreen customModeScreen = new CustomModeScreen(
+//        AbstractScreen customModeScreen = new CustomModeScreen(
+//            getScreenWidth(),
+//            getScreenHeight(),
+//            stage
+//        );
+        AbstractScreen test = new TestingScreen(
             getScreenWidth(),
             getScreenHeight(),
             stage
         );
-        completeStage(stage, customModeScreen);
+        completeStage(stage, test);
     }
 
     private void handleInstructButton(Stage stage) {
