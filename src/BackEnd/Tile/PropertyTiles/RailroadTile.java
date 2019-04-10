@@ -26,7 +26,7 @@ public class RailroadTile extends AbstractPropertyTile {
                 }
             }
             if (railroadsOwned == 1) {
-                return card.getRailroadRent1Owned();
+                return card.();
             }
             else if (railroadsOwned == 2) {
                 return card.getRailroadRent2Owned();
