@@ -26,22 +26,27 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
 
     @Override
     public double calculateRentPrice(Game game) {
-        int utilitiesOwned = 0;
-        for(AbstractPropertyTile property: this.getOwner().getProperties()){
-            if(property instanceof AbstractUtilityTile){
-                utilitiesOwned += 1;
+        if (isMortgaged()) {
+            return 0;
+        }
+        else {
+            int utilitiesOwned = 0;
+            for(AbstractPropertyTile property: this.getOwner().getProperties()){
+                if(property instanceof AbstractUtilityTile){
+                    utilitiesOwned += 1;
+                }
             }
-        }
-        int[] diceTotal = game.rollValue();
-        int diceSum = 0;
-        for (int i = 0; i < diceTotal.length; i++) {
-            diceSum += diceTotal[i];
-        }
-        if(utilitiesOwned == 1){
+            int[] diceTotal = game.rollValue();
+            int diceSum = 0;
+            for (int i = 0; i < diceTotal.length; i++) {
+                diceSum += diceTotal[i];
+            }
+            if(utilitiesOwned == 1){
 
-            return rentMultiplierOwnSingle * diceSum;
-        } else {
-            return rentMultiplierOwnDouble * diceSum;
+                return rentMultiplierOwnSingle * diceSum;
+            } else {
+                return rentMultiplierOwnDouble * diceSum;
+            }
         }
     }
 }
