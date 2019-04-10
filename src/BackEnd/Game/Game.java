@@ -54,5 +54,4 @@ public class Game {
         return sum==players.size()-1;
     }
 
-
 }
