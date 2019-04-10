@@ -4,38 +4,48 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 import BackEnd.Dice.AbstractDice;
 
+/**
+ * This class represents a single turn in the game of Monopoly
+ * from dice roll to the end of a turn.
+ *
+ * @author Matt
+ * @author Sam
+ */
 public class Turn {
 
-    private AbstractPlayer player;
-    private int[] rolls;
-    private AbstractDice dice;
-    private AbstractBoard board;
-    private boolean isOver;
+    private AbstractPlayer myCurrPlayer;
+    private AbstractBoard  myBoard;
+    private AbstractDice   myDice;
+    private boolean        isTurnOver;
+    private int[]          myRolls;
 
+    public Turn (AbstractPlayer player, AbstractDice dice, AbstractBoard board) {
+        myCurrPlayer = player;
+        myBoard = board;
+        myDice = dice;
+        isTurnOver = false;
+    }
 
-    public Turn(AbstractPlayer player, AbstractDice dice, AbstractBoard board){
-        this.player = player;
-        this.dice = dice;
-        this.board = board;
-        isOver = false;
+    public void start() {
+
     }
 
     public int[] rollDice(){
-        rolls = new int[2];
-        rolls[0] = dice.roll();
-        rolls[1] = dice.roll();
-        rolls = rollDice();
-        return rolls;
+        myRolls = new int[2];
+        myRolls[0] = myDice.roll();
+        myRolls[1] = myDice.roll();
+        myRolls = rollDice();
+        return myRolls;
     }
 
     public void move(){
-        if(rolls==null){
+        if (myRolls == null){
             //throw exception that dice must be rolled first
         }
-        if(player.isBankrupt()){
+        if(myCurrPlayer.isBankrupt()){
             return;
         }
-        else if (player.getTurnsInJail() == 3) {
+        else if (myCurrPlayer.getTurnsInJail() == 3) {
             //player must either pay 50 and move or skip one turn
             //series of states OR dialogue boxes
             //try to get out of jail() {
@@ -55,23 +65,24 @@ public class Turn {
         //else if(player.getTurnsInJail()!=-1 && ){}
 
         //assuming player chose to roll in jail
-        else if(player.getTurnsInJail()!=-1 && rolls[0] != rolls[1]){
+        else if(myCurrPlayer.getTurnsInJail()!=-1 && myRolls[0] != myRolls[1]){
             return;
         }
         //player is not in jail and moves normally
         else{
-            board.movePlayer(player, rolls);
-            board.getPlayerTile(player).applyLandedOnAction(player);
+            myBoard.movePlayer(myCurrPlayer, myRolls);
+            myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
         }
     }
 
     //in a turn a player can roll/move, trade, mortgage
 
     public boolean rolledDoubles(){
-        return rolls[0] == rolls[1];
+        return myRolls[0] == myRolls[1];
     }
+
     public boolean isTurnOver(){
-        return isOver;
+        return isTurnOver;
     }
 
 }
