@@ -140,6 +140,7 @@ public class Turn {
             return;
         }
         //player is not in jail and moves normally
+        //
         else{
 //            myBoard.movePlayer(myCurrPlayer, getNumMoves());
 //            myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
