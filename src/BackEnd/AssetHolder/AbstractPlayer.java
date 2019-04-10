@@ -65,37 +65,38 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         this.roll = roll;
     }
 
-    public void paysTo (AbstractAssetHolder receiver, Double debt){
-        if(this.getMoney() > debt){
-            receiver.setMoney( receiver.getMoney() + this.getMoney() );
-            this.setMoney( 0.0 );
-            debt = debt - this.getMoney();
-            if (getTotalAssetValue() < debt){
-                this.declareBankruptcyTo(receiver);
-            } else{
-                payBackDebt( receiver, debt );
-            }
-        } else{
+    //assumption, can only pay if you have full amount
+    public void payFullAmountTo (AbstractAssetHolder receiver, Double debt){
+//        if(this.getMoney() > debt){
+//            receiver.setMoney( receiver.getMoney() + this.getMoney() );
+//            this.setMoney( 0.0 );
+//            debt = debt - this.getMoney();
+//            if (getTotalAssetValue() < debt){
+//                this.declareBankruptcyTo(receiver);
+//            } else{
+//                payBackDebt( receiver, debt );
+//            }
+//        } else{
             this.setMoney( this.getMoney()-debt );
             receiver.setMoney( receiver.getMoney() + debt );
-        }
+//        }
     }
 
     public void addProperty(AbstractPropertyTile property){
         this.getProperties().add( property );
     }
 
-    private void payBackDebt(AbstractAssetHolder receiver, Double debt) {
-        //right now you pay back debt by selling properties until you can pay back, but made separate method cuz this can be changed
-        int i = 0;
-        while(debt > 0){
-            AbstractPropertyTile currentProperty = this.getProperties().get( i );
-            //assume selling in order of buying property, but can change this to own choice
-            debt -= currentProperty.sellToBankPrice();
-            bank.addProperty( currentProperty );
-            i++;
-        }
-    }
+//    public void sellPropertiesToBankUntilGoalReached(AbstractAssetHolder receiver, Double goal) {
+//        //right now you pay back debt by selling properties until you can pay back, but made separate method cuz this can be changed
+//        int i = 0;
+//        while(goal > 0){
+//            AbstractPropertyTile currentProperty = this.getProperties().get( i );
+//            //assume selling in order of buying property, but can change this to own choice
+//            goal -= currentProperty.sellToBankPrice();
+//            bank.addProperty( currentProperty );
+//            i++;
+//        }
+//    }
 
     private Double getTotalAssetValue() {
         Double totalAssetValue = 0.0;
@@ -105,5 +106,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         }
         return totalAssetValue;
     }
+
+
 
 }

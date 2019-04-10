@@ -1,9 +1,8 @@
 package BackEnd.Tile.PropertyTiles.UtilityTiles;
 
-import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
-import BackEnd.Controller.Game;
+import Controller.Game;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
 public abstract class AbstractUtilityTile extends AbstractPropertyTile {

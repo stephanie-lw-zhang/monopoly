@@ -3,7 +3,7 @@ package BackEnd.Tile.PropertyTiles;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.RailroadCard;
-import BackEnd.Controller.Game;
+import Controller.Game;
 
 public class RailroadTile extends AbstractPropertyTile {
 

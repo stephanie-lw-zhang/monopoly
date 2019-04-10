@@ -5,7 +5,7 @@ import BackEnd.AssetHolder.Bank;
 import BackEnd.Board.AbstractBoard;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
-import BackEnd.Controller.Game;
+import Controller.Game;
 
 import java.awt.*;
 import java.util.List;
