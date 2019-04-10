@@ -1,21 +1,19 @@
 package FrontEnd;
 
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 
-public class RectangularTileView extends AbstractTileView {
-    private double myWidth;
-    private double myHeight;
+public class CornerTileView extends AbstractTileView{
+
+    private double mySideLength;
     private StackPane myRoot;
 
-    public RectangularTileView(String name, String description, String color) {
+    public CornerTileView(String name, String description, String color) {
         super(name, description, color);
         myRoot = new StackPane();
     }
@@ -27,21 +25,19 @@ public class RectangularTileView extends AbstractTileView {
 
     @Override
     public void makeTileViewNode(double[] dimensions) {
-        myWidth = dimensions[0];
-        myHeight = dimensions[1];
+        mySideLength = dimensions[0];
         //myRoot.setMaxSize(myWidth, myHeight);
-        myRoot.getChildren().add(makeLabel());
         myRoot.getChildren().add(makeText());
         myRoot.getChildren().add(makeBorder());
     }
 
     private Node makeBorder() {
-        Rectangle border = new Rectangle(myWidth/2, myHeight/2, myWidth, myHeight );
+        Rectangle border = new Rectangle(mySideLength/2, mySideLength/2, mySideLength, mySideLength );
         border.setFill(Color.TRANSPARENT);
         border.setStroke(Color.BLACK);
         border.setStrokeWidth(2);
         border.setStrokeType(StrokeType.INSIDE);
-        myRoot.setAlignment(border,Pos.CENTER);
+        myRoot.setAlignment(border, Pos.CENTER);
         return border;
     }
 
@@ -51,15 +47,5 @@ public class RectangularTileView extends AbstractTileView {
         return tileText;
     }
 
-    private Node makeLabel() {
-        Rectangle labelShape = new Rectangle(myWidth, myHeight / 3);
-        labelShape.setFill(Color.AZURE);
-        labelShape.setStrokeWidth(1);
-        labelShape.setStroke(Color.BLACK);
-        labelShape.setStrokeType(StrokeType.INSIDE);
-        myRoot.setAlignment(labelShape,Pos.TOP_CENTER);
-        return labelShape;
-    }
 
 }
-

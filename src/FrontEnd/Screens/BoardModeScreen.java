@@ -1,9 +1,10 @@
 package FrontEnd.Screens;
 
-import FrontEnd.Handlers;
+import FrontEnd.BoardView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -17,25 +18,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/**
- * Represents an abstraction of any screen menu within the game app
- *
- * @author Sam
- */
-public class AbstractScreen extends Handlers {
+public class BoardModeScreen extends AbstractScreen{
 
-    private int    screenWidth;
-    private int    screenHeight;
-    private Stage  myStage;
-    private Scene  myScene;
-    private String myScreenTitle;
-
-    public AbstractScreen(int sWidth, int sHeight, Stage stage) {
-        screenWidth = sWidth;
-        screenHeight = sHeight;
-        myStage = stage;
+    private Scene myScene;
+    private BoardView myBoardView;
+    public BoardModeScreen(int sWidth, int sHeight, Stage stage) {
+        super(sWidth, sHeight, stage);
+        myBoardView = new BoardView(sWidth, sHeight,100,10,10);
     }
 
+    @Override
     public void makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
         titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
@@ -52,37 +44,37 @@ public class AbstractScreen extends Handlers {
         gridPane.setHalignment(backToMainButton, HPos.CENTER);
 
         BorderPane bPane = setBorderPane(
-            getScreenWidth(),
-            getScreenHeight(),
-            gridPane
+                getScreenWidth(),
+                getScreenHeight(),
+                gridPane
         );
 
-        bPane.setCenter(titleText);
+        //bPane.setCenter(titleText);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 
         myScene = new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
+    @Override
     public BorderPane setBorderPane(int sWidth, int sHeight, GridPane gPane) {
         BorderPane bPane = new BorderPane();
 
         ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("DESIGNPLAN.jpg")));
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
-
-        bPane.getChildren().add(backgroundImg);
-//        bPane.setCenter(getScreenText());
-        bPane.setBottom(gPane);
+        bPane.setCenter(myBoardView.getBoardPane());
+        //bPane.setBottom(gPane);
 
         bPane.setMargin(gPane, new Insets(0,0, 75, 0));
 
         return bPane;
     }
 
-    public int    getScreenWidth()  { return screenWidth; }
-    public int    getScreenHeight() { return screenHeight; }
-    public Stage  getMyStage()      { return myStage; }
+    private Node makeBoard() {
+        return myBoardView.getBoardPane();
+    }
+
+    @Override
     public Scene  getMyScene()      { return myScene; }
-    public String getScreenTitle()  { return myScreenTitle; }
 }
