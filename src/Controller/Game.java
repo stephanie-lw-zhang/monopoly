@@ -35,6 +35,9 @@ public class Game {
 
     }
 
+    public static void handleRollButton() {
+
+    }
 
     public AbstractBoard getBoard() {
         return board;

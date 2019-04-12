@@ -35,11 +35,17 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
                     utilitiesOwned += 1;
                 }
             }
+
+            // TODO ==================================================
+            // TODO: REPLACE WITH USING TURN AS ROLL NOT GAME
+            // TODO ==================================================
             int[] diceTotal = game.rollValue();
             int diceSum = 0;
             for (int i = 0; i < diceTotal.length; i++) {
                 diceSum += diceTotal[i];
             }
+            // TODO ==================================================
+
             if(utilitiesOwned == 1){
 
                 return rentMultiplierOwnSingle * diceSum;

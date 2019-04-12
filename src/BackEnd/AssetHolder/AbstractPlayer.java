@@ -107,6 +107,8 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         return totalAssetValue;
     }
 
-
+    public Bank getBank() {
+        return bank;
+    }
 
 }
