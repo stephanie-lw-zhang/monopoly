@@ -31,7 +31,17 @@ public class PropertyCard extends AbstractCard {
 
     public String nextInUpgradeOrder(String current) {
         try {
-            return upgradeOrder.get(getCurrentUpgradeOrderIndex(current)+1);
+            return upgradeOrder.get(getUpgradeOrderIndexOf(current)+1);
+        }
+        catch (IndexOutOfBoundsException i) {
+            //throw exception
+            return "";
+        }
+    }
+
+    public String previousInUpgradeOrder(String current) {
+        try {
+            return upgradeOrder.get(getUpgradeOrderIndexOf(current)-1);
         }
         catch (IndexOutOfBoundsException i) {
             //throw exception
@@ -47,11 +57,11 @@ public class PropertyCard extends AbstractCard {
         return specificToNumeric.get(specificPropertyType);
     }
 
-    public String getUpgradeOrderIndex(int index){
+    public String getUpgradeOrderAtIndex(int index){
         return upgradeOrder.get(index);
     }
 
-    public int getCurrentUpgradeOrderIndex(String current) {
+    public int getUpgradeOrderIndexOf(String current) {
         return upgradeOrder.indexOf(current);
     }
 

@@ -7,6 +7,7 @@ package BackEnd.Board;
  */
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.JailTile;
+import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.TileInterface;
 import BackEnd.Tile.GoTile;
@@ -21,15 +22,15 @@ public abstract class AbstractBoard {
 
     private Map<AbstractPlayer, TileInterface> playerPositionMap;
     private Map<TileInterface, List<TileInterface>> adjacencyList;
-    private Map<Color, List<BuildingTile>> colorListMap;
+    private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
 
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap) {
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<String, List<AbstractPropertyTile>> colorListMap) {
         this.adjacencyList = adjacencyList;
-        this.colorListMap = colorListMap;
+        this.propertyCategoryToSpecificListMap = colorListMap;
         playerPositionMap = new HashMap<>();
         for (AbstractPlayer p : playerList) playerPositionMap.put(p, adjacencyList.keySet().stream().findFirst().get());
     }
@@ -73,7 +74,7 @@ public abstract class AbstractBoard {
         return tile;
     }
 
-    public Map<Color, List<BuildingTile>> getColorListMap() {
-        return colorListMap;
+    public Map<String, List<AbstractPropertyTile>> getColorListMap() {
+        return propertyCategoryToSpecificListMap;
     }
 }
