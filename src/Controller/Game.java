@@ -6,9 +6,11 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 
 import java.util.List;
+//import java.util.logging.Logger;
 
 public class Game {
 
+//    private System.Logger LOGGER = new Logger.getLogger(Game.class.getName());
     private AbstractDice dice;
     private DeckInterface chanceDeck;
     private DeckInterface chestDeck;
