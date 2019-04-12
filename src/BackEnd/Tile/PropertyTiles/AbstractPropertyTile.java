@@ -8,6 +8,7 @@ import Controller.Game;
 import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
 
+import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractPropertyTile implements TileInterface {
@@ -83,7 +84,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
      * --> then need to check if (want to lift mortgage immediately), then call unmortgageProperty()
      * --> else, call soldMortgagedPropertyLaterUnmortgages()
      */
-    public void sellTo(AbstractAssetHolder assetHolder, double price) {
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.paysTo( owner, price );
         switchOwner(assetHolder);
