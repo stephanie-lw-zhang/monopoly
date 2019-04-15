@@ -52,23 +52,23 @@ class StandardBoardTest {
         Map colorMap = new HashMap<Color, List<BuildingTile>>();
         board = new StandardBoard(playerList, adjacencyList, colorMap, go);
     }
-
-    @Test
-    void movesOneTile(){
-        board.movePlayer(playerList.get(0), new int[]{1,0});
-        assertEquals(goNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-    }
-
-    @Test
-    void testBoardCycle() {
-        board.movePlayer(playerList.get(0), new int[]{6, 6});
-        assertEquals(goToJailNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-    }
-
-    @Test
-    void testGoToJailTile() {
-        board.movePlayer(playerList.get(0), new int[]{5, 6});
-        board.getPlayerTile(playerList.get(0)).applyLandedOnAction(playerList.get(0));
-        assertEquals(buildingNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-    }
+//
+//    @Test
+//    void movesOneTile(){
+//        board.movePlayer(playerList.get(0), new int[]{1,0});
+//        assertEquals(goNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
+//    }
+//
+//    @Test
+//    void testBoardCycle() {
+//        board.movePlayer(playerList.get(0), new int[]{6, 6});
+//        assertEquals(goToJailNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
+//    }
+//
+//    @Test
+//    void testGoToJailTile() {
+//        board.movePlayer(playerList.get(0), new int[]{5, 6});
+//        board.getPlayerTile(playerList.get(0)).applyLandedOnAction(playerList.get(0));
+//        assertEquals(buildingNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
+//    }
 }

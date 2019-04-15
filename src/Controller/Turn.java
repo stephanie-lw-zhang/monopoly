@@ -97,7 +97,7 @@ public class Turn {
 
     }
 
-    private int[] rollDice(int numDie) {
+    public int[] rollDice(int numDie) {
         int[] rolls = new int[numDie];
         for (int i = 0; i < rolls.length; i++) rolls[i] = myDice.roll();
         return rolls;
