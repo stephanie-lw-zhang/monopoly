@@ -21,7 +21,7 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String SCREEN_TITLE = "Monopoly";
     private Scene myIntro;
 
-    public MainMenuScreen(int sWidth, int sHeight, Stage stage) {
+    public MainMenuScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
     }
 
@@ -41,6 +41,9 @@ public class MainMenuScreen extends AbstractScreen {
         Button instructButton = new Button("INSTRUCTIONS");
         instructButton.setOnAction(i -> handleInstructButton(getMyStage()));
 
+        Button boardButton = new Button("Board");
+        boardButton.setOnAction(i -> handleBoardButton(getMyStage()));
+
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20);
         gridPane.setVgap(15);
@@ -48,6 +51,7 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.add(playButton, 1, 0);
         gridPane.add(randomModeButton, 2, 0);
         gridPane.add(instructButton, 3, 0);
+        gridPane.add(boardButton,4,0);
 
         BorderPane bPane = setBorderPane(
                 getScreenWidth(),
@@ -59,6 +63,15 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 
         myIntro = new Scene(bPane, getScreenWidth(), getScreenHeight());
+    }
+
+    private void handleBoardButton(Stage myStage) {
+        AbstractScreen BoardModeScreen = new BoardModeScreen(
+                getScreenWidth(),
+                getScreenHeight(),
+                myStage
+        );
+        completeStage(myStage, BoardModeScreen);
     }
 
     private void handleNormalModeButton(Stage stage) {

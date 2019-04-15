@@ -12,12 +12,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class RectangularTileView extends AbstractTileView {
+public class NormalDeckView extends AbstractTileView {
     private double myWidth;
     private double myHeight;
     private StackPane myRoot;
 
-    public RectangularTileView(String name, String description, String color) {
+    public NormalDeckView(String name, String description, String color) {
         super(name, description);
         myRoot = new StackPane();
     }

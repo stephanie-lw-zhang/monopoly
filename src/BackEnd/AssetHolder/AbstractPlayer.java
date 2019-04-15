@@ -5,18 +5,25 @@ import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
 import java.util.List;
 
+/**
+ *
+ *
+ * @author Sam [constructor change]
+ */
 public abstract class AbstractPlayer extends AbstractAssetHolder{
     private String icon;
     private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private Boolean bankrupt;
     private List<AbstractCard> cards;
     private Bank bank;
-    private int roll;
+    // private int roll;
 
+    private String myPlayerName;
 
-    public AbstractPlayer(Double money, Bank bank) {
+    public AbstractPlayer(String name, Double money, Bank bank) {
         super( money );
         this.bank = bank;
+        myPlayerName = name;
     }
 
 
@@ -57,13 +64,13 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         this.setMoney( 0 );
     }
 
-    public int getRoll(){
-        return roll;
-    }
-
-    public void setRoll(int roll){
-        this.roll = roll;
-    }
+//    public int getRoll(){
+//        return roll;
+//    }
+//
+//    public void setRoll(int roll){
+//        this.roll = roll;
+//    }
 
     //assumption, can only pay if you have full amount
     public void payFullAmountTo (AbstractAssetHolder receiver, Double debt){

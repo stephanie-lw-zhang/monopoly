@@ -1,47 +1,71 @@
 package Controller;
 
+import BackEnd.AssetHolder.Bank;
+import BackEnd.AssetHolder.HumanPlayer;
 import BackEnd.Deck.DeckInterface;
 import BackEnd.Dice.AbstractDice;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
+import FrontEnd.Screens.AbstractScreen;
+import FrontEnd.Screens.TestingScreen;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 
+import java.util.HashMap;
 import java.util.List;
 //import java.util.logging.Logger;
 
 public class Game {
 
 //    private System.Logger LOGGER = new Logger.getLogger(Game.class.getName());
-    private AbstractDice dice;
+    private AbstractDice myDice;
     private DeckInterface chanceDeck;
     private DeckInterface chestDeck;
-    private AbstractBoard board;
-    private List<AbstractPlayer> players;
+    private AbstractBoard myBoard;
+    private List<AbstractPlayer> myPlayers;
+    private Turn myTurn;
+    private AbstractScreen myTestScreen;
     //private Bank bank;
 
-    public Game(AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, List<AbstractPlayer> players){
-        this.dice = dice;
+    public Game(AbstractScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board) {
+        this.myDice = dice;
         this.chanceDeck = chanceDeck;
         this.chestDeck = chestDeck;
-        this.board = board;
-        this.players = players;
+        this.myBoard = board;
+
+        myTestScreen = view;
+
+        // make first param list of players
+        this.myTurn = new Turn(new HumanPlayer("Example", 200.0, new Bank(200.0, new HashMap<String, Integer>())), myDice, myBoard);
     }
 
-    public int[] rollValue(){
-        int[] rolls = new int[2];
-        rolls[0] = dice.roll();
-        rolls[1] = dice.roll();
-        return rolls;
+    public int[] rollValue() {
+        return myTurn.rollDice(2);
     }
 
-    public void play(){
+    public void play() {
 
     }
 
-    public static void handleRollButton() {
+    public void handleRollButton() {
+        int[] rolls = myTurn.rollDice(2);
+
+//        BorderPane bPane = (BorderPane) myTestScreen.getMyScene().getRoot();
+
+        Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
+                "Move " + myTurn.getNumMoves() + " spots!");
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("DICE ROLL");
+        alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
+                "Moving " + myTurn.getNumMoves() + " spots...");
+        alert.showAndWait();
+
 
     }
 
     public AbstractBoard getBoard() {
-        return board;
+        return myBoard;
     }
 }
