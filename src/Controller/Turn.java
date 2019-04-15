@@ -83,6 +83,7 @@ public class Turn {
                 myCurrPlayer.getOutOfJail();
                 break;
             case PROPERTY_EVENTS:
+//                myActions.add
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
@@ -97,13 +98,15 @@ public class Turn {
 
     }
 
-    private int[] rollDice(int numDie) {
+    // TODO: MAKE PRIVATE ONCE GAME.ROLLVALUE() IS DELETED
+    public int[] rollDice(int numDie) {
         int[] rolls = new int[numDie];
         for (int i = 0; i < rolls.length; i++) rolls[i] = myDice.roll();
+        myRolls = rolls;
         return rolls;
     }
 
-    private int getNumMoves() {
+    public int getNumMoves() {
         int sum = 0;
         for (int roll : myRolls) sum += roll;
         return sum;

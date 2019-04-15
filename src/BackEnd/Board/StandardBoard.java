@@ -9,6 +9,7 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.GoTile;
 import BackEnd.Tile.GoToJailTile;
 import BackEnd.Tile.JailTile;
+import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 import BackEnd.Tile.PropertyTiles.BuildingTile;
 import BackEnd.Tile.TileInterface;
 import javafx.scene.paint.Color;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 public class StandardBoard extends AbstractBoard {
 
-    public StandardBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap, TileInterface go) {
+    public StandardBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<String, List<AbstractPropertyTile>> colorListMap, TileInterface go) {
         super(playerList, adjacencyList, colorListMap, go, 2);
     }
 

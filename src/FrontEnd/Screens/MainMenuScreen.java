@@ -21,7 +21,7 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String SCREEN_TITLE = "Monopoly";
     private Scene myIntro;
 
-    public MainMenuScreen(int sWidth, int sHeight, Stage stage) {
+    public MainMenuScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
     }
 

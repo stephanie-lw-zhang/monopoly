@@ -22,7 +22,7 @@ public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
     private BoardView myBoardView;
-    public BoardModeScreen(int sWidth, int sHeight, Stage stage) {
+    public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
         myBoardView = new BoardView(sWidth, sHeight,90,11,11);
     }
@@ -57,7 +57,7 @@ public class BoardModeScreen extends AbstractScreen{
     }
 
     @Override
-    public BorderPane setBorderPane(int sWidth, int sHeight, GridPane gPane) {
+    public BorderPane setBorderPane(double sWidth, double sHeight, GridPane gPane) {
         BorderPane bPane = new BorderPane();
 
         ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));

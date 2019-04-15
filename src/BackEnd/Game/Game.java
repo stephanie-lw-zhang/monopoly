@@ -1,5 +1,7 @@
+
 package BackEnd.Game;
 
+import Controller.*;
 import BackEnd.Deck.DeckInterface;
 import BackEnd.Dice.AbstractDice;
 import BackEnd.AssetHolder.AbstractPlayer;
@@ -23,13 +25,13 @@ public class Game {
         this.board = board;
         this.players = players;
     }
-
+//
 //    public void play(){
 //        while(!gameIsOver()){
 //            for(AbstractPlayer p: players){
 //                int turns = 1;
 //                Turn t = new Turn(p, dice, board);
-//                t.rollDice();
+//                t.rollDice(turns);
 //                t.move();
 //                //if rolled doubles and not in jail
 //                while(t.rolledDoubles() && p.getTurnsInJail()==-1){
@@ -39,13 +41,14 @@ public class Game {
 //                        p.addTurnInJail();
 //                    }
 //                    t = new Turn(p, dice, board);
-//                    t.rollDice();
+//                    t.rollDice(turns);
 //                    t.move();
 //                    turns++;
 //                }
 //            }
 //        }
 //    }
+
     public boolean gameIsOver(){
         int sum = 0;
         for(AbstractPlayer p: players){
