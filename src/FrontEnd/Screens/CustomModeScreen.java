@@ -8,7 +8,7 @@ import javafx.stage.Stage;
  * @author Sam
  */
 public class CustomModeScreen extends AbstractScreen {
-    public CustomModeScreen(int sWidth, int sHeight, Stage stage) {
+    public CustomModeScreen(double sWidth, double sHeight, Stage stage) {
         super (sWidth, sHeight, stage);
     }
 }

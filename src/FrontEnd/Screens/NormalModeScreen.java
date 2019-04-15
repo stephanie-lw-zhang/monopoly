@@ -1,5 +1,7 @@
 package FrontEnd.Screens;
 
+import FrontEnd.BoardView;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -8,7 +10,10 @@ import javafx.stage.Stage;
  * @author Sam
  */
 public class NormalModeScreen extends AbstractScreen {
-    public NormalModeScreen(int sWidth, int sHeight, Stage stage) {
-        super (sWidth, sHeight, stage);
+
+
+    public NormalModeScreen(double sWidth, double sHeight, Stage stage) {
+        super(sWidth, sHeight, stage);
     }
+
 }
