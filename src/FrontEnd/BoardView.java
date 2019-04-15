@@ -125,6 +125,8 @@ public class BoardView {
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
+        tileNode.setRotate(rotationAngle);
+
         if(rotationAngle==0) {
             myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
             myRoot.setLeftAnchor(tileNode, myScreenWidth - width * xoffset - myTileHeight);
@@ -133,12 +135,11 @@ public class BoardView {
             myRoot.setLeftAnchor(tileNode, (height-width)/2);
         } else if (rotationAngle==180){
             myRoot.setTopAnchor(tileNode,0.0);
-            myRoot.setLeftAnchor(tileNode,myTileHeight/2+width*xoffset);
+            myRoot.setLeftAnchor(tileNode,myTileHeight+width*(xoffset-1));
         } else if (rotationAngle==270){
-            myRoot.setTopAnchor(tileNode, width*(yoffset+0.5));
-            myRoot.setRightAnchor(tileNode,width/2);
+            myRoot.setTopAnchor(tileNode, myTileHeight+width*(yoffset-1)-(height-width)/2);
+            myRoot.setLeftAnchor(tileNode,myScreenWidth-myTileHeight/2-width/2);
         }
-        tileNode.setRotate(rotationAngle);
 
         myRoot.getChildren().add(tileNode);
     }
@@ -154,6 +155,8 @@ public class BoardView {
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
+        tileNode.setRotate(rotationAngle);
+
         if(rotationAngle==0) {
             myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
             myRoot.setLeftAnchor(tileNode, myScreenWidth - width * xoffset - myTileHeight);
@@ -162,12 +165,11 @@ public class BoardView {
             myRoot.setLeftAnchor(tileNode, (height-width)/2);
         } else if (rotationAngle==180){
             myRoot.setTopAnchor(tileNode,0.0);
-            myRoot.setLeftAnchor(tileNode,myTileHeight/2+width*xoffset);
+            myRoot.setLeftAnchor(tileNode,myTileHeight+width*(xoffset-1));
         } else if (rotationAngle==270){
-            myRoot.setTopAnchor(tileNode, width*(yoffset+0.5));
-            myRoot.setRightAnchor(tileNode,width/2);
+            myRoot.setTopAnchor(tileNode, myTileHeight+width*(yoffset-1)-(height-width)/2);
+            myRoot.setLeftAnchor(tileNode,myScreenWidth-myTileHeight/2-width/2);
         }
-        tileNode.setRotate(rotationAngle);
         myRoot.getChildren().add(tileNode);
     }
 

@@ -24,7 +24,7 @@ public class BoardModeScreen extends AbstractScreen{
     private BoardView myBoardView;
     public BoardModeScreen(int sWidth, int sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myBoardView = new BoardView(sWidth, sHeight*0.9,90,11,11);
+        myBoardView = new BoardView(sWidth, sHeight,90,11,11);
     }
 
     @Override
