@@ -21,7 +21,7 @@ import java.util.*;
 public abstract class AbstractBoard {
 
     private Map<AbstractPlayer, TileInterface> playerPositionMap;
-    private Map<TileInterface, List<TileInterface>> adjacencyList;
+    private Map<TileInterface, List<TileInterface>> adjacencyMap;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private int numDie;
 
@@ -30,8 +30,8 @@ public abstract class AbstractBoard {
      */
 
 
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<String, List<AbstractPropertyTile>> colorListMap, TileInterface go, int nDie) {
-        this.adjacencyList = adjacencyList;
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, TileInterface go, int nDie) {
+        this.adjacencyMap = adjacencyMap;
         this.propertyCategoryToSpecificListMap = colorListMap;
         playerPositionMap = new HashMap<>();
         numDie = nDie;
@@ -55,12 +55,12 @@ public abstract class AbstractBoard {
     }
 
     public List<TileInterface> getAdjacentTiles(TileInterface tile) {
-        return adjacencyList.get(tile);
+        return adjacencyMap.get(tile);
     }
 
     public TileInterface getJailTile(){
         TileInterface tile = null;
-        for (TileInterface key: adjacencyList.keySet()) {
+        for (TileInterface key: adjacencyMap.keySet()) {
             if(key instanceof JailTile){
                 tile = key;
             }

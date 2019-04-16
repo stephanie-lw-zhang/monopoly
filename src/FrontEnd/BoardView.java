@@ -184,6 +184,8 @@ public class BoardView {
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
         myRoot.getChildren().add(tileNode);
+
+
     }
 
     public void makeCorners(){

@@ -58,7 +58,6 @@ public class Turn {
 
         if (isDoubleRoll(myRolls))
         canRollDie = false;
-
     }
 
     public void onAction(Actions action) {
