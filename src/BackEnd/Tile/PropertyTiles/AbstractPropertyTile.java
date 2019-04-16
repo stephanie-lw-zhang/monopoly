@@ -95,6 +95,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.paysTo( owner, price );
+        owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
 
