@@ -12,6 +12,7 @@ import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 import BackEnd.Tile.TileInterface;
 import Controller.Turn;
 import FrontEnd.BoardView;
+import javafx.animation.RotateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -37,6 +38,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import Controller.Game;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -169,11 +171,11 @@ public class TestingScreen extends AbstractScreen {
 
 //        TilePane playerOptionsModal= new TilePane();
         VBox playerOptionsModal = new VBox();
-         playerOptionsModal.setSpacing(10);
+        playerOptionsModal.setSpacing(10);
 //        playerOptionsModal.getChildren().add(ROLL_BUTTON);
 
         HBox diceLayout = new HBox();
-        diceLayout.setSpacing(5);
+        diceLayout.setSpacing(10);
         diceLayout.setUserData("diceLayout");
 
         ImageView dice1 = new ImageView();
@@ -264,18 +266,7 @@ public class TestingScreen extends AbstractScreen {
 
         List<ImageView> diceViews = (ObservableList) diceLayout.getChildren();
 
-        playDiceAnimation(diceViews);
-
-        for (int i = 0; i < rolls.length; i++) {
-            diceViews.get(i)
-                     .setImage(new Image(this
-                        .getClass()
-                        .getClassLoader()
-                        .getResourceAsStream(
-                            "dice" + rolls[i] + ".png"
-                        )
-                     ));
-        }
+        playDiceAnimation(diceViews, rolls);
     }
 
     public void displayRollsPopup(Turn turn) {
@@ -291,21 +282,31 @@ public class TestingScreen extends AbstractScreen {
         alert.showAndWait();
     }
 
+
     // TODO: FINISH DICE ANIMATION
-    private void playDiceAnimation(List<ImageView> diceViews) {
-        return;
-//        int numDiceViews = myGame.getMyDice().getNumStates();
-//        for (int i = 0; i < numDiceViews * 400; i++) {
-//            for (ImageView dView : diceViews) {
-//                dView.setImage(new Image(this
-//                        .getClass()
-//                        .getClassLoader()
-//                        .getResourceAsStream(
-//                                "dice" + ((i % numDiceViews) + 1) + ".png"
-//                        )
-//                ));
-//            }
-//        }
+    private void playDiceAnimation(List<ImageView> diceViews, int[] rolls) {
+        RotateTransition rt1 = new RotateTransition(Duration.seconds(1), diceViews.get(0));
+        RotateTransition rt2 = new RotateTransition(Duration.seconds(1), diceViews.get(1));
+        rt1.setFromAngle(0);
+        rt1.setToAngle(720);
+        rt2.setFromAngle(0);
+        rt2.setToAngle(720);
+        rt1.setOnFinished(e -> setDice(diceViews, rolls));
+        rt1.play();
+        rt2.play();
+    }
+
+    private void setDice(List<ImageView> diceViews, int[] rolls) {
+        for (int i = 0; i < rolls.length; i++) {
+            diceViews.get(i)
+                    .setImage(new Image(this
+                            .getClass()
+                            .getClassLoader()
+                            .getResourceAsStream(
+                                    "dice" + rolls[i] + ".png"
+                            )
+                    ));
+        }
     }
 
 }
