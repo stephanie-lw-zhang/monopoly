@@ -31,6 +31,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -46,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.io.File;
 
 /**
  * For testing purposes
@@ -54,16 +57,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestingScreen extends AbstractScreen {
 
+    private BoardView myBoardView;
     private double    screenWidth;
     private double    screenHeight;
-    private Stage  testStage;
-    private Scene  testScene;
-    private Scene myScene;
-    private BoardView myBoardView;
-
-    private Game myGame;
+    private Stage     testStage;
+    private Scene     testScene;
+    private Game      myGame;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
+    private final Button END_TURN = new Button("END TURN");
 
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
@@ -169,10 +171,8 @@ public class TestingScreen extends AbstractScreen {
 
         StackPane boardStackPane = new StackPane();
 
-//        TilePane playerOptionsModal= new TilePane();
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
-//        playerOptionsModal.getChildren().add(ROLL_BUTTON);
 
         HBox diceLayout = new HBox();
         diceLayout.setSpacing(10);
@@ -202,7 +202,6 @@ public class TestingScreen extends AbstractScreen {
 
         diceLayout.getChildren().addAll(dice1, dice2);
 
-        // playerOptionsModal.getChildren().addAll(ROLL_BUTTON, dice1, dice2);
         playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON);
 
         boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
@@ -230,10 +229,12 @@ public class TestingScreen extends AbstractScreen {
     private List<AbstractPlayer> makePlayerList(List<TextField> playerFields) {
         Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
         List<AbstractPlayer> playerList = new ArrayList<>();
-        playerList.add(new HumanPlayer("Player 1", 200.0, bank));
-        playerList.add(new HumanPlayer("Player 2", 1500.0, bank));
-        playerList.add(new HumanPlayer("Player 3", 1500.0, bank));
-        playerList.add(new HumanPlayer("Player 4", 1500.0, bank));
+
+        for (TextField pName : playerFields) {
+            String name = pName.getText();
+            if (! name.equals(""))
+                playerList.add(new HumanPlayer(name, 1500.0, bank));
+        }
 
         return playerList;
     }
@@ -282,31 +283,31 @@ public class TestingScreen extends AbstractScreen {
         alert.showAndWait();
     }
 
-
-    // TODO: FINISH DICE ANIMATION
+    // TODO: MAKE REFLECTION TO MAKE ROTATETRANSITIONS GIVEN DICEVIEWS/ROLLS
     private void playDiceAnimation(List<ImageView> diceViews, int[] rolls) {
-        RotateTransition rt1 = new RotateTransition(Duration.seconds(1), diceViews.get(0));
-        RotateTransition rt2 = new RotateTransition(Duration.seconds(1), diceViews.get(1));
+        Media diceRollSound = new Media(new File("./data/diceRoll.mp3").toURI().toString());
+        MediaPlayer diceSoundPlayer = new MediaPlayer(diceRollSound);
+        diceSoundPlayer.play();
+        RotateTransition rt1 = new RotateTransition(Duration.seconds(1.5), diceViews.get(0));
+        RotateTransition rt2 = new RotateTransition(Duration.seconds(1.5), diceViews.get(1));
         rt1.setFromAngle(0);
         rt1.setToAngle(720);
         rt2.setFromAngle(0);
         rt2.setToAngle(720);
-        rt1.setOnFinished(e -> setDice(diceViews, rolls));
+        rt1.setOnFinished(e -> setDice(diceViews.get(0), rolls[0]));
+        rt2.setOnFinished(e -> setDice(diceViews.get(1), rolls[1]));
         rt1.play();
         rt2.play();
     }
 
-    private void setDice(List<ImageView> diceViews, int[] rolls) {
-        for (int i = 0; i < rolls.length; i++) {
-            diceViews.get(i)
-                    .setImage(new Image(this
-                            .getClass()
-                            .getClassLoader()
-                            .getResourceAsStream(
-                                    "dice" + rolls[i] + ".png"
-                            )
-                    ));
-        }
+    private void setDice(ImageView diceView, int roll) {
+        diceView.setImage(new Image(
+                this.getClass()
+                    .getClassLoader()
+                    .getResourceAsStream(
+                        "dice" + roll + ".png"
+                    )
+                ));
     }
 
 }

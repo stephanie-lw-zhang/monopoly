@@ -18,24 +18,24 @@ import java.util.List;
 
 public class Game {
 
-    private AbstractDice myDice;
-    private DeckInterface chanceDeck;
-    private DeckInterface chestDeck;
-    private AbstractBoard myBoard;
     private List<AbstractPlayer> myPlayers;
-    private Turn myTurn;
-    private TestingScreen myTestScreen;
+    private DeckInterface        chanceDeck;
+    private DeckInterface        chestDeck;
+    private AbstractBoard        myBoard;
+    private AbstractDice         myDice;
+    private TestingScreen        myTestScreen;
+    private Turn                 myTurn;
 
     public Game(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board) {
-        this.myDice = dice;
-        this.chanceDeck = chanceDeck;
-        this.chestDeck = chestDeck;
-        this.myBoard = board;
+        myDice = dice;
+        chanceDeck = chanceDeck;
+        chestDeck = chestDeck;
+        myBoard = board;
 
         myTestScreen = view;
 
         // make first param list of players
-        this.myTurn = new Turn(new HumanPlayer("Example", 200.0, new Bank(200.0, new HashMap<String, Integer>())), myDice, myBoard);
+        myTurn = new Turn(new HumanPlayer("Example", 200.0, new Bank(200.0, new HashMap<String, Integer>())), myDice, myBoard);
     }
 
     public void startGameLoop() {
