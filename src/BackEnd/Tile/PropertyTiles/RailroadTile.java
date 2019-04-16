@@ -1,20 +1,22 @@
 package BackEnd.Tile.PropertyTiles;
 
+import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
+import BackEnd.Card.PropertyCard;
 import BackEnd.Card.RailroadCard;
 import Controller.Game;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RailroadTile extends AbstractPropertyTile {
 
     private RailroadCard card;
-    private String currentInUpgradeOrder;
 
-
-    public RailroadTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
+    public RailroadTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         super(bank, card, tiletype, tileprice);
         this.card = (RailroadCard)card;
-        currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
     public double calculateRentPrice(Game game) {
@@ -22,7 +24,7 @@ public class RailroadTile extends AbstractPropertyTile {
             return 0;
         }
         else {
-            return card.lookupPrice(currentInUpgradeOrder);
+            return card.lookupPrice(getCurrentInUpgradeOrder());
 
 //            int railroadsOwned = 0;
 //            for(AbstractPropertyTile property: this.getOwner().getProperties()){
@@ -48,4 +50,23 @@ public class RailroadTile extends AbstractPropertyTile {
 
         }
     }
+
+    @Override
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
+        super.sellTo(assetHolder, price, sameSetProperties);
+        List<RailroadTile> railroadTiles = checkNumberOfRailroadsPlayerOwns(sameSetProperties);
+
+    }
+
+    public List<RailroadTile> checkNumberOfRailroadsPlayerOwns(List<AbstractPropertyTile> properties) {
+        List<RailroadTile> railroadsPlayerOwns = new ArrayList<>();
+        for (AbstractPropertyTile tile : properties) {
+            if (tile instanceof RailroadTile && (tile.getOwner().equals(this.getOwner()))) {
+                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
+                railroadsPlayerOwns.add((RailroadTile)tile);
+            }
+        }
+        return railroadsPlayerOwns;
+    }
+
 }

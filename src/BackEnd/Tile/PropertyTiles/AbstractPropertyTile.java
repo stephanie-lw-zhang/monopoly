@@ -18,15 +18,18 @@ public abstract class AbstractPropertyTile implements TileInterface {
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
-    private AbstractCard card;
+    private PropertyCard card;
+    private String currentInUpgradeOrder;
 
-    public AbstractPropertyTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
+    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         this.owner = bank;
         this.bank = bank;
+        //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
         this.tileprice = tileprice;
         this.mortgaged = false;
+        currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
     //fix this
@@ -160,6 +163,14 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     public AbstractPlayer getAuctionWinner(Map<AbstractPlayer,Double> auctionBidValues){
         return determineAuctionResults(auctionBidValues).getKey();
+    }
+
+    public String getCurrentInUpgradeOrder() {
+        return currentInUpgradeOrder;
+    }
+
+    public void setCurrentInUpgradeOrder(String newOrder) {
+        currentInUpgradeOrder = newOrder;
     }
 
     //    public boolean isRentNeeded(AbstractPlayer player) {

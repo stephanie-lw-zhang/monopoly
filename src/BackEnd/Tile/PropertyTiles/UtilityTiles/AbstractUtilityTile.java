@@ -2,6 +2,7 @@ package BackEnd.Tile.PropertyTiles.UtilityTiles;
 
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
+import BackEnd.Card.PropertyCard;
 import Controller.Game;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
@@ -11,7 +12,7 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
 //    private int roll;
 
 
-    public AbstractUtilityTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
+    public AbstractUtilityTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         super( bank, card, tiletype, tileprice );
     }
 
