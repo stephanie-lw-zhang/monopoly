@@ -8,8 +8,13 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 import FrontEnd.Screens.AbstractScreen;
 import FrontEnd.Screens.TestingScreen;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.HashMap;
@@ -40,31 +45,31 @@ public class Game {
         this.myTurn = new Turn(new HumanPlayer("Example", 200.0, new Bank(200.0, new HashMap<String, Integer>())), myDice, myBoard);
     }
 
+    public void startGameLoop() {
+        BorderPane bPane = (BorderPane) myTestScreen.getTestScene().getRoot();
+        StackPane boardStackPane = (StackPane) bPane.getCenter();
+        ObservableList vList = boardStackPane.getChildren();
+
+        // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
+        // TODO: Maybe use "setUserData" for the VBox and retrieve that way
+        VBox playerOptionsModal = (VBox) vList.get(1);
+
+        // TODO: SIMILAR AS TODO ABOVE, SHOULDN'T HARDCODE FOR 0th ELEMENT
+        // TODO: In VBOX FOR INNER HBOX
+        Button rollButton = (Button) playerOptionsModal.getChildren().get(1);
+        rollButton.setOnAction(f -> handleRollButton());
+    }
+
     public int[] rollValue() {
         return myTurn.rollDice(2);
     }
 
-    public void play() {
-
-    }
-
     public void handleRollButton() {
-        int[] rolls = myTurn.rollDice(2);
+        myTurn.start();
 
-        myTestScreen.updateDiceView(rolls);
+        myTestScreen.updateDiceView(myTurn.getRolls());
 
-//        BorderPane bPane = (BorderPane) myTestScreen.getMyScene().getRoot();
-
-        Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
-                "Move " + myTurn.getNumMoves() + " spots!");
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("DICE ROLL");
-        alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
-                "Moving " + myTurn.getNumMoves() + " spots...");
-        alert.showAndWait();
-
-
+        myTestScreen.displayRollsPopup(myTurn);
     }
 
     public AbstractBoard getBoard() {
