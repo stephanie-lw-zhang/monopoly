@@ -163,4 +163,5 @@ public class Turn {
         return isTurnOver;
     }
 
+    public int[] getRolls() { return myRolls; }
 }

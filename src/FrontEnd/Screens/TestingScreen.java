@@ -10,6 +10,7 @@ import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 import BackEnd.Tile.TileInterface;
+import Controller.Turn;
 import FrontEnd.BoardView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * For testing purposes
@@ -206,7 +208,8 @@ public class TestingScreen extends AbstractScreen {
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
 
-        ROLL_BUTTON.setOnAction(f -> myGame.handleRollButton());
+        // TODO: CONDITION FOR GAME END LOGIC????
+        myGame.startGameLoop();
     }
 
     private AbstractBoard makeBoard(List<TextField> playerFields) {
@@ -261,24 +264,48 @@ public class TestingScreen extends AbstractScreen {
 
         List<ImageView> diceViews = (ObservableList) diceLayout.getChildren();
 
+        playDiceAnimation(diceViews);
+
         for (int i = 0; i < rolls.length; i++) {
-            diceViews.get(i).setImage(new Image(this
-                                .getClass()
-                                .getClassLoader()
-                                .getResourceAsStream(
-                                        "dice" + rolls[i] + ".png"
-                                )
-            ));
+            diceViews.get(i)
+                     .setImage(new Image(this
+                        .getClass()
+                        .getClassLoader()
+                        .getResourceAsStream(
+                            "dice" + rolls[i] + ".png"
+                        )
+                     ));
         }
     }
 
-//    private Node getByUserData(Parent parent, Object data) {
-//        for (Node n : parent.getChildren()) {
-//            if (data.equals(n.getUserData())) {
-//                return n;
+    public void displayRollsPopup(Turn turn) {
+        int[] rolls = turn.getRolls();
+
+        Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
+                "Move " + turn.getNumMoves() + " spots!");
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("DICE ROLL");
+        alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
+                "Moving " + turn.getNumMoves() + " spots...");
+        alert.showAndWait();
+    }
+
+    // TODO: FINISH DICE ANIMATION
+    private void playDiceAnimation(List<ImageView> diceViews) {
+        return;
+//        int numDiceViews = myGame.getMyDice().getNumStates();
+//        for (int i = 0; i < numDiceViews * 400; i++) {
+//            for (ImageView dView : diceViews) {
+//                dView.setImage(new Image(this
+//                        .getClass()
+//                        .getClassLoader()
+//                        .getResourceAsStream(
+//                                "dice" + ((i % numDiceViews) + 1) + ".png"
+//                        )
+//                ));
 //            }
 //        }
-//        return null;
-//    }
+    }
 
 }
