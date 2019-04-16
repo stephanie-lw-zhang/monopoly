@@ -9,17 +9,20 @@ public class PropertyCard extends AbstractCard {
 
     private double propertyMortgageValue;
     private Map<String, Double> rentPriceLookupTable;
+    private Map<String, Integer> specificToNumeric;
     private List<String> upgradeOrder;
     private String titleDeed;
     private String category;
 
     public PropertyCard(double propertyMortgageValue, Map<String, Double> priceLookupTable, List<String> upgradeOrder,
-                        String titleDeed, String category) {
+                        String titleDeed, String category, Map<String, Integer> specificToNumeric) {
         this.propertyMortgageValue = propertyMortgageValue;
         this.rentPriceLookupTable = priceLookupTable;
         this.upgradeOrder = upgradeOrder;
         this.titleDeed = titleDeed;
         this.category = category;
+        this.specificToNumeric = specificToNumeric;
+
     }
 
     public double getMortgageValue(){
@@ -62,5 +65,18 @@ public class PropertyCard extends AbstractCard {
         return;
     }
 
+    public Integer getNumericValueOfPropertyType(String specificPropertyType) {
+        return specificToNumeric.get(specificPropertyType);
+    }
+
+    public String getSpecificFromNumeric (int numeric) {
+        //THROW EXCEPTION FOR WHEN NUMERIC DOESN'T EXIST
+        for(String key: specificToNumeric.keySet()){
+            if(specificToNumeric.get( key ) == numeric){
+                return key;
+            }
+        }
+        return "";
+    }
 
 }
