@@ -4,13 +4,15 @@
 
     <Tile>
         <TileNumber>0</TileNumber>
-        <TileType>GO</TileType>
-        <TileColor>GREEN</TileColor>
+        <TileType>GoTile</TileType>
+        <TileColor>Green</TileColor>
+        <LandedMoney>200</LandedMoney>
+        <PassedMoney>200</PassedMoney>
     </Tile>
 
     <Tile>
         <TileNumber>1</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Brown</TileColor>
         <TileName>Mediterranean Avenue</TileName>
         <TilePrice>60</TilePrice>
@@ -24,6 +26,7 @@
         <TileMortgageValue>30</TileMortgageValue>
         <TileHousePrice>50</TileHousePrice>
         <TileHotelPrice>50</TileHotelPrice>
+        <NextTiles>2,3,4</NextTiles>
     </Tile>
 
     <Tile>
@@ -33,7 +36,7 @@
 
     <Tile>
         <TileNumber>3</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Brown</TileColor>
         <TileName>Baltic Avenue</TileName>
         <TilePrice>60</TilePrice>
@@ -57,7 +60,7 @@
 
     <Tile>
         <TileNumber>5</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>None</TileColor>
         <TileName>King's Cross Station</TileName>
         <TilePrice>200</TilePrice>
@@ -70,7 +73,7 @@
 
     <Tile>
         <TileNumber>6</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Sky Blue</TileColor>
         <TileName>Oriental Avenue</TileName>
         <TilePrice>100</TilePrice>
@@ -93,7 +96,7 @@
 
     <Tile>
         <TileNumber>8</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Sky Blue</TileColor>
         <TileName>Vermont Avenue</TileName>
         <TilePrice>100</TilePrice>
@@ -111,7 +114,7 @@
 
     <Tile>
         <TileNumber>9</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Sky Blue</TileColor>
         <TileName>Connecticut Avenue</TileName>
         <TilePrice>120</TilePrice>
@@ -134,7 +137,7 @@
 
     <Tile>
         <TileNumber>11</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
         <TileName>St. Charles Place</TileName>
         <TilePrice>140</TilePrice>
@@ -161,7 +164,7 @@
 
     <Tile>
         <TileNumber>13</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
         <TileName>States Avenue</TileName>
         <TilePrice>140</TilePrice>
@@ -179,7 +182,7 @@
 
     <Tile>
         <TileNumber>14</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
         <TileName>Virginia Avenue</TileName>
         <TilePrice>160</TilePrice>
@@ -197,7 +200,7 @@
 
     <Tile>
         <TileNumber>15</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>None</TileColor>
         <TileName>Pennsylvania Railroad</TileName>
         <TilePrice>200</TilePrice>
@@ -210,7 +213,7 @@
 
     <Tile>
         <TileNumber>16</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
         <TileName>St. James Place</TileName>
         <TilePrice>180</TilePrice>
@@ -233,7 +236,7 @@
 
     <Tile>
         <TileNumber>18</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
         <TileName>Tennessee Avenue</TileName>
         <TilePrice>180</TilePrice>
@@ -251,7 +254,7 @@
 
     <Tile>
         <TileNumber>19</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
         <TileName>New York Avenue</TileName>
         <TilePrice>200</TilePrice>
@@ -274,7 +277,7 @@
 
     <Tile>
         <TileNumber>21</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
         <TileName>Kentucky Avenue</TileName>
         <TilePrice>220</TilePrice>
@@ -297,7 +300,7 @@
 
     <Tile>
         <TileNumber>23</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
         <TileName>Indiana Avenue</TileName>
         <TilePrice>220</TilePrice>
@@ -315,7 +318,7 @@
 
     <Tile>
         <TileNumber>24</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
         <TileName>Illinois Avenue</TileName>
         <TilePrice>240</TilePrice>
@@ -333,9 +336,9 @@
 
     <Tile>
         <TileNumber>25</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>None</TileColor>
-        <TileName>B. & O. Railroad</TileName>
+        <TileName>B. and O. Railroad</TileName>
         <TilePrice>200</TilePrice>
         <TileRent>25</TileRent>
         <TileRent2Stations>50</TileRent2Stations>
@@ -346,7 +349,7 @@
 
     <Tile>
         <TileNumber>26</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
         <TileName>Atlantic Avenue</TileName>
         <TilePrice>260</TilePrice>
@@ -364,7 +367,7 @@
 
     <Tile>
         <TileNumber>27</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
         <TileName>Ventnor Avenue</TileName>
         <TilePrice>260</TilePrice>
@@ -391,7 +394,7 @@
 
     <Tile>
         <TileNumber>29</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
         <TileName>Marvin Gardens</TileName>
         <TilePrice>280</TilePrice>
@@ -414,7 +417,7 @@
 
     <Tile>
         <TileNumber>31</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
         <TileName>Pacific Avenue</TileName>
         <TilePrice>300</TilePrice>
@@ -432,7 +435,7 @@
 
     <Tile>
         <TileNumber>32</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
         <TileName>North Carolina Avenue</TileName>
         <TilePrice>300</TilePrice>
@@ -455,7 +458,7 @@
 
     <Tile>
         <TileNumber>34</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
         <TileName>Pennsylvania Avenue</TileName>
         <TilePrice>320</TilePrice>
@@ -473,7 +476,7 @@
 
     <Tile>
         <TileNumber>35</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>None</TileColor>
         <TileName>Short Line Railroad</TileName>
         <TilePrice>200</TilePrice>
@@ -491,7 +494,7 @@
 
     <Tile>
         <TileNumber>37</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
         <TileName>Park Place</TileName>
         <TilePrice>350</TilePrice>
@@ -516,7 +519,7 @@
 
     <Tile>
         <TileNumber>39</TileNumber>
-        <TileType>Property</TileType>
+        <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
         <TileName>Boardwalk</TileName>
         <TilePrice>400</TilePrice>
