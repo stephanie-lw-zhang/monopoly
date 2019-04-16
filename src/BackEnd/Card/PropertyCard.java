@@ -10,15 +10,16 @@ public class PropertyCard extends AbstractCard {
     private double propertyMortgageValue;
     private Map<String, Double> rentPriceLookupTable;
     private List<String> upgradeOrder;
-    private Map<String, String> specificToBase;
-    private Map<String, Integer> specificToNumeric;
+    private String titleDeed;
+    private String category;
 
-    public PropertyCard(double propertyMortgageValue, Map<String, Double> priceLookupTable, List<String> upgradeOrder, Map<String, String> specificToBase, Map<String, Integer> specificToNumeric) {
+    public PropertyCard(double propertyMortgageValue, Map<String, Double> priceLookupTable, List<String> upgradeOrder,
+                        String titleDeed, String category) {
         this.propertyMortgageValue = propertyMortgageValue;
         this.rentPriceLookupTable = priceLookupTable;
         this.upgradeOrder = upgradeOrder;
-        this.specificToBase = specificToBase;
-        this.specificToNumeric = specificToNumeric;
+        this.titleDeed = titleDeed;
+        this.category = category;
     }
 
     public double getMortgageValue(){
@@ -48,15 +49,6 @@ public class PropertyCard extends AbstractCard {
             return "";
         }
     }
-
-    public String getBasePropertyType(String specificPropertyType) {
-        return specificToBase.get(specificPropertyType);
-    }
-
-    public Integer getNumericValueofPropertyType(String specificPropertyType) {
-        return specificToNumeric.get(specificPropertyType);
-    }
-
     public String getUpgradeOrderAtIndex(int index){
         return upgradeOrder.get(index);
     }
@@ -69,4 +61,6 @@ public class PropertyCard extends AbstractCard {
     public void applyTo(AbstractPlayer player) {
         return;
     }
+
+
 }

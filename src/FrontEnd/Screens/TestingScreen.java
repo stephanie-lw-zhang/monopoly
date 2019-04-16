@@ -245,22 +245,32 @@ public class TestingScreen extends AbstractScreen {
         return testScene;
     }
 
-//    public void updateDiceView(int[] rolls) {
-//        BorderPane bPane = (BorderPane) testScene.getRoot();
-//        StackPane boardStackPane = (StackPane) bPane.getCenter();
-////        VBox playerOptionsModal = (VBox) boardStackPa
-//        ObservableList vList = boardStackPane.getChildren();
-//
-//
-//        System.out.println(boardStackPane);
-//
-//        // get children (i.e. the two die) of inner HBox in form of ImageView list
-//        ObservableList diceViews = boardStackPane.getChildren();
-//
-//        for (Object i : diceViews) {
-//            System.out.println(i);
-//        }
-//    }
+    public void updateDiceView(int[] rolls) {
+        BorderPane bPane = (BorderPane) testScene.getRoot();
+        StackPane boardStackPane = (StackPane) bPane.getCenter();
+//        VBox playerOptionsModal = (VBox) boardStackPa
+        ObservableList vList = boardStackPane.getChildren();
+
+        // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
+        // TODO: Maybe use "setUserData" for the VBox and retrieve that way
+        VBox playerOptionsModal = (VBox) vList.get(1);
+
+        // TODO: SIMILAR AS TODO ABOVE, SHOULDN'T HARDCODE FOR 0th ELEMENT
+        // TODO: In VBOX FOR INNER HBOX
+        HBox diceLayout = (HBox) playerOptionsModal.getChildren().get(0);
+
+        List<ImageView> diceViews = (ObservableList) diceLayout.getChildren();
+
+        for (int i = 0; i < rolls.length; i++) {
+            diceViews.get(i).setImage(new Image(this
+                                .getClass()
+                                .getClassLoader()
+                                .getResourceAsStream(
+                                        "dice" + rolls[i] + ".png"
+                                )
+            ));
+        }
+    }
 
 //    private Node getByUserData(Parent parent, Object data) {
 //        for (Node n : parent.getChildren()) {
