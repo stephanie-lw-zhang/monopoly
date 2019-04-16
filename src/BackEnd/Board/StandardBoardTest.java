@@ -22,7 +22,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StandardBoardTest {
-
+/**
     private StandardBoard board;
     private List<AbstractPlayer> playerList;
     private List<TileInterface> goNeighbor;
@@ -38,7 +38,12 @@ class StandardBoardTest {
         TileInterface go = new GoTile(200.0,200.0);
         JailTile jail = new JailTile();
         goNeighbor = new ArrayList<>();
+
+
 //        goNeighbor.add(new BuildingTile(new Bank(0.0), new BuildingCard("Property", 0.0,0.0, java.awt.Color.BLUE,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0), "Property", 200.0, java.awt.Color.BLACK));
+
+//        goNeighbor.add(new BuildingTile(new Bank(0.0), new BuildingCard("Property", 0.0,0.0, java.awt.Color.BLUE,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0), "Property", 200.0, java.awt.Color.BLACK));
+
         buildingNeighbor = new ArrayList<>();
         buildingNeighbor.add(jail);
         jailNeighbor = new ArrayList<>();
@@ -71,4 +76,5 @@ class StandardBoardTest {
         board.getPlayerTile(playerList.get(0)).applyLandedOnAction(playerList.get(0));
         assertEquals(buildingNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
     }
+    */
 }

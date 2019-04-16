@@ -1,21 +1,18 @@
 package Configuration;
-import java.io.File;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import java.io.ByteArrayInputStream;
-
 
 
 public class ImportXMLFile {
 
     public static void main(String args[]) {
-
+        try{
+            XMLData data = new XMLData("OriginalMonopoly.xml");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        /**
         try {
-            File xmlFile = new File("/properties/OriginalMonopoly.xml");
+            File xmlFile = new File("");
+            File xmlFile = new File("C:\\Users\\Matt Rose\\CS307\\monopoly_team05\\properties\\OriginalMonopoly.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
@@ -42,6 +39,7 @@ public class ImportXMLFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
+         */
     }
 
 }
