@@ -1,6 +1,7 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import org.w3c.dom.Element;
 
 public class GoToJailTile implements TileInterface {
 
@@ -9,6 +10,8 @@ public class GoToJailTile implements TileInterface {
     public GoToJailTile(JailTile jail) {
         this.jail = jail;
     }
+
+    public GoToJailTile(Element n){}
 
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {

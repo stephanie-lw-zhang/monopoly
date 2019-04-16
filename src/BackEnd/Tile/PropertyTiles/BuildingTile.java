@@ -6,6 +6,7 @@ import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
 import Controller.Game;
+import org.w3c.dom.Element;
 
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class BuildingTile extends AbstractPropertyTile {
         this.card = (BuildingCard)this.getCard();
         this.tilecolor = tilecolor;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
+    }
+
+    public BuildingTile(Element n){
+        super(n);
     }
 
     //store these as strings and make a hashmap of price lookup

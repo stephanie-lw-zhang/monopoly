@@ -7,6 +7,7 @@ import BackEnd.Card.AbstractCard;
 import Controller.Game;
 import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
+import org.w3c.dom.Element;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,10 @@ public abstract class AbstractPropertyTile implements TileInterface {
         this.tiletype = tiletype;
         this.tileprice = tileprice;
         this.mortgaged = false;
+    }
+
+    public AbstractPropertyTile(Element n){
+        //TODO finish this implementation
     }
 
     //fix this

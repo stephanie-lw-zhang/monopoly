@@ -11,7 +11,7 @@ import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-
+/**
     Bank bank;
     AbstractPlayer autoPlayer;
     AbstractPlayer humanPlayer;
@@ -72,5 +72,5 @@ class PlayerTest {
         autoPlayer.addProperty(tile);
         assertTrue(autoPlayer.getProperties().contains(tile));
     }
-
+*/
 }

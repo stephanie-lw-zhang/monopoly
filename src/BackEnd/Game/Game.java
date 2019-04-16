@@ -23,7 +23,7 @@ public class Game {
         this.board = board;
         this.players = players;
     }
-
+/**
     public void play(){
         while(!gameIsOver()){
             for(AbstractPlayer p: players){
@@ -46,6 +46,7 @@ public class Game {
             }
         }
     }
+ */
     public boolean gameIsOver(){
         int sum = 0;
         for(AbstractPlayer p: players){
