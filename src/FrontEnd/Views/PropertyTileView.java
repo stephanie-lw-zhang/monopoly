@@ -1,9 +1,8 @@
-package FrontEnd;
+package FrontEnd.Views;
 
+import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;

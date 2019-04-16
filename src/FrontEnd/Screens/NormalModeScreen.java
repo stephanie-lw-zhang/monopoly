@@ -1,7 +1,5 @@
 package FrontEnd.Screens;
 
-import FrontEnd.BoardView;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**

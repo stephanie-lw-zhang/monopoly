@@ -1,4 +1,4 @@
-package FrontEnd;
+package FrontEnd.Views;
 
 import javafx.scene.Node;
 
