@@ -293,6 +293,20 @@ public class TestingScreen extends AbstractScreen {
         playDiceAnimation(diceViews, rolls);
     }
 
+    public void updateCurrentPlayer(AbstractPlayer currPlayer) {
+        BorderPane bPane = (BorderPane) testScene.getRoot();
+        StackPane boardStackPane = (StackPane) bPane.getCenter();
+//        VBox playerOptionsModal = (VBox) boardStackPa
+        ObservableList vList = boardStackPane.getChildren();
+
+        // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
+        // TODO: Maybe use "setUserData" for the VBox and retrieve that way
+        VBox playerOptionsModal = (VBox) vList.get(1);
+
+        TextArea currPlayerText = (TextArea) playerOptionsModal.getChildren().get(3);
+        currPlayerText.setText(currPlayer.getMyPlayerName());
+    }
+
     public void displayRollsPopup(Turn turn) {
         int[] rolls = turn.getRolls();
 

@@ -61,8 +61,8 @@ public class Game {
         myTurn.start();
 
         myTestScreen.updateDiceView(myTurn.getRolls());
-
         myTestScreen.displayRollsPopup(myTurn);
+        myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
     }
 
     public AbstractBoard getBoard() { return myBoard; }
