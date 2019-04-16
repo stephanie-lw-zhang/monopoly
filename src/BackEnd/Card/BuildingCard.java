@@ -7,7 +7,6 @@ public class BuildingCard extends PropertyCard {
 
     private Map<String,Double> priceNeededToUpgradeLookupTable;
     private Map<String,Double> sellToBankPriceLookupTable;
-    private double multiplierForSellingToBank;
 
     public BuildingCard(Map<String, Double> buildingPriceLookupTable, double propertyMortgageValue, List<String> upgradeOrder,
                         Map<String,Double> buySingleBuildingPrice, Map<String,Double> sellToBankPriceLookupTable, Map<String,
@@ -15,13 +14,12 @@ public class BuildingCard extends PropertyCard {
         super(propertyMortgageValue, buildingPriceLookupTable, upgradeOrder, specificToBase, specificToNumeric);
         this.priceNeededToUpgradeLookupTable = buySingleBuildingPrice;
         this.sellToBankPriceLookupTable = sellToBankPriceLookupTable;
-        this.multiplierForSellingToBank = multiplierForSellingToBank;
     }
 
     public double getOneBuildingSellToBankPrice(String currentInUpgradeOrder) {
         String base = getBasePropertyType(currentInUpgradeOrder);
         //in original multiplier would be 0.5
-        return (sellToBankPriceLookupTable.get(base) * multiplierForSellingToBank);
+        return (sellToBankPriceLookupTable.get(base));
     }
 
     public double getPriceNeededToUpgradeLookupTable(String key) {
