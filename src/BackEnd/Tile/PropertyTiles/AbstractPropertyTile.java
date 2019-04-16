@@ -31,10 +31,6 @@ public abstract class AbstractPropertyTile implements TileInterface {
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
-    public AbstractPropertyTile(Element n){
-        //TODO finish this implementation
-    }
-
     //fix this
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
