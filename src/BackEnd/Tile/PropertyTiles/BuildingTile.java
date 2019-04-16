@@ -5,6 +5,7 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
+import BackEnd.Card.PropertyCard;
 import Controller.Game;
 import org.w3c.dom.Element;
 
@@ -12,14 +13,12 @@ import java.util.List;
 
 public class BuildingTile extends AbstractPropertyTile {
     private String tilecolor;
-    private String currentInUpgradeOrder;
     private BuildingCard card;
 
-    public BuildingTile(Bank bank, AbstractCard card, String tiletype, double tileprice, String tilecolor) {
+    public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor) {
         super(bank, card, tiletype, tileprice);
         this.card = (BuildingCard)this.getCard();
         this.tilecolor = tilecolor;
-        currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
     public BuildingTile(Element n){
@@ -32,7 +31,7 @@ public class BuildingTile extends AbstractPropertyTile {
             return 0;
         }
         else {
-            return card.lookupPrice(currentInUpgradeOrder);
+            return card.lookupPrice(getCurrentInUpgradeOrder());
             //REMIND LUIS ABOUT THIS?
 //            else {
 //                if (checkIfPlayerOwnsAllOfOneColor(game.getBoard().getColorListMap().get(this.getTilecolor()))) {
@@ -58,7 +57,7 @@ public class BuildingTile extends AbstractPropertyTile {
      */
     public void sellAllBuildingsOnTile() {
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
-        currentInUpgradeOrder = card.getUpgradeOrderAtIndex(0);
+        setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
         getBank().paysTo(getOwner(),sellToBankPrice());
     }
 
@@ -69,7 +68,7 @@ public class BuildingTile extends AbstractPropertyTile {
     public void sellOneAtATime(List<AbstractPropertyTile> properties) {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
-        currentInUpgradeOrder = card.previousInUpgradeOrder(currentInUpgradeOrder);
+        setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
     @Override
@@ -88,9 +87,9 @@ public class BuildingTile extends AbstractPropertyTile {
 //        List<AbstractPropertyTile> properties = board.getColorListMap().get(this.getTilecolor());
         if (checkIfPlayerOwnsAllOfOneColor(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true)) {
             //throw exception if not caught in nextInUpgradeOrder
-            double payment = card.getPriceNeededToUpgradeLookupTable(currentInUpgradeOrder);
+            double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
             player.paysTo(getBank(), payment);
-            currentInUpgradeOrder = card.nextInUpgradeOrder(currentInUpgradeOrder);
+            setCurrentInUpgradeOrder(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
         }
     }
@@ -134,7 +133,7 @@ public class BuildingTile extends AbstractPropertyTile {
         if (!isMortgaged()) {
 //  REMIND LUIS: DIVIDE BY 2 for selling back to bank
 //            return (numberOfHouses * card.lookupPrice(currentInUpgradeOrder) + numberOfHotels * card.getPropertyHotelPrice()) / 2;
-            return card.getOneBuildingSellToBankPrice(currentInUpgradeOrder);
+            return card.getOneBuildingSellToBankPrice(getCurrentInUpgradeOrder());
         }
         else {
             //throw exception: CANNOT SELL WHEN MORTGAGED
@@ -155,14 +154,10 @@ public class BuildingTile extends AbstractPropertyTile {
 //    }
 
     public boolean checkIfMortgagingImprovedProperty() {
-        return (card.getUpgradeOrderIndexOf(currentInUpgradeOrder) > 0);
+        return (card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) > 0);
     }
 
     public String getTilecolor() {
         return tilecolor;
-    }
-
-    public String getCurrentInUpgradeOrder() {
-        return currentInUpgradeOrder;
     }
 }
