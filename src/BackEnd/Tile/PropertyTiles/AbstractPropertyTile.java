@@ -3,8 +3,6 @@ package BackEnd.Tile.PropertyTiles;
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
-import BackEnd.Card.AbstractCard;
-import Controller.Game;
 import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
 import org.w3c.dom.Element;
@@ -74,7 +72,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
         this.owner = player;
     }
 
-    public AbstractCard getCard() {
+    public PropertyCard getCard() {
         return card;
     }
 
@@ -99,7 +97,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
         switchOwner(assetHolder);
     }
 
-    public abstract double calculateRentPrice(Game game);
+    public abstract double calculateRentPrice(int roll);
 
     public Bank getBank() {
         return bank;

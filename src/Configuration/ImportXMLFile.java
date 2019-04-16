@@ -20,6 +20,7 @@ public class ImportXMLFile {
         }
         /**
         try {
+            File xmlFile = new File("");
             File xmlFile = new File("C:\\Users\\Matt Rose\\CS307\\monopoly_team05\\properties\\OriginalMonopoly.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
