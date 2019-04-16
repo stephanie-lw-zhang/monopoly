@@ -49,7 +49,7 @@ public class MonopolyDriver extends Application {
         dialogVBox.getChildren().add(new Text("This is a Dialog"));
         dialogVBox.getChildren().add(button);
         //button.setOnAction(e -> execute());
-        Scene dialogScene = new Scene(dialogVBox, 300, 200);
+        Scene dialogScene = new Scene(dialogVBox, 300, 300);
         dialog.setScene(dialogScene);
         dialog.show();
     }
