@@ -3,6 +3,7 @@ package BackEnd.Tile.DrawCardTiles;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
 import BackEnd.Tile.TileInterface;
+import org.w3c.dom.Element;
 
 public abstract class AbstractDrawCardTile implements TileInterface {
 
@@ -10,6 +11,10 @@ public abstract class AbstractDrawCardTile implements TileInterface {
 
     public AbstractDrawCardTile(DeckInterface deck) {
         myDeck = deck;
+    }
+
+    public AbstractDrawCardTile(Element n){
+        //TODO: Finish this implementation
     }
 
     @Override
@@ -21,5 +26,6 @@ public abstract class AbstractDrawCardTile implements TileInterface {
     public void applyPassedAction(AbstractPlayer player) {
         return;
     }
+
 
 }
