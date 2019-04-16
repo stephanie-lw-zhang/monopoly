@@ -51,7 +51,7 @@ public class Game {
     public void handleRollButton() {
         int[] rolls = myTurn.rollDice(2);
 
-//        myTestScreen.updateDiceView(rolls);
+        myTestScreen.updateDiceView(rolls);
 
 //        BorderPane bPane = (BorderPane) myTestScreen.getMyScene().getRoot();
 
