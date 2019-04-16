@@ -204,13 +204,21 @@ public class TestingScreen extends AbstractScreen {
         dice2.setFitWidth(30);
 
         diceLayout.getChildren().addAll(dice1, dice2);
+        diceLayout.setAlignment(Pos.CENTER_LEFT);
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());
         playersText.setEditable(false);
-        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 300");
+        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
 
-        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText);
+        TextArea currPlayerText = new TextArea();
+        currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
+        currPlayerText.setEditable(false);
+        currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
+
+        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText);
+        playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
+        playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
 
         boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
 

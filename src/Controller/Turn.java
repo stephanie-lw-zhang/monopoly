@@ -158,9 +158,12 @@ public class Turn {
         return new HashSet<Integer>((Collection) Arrays.asList(rolls)).size() == 1;
     }
 
+
     public boolean isTurnOver(){
         return isTurnOver;
     }
 
+    public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
+
 }
