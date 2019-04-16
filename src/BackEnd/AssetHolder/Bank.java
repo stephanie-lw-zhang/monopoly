@@ -28,7 +28,7 @@ public class Bank extends AbstractAssetHolder {
             //assume the current in upgrade order is what you want upgrade to
             BuildingCard card = (BuildingCard) property.getCard();
             String baseKey = card.getBasePropertyType(((BuildingTile) property).getCurrentInUpgradeOrder());
-            Integer baseValue = card.getNumericValueofPropertyType(((BuildingTile) property).getCurrentInUpgradeOrder());
+            Integer baseValue = card.getNumericValueOfPropertyType(((BuildingTile) property).getCurrentInUpgradeOrder());
             totalPropertiesLeft.put(baseKey, totalPropertiesLeft.get(baseKey) + baseValue);
         }
     }
@@ -37,12 +37,12 @@ public class Bank extends AbstractAssetHolder {
         if (property instanceof  BuildingTile) {
             BuildingCard card = (BuildingCard) property.getCard();
             String baseKey = card.getBasePropertyType(((BuildingTile) property).getCurrentInUpgradeOrder());
-            Integer baseValue = card.getNumericValueofPropertyType(((BuildingTile) property).getCurrentInUpgradeOrder());
+            Integer baseValue = card.getNumericValueOfPropertyType(((BuildingTile) property).getCurrentInUpgradeOrder());
             int currentIndex = card.getUpgradeOrderIndexOf(((BuildingTile) property).getCurrentInUpgradeOrder());
             if(currentIndex > 0){
                 String previous = card.getUpgradeOrderAtIndex(currentIndex - 1);
                 String previousBaseKey = card.getBasePropertyType(previous);
-                Integer previousBaseValue = card.getNumericValueofPropertyType(previous);
+                Integer previousBaseValue = card.getNumericValueOfPropertyType(previous);
                 totalPropertiesLeft.put(previousBaseKey, totalPropertiesLeft.get(previousBaseKey) + previousBaseValue);
             }
             totalPropertiesLeft.put(baseKey, totalPropertiesLeft.get(baseKey) - baseValue);
