@@ -32,7 +32,7 @@ public class MonopolyDriver extends Application {
 
         myStage.setScene(myIntroScene);
         myStage.setTitle(TITLE);
-        myIntroScene.setOnKeyPressed(f-> handleKeyInput(f.getCode()));
+        myIntroScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
         myStage.show();
     }
 

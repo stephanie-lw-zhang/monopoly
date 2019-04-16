@@ -167,6 +167,7 @@
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
         <TileName>States Avenue</TileName>
+        <TilePrice>140</TilePrice>
         <TileRent>10</TileRent>
         <TileRentWithColorSet>20</TileRentWithColorSet>
         <TileRent1House>50</TileRent1House>
@@ -184,6 +185,7 @@
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
         <TileName>Virginia Avenue</TileName>
+        <TilePrice>160</TilePrice>
         <TileRent>12</TileRent>
         <TileRentWithColorSet>24</TileRentWithColorSet>
         <TileRent1House>60</TileRent1House>
@@ -254,7 +256,7 @@
         <TileNumber>19</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
-        <TileName>Tennessee Avenue</TileName>
+        <TileName>New York Avenue</TileName>
         <TilePrice>200</TilePrice>
         <TileRent>16</TileRent>
         <TileRentWithColorSet>32</TileRentWithColorSet>

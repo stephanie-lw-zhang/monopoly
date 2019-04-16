@@ -13,6 +13,7 @@
         <TileType>Property</TileType>
         <TileColor>Brown</TileColor>
         <TileName>Chris's Closet</TileName>
+        <TilePrice></TilePrice>
         <TileRent>2</TileRent>
         <TileRentWithColorSet>4</TileRentWithColorSet>
         <TileRent1House>10</TileRent1House>
@@ -34,6 +35,7 @@
         <TileType>Property</TileType>
         <TileColor>Brown</TileColor>
         <TileName>Happy-Go-Lucky Toys</TileName>
+        <TilePrice></TilePrice>
         <TileRent>4</TileRent>
         <TileRentWithColorSet>8</TileRentWithColorSet>
         <TileRent1House>20</TileRent1House>
@@ -56,6 +58,7 @@
         <TileType>Property</TileType>
         <TileColor>None</TileColor>
         <TileName>Peter's Fishing Boat</TileName>
+        <TilePrice></TilePrice>
         <TileRent>25</TileRent>
         <TileRent2Stations>50</TileRent2Stations>
         <TileRent3Stations>100</TileRent3Stations>

@@ -8,6 +8,8 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
+
 /**
  * Makes the Screen (Scene object) on first load of this
  * game app.
@@ -17,8 +19,8 @@ import javafx.util.Duration;
  */
 public class ViewMaker {
 
-    private static final int SCREEN_WIDTH = 600;
-    private static final int SCREEN_HEIGHT = 400;
+    private static final double SCREEN_WIDTH  = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    private static final double SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
     private double FRAMES_PER_SECOND = 3;
     private double MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
