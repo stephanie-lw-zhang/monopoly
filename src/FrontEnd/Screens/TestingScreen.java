@@ -22,10 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
@@ -202,7 +199,12 @@ public class TestingScreen extends AbstractScreen {
 
         diceLayout.getChildren().addAll(dice1, dice2);
 
-        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON);
+        TextArea playersText = new TextArea();
+        playersText.setText("Joined Players: \n" + getPlayersText());
+        playersText.setEditable(false);
+        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 300");
+
+        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText);
 
         boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
 
@@ -211,6 +213,13 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
+    }
+
+    private String getPlayersText() {
+        StringBuilder sb = new StringBuilder();
+        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList())
+            sb.append(p.getMyPlayerName() + "\n");
+        return sb.toString();
     }
 
     private AbstractBoard makeBoard(List<TextField> playerFields) {
