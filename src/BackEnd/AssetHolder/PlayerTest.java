@@ -1,16 +1,6 @@
 
 package BackEnd.AssetHolder;
 
-import BackEnd.Card.BuildingCard;
-import BackEnd.Card.PropertyCard;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.awt.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class PlayerTest {
 /**
     Bank bank;

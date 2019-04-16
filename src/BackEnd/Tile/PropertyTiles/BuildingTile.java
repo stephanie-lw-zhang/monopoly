@@ -3,10 +3,8 @@ package BackEnd.Tile.PropertyTiles;
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
-import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Card.PropertyCard;
-import Controller.Game;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class BuildingTile extends AbstractPropertyTile {
     }
 
     //store these as strings and make a hashmap of price lookup
-    public double calculateRentPrice(Game game) {
+    public double calculateRentPrice(int roll) {
         if (isMortgaged()) {
             return 0;
         }

@@ -3,7 +3,7 @@ package BackEnd.Card;
 import java.util.List;
 import java.util.Map;
 
-public class BuildingCard extends PropertyCard {
+public class BuildingCard extends PropertyCard{
 
     private Map<String,Double> priceNeededToUpgradeLookupTable;
     private Map<String,Double> sellToBankPriceLookupTable;
