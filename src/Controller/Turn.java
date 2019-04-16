@@ -63,6 +63,10 @@ public class Turn {
 //        canRollDie = false;
     }
 
+    public void skipTurn() {
+        myCurrPlayer= getNextPlayer();
+    }
+
     private AbstractPlayer getNextPlayer() {
         Iterator<AbstractPlayer> iterator = myBoard.getMyPlayerList().iterator();
 

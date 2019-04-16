@@ -64,7 +64,7 @@ public class TestingScreen extends AbstractScreen {
     private Game      myGame;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
-    private final Button END_TURN = new Button("END TURN");
+    private final Button END_TURN_BUTTON = new Button("END TURN");
 
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
@@ -216,7 +216,7 @@ public class TestingScreen extends AbstractScreen {
         currPlayerText.setEditable(false);
         currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
 
-        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText);
+        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText, END_TURN_BUTTON);
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
         playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
 

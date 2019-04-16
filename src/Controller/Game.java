@@ -51,10 +51,19 @@ public class Game {
         // TODO: In VBOX FOR INNER HBOX
         Button rollButton = (Button) playerOptionsModal.getChildren().get(1);
         rollButton.setOnAction(f -> handleRollButton());
+
+        // TODO: REFLECTION FOR ALL OF THIS
+        Button endTurnButton = (Button) playerOptionsModal.getChildren().get(4);
+        endTurnButton.setOnAction(f -> handleEndTurnButton());
     }
 
     public int[] rollValue() {
         return myTurn.rollDice(2);
+    }
+
+    public void handleEndTurnButton() {
+        myTurn.skipTurn();
+        myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
     }
 
     public void handleRollButton() {
