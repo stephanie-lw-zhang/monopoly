@@ -1,4 +1,4 @@
-package BackEnd.Tile.DrawCardTiles;
+package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;

@@ -10,11 +10,8 @@ package BackEnd.Board;
  */
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.JailTile;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
+import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.TileInterface;
-import BackEnd.Tile.GoTile;
-import javafx.scene.paint.Color;
 
 import java.util.*;
 

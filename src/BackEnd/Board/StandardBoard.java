@@ -6,13 +6,9 @@ package BackEnd.Board;
  */
 
 import BackEnd.AssetHolder.AbstractPlayer;
-import BackEnd.Tile.GoTile;
 import BackEnd.Tile.GoToJailTile;
-import BackEnd.Tile.JailTile;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
+import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.TileInterface;
-import javafx.scene.paint.Color;
 
 import java.util.List;
 import java.util.Map;

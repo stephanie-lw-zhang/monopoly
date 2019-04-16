@@ -1,21 +1,5 @@
 package BackEnd.AssetHolder;
 
-import BackEnd.AssetHolder.AbstractPlayer;
-import BackEnd.AssetHolder.AutomatedPlayer;
-import BackEnd.AssetHolder.Bank;
-import BackEnd.Board.AbstractBoard;
-import BackEnd.Board.StandardBoard;
-import BackEnd.Card.BuildingCard;
-import BackEnd.Tile.GoTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class BankTest {
 /**
     private Bank bank;

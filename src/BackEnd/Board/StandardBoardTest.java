@@ -1,26 +1,5 @@
 package BackEnd.Board;
 
-import BackEnd.AssetHolder.AbstractPlayer;
-import BackEnd.AssetHolder.Bank;
-import BackEnd.AssetHolder.HumanPlayer;
-import BackEnd.Board.StandardBoard;
-import BackEnd.Card.BuildingCard;
-import BackEnd.Tile.GoToJailTile;
-import BackEnd.Tile.JailTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
-import BackEnd.Tile.TileInterface;
-import BackEnd.Tile.GoTile;
-import javafx.scene.paint.Color;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class StandardBoardTest {
 /**
     private StandardBoard board;

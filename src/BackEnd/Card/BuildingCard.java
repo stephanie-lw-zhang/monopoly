@@ -17,7 +17,6 @@ public class BuildingCard extends PropertyCard{
         this.priceNeededToUpgradeLookupTable = buySingleBuildingPrice;
         this.sellToBankPriceLookupTable = sellToBankPriceLookupTable;
         this.specificToBase = specificToBase;
-
     }
 
     public double getOneBuildingSellToBankPrice(String currentInUpgradeOrder) {

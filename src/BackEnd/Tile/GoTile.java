@@ -20,6 +20,10 @@ public class GoTile implements TileInterface {
         this.passedMoney = Integer.parseInt(getTagValue("PassedMoney", n));
     }
 
+    public double getLandedOnMoney() {
+        return landedOnMoney;
+    }
+
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
         player.setMoney(player.getMoney() + landedOnMoney);
@@ -30,7 +34,7 @@ public class GoTile implements TileInterface {
         player.setMoney(player.getMoney() + passedMoney);
     }
 
-    private static String getTagValue(String tag, Element element) {
+    private String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
         return node.getNodeValue();

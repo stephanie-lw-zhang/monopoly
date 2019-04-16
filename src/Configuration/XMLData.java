@@ -1,6 +1,8 @@
 package Configuration;
 
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
+import BackEnd.AssetHolder.Bank;
+import BackEnd.Board.AbstractBoard;
+import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.TileInterface;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,8 +22,11 @@ public class XMLData {
 
     private Map<TileInterface, List<TileInterface>> adjacencyList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
+    //private Bank bank;
+    private AbstractBoard board;
 
     public XMLData(String fileName) throws Exception {
+        //this.bank = bank;
         File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
@@ -45,13 +50,16 @@ public class XMLData {
         }
     }
 
-    private static TileInterface getTile(Node node) throws Exception {
+    private TileInterface getTile(Node node) throws Exception {
         TileInterface tile;
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element element = (Element) node;
             String tileType = getTagValue("TileType", element);
-            System.out.println(tileType);
-            tile = (TileInterface) Class.forName("BackEnd.Tile." + tileType).getConstructor(Element.class).newInstance(element);
+            //System.out.println(tileType);
+            if(tileType.equalsIgnoreCase("BuildingTile")){
+                tile = (TileInterface) Class.forName("BackEnd.Tile." + tileType).getConstructor(Element.class, Bank.class).newInstance(element, bank);
+            }
+            else tile = (TileInterface) Class.forName("BackEnd.Tile." + tileType).getConstructor(Element.class).newInstance(element);
             return tile;
         }
         else{
@@ -63,5 +71,9 @@ public class XMLData {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
         return node.getNodeValue();
+    }
+
+    public AbstractBoard getBoard(){
+        return board;
     }
 }

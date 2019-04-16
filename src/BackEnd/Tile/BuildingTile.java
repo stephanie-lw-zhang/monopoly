@@ -1,11 +1,10 @@
-package BackEnd.Tile.PropertyTiles;
+package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Card.PropertyCard;
-import org.w3c.dom.Element;
 
 import java.util.List;
 
@@ -19,9 +18,9 @@ public class BuildingTile extends AbstractPropertyTile {
         this.tilecolor = tilecolor;
     }
 
-    public BuildingTile(Element n){
-        super(n);
-    }
+    //public BuildingTile(Element n){
+    //    super(n);
+    //}
 
     //store these as strings and make a hashmap of price lookup
     public double calculateRentPrice(int roll) {
