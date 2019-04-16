@@ -3,10 +3,9 @@ package BackEnd.Tile.PropertyTiles;
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
-import BackEnd.Card.AbstractCard;
-import Controller.Game;
 import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
+import org.w3c.dom.Element;
 
 import java.util.List;
 import java.util.Map;
@@ -18,15 +17,22 @@ public abstract class AbstractPropertyTile implements TileInterface {
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
-    private AbstractCard card;
+    private PropertyCard card;
+    private String currentInUpgradeOrder;
 
-    public AbstractPropertyTile(Bank bank, AbstractCard card, String tiletype, double tileprice) {
+    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         this.owner = bank;
         this.bank = bank;
+        //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
         this.tileprice = tileprice;
         this.mortgaged = false;
+        currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
+    }
+
+    public AbstractPropertyTile(Element n){
+        //TODO finish this implementation
     }
 
     //fix this
@@ -66,7 +72,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
         this.owner = player;
     }
 
-    public AbstractCard getCard() {
+    public PropertyCard getCard() {
         return card;
     }
 
@@ -90,7 +96,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
         switchOwner(assetHolder);
     }
 
-    public abstract double calculateRentPrice(Game game);
+    public abstract double calculateRentPrice(int roll);
 
     public Bank getBank() {
         return bank;
@@ -160,6 +166,14 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     public AbstractPlayer getAuctionWinner(Map<AbstractPlayer,Double> auctionBidValues){
         return determineAuctionResults(auctionBidValues).getKey();
+    }
+
+    public String getCurrentInUpgradeOrder() {
+        return currentInUpgradeOrder;
+    }
+
+    public void setCurrentInUpgradeOrder(String newOrder) {
+        currentInUpgradeOrder = newOrder;
     }
 
     //    public boolean isRentNeeded(AbstractPlayer player) {

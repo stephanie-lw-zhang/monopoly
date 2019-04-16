@@ -4,6 +4,7 @@ import BackEnd.Card.AbstractCard;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -114,8 +115,27 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         return totalAssetValue;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractPlayer)) return false;
+        if (!super.equals(o)) return false;
+        AbstractPlayer that = (AbstractPlayer) o;
+        // TODO: UNCOMMENT WHEN ICONS ARE DONE
+//        return getIcon().equals(that.getIcon()) &&
+//                getMyPlayerName().equals(that.getMyPlayerName());
+        return getMyPlayerName().equals(that.getMyPlayerName());
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO: UNCOMMENT WHEN ICONS ARE DONE
+//        return Objects.hash(getIcon(), getMyPlayerName());
+        return Objects.hash(getMyPlayerName());
+    }
+
+    public String getMyPlayerName() { return myPlayerName; }
     public Bank getBank() {
         return bank;
     }
-
 }
