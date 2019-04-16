@@ -25,10 +25,10 @@ public class Game {
     private AbstractBoard myBoard;
     private List<AbstractPlayer> myPlayers;
     private Turn myTurn;
-    private AbstractScreen myTestScreen;
+    private TestingScreen myTestScreen;
     //private Bank bank;
 
-    public Game(AbstractScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board) {
+    public Game(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board) {
         this.myDice = dice;
         this.chanceDeck = chanceDeck;
         this.chestDeck = chestDeck;
@@ -51,6 +51,8 @@ public class Game {
     public void handleRollButton() {
         int[] rolls = myTurn.rollDice(2);
 
+//        myTestScreen.updateDiceView(rolls);
+
 //        BorderPane bPane = (BorderPane) myTestScreen.getMyScene().getRoot();
 
         Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
@@ -68,4 +70,5 @@ public class Game {
     public AbstractBoard getBoard() {
         return myBoard;
     }
+    public AbstractDice getMyDice() { return myDice; }
 }

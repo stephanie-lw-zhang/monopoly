@@ -23,4 +23,6 @@ public abstract class AbstractDice {
     public int roll() {
         return new Random().nextInt(numStates) + 1;
     }
+
+    public int getNumStates() { return numStates; }
 }
