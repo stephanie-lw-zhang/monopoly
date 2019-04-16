@@ -1,6 +1,7 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import org.w3c.dom.Element;
 
 public class FreeParkingTile implements TileInterface {
 
@@ -10,6 +11,8 @@ public class FreeParkingTile implements TileInterface {
     public FreeParkingTile(double landedOnMoney){
         //this.landedOnMoney = landedOnMoney;
     }
+
+    public FreeParkingTile(Element n){}
 
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {
