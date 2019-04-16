@@ -6,6 +6,7 @@ import BackEnd.Card.AbstractCard;
 import BackEnd.Card.PropertyCard;
 import BackEnd.Card.RailroadCard;
 import Controller.Game;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,10 @@ public class RailroadTile extends AbstractPropertyTile {
     public RailroadTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         super(bank, card, tiletype, tileprice);
         this.card = (RailroadCard)card;
+    }
+
+    public RailroadTile(Element n){
+        super(n);
     }
 
     public double calculateRentPrice(Game game) {

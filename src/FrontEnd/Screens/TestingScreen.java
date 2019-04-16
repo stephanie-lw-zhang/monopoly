@@ -11,11 +11,14 @@ import BackEnd.Tile.GoTile;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
 import BackEnd.Tile.TileInterface;
 import FrontEnd.BoardView;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -69,7 +72,8 @@ public class TestingScreen extends AbstractScreen {
     @Override
     public void makeScreen() {
         BorderPane bPane = new BorderPane();
-        GridPane form = new GridPane();
+        VBox form = new VBox();
+        form.setSpacing(10);
 
         ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
         backgroundImg.setFitWidth(screenWidth);
@@ -79,37 +83,44 @@ public class TestingScreen extends AbstractScreen {
 
         Label headerLabel = new Label("Enter Player Information: ");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        form.add(headerLabel, 0,0,2,1);
-        GridPane.setHalignment(headerLabel, HPos.CENTER);
-        GridPane.setMargin(headerLabel, new Insets(20, 0,20,0));
 
         Label p1Name = new Label("Player 1 Name: ");
-        form.add(p1Name, 0, 1);
         TextField p1Field = new TextField();
-        p1Field.setPrefHeight(40);
-        form.add(p1Field, 1,1);
+        p1Field.setPrefHeight(30);
+        p1Field.setMaxWidth(200);
 
         Label p2Name = new Label("Player 2 Name: ");
-        form.add(p2Name, 0, 2);
         TextField p2Field = new TextField();
-        p2Field.setPrefHeight(40);
-        form.add(p2Field, 1,2);
+        p2Field.setPrefHeight(30);
+        p2Field.setMaxWidth(200);
 
         Label p3Name = new Label("Player 3 Name: ");
-        form.add(p3Name, 0, 3);
         TextField p3Field = new TextField();
-        p3Field.setPrefHeight(40);
-        form.add(p3Field, 1,3);
+        p3Field.setPrefHeight(30);
+        p3Field.setMaxWidth(200);
 
         Label p4Name = new Label("Player 4 Name: ");
-        form.add(p4Name, 0, 4);
         TextField p4Field = new TextField();
-        p4Field.setPrefHeight(40);
-        form.add(p4Field, 1,4);
+        p4Field.setPrefHeight(30);
+        p4Field.setMaxWidth(200);
 
         Button startGameButton = new Button("START GAME");
-        startGameButton.setPrefHeight(40);
-        startGameButton.setPrefWidth(200);
+        startGameButton.setPrefHeight(20);
+        startGameButton.setPrefWidth(150);
+
+        form.getChildren().addAll(
+                headerLabel,
+                p1Name, p1Field,
+                p2Name, p2Field,
+                p3Name, p3Field,
+                p4Name, p4Field,
+                startGameButton
+        );
+
+        form.setStyle("-fx-background-color: #FFFFFF;");
+        form.setMaxSize(screenWidth, 400);
+        form.setPadding(new Insets(30, 0, 0, 30));
+
         List<TextField> playerFields = new ArrayList<>();
         playerFields.add(p1Field);
         playerFields.add(p2Field);
@@ -127,9 +138,7 @@ public class TestingScreen extends AbstractScreen {
         backToMainButton.setOnAction(f -> handleBackToMainButton(getMyStage()));
 
         bPane.setAlignment(form, Pos.CENTER);
-        bPane.setTop(form);
-        bPane.setAlignment(startGameButton, Pos.CENTER);
-        bPane.setCenter(startGameButton);
+        bPane.setCenter(form);
         bPane.setAlignment(backToMainButton, Pos.CENTER);
         bPane.setBottom(backToMainButton);
 
@@ -154,29 +163,48 @@ public class TestingScreen extends AbstractScreen {
 
         BorderPane bPane = (BorderPane) testScene.getRoot();
 
-        StackPane boardStackModal = new StackPane();
+        StackPane boardStackPane = new StackPane();
 
-        TilePane playerOptionsModal = new TilePane();
+//        TilePane playerOptionsModal= new TilePane();
+        VBox playerOptionsModal = new VBox();
+         playerOptionsModal.setSpacing(10);
 //        playerOptionsModal.getChildren().add(ROLL_BUTTON);
+
+        HBox diceLayout = new HBox();
+        diceLayout.setSpacing(5);
+        diceLayout.setUserData("diceLayout");
 
         ImageView dice1 = new ImageView();
         dice1.setImage(new Image(this
                 .getClass()
                 .getClassLoader()
                 .getResourceAsStream(
-                        "dice" + new Random().nextInt() + ".png"
+                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
                 )
         ));
+        dice1.setFitHeight(30);
+        dice1.setFitWidth(30);
 
         ImageView dice2 = new ImageView();
-        dice2.setImage(new Image(this.getClass().getClassLoader().getResourceAsStream("dice1.png")));
+        dice2.setImage(new Image(this
+                .getClass()
+                .getClassLoader()
+                .getResourceAsStream(
+                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+                )
+        ));
+        dice2.setFitHeight(30);
+        dice2.setFitWidth(30);
 
-        playerOptionsModal.getChildren().addAll(ROLL_BUTTON, dice1, dice2);
+        diceLayout.getChildren().addAll(dice1, dice2);
 
-        boardStackModal.getChildren().addAll(myBoardView.getBoardPane(), ROLL_BUTTON, playerOptionsModal);
+        // playerOptionsModal.getChildren().addAll(ROLL_BUTTON, dice1, dice2);
+        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON);
 
-        bPane.setCenter(null); // gets rid of startGameButton
-        bPane.setTop(boardStackModal);
+        boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
+
+        bPane.setTop(null);
+        bPane.setCenter(boardStackPane);
 
         ROLL_BUTTON.setOnAction(f -> myGame.handleRollButton());
     }
@@ -216,4 +244,41 @@ public class TestingScreen extends AbstractScreen {
     public Scene getTestScene() {
         return testScene;
     }
+
+    public void updateDiceView(int[] rolls) {
+        BorderPane bPane = (BorderPane) testScene.getRoot();
+        StackPane boardStackPane = (StackPane) bPane.getCenter();
+//        VBox playerOptionsModal = (VBox) boardStackPa
+        ObservableList vList = boardStackPane.getChildren();
+
+        // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
+        // TODO: Maybe use "setUserData" for the VBox and retrieve that way
+        VBox playerOptionsModal = (VBox) vList.get(1);
+
+        // TODO: SIMILAR AS TODO ABOVE, SHOULDN'T HARDCODE FOR 0th ELEMENT
+        // TODO: In VBOX FOR INNER HBOX
+        HBox diceLayout = (HBox) playerOptionsModal.getChildren().get(0);
+
+        List<ImageView> diceViews = (ObservableList) diceLayout.getChildren();
+
+        for (int i = 0; i < rolls.length; i++) {
+            diceViews.get(i).setImage(new Image(this
+                                .getClass()
+                                .getClassLoader()
+                                .getResourceAsStream(
+                                        "dice" + rolls[i] + ".png"
+                                )
+            ));
+        }
+    }
+
+//    private Node getByUserData(Parent parent, Object data) {
+//        for (Node n : parent.getChildren()) {
+//            if (data.equals(n.getUserData())) {
+//                return n;
+//            }
+//        }
+//        return null;
+//    }
+
 }

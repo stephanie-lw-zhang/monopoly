@@ -7,6 +7,7 @@ import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Card.PropertyCard;
 import Controller.Game;
+import org.w3c.dom.Element;
 
 import java.util.List;
 
@@ -18,6 +19,10 @@ public class BuildingTile extends AbstractPropertyTile {
         super(bank, card, tiletype, tileprice);
         this.card = (BuildingCard)this.getCard();
         this.tilecolor = tilecolor;
+    }
+
+    public BuildingTile(Element n){
+        super(n);
     }
 
     //store these as strings and make a hashmap of price lookup

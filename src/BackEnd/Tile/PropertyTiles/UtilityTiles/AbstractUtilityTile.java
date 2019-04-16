@@ -5,6 +5,7 @@ import BackEnd.Card.AbstractCard;
 import BackEnd.Card.PropertyCard;
 import Controller.Game;
 import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
+import org.w3c.dom.Element;
 
 public abstract class AbstractUtilityTile extends AbstractPropertyTile {
     private Double rentMultiplierOwnSingle = 4.0;
@@ -14,6 +15,10 @@ public abstract class AbstractUtilityTile extends AbstractPropertyTile {
 
     public AbstractUtilityTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         super( bank, card, tiletype, tileprice );
+    }
+
+    public AbstractUtilityTile(Element n){
+        super(n);
     }
 
 //    public void setRoll(AbstractPlayer p) {
