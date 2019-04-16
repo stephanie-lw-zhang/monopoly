@@ -114,6 +114,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         return totalAssetValue;
     }
 
+    public String getMyPlayerName() { return myPlayerName; }
     public Bank getBank() {
         return bank;
     }

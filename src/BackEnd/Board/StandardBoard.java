@@ -19,8 +19,12 @@ import java.util.Map;
 
 public class StandardBoard extends AbstractBoard {
 
-    public StandardBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<String, List<AbstractPropertyTile>> colorListMap, TileInterface go) {
-        super(playerList, adjacencyList, colorListMap, go, 2);
+    public StandardBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, TileInterface go) {
+        super(playerList, adjacencyMap, colorListMap, go, 2);
+    }
+
+    public Map<TileInterface, List<TileInterface>> makeAdjacencyMap() {
+        return null;
     }
 
     public void movePlayer(AbstractPlayer p, int numMoves) {
