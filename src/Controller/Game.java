@@ -35,7 +35,7 @@ public class Game {
         myTestScreen = view;
 
         // make first param list of players
-        myTurn = new Turn(new HumanPlayer("Example", 200.0, new Bank(200.0, new HashMap<String, Integer>())), myDice, myBoard);
+        myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
     public void startGameLoop() {
@@ -61,10 +61,11 @@ public class Game {
         myTurn.start();
 
         myTestScreen.updateDiceView(myTurn.getRolls());
-
         myTestScreen.displayRollsPopup(myTurn);
+        myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
     }
 
     public AbstractBoard getBoard() { return myBoard; }
     public AbstractDice getMyDice() { return myDice; }
+    public Turn getMyTurn() { return myTurn; }
 }

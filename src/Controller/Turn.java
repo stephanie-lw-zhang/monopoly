@@ -56,8 +56,22 @@ public class Turn {
         // TODO: send myRolls to FE to be displayed
         int numMoves = getNumMoves();
 
-        if (isDoubleRoll(myRolls))
-        canRollDie = false;
+        myCurrPlayer = getNextPlayer();
+
+        // TODO: ADD RULES FOR DOUBLE ROLLS
+//        if (isDoubleRoll(myRolls))
+//        canRollDie = false;
+    }
+
+    private AbstractPlayer getNextPlayer() {
+        Iterator<AbstractPlayer> iterator = myBoard.getMyPlayerList().iterator();
+
+        while (iterator.hasNext()) {
+            AbstractPlayer current = iterator.next();
+            if (current.equals(myCurrPlayer) && iterator.hasNext())  // employs custom AbstractPlayer.equals()
+                return iterator.next(); // get next player if myCurrPlayer not last element
+        }
+        return myBoard.getMyPlayerList().get(0); // reached end of list thus modulo to beginning
     }
 
     public void onAction(Actions action) {
@@ -158,9 +172,12 @@ public class Turn {
         return new HashSet<Integer>((Collection) Arrays.asList(rolls)).size() == 1;
     }
 
+
     public boolean isTurnOver(){
         return isTurnOver;
     }
 
+    public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
+
 }

@@ -204,13 +204,21 @@ public class TestingScreen extends AbstractScreen {
         dice2.setFitWidth(30);
 
         diceLayout.getChildren().addAll(dice1, dice2);
+        diceLayout.setAlignment(Pos.CENTER_LEFT);
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());
         playersText.setEditable(false);
-        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 300");
+        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
 
-        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText);
+        TextArea currPlayerText = new TextArea();
+        currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
+        currPlayerText.setEditable(false);
+        currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
+
+        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText);
+        playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
+        playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
 
         boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
 
@@ -283,6 +291,20 @@ public class TestingScreen extends AbstractScreen {
         List<ImageView> diceViews = (ObservableList) diceLayout.getChildren();
 
         playDiceAnimation(diceViews, rolls);
+    }
+
+    public void updateCurrentPlayer(AbstractPlayer currPlayer) {
+        BorderPane bPane = (BorderPane) testScene.getRoot();
+        StackPane boardStackPane = (StackPane) bPane.getCenter();
+//        VBox playerOptionsModal = (VBox) boardStackPa
+        ObservableList vList = boardStackPane.getChildren();
+
+        // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
+        // TODO: Maybe use "setUserData" for the VBox and retrieve that way
+        VBox playerOptionsModal = (VBox) vList.get(1);
+
+        TextArea currPlayerText = (TextArea) playerOptionsModal.getChildren().get(3);
+        currPlayerText.setText(currPlayer.getMyPlayerName());
     }
 
     public void displayRollsPopup(Turn turn) {
