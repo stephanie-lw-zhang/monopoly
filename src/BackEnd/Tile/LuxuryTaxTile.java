@@ -1,29 +1,25 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
-import org.w3c.dom.Element;
+import BackEnd.AssetHolder.Bank;
+import BackEnd.Tile.AbstractTaxTile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoToJailTile extends Tile {
+public class LuxuryTaxTile extends AbstractTaxTile {
 
-    private JailTile jail;
-
-    public GoToJailTile(JailTile jail) {
-        this.jail = jail;
+    public LuxuryTaxTile(int money, Bank bank) {
+        super(money, bank);
     }
-
-    public GoToJailTile(Element n){}
 
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<String>(  );
+        possibleActions.add( "pay tax");
+//        player.paysTo(getBank(),getAmountToDeduct());
+
         return possibleActions;
     }
 
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
-    }
 }

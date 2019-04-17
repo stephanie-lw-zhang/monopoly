@@ -8,31 +8,25 @@ import BackEnd.Board.StandardBoard;
 import BackEnd.Deck.NormalDeck;
 import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.TileInterface;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
 import Controller.Turn;
-import FrontEnd.BoardView;
+import FrontEnd.Views.BoardView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -41,12 +35,10 @@ import javafx.stage.Stage;
 import Controller.Game;
 import javafx.util.Duration;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.io.File;
 
 /**
@@ -241,7 +233,7 @@ public class TestingScreen extends AbstractScreen {
 
         AbstractBoard board = new StandardBoard(
             playerList,
-            new HashMap<TileInterface, List<TileInterface>>(),
+            new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200)
         );
@@ -296,7 +288,6 @@ public class TestingScreen extends AbstractScreen {
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {
         BorderPane bPane = (BorderPane) testScene.getRoot();
         StackPane boardStackPane = (StackPane) bPane.getCenter();
-//        VBox playerOptionsModal = (VBox) boardStackPa
         ObservableList vList = boardStackPane.getChildren();
 
         // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
@@ -307,7 +298,7 @@ public class TestingScreen extends AbstractScreen {
         currPlayerText.setText(currPlayer.getMyPlayerName());
     }
 
-    public void displayRollsPopup(Turn turn) {
+    public void displayRollsPopup(final Turn turn) {
         int[] rolls = turn.getRolls();
 
         Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
@@ -337,7 +328,7 @@ public class TestingScreen extends AbstractScreen {
         rt2.play();
     }
 
-    private void setDice(ImageView diceView, int roll) {
+    private void setDice(ImageView diceView, final int roll) {
         diceView.setImage(new Image(
                 this.getClass()
                     .getClassLoader()

@@ -1,5 +1,6 @@
-package FrontEnd;
+package FrontEnd.Views;
 
+import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
@@ -8,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 
-public class CornerTileView extends AbstractTileView{
+public class CornerTileView extends AbstractTileView {
 
     private double mySideLength;
     private StackPane myRoot;

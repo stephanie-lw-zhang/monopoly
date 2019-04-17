@@ -70,7 +70,7 @@ class PlayerTest {
 //
 //import BackEnd.Card.BuildingCard;
 //import BackEnd.Card.PropertyCard;
-//import BackEnd.Tile.PropertyTiles.BuildingTile;
+//import BackEnd.Tile.BuildingTile;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //

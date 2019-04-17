@@ -1,41 +1,20 @@
 package BackEnd.Board;
 
-import BackEnd.AssetHolder.AbstractPlayer;
-import BackEnd.AssetHolder.Bank;
-import BackEnd.AssetHolder.HumanPlayer;
-import BackEnd.Board.StandardBoard;
-import BackEnd.Card.BuildingCard;
-import BackEnd.Tile.GoToJailTile;
-import BackEnd.Tile.JailTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
-import BackEnd.Tile.TileInterface;
-import BackEnd.Tile.GoTile;
-import javafx.scene.paint.Color;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class StandardBoardTest {
 /**
     private StandardBoard board;
     private List<AbstractPlayer> playerList;
-    private List<TileInterface> goNeighbor;
-    private List<TileInterface> buildingNeighbor;
-    private List<TileInterface> jailNeighbor;
-    private List<TileInterface> goToJailNeighbor;
+    private List<Tile> goNeighbor;
+    private List<Tile> buildingNeighbor;
+    private List<Tile> jailNeighbor;
+    private List<Tile> goToJailNeighbor;
 
     @BeforeEach
     void setUp(){
         playerList = new ArrayList<>();
 //        playerList.add(new HumanPlayer(0.0, new Bank(0.0)));
-        Map adjacencyList = new HashMap<TileInterface, List<TileInterface>>();
-        TileInterface go = new GoTile(200.0,200.0);
+        Map adjacencyList = new HashMap<Tile, List<Tile>>();
+        Tile go = new GoTile(200.0,200.0);
         JailTile jail = new JailTile();
         goNeighbor = new ArrayList<>();
 

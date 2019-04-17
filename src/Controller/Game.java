@@ -57,16 +57,12 @@ public class Game {
         endTurnButton.setOnAction(f -> handleEndTurnButton());
     }
 
-    public int[] rollValue() {
-        return myTurn.rollDice(2);
-    }
-
-    public void handleEndTurnButton() {
+    private void handleEndTurnButton() {
         myTurn.skipTurn();
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
     }
 
-    public void handleRollButton() {
+    private void handleRollButton() {
         myTurn.start();
 
         myTestScreen.updateDiceView(myTurn.getRolls());

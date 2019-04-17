@@ -1,7 +1,7 @@
 package BackEnd.AssetHolder;
 
 import BackEnd.Card.AbstractCard;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
+import BackEnd.Tile.AbstractPropertyTile;
 
 import java.util.List;
 import java.util.Objects;

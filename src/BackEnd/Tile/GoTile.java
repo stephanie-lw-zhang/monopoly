@@ -1,11 +1,12 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class GoTile implements TileInterface {
+public class GoTile extends Tile {
 
     private double landedOnMoney;
     private double passedMoney;
@@ -20,17 +21,21 @@ public class GoTile implements TileInterface {
         this.passedMoney = Integer.parseInt(getTagValue("PassedMoney", n));
     }
 
-    @Override
+    public double getLandedOnMoney() {
+        return landedOnMoney;
+    }
+
+
     public void applyLandedOnAction(AbstractPlayer player) {
         player.setMoney(player.getMoney() + landedOnMoney);
     }
 
-    @Override
+
     public void applyPassedAction(AbstractPlayer player) {
         player.setMoney(player.getMoney() + passedMoney);
     }
 
-    private static String getTagValue(String tag, Element element) {
+    private String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
         return node.getNodeValue();
