@@ -1,6 +1,7 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.Card.AbstractCard;
 import BackEnd.Deck.DeckInterface;
 
 import Controller.Actions;
@@ -28,5 +29,9 @@ public abstract class AbstractDrawCardTile extends Tile {
 
     public AbstractDrawCardTile( Element n) {
         //TODO: Finish this implementation
+    }
+
+    public AbstractCard drawCard(){
+        return myDeck.drawCard();
     }
 }

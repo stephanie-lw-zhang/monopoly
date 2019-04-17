@@ -9,6 +9,7 @@ package BackEnd.Board;
  *             updated Constructor for PlayerList
  */
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.AssetHolder.Bank;
 import BackEnd.Tile.JailTile;
 import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
@@ -25,17 +26,19 @@ public abstract class AbstractBoard {
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private List<AbstractPlayer>                    myPlayerList;
     private int                                     numDie;
+    private Bank bank;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, int nDie) {
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, int nDie, Bank bank) {
         myPlayerList = playerList;
         adjacencyMap = adjacencyMap;
         propertyCategoryToSpecificListMap = colorListMap;
         playerPositionMap = new HashMap<>();
         numDie = nDie;
         for (AbstractPlayer p : playerList) playerPositionMap.put(p, go);
+        this.bank = bank;
     }
 
     /**
@@ -73,4 +76,15 @@ public abstract class AbstractBoard {
         return propertyCategoryToSpecificListMap;
     }
     public int getNumDie() { return numDie; }
+
+    public Bank getBank(){
+        return bank;
+    }
+
+//    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){
+//        List<AbstractPropertyTile> allOfCategory = new ArrayList<AbstractPropertyTile>(  );
+//        String targetCategory = property.getCard().getCategory();
+//        for()
+//        return allOfCategory;
+//    }
 }
