@@ -3,6 +3,7 @@ package BackEnd.Tile;
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,10 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
 
     public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         super(bank, card, tiletype, tileprice);
+    }
+
+    public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, Element n){
+        super(bank, card, n);
     }
 
     //public AbstractNonBuildingPropertyTile(Element n){

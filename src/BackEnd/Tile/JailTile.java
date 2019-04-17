@@ -1,6 +1,7 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import org.w3c.dom.Element;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,10 @@ public class JailTile extends Tile {
 
     public JailTile() {
         criminals = new HashSet<>();
+    }
+
+    public JailTile(Element n){
+
     }
 
     @Override

@@ -3,11 +3,16 @@ package BackEnd.Tile;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Tile.AbstractTaxTile;
+import org.w3c.dom.Element;
 
 public class IncomeTaxTile extends AbstractTaxTile {
 
     public IncomeTaxTile(int money, Bank bank) {
         super(money, bank);
+    }
+
+    public IncomeTaxTile(Bank bank, Element n){
+        super(bank,n);
     }
 
     @Override

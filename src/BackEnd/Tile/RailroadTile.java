@@ -12,6 +12,10 @@ public class RailroadTile extends AbstractNonBuildingPropertyTile {
         super( bank, card, tiletype, tileprice );
     }
 
+    public RailroadTile(Bank bank, PropertyCard card, Element n){
+        super(bank, card, n);
+    }
+
     //public RailroadTile(Element n) {
     //    super( n );
     //}

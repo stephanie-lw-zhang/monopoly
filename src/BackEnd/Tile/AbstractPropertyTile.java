@@ -3,6 +3,7 @@ package BackEnd.Tile;
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
+import BackEnd.Card.AbstractCard;
 import BackEnd.Card.PropertyCard;
 import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
@@ -33,11 +34,14 @@ public abstract class AbstractPropertyTile extends Tile {
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
-    public AbstractPropertyTile(Element n, Bank bank){
-        //TODO finish this implementation
+    public AbstractPropertyTile(Bank bank, PropertyCard card, Element n){
+        this.owner = bank;
         this.bank = bank;
-        tiletype = getTagValue("TileName", n);
+        this.card = card;
+        tiletype = getTagValue("TileType", n);
         tileprice = Double.parseDouble(getTagValue("TilePrice", n));
+        this.mortgaged = false;
+        currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
     //fix this
@@ -178,13 +182,6 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void setCurrentInUpgradeOrder(String newOrder) {
         currentInUpgradeOrder = newOrder;
-    }
-
-    // maybe make an abstractTile class instead of an Tile
-    private String getTagValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node = nodeList.item(0);
-        return node.getNodeValue();
     }
 
     //    public boolean isRentNeeded(AbstractPlayer player) {

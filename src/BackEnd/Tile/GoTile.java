@@ -34,10 +34,4 @@ public class GoTile extends Tile {
     public void applyPassedAction(AbstractPlayer player) {
         player.setMoney(player.getMoney() + passedMoney);
     }
-
-    private String getTagValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node = nodeList.item(0);
-        return node.getNodeValue();
-    }
 }

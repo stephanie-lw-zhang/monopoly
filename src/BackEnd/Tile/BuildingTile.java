@@ -3,8 +3,10 @@ package BackEnd.Tile;
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
+import BackEnd.Card.AbstractCard;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Card.PropertyCard;
+import org.w3c.dom.Element;
 
 import java.util.List;
 
@@ -14,13 +16,13 @@ public class BuildingTile extends AbstractPropertyTile {
 
     public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor) {
         super(bank, card, tiletype, tileprice);
-        this.card = (BuildingCard)this.getCard();
+        this.card = (BuildingCard) this.getCard();
         this.tilecolor = tilecolor;
     }
 
-    //public BuildingTile(Element n){
-    //    super(n);
-    //}
+    public BuildingTile(Bank bank, PropertyCard card, Element n){
+        super(bank, card, n);
+    }
 
     //store these as strings and make a hashmap of price lookup
     public double calculateRentPrice(int roll) {

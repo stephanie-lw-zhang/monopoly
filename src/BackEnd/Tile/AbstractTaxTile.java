@@ -16,8 +16,9 @@ public abstract class AbstractTaxTile extends Tile {
         this.bank = bank;
     }
 
-    public AbstractTaxTile(Element n){
-        this.amountToDeduct = Integer.parseInt(getTagValue("LandedMoney", n));
+    public AbstractTaxTile(Bank bank, Element n){
+        this.bank = bank;
+        this.amountToDeduct = Integer.parseInt(getTagValue("TileRent", n));
         //this.bank = ;
     }
 
@@ -32,12 +33,6 @@ public abstract class AbstractTaxTile extends Tile {
 
     public double getAmountToDeduct() {
         return amountToDeduct;
-    }
-
-    private static String getTagValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node = nodeList.item(0);
-        return node.getNodeValue();
     }
 
 }
