@@ -58,11 +58,11 @@ public class Turn {
 
     public void start() {
         myActions.clear();
+        isTurnOver = false;
         myRolls = rollDice(myBoard.getNumDie());
         // TODO: send myRolls to FE to be displayed
         int numMoves = getNumMoves();
 
-        myCurrPlayer = getNextPlayer();
 
         // TODO: ADD RULES FOR DOUBLE ROLLS
 //        if (isDoubleRoll(myRolls))
@@ -102,6 +102,7 @@ public class Turn {
                 break;
             case END_TURN:
                 isTurnOver = true;
+                myCurrPlayer = getNextPlayer();
                 // TODO: HANDLE END TURN
                 break;
             case PAY_BAIL:
@@ -115,6 +116,7 @@ public class Turn {
                 List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
                 Double currTilePrice = property.getCard().getTilePrice();
                 property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
+                onAction(Actions.END_TURN);
                 break;
             case AUCTION:
 
@@ -122,18 +124,21 @@ public class Turn {
             case PAY_RENT:
                 property = (AbstractPropertyTile) currPlayerTile();
                 myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+                onAction(Actions.END_TURN);
                 break;
             case PAY_TAX_FIXED:
                 myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
                 //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+                onAction(Actions.END_TURN);
                 break;
             case PAY_TAX_PERCENTAGE:
                 myCurrPlayer.paysTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
                 //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-
+                onAction(Actions.END_TURN);
                 break;
             case DRAW_CARD:
                 ((AbstractDrawCardTile) currPlayerTile()).drawCard();
+                onAction(Actions.END_TURN);
                 //assume draw card tile
                 break;
             case SELL_TO_BANK:
@@ -141,6 +146,7 @@ public class Turn {
             case SELL_TO_PLAYER:
                 break;
             case COLLECT_MONEY:
+                onAction(Actions.END_TURN);
                 break;
             case GO_TO_JAIL:
                 JailTile jail = (JailTile) myBoard.getJailTile();
@@ -148,6 +154,7 @@ public class Turn {
                 jail.addCriminal( myCurrPlayer );
                 myCurrPlayer.addTurnInJail();
                 //error
+                onAction(Actions.END_TURN);
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
@@ -232,6 +239,9 @@ public class Turn {
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
 
+    public List<Actions> getMyActions() {
+        return myActions;
+    }
 
 
 
