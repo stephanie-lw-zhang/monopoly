@@ -116,7 +116,6 @@ public class Turn {
                 List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
                 Double currTilePrice = property.getCard().getTilePrice();
                 property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
-                onAction(Actions.END_TURN);
                 break;
             case AUCTION:
 
@@ -124,21 +123,17 @@ public class Turn {
             case PAY_RENT:
                 property = (AbstractPropertyTile) currPlayerTile();
                 myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
-                onAction(Actions.END_TURN);
                 break;
             case PAY_TAX_FIXED:
                 myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
                 //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-                onAction(Actions.END_TURN);
                 break;
             case PAY_TAX_PERCENTAGE:
                 myCurrPlayer.paysTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
                 //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-                onAction(Actions.END_TURN);
                 break;
             case DRAW_CARD:
                 ((AbstractDrawCardTile) currPlayerTile()).drawCard();
-                onAction(Actions.END_TURN);
                 //assume draw card tile
                 break;
             case SELL_TO_BANK:
@@ -154,11 +149,11 @@ public class Turn {
                 jail.addCriminal( myCurrPlayer );
                 myCurrPlayer.addTurnInJail();
                 //error
-                onAction(Actions.END_TURN);
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
         }
+        onAction(Actions.END_TURN);
     }
 
     private void promptEndTurn() {
@@ -242,7 +237,4 @@ public class Turn {
     public List<Actions> getMyActions() {
         return myActions;
     }
-
-
-
 }
