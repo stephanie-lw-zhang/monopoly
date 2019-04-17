@@ -3,6 +3,7 @@ package BackEnd.Tile;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
 
+import Controller.Actions;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -18,18 +19,14 @@ public abstract class AbstractDrawCardTile extends Tile {
     }
 
     @Override
-    public List<String> applyLandedOnAction(AbstractPlayer player) {
-        List<String> possibleActions = new ArrayList<String>();
-        possibleActions.add( "Draw Card" );
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>();
+        possibleActions.add(Actions.DRAW_CARD);
 //        myDeck.drawCard();
         return possibleActions;
     }
 
     public AbstractDrawCardTile( Element n) {
         //TODO: Finish this implementation
-    }
-
-    public void applyPassedAction (AbstractPlayer player){
-        return;
     }
 }

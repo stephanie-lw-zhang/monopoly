@@ -5,6 +5,7 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
 
+import Controller.Actions;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -43,26 +44,19 @@ public abstract class AbstractPropertyTile extends Tile {
 
     //fix this
     @Override
-    public List<String> applyLandedOnAction(AbstractPlayer player) {
-        List<String> possibleActions = new ArrayList<String>(  );
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>(  );
 
 //        //controller will send player option to buy property? interact with front-end
         if (getOwner() instanceof Bank) {
-            possibleActions.add( "Buy");
-            possibleActions.add( "Auction" );
-//            else {
-//                auctionProperty();
-//            }
+            possibleActions.add(Actions.BUY);
+            possibleActions.add(Actions.AUCTION);
         }
         else if (!player.equals(getOwner())) {
-            possibleActions.add( "Pay Rent" );
+            possibleActions.add(Actions.PAY_RENT);
 //            player.paysTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;
-    }
-
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
     }
 
     public double sellToBankPrice() {

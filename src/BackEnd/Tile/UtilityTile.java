@@ -1,6 +1,5 @@
 package BackEnd.Tile;
 
-import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
 
@@ -39,11 +38,6 @@ public class UtilityTile extends AbstractNonBuildingPropertyTile {
 
 
         }
-    }
-
-    @Override
-    public void applyPassedAction(AbstractPlayer p) {
-
     }
 }
 
