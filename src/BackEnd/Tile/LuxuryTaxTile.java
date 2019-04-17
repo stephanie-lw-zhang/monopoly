@@ -2,7 +2,7 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
-import BackEnd.Tile.AbstractTaxTile;
+import Controller.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,10 @@ public class LuxuryTaxTile extends AbstractTaxTile {
     }
 
     @Override
-    public List<String> applyLandedOnAction(AbstractPlayer player) {
-        List<String> possibleActions = new ArrayList<String>(  );
-        possibleActions.add( "pay tax");
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>(  );
+        possibleActions.add(Actions.PAY_TAX_FIXED );
 //        player.paysTo(getBank(),getAmountToDeduct());
-
         return possibleActions;
     }
 

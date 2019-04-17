@@ -2,7 +2,7 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
-import BackEnd.Tile.AbstractTaxTile;
+import Controller.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ public class IncomeTaxTile extends AbstractTaxTile {
     }
 
     @Override
-    public List<String> applyLandedOnAction(AbstractPlayer player) {
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
         //interaction with front-end: pay full or 10%?
-        List<String> possibleActions = new ArrayList<String>(  );
-        possibleActions.add( "pay full");
-        possibleActions.add( "pay percentage" );
+        List<Actions> possibleActions = new ArrayList<>(  );
+        possibleActions.add(Actions.PAY_TAX_FIXED );
+        possibleActions.add(Actions.PAY_TAX_PERCENTAGE);
 //        if (true) {
 //            player.paysTo(getBank(),getAmountToDeduct());
 //        }

@@ -4,6 +4,8 @@ import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
+
+import Controller.Actions;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,7 +17,7 @@ import java.util.Map;
 public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
-    private double tileprice;
+//    private double tileprice;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
@@ -28,7 +30,7 @@ public abstract class AbstractPropertyTile extends Tile {
         //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
-        this.tileprice = tileprice;
+//        this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
@@ -37,42 +39,37 @@ public abstract class AbstractPropertyTile extends Tile {
         //TODO finish this implementation
         this.bank = bank;
         tiletype = getTagValue("TileName", n);
-        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
+//        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
     //fix this
     @Override
-    public List<String> applyLandedOnAction(AbstractPlayer player) {
-        List<String> possibleActions = new ArrayList<String>(  );
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>(  );
 
 //        //controller will send player option to buy property? interact with front-end
         if (getOwner() instanceof Bank) {
-            possibleActions.add( "buy");
-            possibleActions.add( "auction" );
-//            else {
-//                auctionProperty();
-//            }
+            possibleActions.add(Actions.BUY);
+            possibleActions.add(Actions.AUCTION);
         }
         else if (!player.equals(getOwner())) {
-            possibleActions.add( "pay rent" );
+            possibleActions.add(Actions.PAY_RENT);
 //            player.paysTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;
     }
 
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
-    }
-
-    public double sellToBankPrice() {
-        if (!isMortgaged()) {
-            return tileprice/2;
-        }
-        else {
-            //throw exception: CANNOT SELL MORTGAGED PROPERTY BACK TO BANK
-        }
-        return 0;
-    }
+    //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
+//    public abstract double sellToBankPrice();
+//        if (!isMortgaged()) {
+////            return tileprice/2;
+//            getCard().
+//        }
+//        else {
+//            //throw exception: CANNOT SELL_TO_BANK MORTGAGED PROPERTY BACK TO BANK
+//        }
+//        return 0;
+//    }
 
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;
@@ -99,6 +96,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.paysTo( owner, price );
+        owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
 

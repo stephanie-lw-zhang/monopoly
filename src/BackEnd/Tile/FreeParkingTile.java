@@ -1,8 +1,11 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
-import api.Monopoly.BackEnd.AbstractTile;
+import Controller.Actions;
 import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FreeParkingTile extends Tile {
 
@@ -16,13 +19,11 @@ public class FreeParkingTile extends Tile {
     public FreeParkingTile(Element n){}
 
 
-    public void applyLandedOnAction(AbstractPlayer player) {
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
         //player.setMoney(player.getMoney() + landedOnMoney);
-        return;
-    }
-
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
+        List<Actions> possibleActions = new ArrayList<>(  );
+        possibleActions.add(Actions.COLLECT_MONEY);
+        return possibleActions;
     }
 
 }

@@ -3,6 +3,11 @@ package Controller;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 import BackEnd.Dice.AbstractDice;
+import BackEnd.Tile.AbstractDrawCardTile;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.JailTile;
+import BackEnd.Tile.Tile;
+
 import java.util.*;
 
 /**
@@ -26,14 +31,15 @@ public class Turn {
     private int[]          myRolls;
     private int            numDoubleRolls;
 
-    public enum Actions {
-        MOVE,
-        PROPERTY_EVENTS,
-        TRADE,
-        GET_OUT_OF_JAIL,
-        PAY_BAIL,
-        END_TURN;
-    }
+
+//    public enum Actions {
+//        MOVE,
+//        PROPERTY_EVENTS,
+//        TRADE,
+//        GET_OUT_OF_JAIL,
+//        PAY_BAIL,
+//        END_TURN;
+//    }
 
     public enum TurnState {
         PRE_ROLL,
@@ -67,6 +73,10 @@ public class Turn {
         myCurrPlayer= getNextPlayer();
     }
 
+    private Tile currPlayerTile(){
+        return myBoard.getPlayerTile( myCurrPlayer );
+    }
+
     private AbstractPlayer getNextPlayer() {
         Iterator<AbstractPlayer> iterator = myBoard.getMyPlayerList().iterator();
 
@@ -79,13 +89,15 @@ public class Turn {
     }
 
     public void onAction(Actions action) {
+        AbstractPropertyTile property;
         switch (action) {
             case MOVE:
-                myBoard.movePlayer(myCurrPlayer, getNumMoves());
-                myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+//                myBoard.movePlayer(myCurrPlayer, getNumMoves());
+//                myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+                move();
                 break;
             case TRADE:
-                myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
+//                myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
                 // TODO: handle Receiver input and debt as instances
                 break;
             case END_TURN:
@@ -95,12 +107,47 @@ public class Turn {
             case PAY_BAIL:
                 myCurrPlayer.paysTo(myCurrPlayer.getBank(), 1500.00);
                 // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
+                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
                 break;
-            case GET_OUT_OF_JAIL:
-                myCurrPlayer.getOutOfJail();
+            case BUY:
+                //buy from bank
+                property = (AbstractPropertyTile) currPlayerTile();
+                List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
+                Double currTilePrice = property.getCard().getTilePrice();
+                property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
                 break;
-            case PROPERTY_EVENTS:
-//                myActions.add
+            case AUCTION:
+
+                break;
+            case PAY_RENT:
+                property = (AbstractPropertyTile) currPlayerTile();
+                myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+                break;
+            case PAY_TAX_FIXED:
+                myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
+                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+                break;
+            case PAY_TAX_PERCENTAGE:
+                myCurrPlayer.paysTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
+                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+
+                break;
+            case DRAW_CARD:
+                ((AbstractDrawCardTile) currPlayerTile()).drawCard();
+                //assume draw card tile
+                break;
+            case SELL_TO_BANK:
+                break;
+            case SELL_TO_PLAYER:
+                break;
+            case COLLECT_MONEY:
+                break;
+            case GO_TO_JAIL:
+                JailTile jail = (JailTile) myBoard.getJailTile();
+                myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
+                jail.addCriminal( myCurrPlayer );
+                myCurrPlayer.addTurnInJail();
+                //error
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
@@ -122,6 +169,7 @@ public class Turn {
         myRolls = rolls;
         return rolls;
     }
+
 
     public int getNumMoves() {
         int sum = 0;
@@ -162,8 +210,8 @@ public class Turn {
         //player is not in jail and moves normally
         //
         else{
-//            myBoard.movePlayer(myCurrPlayer, getNumMoves());
-//            myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+            myBoard.movePlayer(myCurrPlayer, getNumMoves());
+            myActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
         }
     }
 

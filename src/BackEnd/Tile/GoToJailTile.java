@@ -1,6 +1,8 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+
+import Controller.Actions;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -8,22 +10,16 @@ import java.util.List;
 
 public class GoToJailTile extends Tile {
 
-    private JailTile jail;
-
-    public GoToJailTile(JailTile jail) {
-        this.jail = jail;
-    }
-
     public GoToJailTile(Element n){}
 
     @Override
-    public List<String> applyLandedOnAction(AbstractPlayer player) {
-        List<String> possibleActions = new ArrayList<String>(  );
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>(  );
+        possibleActions.add(Actions.GO_TO_JAIL);
         return possibleActions;
     }
 
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
+    public void putPlayerInJail(AbstractPlayer player) {
+        player.addTurnInJail();
     }
 }

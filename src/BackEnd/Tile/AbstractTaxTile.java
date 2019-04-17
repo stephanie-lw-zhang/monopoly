@@ -1,14 +1,9 @@
 package BackEnd.Tile;
 
-import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public abstract class AbstractTaxTile extends Tile {
 
@@ -23,11 +18,6 @@ public abstract class AbstractTaxTile extends Tile {
     public AbstractTaxTile(Element n){
         this.amountToDeduct = Integer.parseInt(getTagValue("LandedMoney", n));
         //this.bank = ;
-    }
-
-    @Override
-    public void applyPassedAction(AbstractPlayer p) {
-        return;
     }
 
     public Bank getBank() {
