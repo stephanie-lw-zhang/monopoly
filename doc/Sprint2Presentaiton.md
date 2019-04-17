@@ -3,6 +3,11 @@
 - We are using Properties and XML files for front-end configuration, as well as for configuration of values such as rent price, mortgage value, etc. This way, all of our tile classes and players interact in a fixed way, but the values of prices when a player lands on a property tile can easily change, and the types of tiles on the board can easily change as well. Additionally, we are thinking of renaming Actions to be OriginalMonopolyActions and turn to be OriginalMonopolyTurn so that if a different type of Monopoly game implements different rules, we can easily create new Actions and Turn classes to accommodate these rules and actions. 
 # describe two APIs in detail (one from the first presentation and a new one):
 - AbstractNonBuildingPropertyTile
+    * Service: Abstract class for property tiles that are not buildings (like railroads, utilities, etc.). Specifically it calculates the rent price if a player lands on it and correctly sells the property to another player or the bank(the important thing here was to make sure the number of properties held was updated after selling it, because that impacts rent price).
+    * Extension: calculating the rent price is an abstract method, so it can be specific to each tile.
+    * How it has changed: We changed the specifics of the sell to method to be more accurate. Instead of just paying and exchanging the property, we had to make sure the rent price is updated since it depends on how many of each property you own (which changes after selling).
+    * How does it support users: The changes we made didn’t change input or output, only specific implementation, so it shouldn’t break anyone else’s code. Also, we made our methods short and readable. Our method names are also straightforward and easy to understand.
+
 ```java
 public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
         super(bank, card, tiletype, tileprice);
@@ -44,11 +49,13 @@ public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tile
     }
 ```
 
-    * Service: Abstract class for property tiles that are not buildings (like railroads, utilities, etc.). Specifically it calculates the rent price if a player lands on it and correctly sells the property to another player or the bank(the important thing here was to make sure the number of properties held was updated after selling it, because that impacts rent price).
-    * Extension: calculating the rent price is an abstract method, so it can be specific to each tile.
-    * How it has changed: We changed the specifics of the sell to method to be more accurate. Instead of just paying and exchanging the property, we had to make sure the rent price is updated since it depends on how many of each property you own (which changes after selling).
-    * How does it support users: The changes we made didn’t change input or output, only specific implementation, so it shouldn’t break anyone else’s code. Also, we made our methods short and readable. Our method names are also straightforward and easy to understand.
+
 - AbstractAssetHolder
+    * Service: Contains common methods for asset holders, namely the bank and players (in original monopoly). 
+    * Extension: Includes abstract methods paysTo and addProperty, because bank and players differ on how these need to be implemented. We also implemented our own “equal” comparator method. 
+    * How it has changed: No change
+    * How does it support users: It’s a short class with easy to understand methods.
+
 ```java
 public abstract class AbstractAssetHolder{
     private List<AbstractPropertyTile> properties  = new ArrayList<>(  );
@@ -92,10 +99,7 @@ public abstract class AbstractAssetHolder{
 }
 ```
 
-    * Service: Contains common methods for asset holders, namely the bank and players (in original monopoly). 
-    * Extension: Includes abstract methods paysTo and addProperty, because bank and players differ on how these need to be implemented. We also implemented our own “equal” comparator method. 
-    * How it has changed: No change
-    * How does it support users: It’s a short class with easy to understand methods.
+
 # show two use cases implemented in Java code in detail that show off how to use the APIs you described
 - Use case with AbstractNonBuildingPropertyTile: Landing on a utility tile and needing to pay rent
     * Player lands on a utility tile, if the tile is owned, the player pays the owner of the tile the rent price (calculated from calculateRentPrice). 
