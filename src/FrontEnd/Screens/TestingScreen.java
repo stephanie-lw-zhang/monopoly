@@ -12,13 +12,9 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
-<<<<<<< HEAD
-import FrontEnd.Views.BoardView;
 import FrontEnd.Views.DiceView;
-=======
 import FrontEnd.Views.Board.RectangularBoardView;
 import FrontEnd.Views.Board.SquareBoardView;
->>>>>>> 86ccd26957248445698bcf6fceaed299c2245e0b
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -227,52 +223,52 @@ public class TestingScreen extends AbstractScreen {
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
-        HBox diceLayout = new HBox();
-        diceLayout.setSpacing(10);
-        diceLayout.setUserData("diceLayout");
-
-        ImageView dice1 = new ImageView();
-        dice1.setImage(new Image(this
-                .getClass()
-                .getClassLoader()
-                .getResourceAsStream(
-                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
-                )
-        ));
-        dice1.setFitHeight(30);
-        dice1.setFitWidth(30);
-
-        ImageView dice2 = new ImageView();
-        dice2.setImage(new Image(this
-                .getClass()
-                .getClassLoader()
-                .getResourceAsStream(
-                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
-                )
-        ));
-        dice2.setFitHeight(30);
-        dice2.setFitWidth(30);
-
-        diceLayout.getChildren().addAll(dice1, dice2);
-        diceLayout.setAlignment(Pos.CENTER_RIGHT);
-
-        TextArea playersText = new TextArea();
-        playersText.setText("Joined Players: \n" + getPlayersText());
-        playersText.setEditable(false);
-        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
-
-        TextArea currPlayerText = new TextArea();
-        currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
-        currPlayerText.setEditable(false);
-        currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
-
-        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText, END_TURN_BUTTON);
-        playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
-        playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
-
-        Pane boardViewPane = myBoardView.getPane();
-        boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
-        boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
+//        HBox diceLayout = new HBox();
+//        diceLayout.setSpacing(10);
+//        diceLayout.setUserData("diceLayout");
+//
+//        ImageView dice1 = new ImageView();
+//        dice1.setImage(new Image(this
+//                .getClass()
+//                .getClassLoader()
+//                .getResourceAsStream(
+//                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+//                )
+//        ));
+//        dice1.setFitHeight(30);
+//        dice1.setFitWidth(30);
+//
+//        ImageView dice2 = new ImageView();
+//        dice2.setImage(new Image(this
+//                .getClass()
+//                .getClassLoader()
+//                .getResourceAsStream(
+//                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+//                )
+//        ));
+//        dice2.setFitHeight(30);
+//        dice2.setFitWidth(30);
+//
+//        diceLayout.getChildren().addAll(dice1, dice2);
+//        diceLayout.setAlignment(Pos.CENTER_RIGHT);
+//
+//        TextArea playersText = new TextArea();
+//        playersText.setText("Joined Players: \n" + getPlayersText());
+//        playersText.setEditable(false);
+//        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
+//
+//        TextArea currPlayerText = new TextArea();
+//        currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
+//        currPlayerText.setEditable(false);
+//        currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
+//
+//        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText, END_TURN_BUTTON);
+//        playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
+//        playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
+//
+//        Pane boardViewPane = myBoardView.getPane();
+//        boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
+//        boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
 
 
 
