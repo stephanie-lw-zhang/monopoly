@@ -12,6 +12,7 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Controller.Turn;
 import FrontEnd.Views.BoardView;
+import FrontEnd.Views.DiceView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -173,9 +174,9 @@ public class TestingScreen extends AbstractScreen {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
 
+//        DiceView diceLayout2 = new DiceView();
         HBox diceLayout = new HBox();
-        diceLayout.setSpacing(10);
-        diceLayout.setUserData("diceLayout");
+        diceLayout.setSpacing(20);
 
         ImageView dice1 = new ImageView();
         dice1.setImage(new Image(this
@@ -185,8 +186,8 @@ public class TestingScreen extends AbstractScreen {
                         "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
                 )
         ));
-        dice1.setFitHeight(30);
-        dice1.setFitWidth(30);
+        dice1.setFitHeight(50);
+        dice1.setFitWidth(50);
 
         ImageView dice2 = new ImageView();
         dice2.setImage(new Image(this
@@ -196,10 +197,14 @@ public class TestingScreen extends AbstractScreen {
                         "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
                 )
         ));
-        dice2.setFitHeight(30);
-        dice2.setFitWidth(30);
+        dice2.setFitHeight(50);
+        dice2.setFitWidth(50);
 
-        diceLayout.getChildren().addAll(dice1, dice2);
+        List<ImageView> diceList = new ArrayList<>();
+        diceList.add(dice1); diceList.add(dice2);
+
+//        diceLayout.getChildren().addAll(dice1, dice2);
+        diceLayout.getChildren().addAll(diceList);
         diceLayout.setAlignment(Pos.CENTER_LEFT);
 
         TextArea playersText = new TextArea();

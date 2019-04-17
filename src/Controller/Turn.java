@@ -58,15 +58,38 @@ public class Turn {
 
     public void start() {
         myActions.clear();
+        numDoubleRolls = 0;
+
         myRolls = rollDice(myBoard.getNumDie());
         // TODO: send myRolls to FE to be displayed
         int numMoves = getNumMoves();
 
-        myCurrPlayer = getNextPlayer();
-
         // TODO: ADD RULES FOR DOUBLE ROLLS
-//        if (isDoubleRoll(myRolls))
-//        canRollDie = false;
+        checkDoubleRolls();
+
+        canRollDie = false;
+
+
+
+        // myCurrPlayer = getNextPlayer();
+    }
+
+    // TODO: Refactor such that Turn.start() can just
+    // TODO: be called again on double roll instead
+    private void checkDoubleRolls() {
+        if (isDoubleRoll(myRolls)) {
+            numDoubleRolls++;
+
+            if (numDoubleRolls == 1) {
+                myRolls = rollDice(myBoard.getNumDie());
+                // TODO: HANDLE ACTIONS
+                checkDoubleRolls();
+            }
+            if (numDoubleRolls == 2) {
+                // TODO: GO TO JAIL
+            }
+        }
+        // if not double, do nothing
     }
 
     public void skipTurn() {
@@ -189,5 +212,5 @@ public class Turn {
 
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
-
+    public List<Actions> getMyActions() { return myActions; }
 }
