@@ -8,6 +8,8 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 import FrontEnd.Screens.TestingScreen;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -65,8 +67,7 @@ public class Game {
     private void handleRollButton() {
         myTurn.start();
 
-        myTestScreen.updateDiceView(myTurn.getRolls());
-        myTestScreen.displayRollsPopup(myTurn);
+        myTestScreen.updateDice(myTurn);
 
         myTurn.onAction(Actions.MOVE);
         //TODO: move player front end

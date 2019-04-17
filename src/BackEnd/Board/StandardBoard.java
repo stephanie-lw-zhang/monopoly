@@ -28,7 +28,7 @@ public class StandardBoard extends AbstractBoard {
         Tile tile = getPlayerTile(p);
 
         Tile next = null;
-        for(int i = 0; i < numMoves; i++){
+        for(int i = 0; i < numMoves; i++) {
             //this needs to change for a non-standard board, could be informed by property file
             next = getAdjacentTiles(tile).get(0);
             tile = next;

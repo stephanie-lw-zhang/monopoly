@@ -31,16 +31,6 @@ public class Turn {
     private int[]          myRolls;
     private int            numDoubleRolls;
 
-
-//    public enum Actions {
-//        MOVE,
-//        PROPERTY_EVENTS,
-//        TRADE,
-//        GET_OUT_OF_JAIL,
-//        PAY_BAIL,
-//        END_TURN;
-//    }
-
     public enum TurnState {
         PRE_ROLL,
         DOUBLE_ROLL,
@@ -59,18 +49,34 @@ public class Turn {
     public void start() {
         myActions.clear();
         isTurnOver = false;
+
         myRolls = rollDice(myBoard.getNumDie());
-        // TODO: send myRolls to FE to be displayed
         int numMoves = getNumMoves();
 
+        checkDoubleRolls();
+        canRollDie = false;
+    }
 
-        // TODO: ADD RULES FOR DOUBLE ROLLS
-//        if (isDoubleRoll(myRolls))
-//        canRollDie = false;
+    // TODO: Refactor such that Turn.start() can just
+    // TODO: be called again on double roll instead
+    private void checkDoubleRolls() {
+        if (isDoubleRoll(myRolls)) {
+            numDoubleRolls++;
+
+            if (numDoubleRolls == 1) {
+                myRolls = rollDice(myBoard.getNumDie());
+                // TODO: HANDLE ACTIONS
+                checkDoubleRolls();
+            }
+            if (numDoubleRolls == 2) {
+                // TODO: GO TO JAIL
+            }
+        }
+        // if not double, do nothing
     }
 
     public void skipTurn() {
-        myCurrPlayer= getNextPlayer();
+        myCurrPlayer = getNextPlayer();
     }
 
     private Tile currPlayerTile(){
@@ -94,17 +100,16 @@ public class Turn {
             case MOVE:
 //                myBoard.movePlayer(myCurrPlayer, getNumMoves());
 //                myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
-                move();
+//                move();
                 break;
             case TRADE:
 //                myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
                 // TODO: handle Receiver input and debt as instances
                 break;
-            case END_TURN:
-                isTurnOver = true;
-                myCurrPlayer = getNextPlayer();
-                // TODO: HANDLE END TURN
-                break;
+//            case END_TURN:
+//                isTurnOver = true;
+//                myCurrPlayer = getNextPlayer();
+//                break;
             case PAY_BAIL:
                 myCurrPlayer.paysTo(myCurrPlayer.getBank(), 1500.00);
                 // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
@@ -153,7 +158,8 @@ public class Turn {
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
         }
-        onAction(Actions.END_TURN);
+        isTurnOver = true;
+        myCurrPlayer = getNextPlayer();
     }
 
     private void promptEndTurn() {
@@ -183,9 +189,9 @@ public class Turn {
         if (myRolls == null){
             //throw exception that dice must be rolled first
         }
-        if(myCurrPlayer.isBankrupt()){
-            return;
-        }
+//        if(myCurrPlayer.isBankrupt()){
+//            return;
+//        }
         else if (myCurrPlayer.getTurnsInJail() == 3) {
             //player must either pay 50 and move or skip one turn
             //series of states OR dialogue boxes
