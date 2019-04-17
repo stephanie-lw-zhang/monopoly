@@ -48,9 +48,9 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.setHgap(20);
         gridPane.setVgap(15);
 
-//        gridPane.add(playButton, 1, 0);
-//        gridPane.add(randomModeButton, 2, 0);
-//        gridPane.add(instructButton, 3, 0);
+        gridPane.add(playButton, 1, 0);
+        gridPane.add(randomModeButton, 2, 0);
+        gridPane.add(instructButton, 3, 0);
         gridPane.add(boardButton,4,0);
 
         BorderPane bPane = setBorderPane(

@@ -1,19 +1,23 @@
-package BackEnd.Tile.PropertyTiles;
+package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
-import BackEnd.Tile.TileInterface;
-import org.w3c.dom.Element;
 
+import Controller.Actions;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractPropertyTile implements TileInterface {
+public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
-    private double tileprice;
+//    private double tileprice;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
@@ -26,47 +30,46 @@ public abstract class AbstractPropertyTile implements TileInterface {
         //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
-        this.tileprice = tileprice;
+//        this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
-    public AbstractPropertyTile(Element n){
+    public AbstractPropertyTile(Element n, Bank bank){
         //TODO finish this implementation
+        this.bank = bank;
+        tiletype = getTagValue("TileName", n);
+//        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
     //fix this
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>(  );
+
 //        //controller will send player option to buy property? interact with front-end
-//        if (getOwner() instanceof Bank) {
-//            if (true) {
-//                buyProperty(player);
-//            }
-////            else {
-////                auctionProperty();
-////            }
-//        }
-//        else if (!player.equals(getOwner())) {
+        if (getOwner() instanceof Bank) {
+            possibleActions.add(Actions.BUY);
+            possibleActions.add(Actions.AUCTION);
+        }
+        else if (!player.equals(getOwner())) {
+            possibleActions.add(Actions.PAY_RENT);
 //            player.paysTo(getOwner(), calculateRentPrice());
+        }
+        return possibleActions;
+    }
+
+    //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
+//    public abstract double sellToBankPrice();
+//        if (!isMortgaged()) {
+////            return tileprice/2;
+//            getCard().
 //        }
-        return;
-    }
-
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
-    }
-
-    public double sellToBankPrice() {
-        if (!isMortgaged()) {
-            return tileprice/2;
-        }
-        else {
-            //throw exception: CANNOT SELL MORTGAGED PROPERTY BACK TO BANK
-        }
-        return 0;
-    }
+//        else {
+//            //throw exception: CANNOT SELL_TO_BANK MORTGAGED PROPERTY BACK TO BANK
+//        }
+//        return 0;
+//    }
 
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;
@@ -93,6 +96,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.paysTo( owner, price );
+        owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
 
@@ -174,6 +178,13 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     public void setCurrentInUpgradeOrder(String newOrder) {
         currentInUpgradeOrder = newOrder;
+    }
+
+    // maybe make an abstractTile class instead of an Tile
+    private String getTagValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node node = nodeList.item(0);
+        return node.getNodeValue();
     }
 
     //    public boolean isRentNeeded(AbstractPlayer player) {

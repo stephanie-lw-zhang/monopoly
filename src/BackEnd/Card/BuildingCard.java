@@ -12,12 +12,11 @@ public class BuildingCard extends PropertyCard{
 
     public BuildingCard(Map<String, Double> buildingPriceLookupTable, double propertyMortgageValue, List<String> upgradeOrder,
                         Map<String,Double> buySingleBuildingPrice, Map<String,Double> sellToBankPriceLookupTable, Map<String,
-                        String> specificToBase, String titleDeed, String category, Map<String, Integer> specificToNumeric){
-        super(propertyMortgageValue, buildingPriceLookupTable, upgradeOrder, titleDeed, category, specificToNumeric);
+                        String> specificToBase, String titleDeed, String category, Map<String, Integer> specificToNumeric, double tilePrice){
+        super(propertyMortgageValue, buildingPriceLookupTable, upgradeOrder, titleDeed, category, specificToNumeric,tilePrice);
         this.priceNeededToUpgradeLookupTable = buySingleBuildingPrice;
         this.sellToBankPriceLookupTable = sellToBankPriceLookupTable;
         this.specificToBase = specificToBase;
-
     }
 
     public double getOneBuildingSellToBankPrice(String currentInUpgradeOrder) {

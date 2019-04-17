@@ -1,7 +1,7 @@
 package BackEnd.AssetHolder;
 
 import BackEnd.Card.AbstractCard;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
+import BackEnd.Tile.AbstractPropertyTile;
 
 import java.util.List;
 import java.util.Objects;
@@ -106,14 +106,14 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //        }
 //    }
 
-    private Double getTotalAssetValue() {
-        Double totalAssetValue = 0.0;
-        for(AbstractPropertyTile each: this.getProperties()){
-            totalAssetValue += each.sellToBankPrice();
-            //assume can only sell to bank, no trading
-        }
-        return totalAssetValue;
-    }
+//    private Double getTotalAssetValue() {
+//        Double totalAssetValue = 0.0;
+//        for(AbstractPropertyTile each: this.getProperties()){
+//            totalAssetValue += each.sellToBankPrice();
+//            //assume can only sell to bank, no trading
+//        }
+//        return totalAssetValue;
+//    }
 
     @Override
     public boolean equals(Object o) {

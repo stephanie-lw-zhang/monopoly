@@ -1,8 +1,7 @@
 package BackEnd.AssetHolder;
 
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
+import BackEnd.Tile.AbstractPropertyTile;
 
-import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.List;
 

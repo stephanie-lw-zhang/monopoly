@@ -8,8 +8,9 @@ import BackEnd.Board.StandardBoard;
 import BackEnd.Deck.NormalDeck;
 import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.TileInterface;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
+import Configuration.ImportPropertyFile;
 import Controller.Turn;
 import FrontEnd.Views.Board.RectangularBoardView;
 import javafx.animation.RotateTransition;
@@ -54,6 +55,7 @@ public class TestingScreen extends AbstractScreen {
     private Stage     testStage;
     private Scene     testScene;
     private Game      myGame;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
 
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
@@ -63,7 +65,7 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new RectangularBoardView(width*0.9, height*0.9,90,11,11);
+        myBoardView = new RectangularBoardView(width*0.9, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override
@@ -237,9 +239,10 @@ public class TestingScreen extends AbstractScreen {
 
         AbstractBoard board = new StandardBoard(
             playerList,
-            new HashMap<TileInterface, List<TileInterface>>(),
+            new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
-            new GoTile(200, 200)
+            new GoTile(200, 200),
+               new Bank(20000.0, new HashMap<String, Integer>())
         );
 
         return board;
