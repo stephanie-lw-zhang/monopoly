@@ -27,12 +27,18 @@ public class Turn {
     private int            numDoubleRolls;
 
     public enum Actions {
-        MOVE,
-        PROPERTY_EVENTS,
-        TRADE,
-        GET_OUT_OF_JAIL,
-        PAY_BAIL,
-        END_TURN;
+        MOVE("move"),
+        PROPERTY_EVENTS("prop"),
+        TRADE("trade"),
+        GET_OUT_OF_JAIL("getOutOfJail"),
+        PAY_BAIL("payBail"),
+        END_TURN("endTurn");
+
+        private String methodName;
+
+        Actions(String actionMethod) {
+            methodName = actionMethod;
+        }
     }
 
     public enum TurnState {

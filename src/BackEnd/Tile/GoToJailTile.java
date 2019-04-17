@@ -1,7 +1,6 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
-import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
 
 public class GoToJailTile extends Tile {

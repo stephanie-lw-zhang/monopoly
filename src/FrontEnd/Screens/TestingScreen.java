@@ -55,6 +55,7 @@ public class TestingScreen extends AbstractScreen {
     private Scene     testScene;
     private Game      myGame;
 
+    private ObservableList<ImageView> myIconsList;
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
 
@@ -63,7 +64,8 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11);
+        myBoardView = new BoardView(width*0.6, height*0.8,80,10,10);
+
     }
 
     @Override
@@ -104,6 +106,8 @@ public class TestingScreen extends AbstractScreen {
         addTextLimiter(p4Field, 25);
         p4Field.setPrefHeight(30);
         p4Field.setMaxWidth(200);
+
+
 
         Button startGameButton = new Button("START GAME");
         startGameButton.setPrefHeight(20);
