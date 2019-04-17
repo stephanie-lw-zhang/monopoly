@@ -10,6 +10,7 @@ import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
 import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
+import Configuration.ImportPropertyFile;
 import Controller.Turn;
 import FrontEnd.Views.BoardView;
 import javafx.animation.RotateTransition;
@@ -54,6 +55,7 @@ public class TestingScreen extends AbstractScreen {
     private Stage     testStage;
     private Scene     testScene;
     private Game      myGame;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
 
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
@@ -63,7 +65,7 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11);
+        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11, myPropertyFile);
     }
 
     @Override

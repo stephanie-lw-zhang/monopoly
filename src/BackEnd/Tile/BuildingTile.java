@@ -5,12 +5,31 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Card.PropertyCard;
+//<<<<<<< HEAD:src/BackEnd/Tile/BuildingTile.java
+//=======
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+//>>>>>>> 02da67db75847757334a98d59a43401592b9581d:src/BackEnd/Tile/PropertyTiles/BuildingTile.java
 
 import java.util.List;
 
 public class BuildingTile extends AbstractPropertyTile {
     private String tilecolor;
     private BuildingCard card;
+    private int tileprice;
+    private int tilenumber;
+    private String tilename;
+    private int tilerent;
+    private int tilerentwithcolorset;
+    private int tilerent1house;
+    private int tilerent2house;
+    private int tilerent3house;
+    private int tilerent4house;
+    private int tilerenthotel;
+    private int tilemortgagevalue;
+    private int tilehouseprice;
+    private int tilehotelprice;
 
     public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor) {
         super(bank, card, tiletype, tileprice);
@@ -21,7 +40,22 @@ public class BuildingTile extends AbstractPropertyTile {
     //public BuildingTile(Element n){
     //    super(n);
     //}
-
+//
+//    public BuildingTile(Element n){
+//        this.tileprice = Integer.parseInt(getTagValue("TilePrice", n));
+//        this.tilenumber = Integer.parseInt(getTagValue("TileNumber", n));
+//        this.tilename = getTagValue("TileName", n);
+//        this.tilerent = Integer.parseInt(getTagValue("TileRent", n));
+//        this.tilerentwithcolorset = Integer.parseInt(getTagValue("TileRentWithColorSet", n));
+//        this.tilerent1house = Integer.parseInt(getTagValue("TileRent1House", n));
+//        this.tilerent2house = Integer.parseInt(getTagValue("TileRent2House", n));
+//        this.tilerent3house = Integer.parseInt(getTagValue("TileRent3House", n));
+//        this.tilerent4house = Integer.parseInt(getTagValue("TileRent4House", n));
+//        this.tilerenthotel = Integer.parseInt(getTagValue("TileRentHotel", n));
+//        this.tilemortgagevalue = Integer.parseInt(getTagValue("TileMortgageValue", n));
+//        this.tilehouseprice = Integer.parseInt(getTagValue("TileHousePrice", n));
+//        this.tilehotelprice = Integer.parseInt(getTagValue("TileHotelPrice", n));
+//    }
     //store these as strings and make a hashmap of price lookup
     public double calculateRentPrice(int roll) {
         if (isMortgaged()) {
@@ -152,6 +186,12 @@ public class BuildingTile extends AbstractPropertyTile {
 
     public boolean checkIfMortgagingImprovedProperty() {
         return (card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) > 0);
+    }
+
+    private static String getTagValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node node = nodeList.item(0);
+        return node.getNodeValue();
     }
 
     public String getTilecolor() {
