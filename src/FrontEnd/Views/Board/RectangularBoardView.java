@@ -2,9 +2,11 @@ package FrontEnd.Views.Board;
 
 import BackEnd.Board.AbstractBoard;
 import FrontEnd.Views.Board.BoardComponents.*;
+import FrontEnd.Views.IconView;
 import javafx.geometry.Insets;
 import Configuration.ImportPropertyFile;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -52,9 +54,15 @@ public class RectangularBoardView extends AbstractBoardView{
                 return o1.getMyTileName().compareTo(o2.getMyTileName());
             }
         });
+        IconView test = new IconView(new Image(this.getClass().getClassLoader().getResourceAsStream("dice1.png")));
+        test.setHeight(myTileHeight/2);
+        test.setWidth(myTileHeight/2);
         for(AbstractTileView a:myTiles){
             System.out.println(a.getMyTileName());
+            a.moveTo(test.getMyNode());
         }
+
+
         //myModel = board;
 
     }

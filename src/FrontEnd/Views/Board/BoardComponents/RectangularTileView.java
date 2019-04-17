@@ -21,6 +21,25 @@ public class RectangularTileView extends AbstractTileView {
     }
 
     @Override
+    public double getmyX() {
+        return myRoot.getLayoutX();
+    }
+
+    @Override
+    public double getmyY() {
+        return myRoot.getLayoutY();
+    }
+
+    public void moveTo(Node n){
+        myRoot.setAlignment(n,Pos.CENTER);
+        myRoot.getChildren().add(n);
+    }
+
+    public void moveFrom(Node n){
+        myRoot.getChildren().remove(n);
+    }
+
+    @Override
     public Node getNodeOfTileView() {
         return myRoot;
     }

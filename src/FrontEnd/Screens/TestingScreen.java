@@ -65,7 +65,7 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new RectangularBoardView(width*0.9, height*0.9,90,11,11,myPropertyFile);
+        myBoardView = new RectangularBoardView(width*0.5, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override
