@@ -112,17 +112,13 @@ public class Turn {
                 break;
             case BUY:
                 //buy from bank
-                property = (AbstractPropertyTile) currPlayerTile();
-                List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
-                Double currTilePrice = property.getCard().getTilePrice();
-                property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
+                buyFromBank();
                 break;
             case AUCTION:
 
                 break;
             case PAY_RENT:
-                property = (AbstractPropertyTile) currPlayerTile();
-                myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+                payRent();
                 break;
             case PAY_TAX_FIXED:
                 myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
@@ -144,16 +140,34 @@ public class Turn {
                 onAction(Actions.END_TURN);
                 break;
             case GO_TO_JAIL:
-                JailTile jail = (JailTile) myBoard.getJailTile();
-                myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
-                jail.addCriminal( myCurrPlayer );
-                myCurrPlayer.addTurnInJail();
+                goToJail();
                 //error
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
         }
         onAction(Actions.END_TURN);
+    }
+
+    private void goToJail() {
+        JailTile jail = (JailTile) myBoard.getJailTile();
+        myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
+        jail.addCriminal( myCurrPlayer );
+        myCurrPlayer.addTurnInJail();
+    }
+
+    private void payRent() {
+        AbstractPropertyTile property;
+        property = (AbstractPropertyTile) currPlayerTile();
+        myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+    }
+
+    private void buyFromBank() {
+        AbstractPropertyTile property;
+        property = (AbstractPropertyTile) currPlayerTile();
+        List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
+        Double currTilePrice = property.getCard().getTilePrice();
+        property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
     }
 
     private void promptEndTurn() {

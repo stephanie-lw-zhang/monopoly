@@ -16,7 +16,11 @@ import java.util.Map;
 
 public class StandardBoard extends AbstractBoard {
 
-    public StandardBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, Bank bank) {
+    public StandardBoard(List<AbstractPlayer> playerList,
+                         Map<Tile, List<Tile>> adjacencyMap,
+                         Map<String, List<AbstractPropertyTile>> colorListMap,
+                         Tile go,
+                         Bank bank) {
         super(playerList, adjacencyMap, colorListMap, go, 2, bank);
     }
 

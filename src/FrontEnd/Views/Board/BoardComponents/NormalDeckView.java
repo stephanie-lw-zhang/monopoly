@@ -1,6 +1,5 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board.BoardComponents;
 
-import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
@@ -11,14 +10,23 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class RectangularTileView extends AbstractTileView {
+public class NormalDeckView extends AbstractTileView {
     private double myWidth;
     private double myHeight;
     private StackPane myRoot;
 
-    public RectangularTileView(String name, String description, String color) {
+    public NormalDeckView(String name, String description, String color) {
         super(name, description);
         myRoot = new StackPane();
+    }
+
+    public void moveTo(Node n){
+        myRoot.setAlignment(n,Pos.CENTER);
+        myRoot.getChildren().add(n);
+    }
+
+    public void moveFrom(Node n){
+        myRoot.getChildren().remove(n);
     }
 
     @Override
@@ -33,6 +41,16 @@ public class RectangularTileView extends AbstractTileView {
         myRoot.setMaxSize(myWidth, myHeight);
         myRoot.getChildren().add(makeText());
         myRoot.getChildren().add(makeBorder());
+    }
+
+    @Override
+    public double getmyX() {
+        return myRoot.getLayoutX();
+    }
+
+    @Override
+    public double getmyY() {
+        return myRoot.getLayoutY();
     }
 
     private Node makeBorder() {

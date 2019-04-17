@@ -3,6 +3,8 @@ package FrontEnd.Screens;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -30,21 +32,10 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void makeScreen() {
-        Image logo = new Image("monopolylogo.png");
-        ImageView iv1 = new ImageView();
-        // resizes the image to have width of 100 while preserving the ratio and using
-        // higher quality filtering method; this ImageView is also cached to
-        // improve performance
-        ImageView iv2 = new ImageView();
-        iv2.setImage(logo);
-        iv2.setFitWidth(700);
-        iv2.setPreserveRatio(true);
-        iv2.setSmooth(true);
-        iv2.setCache(true);
-//        iv1.setImage(logo);
 //        Text titleText = new Text("MONOPOLY");
 //        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
 //        titleText.setFill(Color.DARKGREEN);
+        ImageView titleText = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("monoman.png")));
 
         Button playButton = new Button("PLAY: Normal mode");
         playButton.setOnAction(f -> handleNormalModeButton(getMyStage()));
@@ -73,7 +64,7 @@ public class MainMenuScreen extends AbstractScreen {
                 getScreenHeight(),
                 gridPane
         );
-        bPane.setCenter(iv2);
+        bPane.setCenter(titleText);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 

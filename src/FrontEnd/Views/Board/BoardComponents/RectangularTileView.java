@@ -1,6 +1,5 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board.BoardComponents;
 
-import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
@@ -11,14 +10,33 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class NormalDeckView extends AbstractTileView {
+public class RectangularTileView extends AbstractTileView {
     private double myWidth;
     private double myHeight;
     private StackPane myRoot;
 
-    public NormalDeckView(String name, String description, String color) {
+    public RectangularTileView(String name, String description, String color) {
         super(name, description);
         myRoot = new StackPane();
+    }
+
+    @Override
+    public double getmyX() {
+        return myRoot.getLayoutX();
+    }
+
+    @Override
+    public double getmyY() {
+        return myRoot.getLayoutY();
+    }
+
+    public void moveTo(Node n){
+        myRoot.setAlignment(n,Pos.CENTER);
+        myRoot.getChildren().add(n);
+    }
+
+    public void moveFrom(Node n){
+        myRoot.getChildren().remove(n);
     }
 
     @Override
@@ -31,13 +49,14 @@ public class NormalDeckView extends AbstractTileView {
         myWidth = dimensions[0];
         myHeight = dimensions[1];
         myRoot.setMaxSize(myWidth, myHeight);
-        myRoot.getChildren().add(makeText());
         myRoot.getChildren().add(makeBorder());
+        myRoot.getChildren().add(makeText());
+
     }
 
     private Node makeBorder() {
         Rectangle border = new Rectangle(myWidth/2, myHeight/2, myWidth, myHeight );
-        border.setFill(Color.TRANSPARENT);
+        border.setFill(Color.rgb(197,225,164));
         border.setStroke(Color.BLACK);
         border.setStrokeWidth(2);
         border.setStrokeType(StrokeType.INSIDE);
@@ -53,8 +72,6 @@ public class NormalDeckView extends AbstractTileView {
         myRoot.setAlignment(tileText,Pos.CENTER);
         return tileText;
     }
-
-
 
 }
 

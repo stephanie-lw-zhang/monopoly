@@ -1,6 +1,5 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board.BoardComponents;
 
-import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
@@ -27,14 +26,32 @@ public class CornerTileView extends AbstractTileView {
     @Override
     public void makeTileViewNode(double[] dimensions) {
         mySideLength = dimensions[0];
-        //myRoot.setMaxSize(myWidth, myHeight);
-        myRoot.getChildren().add(makeText());
         myRoot.getChildren().add(makeBorder());
+        myRoot.getChildren().add(makeText());
+    }
+
+    @Override
+    public double getmyX() {
+        return myRoot.getLayoutX();
+    }
+
+    @Override
+    public double getmyY() {
+        return myRoot.getLayoutY();
+    }
+
+    public void moveTo(Node n){
+        myRoot.setAlignment(n,Pos.CENTER);
+        myRoot.getChildren().add(n);
+    }
+
+    public void moveFrom(Node n){
+        myRoot.getChildren().remove(n);
     }
 
     private Node makeBorder() {
         Rectangle border = new Rectangle(mySideLength/2, mySideLength/2, mySideLength, mySideLength );
-        border.setFill(Color.TRANSPARENT);
+        border.setFill(Color.rgb(197,225,164));
         border.setStroke(Color.BLACK);
         border.setStrokeWidth(2);
         border.setStrokeType(StrokeType.INSIDE);

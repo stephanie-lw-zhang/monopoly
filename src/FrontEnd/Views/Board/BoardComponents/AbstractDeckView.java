@@ -1,14 +1,23 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board.BoardComponents;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 
-public abstract class AbstractTileView {
+public abstract class AbstractDeckView {
     private String myTileName;
     private String myDescription;
 
-    public AbstractTileView(String name, String description){
+    public AbstractDeckView(String name, String description){
         myTileName = name;
         myDescription = description;
+    }
+
+    public void moveTo(Node n){
+        return;
+    }
+
+    public void moveFrom(Node n){
+        return;
     }
 
     abstract public Node getNodeOfTileView();
