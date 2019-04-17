@@ -2,8 +2,11 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
-import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public abstract class AbstractDrawCardTile extends Tile {
 
@@ -13,17 +16,19 @@ public abstract class AbstractDrawCardTile extends Tile {
         myDeck = deck;
     }
 
-    public AbstractDrawCardTile(Element n){
+    @Override
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<String>();
+        possibleActions.add( "draw card" );
+//        myDeck.drawCard();
+        return possibleActions;
+    }
+
+    public AbstractDrawCardTile( Element n) {
         //TODO: Finish this implementation
     }
 
-    public void applyLandedOnAction(AbstractPlayer player) {
-        myDeck.drawCard();
-    }
-
-    public void applyPassedAction(AbstractPlayer player) {
+    public void applyPassedAction (AbstractPlayer player){
         return;
     }
-
-
 }

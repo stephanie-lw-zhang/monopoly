@@ -1,8 +1,10 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
-import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GoToJailTile extends Tile {
 
@@ -15,9 +17,9 @@ public class GoToJailTile extends Tile {
     public GoToJailTile(Element n){}
 
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-        player.addTurnInJail();
-        jail.addCriminal(player);
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<String>(  );
+        return possibleActions;
     }
 
     @Override
