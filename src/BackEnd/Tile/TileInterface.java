@@ -2,8 +2,10 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 
+import java.util.List;
+
 public interface TileInterface {
-    void applyLandedOnAction(AbstractPlayer p);
+    List<String> applyLandedOnAction(AbstractPlayer p);
 
     void applyPassedAction(AbstractPlayer p);
 }

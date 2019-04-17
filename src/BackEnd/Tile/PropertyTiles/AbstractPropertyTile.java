@@ -7,6 +7,7 @@ import BackEnd.Card.PropertyCard;
 import BackEnd.Tile.TileInterface;
 import org.w3c.dom.Element;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,20 +38,21 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     //fix this
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<String>(  );
 //        //controller will send player option to buy property? interact with front-end
-//        if (getOwner() instanceof Bank) {
-//            if (true) {
-//                buyProperty(player);
+        if (getOwner() instanceof Bank) {
+            possibleActions.add( "buy");
+            possibleActions.add( "auction" );
+//            else {
+//                auctionProperty();
 //            }
-////            else {
-////                auctionProperty();
-////            }
-//        }
-//        else if (!player.equals(getOwner())) {
+        }
+        else if (!player.equals(getOwner())) {
+            possibleActions.add( "pay rent" );
 //            player.paysTo(getOwner(), calculateRentPrice());
-//        }
-        return;
+        }
+        return possibleActions;
     }
 
     @Override

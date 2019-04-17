@@ -4,6 +4,9 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
 import BackEnd.Tile.TileInterface;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractDrawCardTile implements TileInterface {
 
     private DeckInterface myDeck;
@@ -13,8 +16,11 @@ public abstract class AbstractDrawCardTile implements TileInterface {
     }
 
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-        myDeck.drawCard();
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<String>(  );
+        possibleActions.add("draw card");
+//        myDeck.drawCard();
+        return possibleActions;
     }
 
     @Override
