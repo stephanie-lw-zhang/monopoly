@@ -52,11 +52,11 @@ public class Turn {
 
     public void start() {
         myActions.clear();
+        isTurnOver = false;
         myRolls = rollDice(myBoard.getNumDie());
         // TODO: send myRolls to FE to be displayed
         int numMoves = getNumMoves();
 
-        myCurrPlayer = getNextPlayer();
 
         // TODO: ADD RULES FOR DOUBLE ROLLS
 //        if (isDoubleRoll(myRolls))
@@ -91,6 +91,7 @@ public class Turn {
                 break;
             case END_TURN:
                 isTurnOver = true;
+                myCurrPlayer = getNextPlayer();
                 // TODO: HANDLE END TURN
                 break;
             case PAY_BAIL:
@@ -98,22 +99,30 @@ public class Turn {
                 // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
                 break;
             case BUY:
+                onAction(Actions.END_TURN);
                 break;
             case AUCTION:
+                onAction(Actions.END_TURN);
                 break;
             case PAY_RENT:
+                onAction(Actions.END_TURN);
                 break;
             case PAY_TAX_FULL:
+                onAction(Actions.END_TURN);
                 break;
             case PAY_TAX_PERCENTAGE:
+                onAction(Actions.END_TURN);
                 break;
             case DRAW_CARD:
+                onAction(Actions.END_TURN);
                 break;
             case SELL:
                 break;
             case COLLECT_MONEY:
+                onAction(Actions.END_TURN);
                 break;
             case GO_TO_JAIL:
+                onAction(Actions.END_TURN);
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
@@ -197,5 +206,8 @@ public class Turn {
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
 
+    public List<Actions> getMyActions() {
+        return myActions;
+    }
 
 }
