@@ -165,7 +165,7 @@ public class Turn {
             myBoard.movePlayer(myCurrPlayer, getNumMoves());
             List<String> possibleActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
             for (String action : possibleActions) {
-                
+
             }
         }
     }
