@@ -48,21 +48,13 @@ public class Turn {
 
     public void start() {
         myActions.clear();
-
         isTurnOver = false;
 
         myRolls = rollDice(myBoard.getNumDie());
-        // TODO: send myRolls to FE to be displayed
         int numMoves = getNumMoves();
 
-        // TODO: ADD RULES FOR DOUBLE ROLLS
         checkDoubleRolls();
-
         canRollDie = false;
-
-
-
-        // myCurrPlayer = getNextPlayer();
     }
 
     // TODO: Refactor such that Turn.start() can just
@@ -84,7 +76,7 @@ public class Turn {
     }
 
     public void skipTurn() {
-        myCurrPlayer= getNextPlayer();
+        myCurrPlayer = getNextPlayer();
     }
 
     private Tile currPlayerTile(){
