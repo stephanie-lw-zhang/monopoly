@@ -162,8 +162,11 @@ public class Turn {
         //player is not in jail and moves normally
         //
         else{
-//            myBoard.movePlayer(myCurrPlayer, getNumMoves());
-//            myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+            myBoard.movePlayer(myCurrPlayer, getNumMoves());
+            List<String> possibleActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+            for (String action : possibleActions) {
+                
+            }
         }
     }
 
@@ -184,5 +187,5 @@ public class Turn {
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
 
-    
+
 }
