@@ -2,7 +2,7 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
-import api.Monopoly.BackEnd.AbstractTile;
+//import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
 
 public abstract class AbstractDrawCardTile extends Tile {
