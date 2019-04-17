@@ -5,12 +5,9 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Card.PropertyCard;
-//<<<<<<< HEAD:src/BackEnd/Tile/BuildingTile.java
-//=======
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-//>>>>>>> 02da67db75847757334a98d59a43401592b9581d:src/BackEnd/Tile/PropertyTiles/BuildingTile.java
 
 import java.util.List;
 

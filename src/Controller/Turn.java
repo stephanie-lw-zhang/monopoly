@@ -26,14 +26,14 @@ public class Turn {
     private int[]          myRolls;
     private int            numDoubleRolls;
 
-    public enum Actions {
-        MOVE,
-        PROPERTY_EVENTS,
-        TRADE,
-        GET_OUT_OF_JAIL,
-        PAY_BAIL,
-        END_TURN;
-    }
+//    public enum Actions {
+//        MOVE,
+//        PROPERTY_EVENTS,
+//        TRADE,
+//        GET_OUT_OF_JAIL,
+//        PAY_BAIL,
+//        END_TURN;
+//    }
 
     public enum TurnState {
         PRE_ROLL,
@@ -81,11 +81,12 @@ public class Turn {
     public void onAction(Actions action) {
         switch (action) {
             case MOVE:
-                myBoard.movePlayer(myCurrPlayer, getNumMoves());
-                myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+//                myBoard.movePlayer(myCurrPlayer, getNumMoves());
+//                myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+                move();
                 break;
             case TRADE:
-                myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
+//                myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
                 // TODO: handle Receiver input and debt as instances
                 break;
             case END_TURN:
@@ -96,11 +97,23 @@ public class Turn {
                 myCurrPlayer.paysTo(myCurrPlayer.getBank(), 1500.00);
                 // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
                 break;
-            case GET_OUT_OF_JAIL:
-                myCurrPlayer.getOutOfJail();
+            case BUY:
                 break;
-            case PROPERTY_EVENTS:
-//                myActions.add
+            case AUCTION:
+                break;
+            case PAY_RENT:
+                break;
+            case PAY_TAX_FULL:
+                break;
+            case PAY_TAX_PERCENTAGE:
+                break;
+            case DRAW_CARD:
+                break;
+            case SELL:
+                break;
+            case COLLECT_MONEY:
+                break;
+            case GO_TO_JAIL:
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
@@ -163,10 +176,7 @@ public class Turn {
         //
         else{
             myBoard.movePlayer(myCurrPlayer, getNumMoves());
-            List<String> possibleActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
-            for (String action : possibleActions) {
-
-            }
+            myActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
         }
     }
 
