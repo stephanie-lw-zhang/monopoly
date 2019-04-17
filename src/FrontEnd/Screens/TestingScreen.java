@@ -25,7 +25,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import Controller.Game;
@@ -54,6 +53,8 @@ public class TestingScreen extends AbstractScreen {
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
     private final Button TRADE_BUTTON = new Button("TRADE");
+    private final Button AUCTION_BUTTON = new Button("AUCTION");
+    private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
 
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
@@ -138,7 +139,8 @@ public class TestingScreen extends AbstractScreen {
         playerOptionsModal.getChildren().addAll(
                 diceLayout, ROLL_BUTTON,
                 playersText, currPlayerText,
-                END_TURN_BUTTON
+                END_TURN_BUTTON, TRADE_BUTTON,
+                AUCTION_BUTTON, MORTGAGE_BUTTON
         );
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
         playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
@@ -213,22 +215,15 @@ public class TestingScreen extends AbstractScreen {
 
 
     public void updateDice(final Turn turn) {
-        List<ImageView> diceViews = (ObservableList) diceLayout.getChildren();
-
-        diceLayout.playDiceAnimation(diceViews, turn.getRolls());
+        diceLayout.playDiceAnimation((ObservableList) diceLayout.getChildren(), turn.getRolls());
         this.displayRollsPopup(turn);
     }
 
     public void displayRollsPopup(final Turn turn) {
-        int[] rolls = turn.getRolls();
-
-        Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
-                "Move " + turn.getNumMoves() + " spots!");
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("DICE ROLL");
-        alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
-                "Moving " + turn.getNumMoves() + " spots...");
+        alert.setContentText("Player " + turn.getMyCurrPlayer().getMyPlayerName()
+                    + " gets to move " + turn.getNumMoves() + " spots...");
         alert.showAndWait();
     }
 }
