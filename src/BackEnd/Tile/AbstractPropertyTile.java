@@ -4,11 +4,12 @@ import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
-//import api.Monopoly.BackEnd.AbstractTile;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,21 +42,23 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
     //fix this
+    @Override
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<String>(  );
 
-    public void applyLandedOnAction(AbstractPlayer player) {
 //        //controller will send player option to buy property? interact with front-end
-//        if (getOwner() instanceof Bank) {
-//            if (true) {
-//                buyProperty(player);
+        if (getOwner() instanceof Bank) {
+            possibleActions.add( "buy");
+            possibleActions.add( "auction" );
+//            else {
+//                auctionProperty();
 //            }
-////            else {
-////                auctionProperty();
-////            }
-//        }
-//        else if (!player.equals(getOwner())) {
+        }
+        else if (!player.equals(getOwner())) {
+            possibleActions.add( "pay rent" );
 //            player.paysTo(getOwner(), calculateRentPrice());
-//        }
-        return;
+        }
+        return possibleActions;
     }
 
     public void applyPassedAction(AbstractPlayer player) {
