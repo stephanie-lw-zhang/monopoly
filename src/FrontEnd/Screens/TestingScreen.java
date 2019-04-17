@@ -148,6 +148,20 @@ public class TestingScreen extends AbstractScreen {
         Button backToMainButton = new Button("Back to Main Menu");
         backToMainButton.setOnAction(f -> handleBackToMainButton(getMyStage()));
 
+        Image logo = new Image("monopopout.png");
+        ImageView iv1 = new ImageView();
+        // resizes the image to have width of 100 while preserving the ratio and using
+        // higher quality filtering method; this ImageView is also cached to
+        // improve performance
+        ImageView iv2 = new ImageView();
+        iv2.setImage(logo);
+        iv2.setFitWidth(400);
+        iv2.setPreserveRatio(true);
+        iv2.setSmooth(true);
+        iv2.setCache(true);
+
+        bPane.setTop(iv2);
+        bPane.setAlignment(iv2, Pos.CENTER);
         bPane.setAlignment(form, Pos.CENTER);
         bPane.setCenter(form);
         bPane.setAlignment(backToMainButton, Pos.CENTER);
@@ -269,7 +283,6 @@ public class TestingScreen extends AbstractScreen {
         Pane boardViewPane = myBoardView.getPane();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
-
 
 
         bPane.setTop(null);
