@@ -4,17 +4,17 @@ class StandardBoardTest {
 /**
     private StandardBoard board;
     private List<AbstractPlayer> playerList;
-    private List<TileInterface> goNeighbor;
-    private List<TileInterface> buildingNeighbor;
-    private List<TileInterface> jailNeighbor;
-    private List<TileInterface> goToJailNeighbor;
+    private List<Tile> goNeighbor;
+    private List<Tile> buildingNeighbor;
+    private List<Tile> jailNeighbor;
+    private List<Tile> goToJailNeighbor;
 
     @BeforeEach
     void setUp(){
         playerList = new ArrayList<>();
 //        playerList.add(new HumanPlayer(0.0, new Bank(0.0)));
-        Map adjacencyList = new HashMap<TileInterface, List<TileInterface>>();
-        TileInterface go = new GoTile(200.0,200.0);
+        Map adjacencyList = new HashMap<Tile, List<Tile>>();
+        Tile go = new GoTile(200.0,200.0);
         JailTile jail = new JailTile();
         goNeighbor = new ArrayList<>();
 

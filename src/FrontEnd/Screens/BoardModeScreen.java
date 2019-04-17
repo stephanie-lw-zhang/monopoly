@@ -1,6 +1,6 @@
 package FrontEnd.Screens;
 
-import FrontEnd.BoardView;
+import FrontEnd.Views.BoardView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

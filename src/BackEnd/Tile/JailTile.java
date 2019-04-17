@@ -5,7 +5,7 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import java.util.HashSet;
 import java.util.Set;
 
-public class JailTile implements TileInterface {
+public class JailTile extends Tile {
 
     private Set<AbstractPlayer> criminals;
 

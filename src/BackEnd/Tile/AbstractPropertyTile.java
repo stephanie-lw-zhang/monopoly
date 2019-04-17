@@ -4,6 +4,7 @@ import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
+import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -11,7 +12,7 @@ import org.w3c.dom.NodeList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractPropertyTile implements TileInterface {
+public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
     private double tileprice;
@@ -40,7 +41,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
     }
 
     //fix this
-    @Override
+
     public void applyLandedOnAction(AbstractPlayer player) {
 //        //controller will send player option to buy property? interact with front-end
 //        if (getOwner() instanceof Bank) {
@@ -57,7 +58,6 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return;
     }
 
-    @Override
     public void applyPassedAction(AbstractPlayer player) {
         return;
     }
@@ -180,7 +180,7 @@ public abstract class AbstractPropertyTile implements TileInterface {
         currentInUpgradeOrder = newOrder;
     }
 
-    // maybe make an abstractTile class instead of an TileInterface
+    // maybe make an abstractTile class instead of an Tile
     private String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);

@@ -9,9 +9,9 @@ import BackEnd.Deck.NormalDeck;
 import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
 import BackEnd.Tile.AbstractPropertyTile;
-import BackEnd.Tile.TileInterface;
+import BackEnd.Tile.Tile;
 import Controller.Turn;
-import FrontEnd.BoardView;
+import FrontEnd.Views.BoardView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -233,7 +233,7 @@ public class TestingScreen extends AbstractScreen {
 
         AbstractBoard board = new StandardBoard(
             playerList,
-            new HashMap<TileInterface, List<TileInterface>>(),
+            new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200)
         );
@@ -288,7 +288,6 @@ public class TestingScreen extends AbstractScreen {
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {
         BorderPane bPane = (BorderPane) testScene.getRoot();
         StackPane boardStackPane = (StackPane) bPane.getCenter();
-//        VBox playerOptionsModal = (VBox) boardStackPa
         ObservableList vList = boardStackPane.getChildren();
 
         // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
@@ -299,7 +298,7 @@ public class TestingScreen extends AbstractScreen {
         currPlayerText.setText(currPlayer.getMyPlayerName());
     }
 
-    public void displayRollsPopup(Turn turn) {
+    public void displayRollsPopup(final Turn turn) {
         int[] rolls = turn.getRolls();
 
         Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
@@ -329,7 +328,7 @@ public class TestingScreen extends AbstractScreen {
         rt2.play();
     }
 
-    private void setDice(ImageView diceView, int roll) {
+    private void setDice(ImageView diceView, final int roll) {
         diceView.setImage(new Image(
                 this.getClass()
                     .getClassLoader()

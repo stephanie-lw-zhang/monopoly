@@ -1,4 +1,4 @@
-package FrontEnd;
+package FrontEnd.Views;
 
 public class OriginalTileView {
 }

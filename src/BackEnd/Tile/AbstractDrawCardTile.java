@@ -2,9 +2,10 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
-import BackEnd.Tile.TileInterface;
+import api.Monopoly.BackEnd.AbstractTile;
+import org.w3c.dom.Element;
 
-public abstract class AbstractDrawCardTile implements TileInterface {
+public abstract class AbstractDrawCardTile extends Tile {
 
     private DeckInterface myDeck;
 
@@ -12,14 +13,17 @@ public abstract class AbstractDrawCardTile implements TileInterface {
         myDeck = deck;
     }
 
-    @Override
+    public AbstractDrawCardTile(Element n){
+        //TODO: Finish this implementation
+    }
+
     public void applyLandedOnAction(AbstractPlayer player) {
         myDeck.drawCard();
     }
 
-    @Override
     public void applyPassedAction(AbstractPlayer player) {
         return;
     }
+
 
 }

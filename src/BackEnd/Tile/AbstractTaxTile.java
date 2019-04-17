@@ -2,12 +2,11 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
-import BackEnd.Tile.TileInterface;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public abstract class AbstractTaxTile implements TileInterface {
+public abstract class AbstractTaxTile extends Tile {
 
     private double amountToDeduct;
     private Bank bank;
