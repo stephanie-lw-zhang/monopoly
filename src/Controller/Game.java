@@ -67,9 +67,7 @@ public class Game {
     private void handleRollButton() {
         myTurn.start();
 
-        myTestScreen.updateDiceView(myTurn.getRolls());
-        myTestScreen.displayRollsPopup(myTurn);
-
+        myTestScreen.updateDice(myTurn);
 
         myTurn.onAction(Actions.MOVE);
         //TODO: move player front end
