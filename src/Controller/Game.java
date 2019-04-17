@@ -6,8 +6,11 @@ import BackEnd.Deck.DeckInterface;
 import BackEnd.Dice.AbstractDice;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
+import Configuration.ImportPropertyFile;
 import FrontEnd.Screens.TestingScreen;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -25,6 +28,7 @@ public class Game {
     private AbstractDice         myDice;
     private TestingScreen        myTestScreen;
     private Turn                 myTurn;
+    private ImportPropertyFile myPropertyFile;
 
     public Game(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board) {
         myDice = dice;
@@ -67,6 +71,7 @@ public class Game {
 
         myTestScreen.updateDiceView(myTurn.getRolls());
         myTestScreen.displayRollsPopup(myTurn);
+
 
         myTurn.onAction(Actions.MOVE);
         //TODO: move player front end

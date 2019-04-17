@@ -12,7 +12,9 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
+import FrontEnd.Views.DiceView;
 import FrontEnd.Views.Board.RectangularBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -49,13 +51,16 @@ import java.io.File;
  */
 public class TestingScreen extends AbstractScreen {
 
+
+    private Scene     testScene;
     private RectangularBoardView myBoardView;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private double    screenWidth;
     private double    screenHeight;
     private Stage     testStage;
-    private Scene     testScene;
     private Game      myGame;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
+
+    private ObservableList<ImageView> myIconsList;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
@@ -65,7 +70,7 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new RectangularBoardView(width*0.5, height*0.9,90,11,11,myPropertyFile);
+        myBoardView = new RectangularBoardView(width*0.89, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override
@@ -107,6 +112,8 @@ public class TestingScreen extends AbstractScreen {
         p4Field.setPrefHeight(30);
         p4Field.setMaxWidth(200);
 
+
+
         Button startGameButton = new Button("START GAME");
         startGameButton.setPrefHeight(20);
         startGameButton.setPrefWidth(150);
@@ -140,6 +147,20 @@ public class TestingScreen extends AbstractScreen {
         Button backToMainButton = new Button("Back to Main Menu");
         backToMainButton.setOnAction(f -> handleBackToMainButton(getMyStage()));
 
+        Image logo = new Image("monopopout.png");
+        ImageView iv1 = new ImageView();
+        // resizes the image to have width of 100 while preserving the ratio and using
+        // higher quality filtering method; this ImageView is also cached to
+        // improve performance
+        ImageView iv2 = new ImageView();
+        iv2.setImage(logo);
+        iv2.setFitWidth(400);
+        iv2.setPreserveRatio(true);
+        iv2.setSmooth(true);
+        iv2.setCache(true);
+
+        bPane.setTop(iv2);
+        bPane.setAlignment(iv2, Pos.CENTER);
         bPane.setAlignment(form, Pos.CENTER);
         bPane.setCenter(form);
         bPane.setAlignment(backToMainButton, Pos.CENTER);
@@ -171,6 +192,50 @@ public class TestingScreen extends AbstractScreen {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
 
+
+//        DiceView diceLayout = new DiceView(
+//                myGame.getBoard().getNumDie(),
+//                myGame.getMyDice().getNumStates()
+//        );
+
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+//        HBox diceLayout = new HBox();
+//        diceLayout.setSpacing(20);
+//
+//        myGame.getMyDice().getNumStates();
+//
+//        ImageView dice1 = new ImageView();
+//        dice1.setImage(new Image(this
+//                .getClass()
+//                .getClassLoader()
+//                .getResourceAsStream(
+//                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+//                )
+//        ));
+//        dice1.setFitHeight(50);
+//        dice1.setFitWidth(50);
+//
+//        ImageView dice2 = new ImageView();
+//        dice2.setImage(new Image(this
+//                .getClass()
+//                .getClassLoader()
+//                .getResourceAsStream(
+//                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+//                )
+//        ));
+//        dice2.setFitHeight(50);
+//        dice2.setFitWidth(50);
+//
+//        List<ImageView> diceList = new ArrayList<>();
+//        diceList.add(dice1); diceList.add(dice2);
+//
+//        diceLayout.getChildren().addAll(diceList);
+//        diceLayout.setAlignment(Pos.CENTER_LEFT);
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
         HBox diceLayout = new HBox();
         diceLayout.setSpacing(20);
         diceLayout.setUserData("diceLayout");
@@ -219,7 +284,6 @@ public class TestingScreen extends AbstractScreen {
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
 
 
-
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
 
@@ -242,7 +306,7 @@ public class TestingScreen extends AbstractScreen {
             new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200),
-            new Bank(20000.0, new HashMap<String, Integer>())
+            new Bank(200000.0, new HashMap<String, Integer>())
         );
 
         return board;

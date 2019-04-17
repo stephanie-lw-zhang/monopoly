@@ -1,5 +1,7 @@
 package FrontEnd.Views.Board.BoardComponents;
 
+import Configuration.ImportPropertyFile;
+import FrontEnd.Views.Board.BoardComponents.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
@@ -16,11 +18,15 @@ public class PropertyTileView extends AbstractTileView {
     private double myHeight;
     private StackPane myRoot;
     private Paint myColor;
+    private ImportPropertyFile myPropertyFile;
+    private ImportPropertyFile myDetails;
 
-    public PropertyTileView(String name, String description, Paint paint) {
+    public PropertyTileView(String name, ImportPropertyFile details, String description, Paint paint) {
         super(name, description);
         myColor = paint;
         myRoot = new StackPane();
+        myDetails=details;
+
     }
 
     @Override
@@ -58,6 +64,8 @@ public class PropertyTileView extends AbstractTileView {
 
     }
 
+
+
     private Node makeBorder() {
         Rectangle border = new Rectangle(myWidth/2, myHeight/2, myWidth, myHeight );
         border.setFill(Color.rgb(197,225,164));
@@ -73,7 +81,7 @@ public class PropertyTileView extends AbstractTileView {
         tileText.setTextAlignment(TextAlignment.CENTER);
         tileText.setWrappingWidth(myWidth);
         tileText.setFont(Font.font("Verdana",myWidth/5));
-        myRoot.setAlignment(tileText,Pos.CENTER);
+        myRoot.setAlignment(tileText,Pos.BOTTOM_CENTER);
         return tileText;
     }
 
