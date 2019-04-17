@@ -23,7 +23,7 @@ public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
     private BoardView myBoardView;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("/Users/luisfornes/IdeaProjects/monopoly_team05/properties/BoardTemplates/OriginalMonopoly.properties");
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
 
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
