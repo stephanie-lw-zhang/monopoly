@@ -7,8 +7,8 @@ import org.w3c.dom.Element;
 
 public class LuxuryTaxTile extends AbstractTaxTile {
 
-    public LuxuryTaxTile(int money, Bank bank) {
-        super(money, bank);
+    public LuxuryTaxTile(int money, Bank bank, int index) {
+        super(money, bank, index);
     }
 
     public LuxuryTaxTile(Bank bank, Element n){

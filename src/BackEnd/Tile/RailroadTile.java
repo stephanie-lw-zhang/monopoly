@@ -8,8 +8,8 @@ import org.w3c.dom.Element;
 public class RailroadTile extends AbstractNonBuildingPropertyTile {
 
 
-    public RailroadTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
-        super( bank, card, tiletype, tileprice );
+    public RailroadTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
+        super( bank, card, tiletype, tileprice, index);
     }
 
     public RailroadTile(Bank bank, PropertyCard card, Element n){

@@ -7,12 +7,16 @@ import org.w3c.dom.Element;
 public class GoToJailTile extends Tile {
 
     private JailTile jail;
+    int index;
 
-    public GoToJailTile(JailTile jail) {
+    public GoToJailTile(JailTile jail, int index) {
         this.jail = jail;
+        this.index = index;
     }
 
-    public GoToJailTile(Element n){}
+    public GoToJailTile(Element n){
+        index = Integer.parseInt(getTagValue("TileNumber", n));
+    }
 
     @Override
     public void applyLandedOnAction(AbstractPlayer player) {

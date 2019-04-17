@@ -8,13 +8,15 @@ import org.w3c.dom.Element;
 public abstract class AbstractDrawCardTile extends Tile {
 
     private DeckInterface myDeck;
+    private int index;
 
-    public AbstractDrawCardTile(DeckInterface deck) {
+    public AbstractDrawCardTile(DeckInterface deck, int index) {
         myDeck = deck;
+        this.index = index;
     }
 
     public AbstractDrawCardTile(Element n){
-        //TODO: Finish this implementation
+        index = Integer.parseInt(getTagValue("TileNumber", n));
     }
 
     public void applyLandedOnAction(AbstractPlayer player) {

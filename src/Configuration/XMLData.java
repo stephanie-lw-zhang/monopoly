@@ -47,7 +47,7 @@ public class XMLData {
                 tiles.add(getTile(tileList.item(i)));
             }
             for (Tile tile : tiles) {
-                System.out.println(tile);
+                //System.out.println(tile);
             }
         }catch(ParserConfigurationException | SAXException | IOException e){
             e.printStackTrace(); //change this !!!
@@ -92,6 +92,10 @@ public class XMLData {
         else{
             return null; //change this!!
         }
+    }
+
+    private static void initializeAdjacencyList(List<Tile> tiles){
+        //TODO loop through list and create adjacency list
     }
 
     private static String getTagValue(String tag, Element element) {

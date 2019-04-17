@@ -7,8 +7,8 @@ import org.w3c.dom.Element;
 
 public class IncomeTaxTile extends AbstractTaxTile {
 
-    public IncomeTaxTile(int money, Bank bank) {
-        super(money, bank);
+    public IncomeTaxTile(int money, Bank bank, int index) {
+        super(money, bank, index);
     }
 
     public IncomeTaxTile(Bank bank, Element n){

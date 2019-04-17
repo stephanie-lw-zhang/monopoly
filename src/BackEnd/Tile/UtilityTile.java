@@ -8,8 +8,8 @@ import org.w3c.dom.Element;
 public class UtilityTile extends AbstractNonBuildingPropertyTile {
 
 
-    public UtilityTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
-        super( bank, card, tiletype, tileprice );
+    public UtilityTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
+        super( bank, card, tiletype, tileprice, index);
     }
 
     public UtilityTile(Bank bank, PropertyCard card, Element n){

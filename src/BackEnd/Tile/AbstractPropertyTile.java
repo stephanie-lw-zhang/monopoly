@@ -22,8 +22,9 @@ public abstract class AbstractPropertyTile extends Tile {
     private AbstractAssetHolder owner;
     private PropertyCard card;
     private String currentInUpgradeOrder;
+    private int index;
 
-    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
+    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
         this.owner = bank;
         this.bank = bank;
         //throw exception if card is not propertycard type
@@ -32,6 +33,7 @@ public abstract class AbstractPropertyTile extends Tile {
         this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
+        this.index =index;
     }
 
     public AbstractPropertyTile(Bank bank, PropertyCard card, Element n){
@@ -40,6 +42,7 @@ public abstract class AbstractPropertyTile extends Tile {
         this.card = card;
         tiletype = getTagValue("TileType", n);
         tileprice = Double.parseDouble(getTagValue("TilePrice", n));
+        index = Integer.parseInt(getTagValue("TileNumber", n));
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }

@@ -10,15 +10,18 @@ public abstract class AbstractTaxTile extends Tile {
 
     private double amountToDeduct;
     private Bank bank;
+    private int index;
 
-    public AbstractTaxTile(int money, Bank bank) {
+    public AbstractTaxTile(int money, Bank bank, int index) {
         this.amountToDeduct = money;
         this.bank = bank;
+        this.index = index;
     }
 
     public AbstractTaxTile(Bank bank, Element n){
         this.bank = bank;
         this.amountToDeduct = Integer.parseInt(getTagValue("TileRent", n));
+        index = Integer.parseInt(getTagValue("TileNumber", n));
         //this.bank = ;
     }
 

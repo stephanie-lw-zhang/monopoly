@@ -11,8 +11,8 @@ import java.util.List;
 public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTile {
 
 
-    public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
-        super(bank, card, tiletype, tileprice);
+    public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
+        super(bank, card, tiletype, tileprice, index);
     }
 
     public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, Element n){

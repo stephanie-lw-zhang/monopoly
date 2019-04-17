@@ -14,8 +14,8 @@ public class BuildingTile extends AbstractPropertyTile {
     private String tilecolor;
     private BuildingCard card;
 
-    public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor) {
-        super(bank, card, tiletype, tileprice);
+    public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor, int index) {
+        super(bank, card, tiletype, tileprice, index);
         this.card = (BuildingCard) this.getCard();
         this.tilecolor = tilecolor;
     }
