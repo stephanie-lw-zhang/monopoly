@@ -224,7 +224,7 @@ public class TestingScreen extends AbstractScreen {
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
         HBox diceLayout = new HBox();
-        diceLayout.setSpacing(10);
+        diceLayout.setSpacing(20);
         diceLayout.setUserData("diceLayout");
 
         ImageView dice1 = new ImageView();
@@ -235,8 +235,8 @@ public class TestingScreen extends AbstractScreen {
                         "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
                 )
         ));
-        dice1.setFitHeight(30);
-        dice1.setFitWidth(30);
+        dice1.setFitHeight(55);
+        dice1.setFitWidth(55);
 
         ImageView dice2 = new ImageView();
         dice2.setImage(new Image(this
@@ -246,8 +246,8 @@ public class TestingScreen extends AbstractScreen {
                         "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
                 )
         ));
-        dice2.setFitHeight(30);
-        dice2.setFitWidth(30);
+        dice2.setFitHeight(55);
+        dice2.setFitWidth(55);
 
         diceLayout.getChildren().addAll(dice1, dice2);
         diceLayout.setAlignment(Pos.CENTER_RIGHT);
