@@ -46,7 +46,6 @@ public class MainMenuScreen extends AbstractScreen {
         iv2.setPreserveRatio(true);
         iv2.setSmooth(true);
         iv2.setCache(true);
-//        iv1.setImage(logo);
 //        Text titleText = new Text("MONOPOLY");
 //        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
 //        titleText.setFill(Color.DARKGREEN);

@@ -1,6 +1,7 @@
 package FrontEnd.Screens;
 
 import Configuration.ImportPropertyFile;
+import FrontEnd.Views.Board.RectangularBoardView;
 import FrontEnd.Views.Board.AbstractBoardView;
 import FrontEnd.Views.Board.SquareBoardView;
 import FrontEnd.Views.Game.AbstractGameView;
@@ -22,18 +23,24 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * For BOARD testing purposes
+ *
+ * @author Luis
+ */
 public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
     private AbstractGameView myGameView;
     private AbstractBoardView myBoardView;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
         myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight);
         myBoardView = new SquareBoardView(0.9*sWidth, 0.9*sHeight,90,11,11,myPropertyFile);
         myGameView.addBoardView(myBoardView);
     }
+
 
     @Override
     public void makeScreen() {

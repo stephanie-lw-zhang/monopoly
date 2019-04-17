@@ -1,5 +1,7 @@
 package FrontEnd.Views.Board.BoardComponents;
 
+import Configuration.ImportPropertyFile;
+import FrontEnd.Views.Board.BoardComponents.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
@@ -14,10 +16,13 @@ public class RectangularTileView extends AbstractTileView {
     private double myWidth;
     private double myHeight;
     private StackPane myRoot;
+    private ImportPropertyFile myPropertyFile;
+    private ImportPropertyFile myDetails;
 
-    public RectangularTileView(String name, String description, String color) {
+    public RectangularTileView(String name, ImportPropertyFile details,String description, String color) {
         super(name, description);
         myRoot = new StackPane();
+        myPropertyFile = details;
     }
 
     @Override
