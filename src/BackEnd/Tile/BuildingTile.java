@@ -5,12 +5,9 @@ import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.BuildingCard;
 import BackEnd.Card.PropertyCard;
-//<<<<<<< HEAD:src/BackEnd/Tile/BuildingTile.java
-//=======
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-//>>>>>>> 02da67db75847757334a98d59a43401592b9581d:src/BackEnd/Tile/PropertyTiles/BuildingTile.java
 
 import java.util.List;
 
@@ -159,7 +156,7 @@ public class BuildingTile extends AbstractPropertyTile {
         return true;
     }
 
-    @Override
+//    @Override
     public double sellToBankPrice() {
         if (!isMortgaged()) {
 //  REMIND LUIS: DIVIDE BY 2 for selling back to bank
@@ -167,7 +164,7 @@ public class BuildingTile extends AbstractPropertyTile {
             return card.getOneBuildingSellToBankPrice(getCurrentInUpgradeOrder());
         }
         else {
-            //throw exception: CANNOT SELL WHEN MORTGAGED
+            //throw exception: CANNOT SELL_TO_BANK WHEN MORTGAGED
         }
         return 0;
     }

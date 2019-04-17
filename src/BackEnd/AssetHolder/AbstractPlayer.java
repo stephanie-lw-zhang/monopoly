@@ -106,14 +106,14 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //        }
 //    }
 
-    private Double getTotalAssetValue() {
-        Double totalAssetValue = 0.0;
-        for(AbstractPropertyTile each: this.getProperties()){
-            totalAssetValue += each.sellToBankPrice();
-            //assume can only sell to bank, no trading
-        }
-        return totalAssetValue;
-    }
+//    private Double getTotalAssetValue() {
+//        Double totalAssetValue = 0.0;
+//        for(AbstractPropertyTile each: this.getProperties()){
+//            totalAssetValue += each.sellToBankPrice();
+//            //assume can only sell to bank, no trading
+//        }
+//        return totalAssetValue;
+//    }
 
     @Override
     public boolean equals(Object o) {

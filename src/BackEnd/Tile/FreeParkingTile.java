@@ -1,6 +1,7 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import Controller.Actions;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -18,15 +19,11 @@ public class FreeParkingTile extends Tile {
     public FreeParkingTile(Element n){}
 
 
-    public List<String> applyLandedOnAction(AbstractPlayer player) {
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
         //player.setMoney(player.getMoney() + landedOnMoney);
-        List<String> possibleActions = new ArrayList<String>(  );
-        possibleActions.add("Collect Money");
+        List<Actions> possibleActions = new ArrayList<>(  );
+        possibleActions.add(Actions.COLLECT_MONEY);
         return possibleActions;
-    }
-
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
     }
 
 }
