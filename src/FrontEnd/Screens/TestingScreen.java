@@ -55,7 +55,7 @@ public class TestingScreen extends AbstractScreen {
     private Stage     testStage;
     private Scene     testScene;
     private Game      myGame;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
 
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");

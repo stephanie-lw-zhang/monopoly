@@ -14,7 +14,6 @@ public class ImportPropertyFile {
          * @param filepath name of properties file in resources
          */
         public ImportPropertyFile(String filepath) {
-            System.out.print(filepath);
             prop = new Properties();
             input = ImportPropertyFile.class.getClassLoader().getResourceAsStream(filepath);
             try{

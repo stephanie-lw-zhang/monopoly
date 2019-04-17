@@ -20,8 +20,9 @@ public class BoardView {
     private double myTileHeight;
 
     private ImportPropertyFile myPropertyFile;
+    private ImportPropertyFile details;
 
-    public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile myPropertyFile){
+    public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
         myRoot = new AnchorPane();
         myRoot.setMaxWidth(screenWidth);
         myRoot.setMaxHeight(screenHeight);
@@ -30,6 +31,10 @@ public class BoardView {
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
+        myPropertyFile=propertyFile;
+        System.out.print(myPropertyFile);
+
+        //System.out.print(myPropertyFile.getProp("TileOName"));
         makeBoard();
         //myModel = board;
 
@@ -119,14 +124,14 @@ public class BoardView {
         myRoot.getChildren().add(tileNode);
     }
 
-    public void placePropertyTile(String tileName, ImportPropertyFile myPropertyFile,
+    public void placePropertyTile(String tileName, ImportPropertyFile details,
                                   String tileDescription,
                                   Paint tileColor,
                                   int xoffset,
                                   int yoffset,
                                   int totalTiles,
                                   double sideLength,double rotationAngle){
-        var tile = new PropertyTileView(tileName, myPropertyFile, tileDescription,tileColor);
+        var tile = new PropertyTileView(tileName, details, tileDescription,tileColor);
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
@@ -145,24 +150,24 @@ public class BoardView {
             myRoot.setRightAnchor(tileNode,width/2);
         }
         tileNode.setRotate(rotationAngle);
-        tileNode.setOnMouseClicked(e -> {showTileClickedAlert();});
+        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         myRoot.getChildren().add(tileNode);
     }
 
-    private void showTileClickedAlert() {
+    private void showTileClickedAlert(ImportPropertyFile details) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(myPropertyFile.getProp("TileName"));
+        alert.setTitle(details.getProp("TileName"));
         alert.setContentText("Example Property Tile");
         alert.showAndWait();
     }
 
-    public void placeNonPropertyTile(String tileName, ImportPropertyFile propertyFile,
+    public void placeNonPropertyTile(String tileName, ImportPropertyFile details,
     String tileDescription,
     int xoffset,
     int yoffset,
     int totalTiles,
     double sideLength,double rotationAngle){
-        var tile = new RectangularTileView(tileName, propertyFile , tileDescription,"");
+        var tile = new RectangularTileView(tileName, details, tileDescription,"");
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
@@ -181,29 +186,32 @@ public class BoardView {
             myRoot.setRightAnchor(tileNode,width/2);
         }
         tileNode.setRotate(rotationAngle);
+        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         myRoot.getChildren().add(tileNode);
     }
 
     public void placeCornerTile(String tileName,
-                                ImportPropertyFile myPropertyFile,
+                                ImportPropertyFile details,
                                 String tileDescription,
                                 String tileColor,
                                 double xDiff,
                                 double yDiff){
         var width = myTileHeight;
         var height = myTileHeight;
-        var tile = new CornerTileView(tileName, myPropertyFile, tileDescription, tileColor);
+        var tile = new CornerTileView(tileName, details, tileDescription, tileColor);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
+        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         myRoot.getChildren().add(tileNode);
 
 
     }
 
     public void makeCorners(){
-        System.out.print(myPropertyFile.getProp("TileOFile"));
+        System.out.print(myPropertyFile.getProp("TileOName"));
+        System.out.print(myPropertyFile.getProp("TileOFile®"));
         placeCornerTile(myPropertyFile.getProp("Tile0Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile0File")),"Go","clear",1,1);
         placeCornerTile(myPropertyFile.getProp("Tile10Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile10File")),"Go","clear",0,1);
         placeCornerTile(myPropertyFile.getProp("Tile20Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile20File")),"Go","clear",0,0);

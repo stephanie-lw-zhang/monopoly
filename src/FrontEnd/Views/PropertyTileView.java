@@ -19,12 +19,14 @@ public class PropertyTileView extends AbstractTileView {
     private StackPane myRoot;
     private Paint myColor;
     private ImportPropertyFile myPropertyFile;
+    private ImportPropertyFile myDetails;
 
-    public PropertyTileView(String name, ImportPropertyFile propertyFile, String description, Paint paint) {
+    public PropertyTileView(String name, ImportPropertyFile details, String description, Paint paint) {
         super(name, description);
         myColor = paint;
         myRoot = new StackPane();
-        myPropertyFile = propertyFile;
+        myDetails=details;
+
     }
 
     @Override
