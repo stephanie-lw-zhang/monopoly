@@ -199,7 +199,19 @@ public class RectangularBoardView extends AbstractBoardView{
     private void showTileClickedAlert(ImportPropertyFile details) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(details.getProp("TileName"));
-        alert.setContentText("Example Property Tile");
+        alert.setHeaderText("Property Info:");
+        alert.setContentText(
+                "Tile Price = " + details.getProp("TilePrice")+"\n"+
+                        "Tile Rent = " + details.getProp("TileRent") +"\n" +
+                        "Tile Rent with Color Set = " + details.getProp("TileRentWithColorSet") +"\n" +
+                        "Tile Rent with 1 House = " + details.getProp("TileRent1House") +"\n" +
+                        "Tile Rent with 2 Houses = " + details.getProp("TileRent2House") +"\n" +
+                        "Tile Rent with 3 Houses = " + details.getProp("TileRent3House") +"\n" +
+                        "Tile Rent with 4 Houses = " + details.getProp("TileRent4House") +"\n" +
+                        "Tile Rent with Hotel = " + details.getProp("TileRentHotel") +"\n" +
+                        "Tile Mortgage Value = " + details.getProp("TileMortgageValue") +"\n" +
+                        "Tile House Price = " + details.getProp("TileHousePrice") +"\n" +
+                        "Tile Hotel Price = " + details.getProp("TileHotelPrice") +"\n");
         alert.showAndWait();
     }
 

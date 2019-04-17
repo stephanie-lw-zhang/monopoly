@@ -26,17 +26,14 @@ import javafx.stage.Stage;
 public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
-    private RectangularBoardView myBoardView;
-    private ImportPropertyFile myPropertyFile;
-    private SplitScreenGameView myGameView;
-
+    private AbstractGameView myGameView;
+    private AbstractBoardView myBoardView;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-        System.out.println(myPropertyFile);
-        myBoardView = new RectangularBoardView(sWidth, sHeight*0.9,90,11,11, myPropertyFile);
-
-
+        myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight);
+        myBoardView = new SquareBoardView(0.9*sWidth, 0.9*sHeight,90,11,11,myPropertyFile);
+        myGameView.addBoardView(myBoardView);
     }
 
 
