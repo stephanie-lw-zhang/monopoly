@@ -8,8 +8,8 @@ import BackEnd.Board.StandardBoard;
 import BackEnd.Deck.NormalDeck;
 import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.TileInterface;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
 import Controller.Turn;
 import FrontEnd.Views.BoardView;
 import javafx.animation.RotateTransition;
@@ -233,7 +233,7 @@ public class TestingScreen extends AbstractScreen {
 
         AbstractBoard board = new StandardBoard(
             playerList,
-            new HashMap<TileInterface, List<TileInterface>>(),
+            new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200)
         );

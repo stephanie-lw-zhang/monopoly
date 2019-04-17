@@ -1,7 +1,8 @@
-package BackEnd.Tile.PropertyTiles;
+package BackEnd.Tile;
 
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
+import BackEnd.Tile.AbstractNonBuildingPropertyTile;
 import org.w3c.dom.Element;
 
 public class UtilityTile extends AbstractNonBuildingPropertyTile {
@@ -11,9 +12,9 @@ public class UtilityTile extends AbstractNonBuildingPropertyTile {
         super( bank, card, tiletype, tileprice );
     }
 
-    public UtilityTile(Element n) {
-        super( n );
-    }
+    //public UtilityTile(Element n) {
+    //    super( n );
+    //}
 
     @Override
     public double calculateRentPrice(int roll) {
