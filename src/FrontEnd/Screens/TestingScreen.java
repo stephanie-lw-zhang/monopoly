@@ -12,8 +12,13 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
+<<<<<<< HEAD
 import FrontEnd.Views.BoardView;
 import FrontEnd.Views.DiceView;
+=======
+import FrontEnd.Views.Board.RectangularBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
+>>>>>>> 86ccd26957248445698bcf6fceaed299c2245e0b
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -50,15 +55,17 @@ import java.io.File;
  */
 public class TestingScreen extends AbstractScreen {
 
-    private BoardView myBoardView;
+
+    private Scene     testScene;
+    private RectangularBoardView myBoardView;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private double    screenWidth;
     private double    screenHeight;
     private Stage     testStage;
-    private Scene     testScene;
     private Game      myGame;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
 
     private ObservableList<ImageView> myIconsList;
+
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
 
@@ -68,7 +75,7 @@ public class TestingScreen extends AbstractScreen {
         screenHeight = height;
         testStage = stage;
 
-        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11, myPropertyFile);
+        myBoardView = new RectangularBoardView(width*0.89, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override
@@ -176,6 +183,7 @@ public class TestingScreen extends AbstractScreen {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
 
+
         DiceView diceLayout = new DiceView(
                 myGame.getBoard().getNumDie(),
                 myGame.getMyDice().getNumStates()
@@ -219,6 +227,34 @@ public class TestingScreen extends AbstractScreen {
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
         // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        HBox diceLayout = new HBox();
+        diceLayout.setSpacing(10);
+        diceLayout.setUserData("diceLayout");
+
+        ImageView dice1 = new ImageView();
+        dice1.setImage(new Image(this
+                .getClass()
+                .getClassLoader()
+                .getResourceAsStream(
+                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+                )
+        ));
+        dice1.setFitHeight(30);
+        dice1.setFitWidth(30);
+
+        ImageView dice2 = new ImageView();
+        dice2.setImage(new Image(this
+                .getClass()
+                .getClassLoader()
+                .getResourceAsStream(
+                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+                )
+        ));
+        dice2.setFitHeight(30);
+        dice2.setFitWidth(30);
+
+        diceLayout.getChildren().addAll(dice1, dice2);
+        diceLayout.setAlignment(Pos.CENTER_RIGHT);
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());
@@ -232,9 +268,13 @@ public class TestingScreen extends AbstractScreen {
 
         playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText, END_TURN_BUTTON);
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
-        playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
+        playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
 
-        boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
+        Pane boardViewPane = myBoardView.getPane();
+        boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
+        boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
+
+
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
@@ -259,6 +299,7 @@ public class TestingScreen extends AbstractScreen {
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200),
             new Bank(200000.0, new HashMap<String, Integer>())
+
         );
 
         return board;

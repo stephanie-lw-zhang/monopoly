@@ -6,6 +6,7 @@ import BackEnd.Deck.DeckInterface;
 import BackEnd.Dice.AbstractDice;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
+import Configuration.ImportPropertyFile;
 import FrontEnd.Screens.TestingScreen;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ public class Game {
     private AbstractDice         myDice;
     private TestingScreen        myTestScreen;
     private Turn                 myTurn;
+    private ImportPropertyFile myPropertyFile;
 
     public Game(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board) {
         myDice = dice;
