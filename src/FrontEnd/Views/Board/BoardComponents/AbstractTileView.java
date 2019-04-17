@@ -1,12 +1,12 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board.BoardComponents;
 
 import javafx.scene.Node;
 
-public abstract class AbstractDeckView {
+public abstract class AbstractTileView {
     private String myTileName;
     private String myDescription;
 
-    public AbstractDeckView(String name, String description){
+    public AbstractTileView(String name, String description){
         myTileName = name;
         myDescription = description;
     }

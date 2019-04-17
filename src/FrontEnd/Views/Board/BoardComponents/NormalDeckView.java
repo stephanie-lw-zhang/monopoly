@@ -1,6 +1,5 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board.BoardComponents;
 
-import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;

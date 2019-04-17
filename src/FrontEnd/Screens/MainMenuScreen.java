@@ -3,6 +3,8 @@ package FrontEnd.Screens;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -41,7 +43,6 @@ public class MainMenuScreen extends AbstractScreen {
         iv2.setPreserveRatio(true);
         iv2.setSmooth(true);
         iv2.setCache(true);
-//        iv1.setImage(logo);
 //        Text titleText = new Text("MONOPOLY");
 //        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
 //        titleText.setFill(Color.DARKGREEN);
