@@ -1,23 +1,25 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board.BoardComponents;
 
-import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class NormalDeckView extends AbstractTileView {
+public class PropertyTileView extends AbstractTileView {
     private double myWidth;
     private double myHeight;
     private StackPane myRoot;
+    private Paint myColor;
 
-    public NormalDeckView(String name, String description, String color) {
+    public PropertyTileView(String name, String description, Paint paint) {
         super(name, description);
+        myColor = paint;
         myRoot = new StackPane();
     }
 
@@ -31,13 +33,15 @@ public class NormalDeckView extends AbstractTileView {
         myWidth = dimensions[0];
         myHeight = dimensions[1];
         myRoot.setMaxSize(myWidth, myHeight);
-        myRoot.getChildren().add(makeText());
         myRoot.getChildren().add(makeBorder());
+        myRoot.getChildren().add(makeLabel());
+        myRoot.getChildren().add(makeText());
+
     }
 
     private Node makeBorder() {
         Rectangle border = new Rectangle(myWidth/2, myHeight/2, myWidth, myHeight );
-        border.setFill(Color.TRANSPARENT);
+        border.setFill(Color.rgb(197,225,164));
         border.setStroke(Color.BLACK);
         border.setStrokeWidth(2);
         border.setStrokeType(StrokeType.INSIDE);
@@ -54,7 +58,16 @@ public class NormalDeckView extends AbstractTileView {
         return tileText;
     }
 
-
+    private Node makeLabel() {
+        Rectangle labelShape = new Rectangle(myWidth, myHeight / 3);
+        labelShape.setFill(myColor);
+        labelShape.setStrokeWidth(1);
+        labelShape.setStroke(Color.BLACK);
+        labelShape.setStrokeType(StrokeType.INSIDE);
+        myRoot.setAlignment(labelShape,Pos.TOP_CENTER);
+        return labelShape;
+    }
 
 }
+
 

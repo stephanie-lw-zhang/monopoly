@@ -1,42 +1,52 @@
-package FrontEnd.Views;
+package FrontEnd.Views.Board;
 
 import BackEnd.Board.AbstractBoard;
+import FrontEnd.Views.Board.BoardComponents.CornerTileView;
+import FrontEnd.Views.Board.BoardComponents.NormalDeckView;
+import FrontEnd.Views.Board.BoardComponents.PropertyTileView;
+import FrontEnd.Views.Board.BoardComponents.RectangularTileView;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
-public class BoardView {
+public class RectangularBoardView extends AbstractBoardView{
     private AbstractBoard myModel;
     private AnchorPane myRoot;
     private double myScreenWidth, myScreenHeight;
     private int myHorizontals, myVerticals;
     private double myTileHeight;
 
-    public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
-        myRoot = new AnchorPane();
-        myRoot.setMaxWidth(screenWidth);
-        myRoot.setMaxHeight(screenHeight);
-        myScreenHeight = screenHeight;
-        myScreenWidth = screenWidth;
+    public RectangularBoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
+        super(screenWidth,screenHeight);
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
         makeBoard();
-        //myModel = board;
+        makeBackground();
+    }
 
+    private void makeBackground() {
+        BackgroundFill boardBackgroundFill = new BackgroundFill(Color.rgb(220,237,200), CornerRadii.EMPTY, Insets.EMPTY);
+        Background boardBackGround = new Background(boardBackgroundFill);
+        myRoot.setBackground(boardBackGround);
     }
 
     private double calculateTileWidth(double sideLength, double totalTiles){
         return (double) (sideLength-myTileHeight*2)/(totalTiles-2);
     }
 
-    public Pane getBoardPane(){ return myRoot; }
+    @Override
+    public void setRoot() {
+        myRoot = new AnchorPane();
+    }
 
-    public void setUp(){
-
+    @Override
+    public void setScreenLimits(double screenWidth, double screenHeight) {
+        myScreenHeight = screenHeight;
+        myScreenWidth = screenWidth;
     }
 
     public void makeBoard(){
@@ -47,6 +57,11 @@ public class BoardView {
         makeRightRow();
         placeDeck("Community Chest","",100,50,0.6);
         placeDeck("Chance","",100,50,0.25);
+    }
+
+    @Override
+    public Pane getPane() {
+        return myRoot;
     }
 
     private void makeBottomRow() {
@@ -125,7 +140,6 @@ public class BoardView {
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
         tileNode.setRotate(rotationAngle);
-
         if(rotationAngle==0) {
             myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
             myRoot.setLeftAnchor(tileNode, myScreenWidth - width * xoffset - myTileHeight);
@@ -139,7 +153,6 @@ public class BoardView {
             myRoot.setTopAnchor(tileNode, myTileHeight+width*(yoffset-1)-(height-width)/2);
             myRoot.setLeftAnchor(tileNode,myScreenWidth-myTileHeight/2-width/2);
         }
-
         myRoot.getChildren().add(tileNode);
     }
 
@@ -185,8 +198,7 @@ public class BoardView {
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
         myRoot.getChildren().add(tileNode);
-
-
+        System.out.println(tileName);
     }
 
     public void makeCorners(){

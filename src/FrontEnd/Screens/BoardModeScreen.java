@@ -1,6 +1,9 @@
 package FrontEnd.Screens;
 
-import FrontEnd.Views.BoardView;
+import FrontEnd.Views.Board.AbstractBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
+import FrontEnd.Views.Game.AbstractGameView;
+import FrontEnd.Views.Game.SplitScreenGameView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,10 +24,13 @@ import javafx.stage.Stage;
 public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
-    private BoardView myBoardView;
+    private AbstractGameView myGameView;
+    private AbstractBoardView myBoardView;
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myBoardView = new BoardView(sWidth, sHeight,90,11,11);
+        myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight);
+        myBoardView = new SquareBoardView(0.9*sWidth, 0.9*sHeight,90,11,11);
+        myGameView.addBoardView(myBoardView);
     }
 
     @Override
@@ -64,7 +70,7 @@ public class BoardModeScreen extends AbstractScreen{
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
         bPane.getChildren().add(backgroundImg);
-        bPane.setCenter(myBoardView.getBoardPane());
+        bPane.setCenter(myGameView.getPane());
         bPane.setBottom(gPane);
 
         bPane.setMargin(gPane, new Insets(0,0, 75, 0));
@@ -73,7 +79,7 @@ public class BoardModeScreen extends AbstractScreen{
     }
 
     private Node makeBoard() {
-        return myBoardView.getBoardPane();
+        return myGameView.getPane();
     }
 
     @Override
