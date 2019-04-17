@@ -1,16 +1,17 @@
 package FrontEnd.Views.Board;
 
 import BackEnd.Board.AbstractBoard;
-import FrontEnd.Views.Board.BoardComponents.CornerTileView;
-import FrontEnd.Views.Board.BoardComponents.NormalDeckView;
-import FrontEnd.Views.Board.BoardComponents.PropertyTileView;
-import FrontEnd.Views.Board.BoardComponents.RectangularTileView;
+import FrontEnd.Views.Board.BoardComponents.*;
 import javafx.geometry.Insets;
 import Configuration.ImportPropertyFile;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class RectangularBoardView extends AbstractBoardView{
@@ -20,6 +21,7 @@ public class RectangularBoardView extends AbstractBoardView{
     private int myHorizontals, myVerticals;
     private double myTileHeight;
     private ImportPropertyFile myPropertyFile;
+    private List<AbstractTileView> myTiles = new ArrayList<>();
 
     public RectangularBoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
         super(screenWidth,screenHeight);
@@ -41,9 +43,18 @@ public class RectangularBoardView extends AbstractBoardView{
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
+        myPropertyFile = propertyFile;
         makeBoard();
         makeBackground();
-        myPropertyFile = propertyFile;
+        myTiles.sort(new Comparator<AbstractTileView>() {
+            @Override
+            public int compare(AbstractTileView o1, AbstractTileView o2) {
+                return o1.getMyTileName().compareTo(o2.getMyTileName());
+            }
+        });
+        for(AbstractTileView a:myTiles){
+            System.out.println(a.getMyTileName());
+        }
         //myModel = board;
 
     }
@@ -168,6 +179,7 @@ public class RectangularBoardView extends AbstractBoardView{
             myRoot.setLeftAnchor(tileNode,myScreenWidth-myTileHeight/2-width/2);
         }
         myRoot.getChildren().add(tileNode);
+        myTiles.add(tile);
     }
 
     public void placeNonPropertyTile(String tileName,
@@ -197,6 +209,7 @@ public class RectangularBoardView extends AbstractBoardView{
             myRoot.setLeftAnchor(tileNode,myScreenWidth-myTileHeight/2-width/2);
         }
         myRoot.getChildren().add(tileNode);
+        myTiles.add(tile);
     }
 
     public void placeCornerTile(String tileName,
@@ -216,6 +229,7 @@ public class RectangularBoardView extends AbstractBoardView{
     }
 
     public void makeCorners(){
+        System.out.println(myPropertyFile.getProp("Tile0Name"));
         placeCornerTile(myPropertyFile.getProp("Tile0Name"),"Go","clear",1,1);
         placeCornerTile(myPropertyFile.getProp("Tile10Name"),"Go","clear",0,1);
         placeCornerTile(myPropertyFile.getProp("Tile20Name"),"Go","clear",0,0);
