@@ -1,5 +1,6 @@
 package FrontEnd.Views;
 
+import Configuration.ImportPropertyFile;
 import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -17,11 +18,13 @@ public class PropertyTileView extends AbstractTileView {
     private double myHeight;
     private StackPane myRoot;
     private Paint myColor;
+    private ImportPropertyFile myPropertyFile;
 
-    public PropertyTileView(String name, String description, Paint paint) {
+    public PropertyTileView(String name, ImportPropertyFile propertyFile, String description, Paint paint) {
         super(name, description);
         myColor = paint;
         myRoot = new StackPane();
+        myPropertyFile = propertyFile;
     }
 
     @Override
@@ -38,6 +41,8 @@ public class PropertyTileView extends AbstractTileView {
         myRoot.getChildren().add(makeText());
         myRoot.getChildren().add(makeBorder());
     }
+
+
 
     private Node makeBorder() {
         Rectangle border = new Rectangle(myWidth/2, myHeight/2, myWidth, myHeight );

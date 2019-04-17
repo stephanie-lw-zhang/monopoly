@@ -1,5 +1,6 @@
 package FrontEnd.Views;
 
+import Configuration.ImportPropertyFile;
 import FrontEnd.Views.AbstractTileView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,10 +14,12 @@ public class CornerTileView extends AbstractTileView {
 
     private double mySideLength;
     private StackPane myRoot;
+    ImportPropertyFile myPropertyFile;
 
-    public CornerTileView(String name, String description, String color) {
+    public CornerTileView(String name, ImportPropertyFile propertyFile, String description, String color) {
         super(name, description);
         myRoot = new StackPane();
+        myPropertyFile = propertyFile;
     }
 
     @Override

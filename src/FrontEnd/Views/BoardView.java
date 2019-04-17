@@ -3,10 +3,13 @@ package FrontEnd.Views;
 import BackEnd.Board.AbstractBoard;
 import Configuration.ImportPropertyFile;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+
+import javax.sound.midi.ControllerEventListener;
 
 
 public class BoardView {
@@ -18,7 +21,7 @@ public class BoardView {
 
     private ImportPropertyFile myPropertyFile;
 
-    public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
+    public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile myPropertyFile){
         myRoot = new AnchorPane();
         myRoot.setMaxWidth(screenWidth);
         myRoot.setMaxHeight(screenHeight);
@@ -32,20 +35,6 @@ public class BoardView {
 
     }
 
-    public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
-        myRoot = new AnchorPane();
-        myRoot.setMaxWidth(screenWidth);
-        myRoot.setMaxHeight(screenHeight);
-        myScreenHeight = screenHeight;
-        myScreenWidth = screenWidth;
-        myTileHeight = tileHeight;
-        myHorizontals = horizontalTiles;
-        myVerticals = verticalTiles;
-        myPropertyFile = propertyFile;
-        makeBoard();
-        //myModel = board;
-
-    }
 
     private double calculateTileWidth(double sideLength, double totalTiles){
         return (double) (sideLength-myTileHeight*2)/(totalTiles-2);
@@ -68,52 +57,52 @@ public class BoardView {
     }
 
     private void makeBottomRow() {
-        placePropertyTile(myPropertyFile.getProp("Tile1Name"),"test", Color.BROWN,1,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile2Name"),"",2,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile3Name"),"test",Color.BROWN,3,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile4Name"),"",4,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile5Name"),"",Color.BLACK ,5,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile6Name"),"test",Color.AZURE,6,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile7Name"),"",7,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile8Name"),"test",Color.AZURE,8,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile9Name"),"test",Color.AZURE,9,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile1Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile1File")), "test", Color.BROWN,1,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile2Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile2File")), "",2,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile3Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile3File")), "test",Color.BROWN,3,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile4Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile4File")), "",4,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile5Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile5File")), "",Color.BLACK ,5,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile6Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile6File")), "test",Color.AZURE,6,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile7Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile7File")), "",7,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile8Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile8File")), "test",Color.AZURE,8,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile9Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile9File")), "test",Color.AZURE,9,1,myHorizontals,myScreenWidth,0);
     }
 
     private void makeLeftRow(){
-        placePropertyTile(myPropertyFile.getProp("Tile11Name"),"test",Color.DEEPPINK,9,1,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile12Name"),"",Color.BEIGE,9,2,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile13Name"),"test",Color.DEEPPINK,9,3 ,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile14Name"),"test",Color.DEEPPINK,9,4,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile15Name"),"",Color.BLACK,9,5,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile16Name"),"",Color.ORANGE,9,6,myVerticals,myScreenHeight,90);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile17Name"),"",9,7,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile18Name"),"",Color.ORANGE,9,8,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile19Name"),"",Color.ORANGE,9,9,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile11Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile11File")), "test",Color.DEEPPINK,9,1,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile12Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile12File")), "",Color.BEIGE,9,2,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile13Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile13File")), "test",Color.DEEPPINK,9,3 ,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile14Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile14File")), "test",Color.DEEPPINK,9,4,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile15Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile15File")), "",Color.BLACK,9,5,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile16Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile16File")), "",Color.ORANGE,9,6,myVerticals,myScreenHeight,90);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile17Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile17File")), "",9,7,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile18Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile18File")), "",Color.ORANGE,9,8,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile19Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile19File")), "",Color.ORANGE,9,9,myVerticals,myScreenHeight,90);
     }
 
     private void makeTopRow() {
-        placePropertyTile(myPropertyFile.getProp("Tile21Name"),"test", Color.RED,1,1,myHorizontals,myScreenWidth,180);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile22Name"),"",2,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile23Name"),"test",Color.RED,3,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile24Name"),"test",Color.RED,4,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile25Name"),"",Color.BLACK,5,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile26Name"),"test",Color.YELLOW,6,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile27Name"),"test",Color.YELLOW,7,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile28Name"),"",Color.BEIGE,8,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile29Name"),"test",Color.YELLOW,9,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile21Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile21File")),"test", Color.RED,1,1,myHorizontals,myScreenWidth,180);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile22Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile22File")), "",2,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile23Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile23File")), "test",Color.RED,3,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile24Name"),new ImportPropertyFile(myPropertyFile.getProp("Tile24File")),"test",Color.RED,4,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile25Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile25File")),"",Color.BLACK,5,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile26Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile26File")),"test",Color.YELLOW,6,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile27Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile27File")), "test",Color.YELLOW,7,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile28Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile28File")), "",Color.BEIGE,8,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile29Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile29File")),"test",Color.YELLOW,9,1,myHorizontals,myScreenWidth,180);
 
     }
 
     private void makeRightRow(){
-        placePropertyTile(myPropertyFile.getProp("Tile31Name"),"",Color.GREEN,1,1,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile32Name"),"",Color.GREEN,2,2,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile33Name"),"",3,3,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile34Name"),"",Color.GREEN,4,4,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile35Name"),"",Color.BLACK,5,5,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile36Name"),"",6,6,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile37Name"),"",Color.BLUE,7,7,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile38Name"),"",8,8,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile39Name"),"",Color.BLUE,9,9,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile31Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile31File")),"",Color.GREEN,1,1,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile32Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile32File")), "",Color.GREEN,2,2,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile33Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile33File")), "",3,3,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile34Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile34File")), "",Color.GREEN,4,4,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile35Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile35File")), "",Color.BLACK,5,5,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile36Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile36File")), "",6,6,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile37Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile37File")),"",Color.BLUE,7,7,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile38Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile38File")), "",8,8,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile39Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile39File")), "",Color.BLUE,9,9,myVerticals,myScreenHeight,270);
     }
 
 
@@ -130,14 +119,14 @@ public class BoardView {
         myRoot.getChildren().add(tileNode);
     }
 
-    public void placePropertyTile(String tileName,
+    public void placePropertyTile(String tileName, ImportPropertyFile myPropertyFile,
                                   String tileDescription,
                                   Paint tileColor,
                                   int xoffset,
                                   int yoffset,
                                   int totalTiles,
                                   double sideLength,double rotationAngle){
-        var tile = new PropertyTileView(tileName,tileDescription,tileColor);
+        var tile = new PropertyTileView(tileName, myPropertyFile, tileDescription,tileColor);
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
@@ -156,17 +145,24 @@ public class BoardView {
             myRoot.setRightAnchor(tileNode,width/2);
         }
         tileNode.setRotate(rotationAngle);
-
+        tileNode.setOnMouseClicked(e -> {showTileClickedAlert();});
         myRoot.getChildren().add(tileNode);
     }
 
-    public void placeNonPropertyTile(String tileName,
+    private void showTileClickedAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(myPropertyFile.getProp("TileName"));
+        alert.setContentText("Example Property Tile");
+        alert.showAndWait();
+    }
+
+    public void placeNonPropertyTile(String tileName, ImportPropertyFile propertyFile,
     String tileDescription,
     int xoffset,
     int yoffset,
     int totalTiles,
     double sideLength,double rotationAngle){
-        var tile = new RectangularTileView(tileName,tileDescription,"");
+        var tile = new RectangularTileView(tileName, propertyFile , tileDescription,"");
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
@@ -189,13 +185,14 @@ public class BoardView {
     }
 
     public void placeCornerTile(String tileName,
+                                ImportPropertyFile myPropertyFile,
                                 String tileDescription,
                                 String tileColor,
                                 double xDiff,
                                 double yDiff){
         var width = myTileHeight;
         var height = myTileHeight;
-        var tile = new CornerTileView(tileName,tileDescription,tileColor);
+        var tile = new CornerTileView(tileName, myPropertyFile, tileDescription, tileColor);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
@@ -206,9 +203,10 @@ public class BoardView {
     }
 
     public void makeCorners(){
-        placeCornerTile(myPropertyFile.getProp("Tile0Name"),"Go","clear",1,1);
-        placeCornerTile(myPropertyFile.getProp("Tile10Name"),"Go","clear",0,1);
-        placeCornerTile(myPropertyFile.getProp("Tile20Name"),"Go","clear",0,0);
-        placeCornerTile(myPropertyFile.getProp("Tile30Name"),"Go","clear",1,0);
+        System.out.print(myPropertyFile.getProp("TileOFile"));
+        placeCornerTile(myPropertyFile.getProp("Tile0Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile0File")),"Go","clear",1,1);
+        placeCornerTile(myPropertyFile.getProp("Tile10Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile10File")),"Go","clear",0,1);
+        placeCornerTile(myPropertyFile.getProp("Tile20Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile20File")),"Go","clear",0,0);
+        placeCornerTile(myPropertyFile.getProp("Tile30Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile30File")),"Go","clear",1,0);
     }
 }

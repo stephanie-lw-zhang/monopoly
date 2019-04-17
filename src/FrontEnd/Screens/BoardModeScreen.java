@@ -1,5 +1,6 @@
 package FrontEnd.Screens;
 
+import Configuration.ImportPropertyFile;
 import FrontEnd.Views.BoardView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -22,9 +23,10 @@ public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
     private BoardView myBoardView;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myBoardView = new BoardView(sWidth, sHeight*0.9,90,11,11);
+        myBoardView = new BoardView(sWidth, sHeight*0.9,90,11,11, myPropertyFile);
     }
 
     @Override
