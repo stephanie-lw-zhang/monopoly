@@ -1,6 +1,7 @@
 package FrontEnd.Views;
 
 import BackEnd.Board.AbstractBoard;
+import Configuration.ImportPropertyFile;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -15,6 +16,8 @@ public class BoardView {
     private int myHorizontals, myVerticals;
     private double myTileHeight;
 
+    private ImportPropertyFile myPropertyFile;
+
     public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
         myRoot = new AnchorPane();
         myRoot.setMaxWidth(screenWidth);
@@ -24,6 +27,21 @@ public class BoardView {
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
+        makeBoard();
+        //myModel = board;
+
+    }
+
+    public BoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
+        myRoot = new AnchorPane();
+        myRoot.setMaxWidth(screenWidth);
+        myRoot.setMaxHeight(screenHeight);
+        myScreenHeight = screenHeight;
+        myScreenWidth = screenWidth;
+        myTileHeight = tileHeight;
+        myHorizontals = horizontalTiles;
+        myVerticals = verticalTiles;
+        myPropertyFile = propertyFile;
         makeBoard();
         //myModel = board;
 
@@ -50,52 +68,52 @@ public class BoardView {
     }
 
     private void makeBottomRow() {
-        placePropertyTile("Mediterranean Avenue","test", Color.BROWN,1,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile("Community Chest","",2,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile("Baltic Avenue","test",Color.BROWN,3,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile("Income Tax","",4,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile("Reading Railroad","",Color.BLACK ,5,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile("Oriental Avenue","test",Color.AZURE,6,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile("Chance","",7,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile("Vermont Avenue","test",Color.AZURE,8,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile("Connecticut Avenue","test",Color.AZURE,9,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile1Name"),"test", Color.BROWN,1,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile2Name"),"",2,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile3Name"),"test",Color.BROWN,3,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile4Name"),"",4,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile5Name"),"",Color.BLACK ,5,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile6Name"),"test",Color.AZURE,6,1,myHorizontals,myScreenWidth,0);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile7Name"),"",7,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile8Name"),"test",Color.AZURE,8,1,myHorizontals,myScreenWidth,0);
+        placePropertyTile(myPropertyFile.getProp("Tile9Name"),"test",Color.AZURE,9,1,myHorizontals,myScreenWidth,0);
     }
 
     private void makeLeftRow(){
-        placePropertyTile("St. Charles Place","test",Color.DEEPPINK,9,1,myVerticals,myScreenHeight,90);
-        placePropertyTile("Electric Company","",Color.BEIGE,9,2,myVerticals,myScreenHeight,90);
-        placePropertyTile("States Avenue","test",Color.DEEPPINK,9,3 ,myVerticals,myScreenHeight,90);
-        placePropertyTile("Virginia Avenue","test",Color.DEEPPINK,9,4,myVerticals,myScreenHeight,90);
-        placePropertyTile("Pennsylvania Railroad","",Color.BLACK,9,5,myVerticals,myScreenHeight,90);
-        placePropertyTile("St. James Place","",Color.ORANGE,9,6,myVerticals,myScreenHeight,90);
-        placeNonPropertyTile("Community Chest","",9,7,myVerticals,myScreenHeight,90);
-        placePropertyTile("Tennessee Avenue","",Color.ORANGE,9,8,myVerticals,myScreenHeight,90);
-        placePropertyTile("New York Avenue","",Color.ORANGE,9,9,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile11Name"),"test",Color.DEEPPINK,9,1,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile12Name"),"",Color.BEIGE,9,2,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile13Name"),"test",Color.DEEPPINK,9,3 ,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile14Name"),"test",Color.DEEPPINK,9,4,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile15Name"),"",Color.BLACK,9,5,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile16Name"),"",Color.ORANGE,9,6,myVerticals,myScreenHeight,90);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile17Name"),"",9,7,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile18Name"),"",Color.ORANGE,9,8,myVerticals,myScreenHeight,90);
+        placePropertyTile(myPropertyFile.getProp("Tile19Name"),"",Color.ORANGE,9,9,myVerticals,myScreenHeight,90);
     }
 
     private void makeTopRow() {
-        placePropertyTile("Kentucky Avenue","test", Color.RED,1,1,myHorizontals,myScreenWidth,180);
-        placeNonPropertyTile("Chance","",2,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile("Indiana Avenue","test",Color.RED,3,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile("Illinois Avenue","test",Color.RED,4,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile("B&O Railroad","",Color.BLACK,5,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile("Atlantic Avenue","test",Color.YELLOW,6,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile("Ventnor Avenue","test",Color.YELLOW,7,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile("Water Works","",Color.BEIGE,8,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile("Marvin Gardens","test",Color.YELLOW,9,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile21Name"),"test", Color.RED,1,1,myHorizontals,myScreenWidth,180);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile22Name"),"",2,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile23Name"),"test",Color.RED,3,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile24Name"),"test",Color.RED,4,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile25Name"),"",Color.BLACK,5,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile26Name"),"test",Color.YELLOW,6,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile27Name"),"test",Color.YELLOW,7,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile28Name"),"",Color.BEIGE,8,1,myHorizontals,myScreenWidth,180);
+        placePropertyTile(myPropertyFile.getProp("Tile29Name"),"test",Color.YELLOW,9,1,myHorizontals,myScreenWidth,180);
 
     }
 
     private void makeRightRow(){
-        placePropertyTile("Pacific Avenue","",Color.GREEN,1,1,myVerticals,myScreenHeight,270);
-        placePropertyTile("North Carolina Avenue","",Color.GREEN,2,2,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile("Community Chest","",3,3,myVerticals,myScreenHeight,270);
-        placePropertyTile("Pennsylvania Avenue","",Color.GREEN,4,4,myVerticals,myScreenHeight,270);
-        placePropertyTile("Short Line","",Color.BLACK,5,5,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile("Community Chest","",6,6,myVerticals,myScreenHeight,270);
-        placePropertyTile("Park Place","",Color.BLUE,7,7,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile("Luxury Tax","",8,8,myVerticals,myScreenHeight,270);
-        placePropertyTile("Boardwalk","",Color.BLUE,9,9,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile31Name"),"",Color.GREEN,1,1,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile32Name"),"",Color.GREEN,2,2,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile33Name"),"",3,3,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile34Name"),"",Color.GREEN,4,4,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile35Name"),"",Color.BLACK,5,5,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile36Name"),"",6,6,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile37Name"),"",Color.BLUE,7,7,myVerticals,myScreenHeight,270);
+        placeNonPropertyTile(myPropertyFile.getProp("Tile38Name"),"",8,8,myVerticals,myScreenHeight,270);
+        placePropertyTile(myPropertyFile.getProp("Tile39Name"),"",Color.BLUE,9,9,myVerticals,myScreenHeight,270);
     }
 
 
@@ -188,9 +206,9 @@ public class BoardView {
     }
 
     public void makeCorners(){
-        placeCornerTile("Go","Go","clear",1,1);
-        placeCornerTile("Jail","Go","clear",0,1);
-        placeCornerTile("Parking","Go","clear",0,0);
-        placeCornerTile("PoPo","Go","clear",1,0);
+        placeCornerTile(myPropertyFile.getProp("Tile0Name"),"Go","clear",1,1);
+        placeCornerTile(myPropertyFile.getProp("Tile10Name"),"Go","clear",0,1);
+        placeCornerTile(myPropertyFile.getProp("Tile20Name"),"Go","clear",0,0);
+        placeCornerTile(myPropertyFile.getProp("Tile30Name"),"Go","clear",1,0);
     }
 }
