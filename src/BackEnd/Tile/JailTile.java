@@ -2,7 +2,9 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class JailTile extends Tile {
@@ -14,8 +16,10 @@ public class JailTile extends Tile {
     }
 
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-        return;
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<String>(  );
+        possibleActions.add( "Visiting Jail");
+        return possibleActions;
     }
 
      @Override
