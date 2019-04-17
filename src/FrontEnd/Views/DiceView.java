@@ -1,6 +1,7 @@
 package FrontEnd.Views;
 
 import javafx.animation.RotateTransition;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -8,6 +9,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -21,11 +23,40 @@ public class DiceView extends HBox {
                                                 new File("./data/diceRoll.mp3")
                                                 .toURI().toString()
                                               ));
+    private int numDie;
+    private int numDieStates;
 
-    public DiceView(int numDie) {
+    public DiceView(int nDie, int nDieStates) {
         this.setSpacing(20);
-//        myRolls = makeInitial
-        makeDiceImgList();
+        numDie = nDie;
+        numDieStates = nDieStates;
+
+        makeInitialView();
+    }
+
+    private void makeInitialView() {
+        List<ImageView> diceList = new ArrayList<>();
+        for (int i = 0; i < numDie; i++) {
+            ImageView diceImg= new ImageView();
+            diceImg.setImage(new Image(this
+                    .getClass()
+                    .getClassLoader()
+                    .getResourceAsStream(
+                            "dice" + (new Random().nextInt(numDieStates) + 1) + ".png"
+                    )
+            ));
+            diceImg.setFitHeight(50);
+            diceImg.setFitWidth(50);
+
+            diceList.add(diceImg);
+        }
+
+        this.getChildren().addAll(diceList);
+        this.setAlignment(Pos.CENTER_LEFT);
+    }
+
+    public void setMyRolls(int[] rolls) {
+        myRolls = rolls;
     }
 
     private void makeDiceImgList() {

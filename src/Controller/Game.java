@@ -52,14 +52,8 @@ public class Game {
         // TODO: SIMILAR AS TODO ABOVE, SHOULDN'T HARDCODE FOR 0th ELEMENT
         // TODO: In VBOX FOR INNER HBOX
         Button rollButton = (Button) playerOptionsModal.getChildren().get(1);
-//        rollButton.setOnAction(f -> handleRollButton());
+        rollButton.setOnAction(f -> handleRollButton());
 
-        rollButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-            }
-        });
         // TODO: REFLECTION FOR ALL OF THIS
         Button endTurnButton = (Button) playerOptionsModal.getChildren().get(4);
         endTurnButton.setOnAction(f -> handleEndTurnButton());
@@ -75,11 +69,6 @@ public class Game {
 
         myTestScreen.updateDiceView(myTurn.getRolls());
         myTestScreen.displayRollsPopup(myTurn);
-
-        myTurn.onAction(Turn.Actions.MOVE);
-        List<?> list = myTurn.getMyActions();
-
-        System.out.println(Turn.Actions.MOVE.toString());
 
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
     }

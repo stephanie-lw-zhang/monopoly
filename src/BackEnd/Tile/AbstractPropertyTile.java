@@ -4,10 +4,13 @@ import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
+
+import Controller.Actions;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,25 +43,20 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
     //fix this
+    @Override
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>(  );
 
-    public void applyLandedOnAction(AbstractPlayer player) {
 //        //controller will send player option to buy property? interact with front-end
-//        if (getOwner() instanceof Bank) {
-//            if (true) {
-//                buyProperty(player);
-//            }
-////            else {
-////                auctionProperty();
-////            }
-//        }
-//        else if (!player.equals(getOwner())) {
+        if (getOwner() instanceof Bank) {
+            possibleActions.add(Actions.BUY);
+            possibleActions.add(Actions.AUCTION);
+        }
+        else if (!player.equals(getOwner())) {
+            possibleActions.add(Actions.PAY_RENT);
 //            player.paysTo(getOwner(), calculateRentPrice());
-//        }
-        return;
-    }
-
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
+        }
+        return possibleActions;
     }
 
     public double sellToBankPrice() {
@@ -96,6 +94,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.paysTo( owner, price );
+        owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
 

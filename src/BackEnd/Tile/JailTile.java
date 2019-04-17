@@ -1,8 +1,11 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import Controller.Actions;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class JailTile extends Tile {
@@ -14,13 +17,8 @@ public class JailTile extends Tile {
     }
 
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-        return;
-    }
-
-     @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        return null;
     }
 
     public void addCriminal(AbstractPlayer player) {

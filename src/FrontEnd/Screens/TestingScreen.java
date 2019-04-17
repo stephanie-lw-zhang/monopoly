@@ -10,6 +10,7 @@ import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
 import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
+import Configuration.ImportPropertyFile;
 import Controller.Turn;
 import FrontEnd.Views.BoardView;
 import FrontEnd.Views.DiceView;
@@ -55,6 +56,7 @@ public class TestingScreen extends AbstractScreen {
     private Stage     testStage;
     private Scene     testScene;
     private Game      myGame;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
 
     private ObservableList<ImageView> myIconsList;
     private final Button ROLL_BUTTON = new Button("ROLL");
@@ -65,8 +67,8 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new BoardView(width*0.6, height*0.8,80,10,10);
 
+        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11, myPropertyFile);
     }
 
     @Override
@@ -174,38 +176,49 @@ public class TestingScreen extends AbstractScreen {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
 
-//        DiceView diceLayout2 = new DiceView();
-        HBox diceLayout = new HBox();
-        diceLayout.setSpacing(20);
+        DiceView diceLayout = new DiceView(
+                myGame.getBoard().getNumDie(),
+                myGame.getMyDice().getNumStates()
+        );
 
-        ImageView dice1 = new ImageView();
-        dice1.setImage(new Image(this
-                .getClass()
-                .getClassLoader()
-                .getResourceAsStream(
-                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
-                )
-        ));
-        dice1.setFitHeight(50);
-        dice1.setFitWidth(50);
-
-        ImageView dice2 = new ImageView();
-        dice2.setImage(new Image(this
-                .getClass()
-                .getClassLoader()
-                .getResourceAsStream(
-                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
-                )
-        ));
-        dice2.setFitHeight(50);
-        dice2.setFitWidth(50);
-
-        List<ImageView> diceList = new ArrayList<>();
-        diceList.add(dice1); diceList.add(dice2);
-
-//        diceLayout.getChildren().addAll(dice1, dice2);
-        diceLayout.getChildren().addAll(diceList);
-        diceLayout.setAlignment(Pos.CENTER_LEFT);
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+//        HBox diceLayout = new HBox();
+//        diceLayout.setSpacing(20);
+//
+//        myGame.getMyDice().getNumStates();
+//
+//        ImageView dice1 = new ImageView();
+//        dice1.setImage(new Image(this
+//                .getClass()
+//                .getClassLoader()
+//                .getResourceAsStream(
+//                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+//                )
+//        ));
+//        dice1.setFitHeight(50);
+//        dice1.setFitWidth(50);
+//
+//        ImageView dice2 = new ImageView();
+//        dice2.setImage(new Image(this
+//                .getClass()
+//                .getClassLoader()
+//                .getResourceAsStream(
+//                        "dice" + (new Random().nextInt(myGame.getMyDice().getNumStates()) + 1) + ".png"
+//                )
+//        ));
+//        dice2.setFitHeight(50);
+//        dice2.setFitWidth(50);
+//
+//        List<ImageView> diceList = new ArrayList<>();
+//        diceList.add(dice1); diceList.add(dice2);
+//
+//        diceLayout.getChildren().addAll(diceList);
+//        diceLayout.setAlignment(Pos.CENTER_LEFT);
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
+        // TODO: DELETED AFTER DICEVIEW.MAKEINITIALVIEW()
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());

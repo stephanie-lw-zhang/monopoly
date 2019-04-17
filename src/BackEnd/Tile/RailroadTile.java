@@ -2,8 +2,6 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
-import BackEnd.Tile.AbstractNonBuildingPropertyTile;
-import org.w3c.dom.Element;
 
 public class RailroadTile extends AbstractNonBuildingPropertyTile {
 
