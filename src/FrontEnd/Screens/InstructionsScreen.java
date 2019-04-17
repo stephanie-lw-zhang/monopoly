@@ -8,7 +8,7 @@ import javafx.stage.Stage;
  * @author Sam
  */
 public class InstructionsScreen extends AbstractScreen {
-    public InstructionsScreen(int sWidth, int sHeight, Stage stage) {
+    public InstructionsScreen(double sWidth, double sHeight, Stage stage) {
         super (sWidth, sHeight, stage);
     }
 }

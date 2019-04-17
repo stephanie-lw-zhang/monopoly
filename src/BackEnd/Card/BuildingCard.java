@@ -1,65 +1,38 @@
 package BackEnd.Card;
 
-import java.awt.*;
+import java.util.List;
+import java.util.Map;
 
-public class BuildingCard extends PropertyCard {
-    //make constants??
-    private Color propertyColor;
-    private double noHousesOrHotelsRent;
-    private double propertyRent1House;
-    private double propertyRent2House;
-    private double propertyRent3House;
-    private double propertyRent4House;
-    private double propertyRentHotel;
-    private double propertyHousePrice;
-    private double propertyHotelPrice;
+public class BuildingCard extends PropertyCard{
+
+    private Map<String,Double> priceNeededToUpgradeLookupTable;
+    private Map<String,Double> sellToBankPriceLookupTable;
+    private Map<String, String> specificToBase;
 
 
-    public BuildingCard(String propertyType, double propertyRent, double propertyMortgageValue,
-                        Color propertyColor, double propertyRentWithColorSet, double propertyRent1House,
-                        double propertyRent2House, double propertyRent3House, double propertyRent4House,
-                        double propertyRentHotel, double propertyHousePrice, double propertyHotelPrice) {
-        super(propertyType, propertyRent, propertyMortgageValue);
-        this.propertyColor = propertyColor;
-        this.noHousesOrHotelsRent = propertyRentWithColorSet;
-        this.propertyRent1House = propertyRent1House;
-        this.propertyRent2House = propertyRent2House;
-        this.propertyRent3House = propertyRent3House;
-        this.propertyRent4House = propertyRent4House;
-        this.propertyRentHotel = propertyRentHotel;
-        this.propertyHousePrice = propertyHousePrice;
-        this.propertyHotelPrice = propertyHotelPrice;
+    public BuildingCard(Map<String, Double> buildingPriceLookupTable, double propertyMortgageValue, List<String> upgradeOrder,
+                        Map<String,Double> buySingleBuildingPrice, Map<String,Double> sellToBankPriceLookupTable, Map<String,
+                        String> specificToBase, String titleDeed, String category, Map<String, Integer> specificToNumeric, double tilePrice){
+        super(propertyMortgageValue, buildingPriceLookupTable, upgradeOrder, titleDeed, category, specificToNumeric,tilePrice);
+        this.priceNeededToUpgradeLookupTable = buySingleBuildingPrice;
+        this.sellToBankPriceLookupTable = sellToBankPriceLookupTable;
+        this.specificToBase = specificToBase;
     }
 
-    public double getPropertyHotelPrice() {
-        return propertyHotelPrice;
+    public double getOneBuildingSellToBankPrice(String currentInUpgradeOrder) {
+        String base = getBasePropertyType(currentInUpgradeOrder);
+        //in original multiplier would be 0.5
+        return (sellToBankPriceLookupTable.get(base));
     }
 
-    public double getPropertyHousePrice() {
-        return propertyHousePrice;
+    public double getPriceNeededToUpgradeLookupTable(String key) {
+        return priceNeededToUpgradeLookupTable.get(key);
     }
 
-    public double getPropertyRentHotel() {
-        return propertyRentHotel;
+    public String getBasePropertyType(String specificPropertyType) {
+        return specificToBase.get(specificPropertyType);
     }
 
-    public double getPropertyRent4House() {
-        return propertyRent4House;
-    }
 
-    public double getPropertyRent3House() {
-        return propertyRent3House;
-    }
 
-    public double getPropertyRent2House() {
-        return propertyRent2House;
-    }
-
-    public double getPropertyRent1House() {
-        return propertyRent1House;
-    }
-
-    public double getNoHousesOrHotelsRent() {
-        return noHousesOrHotelsRent;
-    }
 }

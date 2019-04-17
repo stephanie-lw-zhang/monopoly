@@ -2,22 +2,24 @@ package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 
-public class GoToJailTile implements TileInterface {
+import Controller.Actions;
+import org.w3c.dom.Element;
 
-    private JailTile jail;
+import java.util.ArrayList;
+import java.util.List;
 
-    public GoToJailTile(JailTile jail) {
-        this.jail = jail;
-    }
+public class GoToJailTile extends Tile {
+
+    public GoToJailTile(Element n){}
 
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        List<Actions> possibleActions = new ArrayList<>(  );
+        possibleActions.add(Actions.GO_TO_JAIL);
+        return possibleActions;
+    }
+
+    public void putPlayerInJail(AbstractPlayer player) {
         player.addTurnInJail();
-        jail.addCriminal(player);
-    }
-
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
     }
 }

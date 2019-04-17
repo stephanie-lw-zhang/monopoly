@@ -1,15 +1,18 @@
 package BackEnd.Board;
 
+
 /**
  * This class is an abstraction of the game board which contains
  * fundamental pieces to the game itself
+ *
+ * @author Sam
+ *             updated Constructor for PlayerList
  */
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.AssetHolder.Bank;
 import BackEnd.Tile.JailTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
-import BackEnd.Tile.TileInterface;
-import BackEnd.Tile.GoTile;
-import javafx.scene.paint.Color;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
 
 import java.util.*;
 
@@ -17,53 +20,49 @@ import java.util.*;
  *
  */
 public abstract class AbstractBoard {
-    private Map<AbstractPlayer, TileInterface> playerPositionMap;
-    private Map<TileInterface, List<TileInterface>> adjacencyList;
-    private Map<Color, List<BuildingTile>> colorListMap;
+    private Map<AbstractPlayer, Tile>      playerPositionMap;
+    private Map<Tile, List<Tile>> adjacencyMap;
+    private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
+    private List<AbstractPlayer>                    myPlayerList;
+    private int                                     numDie;
+    private Bank bank;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap) {
-        this.adjacencyList = adjacencyList;
-        this.colorListMap = colorListMap;
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, int nDie, Bank bank) {
+        myPlayerList = playerList;
+        adjacencyMap = adjacencyMap;
+        propertyCategoryToSpecificListMap = colorListMap;
         playerPositionMap = new HashMap<>();
-        for (AbstractPlayer p : playerList) playerPositionMap.put(p, adjacencyList.keySet().stream().findFirst().get());
+        numDie = nDie;
+        for (AbstractPlayer p : playerList) playerPositionMap.put(p, go);
+        this.bank = bank;
     }
 
     /**
      * gets the Tile that the player is currently on
      */
-    public TileInterface getPlayerTile(AbstractPlayer p) {
+    public Tile getPlayerTile(AbstractPlayer p) {
         return playerPositionMap.get(p);
-    }
-
-    /**
-     * Checks if the player is on the GO Tile and gives the player $200 if so
-     */
-    public void checkIfGo(AbstractPlayer p, TileInterface tile) {
-        if (tile instanceof GoTile) {
-            p.setMoney(p.getMoney() + 200);
-        }
     }
 
     /**
      * Moves the player on the board by reassigning its tile mapping
      */
-    public abstract void movePlayer(AbstractPlayer p, int[] rolls);
+    public abstract void movePlayer(AbstractPlayer p, int numMoves);
 
-    public Map<AbstractPlayer, TileInterface> getPlayerTileMap() {
+    public Map<AbstractPlayer, Tile> getPlayerTileMap() {
         return playerPositionMap;
     }
 
-    public List<TileInterface> getAdjacentTiles(TileInterface tile) {
-        return adjacencyList.get(tile);
+    public List<Tile> getAdjacentTiles(Tile tile) {
+        return adjacencyMap.get(tile);
     }
 
-    public TileInterface getJailTile(){
-        TileInterface tile = null;
-        for (TileInterface key: adjacencyList.keySet()) {
+    public Tile getJailTile(){
+        Tile tile = null;
+        for (Tile key: adjacencyMap.keySet()) {
             if(key instanceof JailTile){
                 tile = key;
             }
@@ -71,8 +70,21 @@ public abstract class AbstractBoard {
         return tile;
     }
 
-    public Map<Color, List<BuildingTile>> getColorListMap() {
-        return colorListMap;
+    public List<AbstractPlayer> getMyPlayerList() { return myPlayerList; }
+    public Map<String, List<AbstractPropertyTile>> getColorListMap() {
+        return propertyCategoryToSpecificListMap;
     }
 
+    public int getNumDie() { return numDie; }
+
+    public Bank getBank(){
+        return bank;
+    }
+
+//    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){
+//        List<AbstractPropertyTile> allOfCategory = new ArrayList<AbstractPropertyTile>(  );
+//        String targetCategory = property.getCard().getCategory();
+//        for()
+//        return allOfCategory;
+//    }
 }

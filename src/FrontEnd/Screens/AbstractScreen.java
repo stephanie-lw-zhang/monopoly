@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -24,13 +25,13 @@ import javafx.stage.Stage;
  */
 public class AbstractScreen extends Handlers {
 
-    private int    screenWidth;
-    private int    screenHeight;
+    private double    screenWidth;
+    private double    screenHeight;
     private Stage  myStage;
     private Scene  myScene;
     private String myScreenTitle;
 
-    public AbstractScreen(int sWidth, int sHeight, Stage stage) {
+    public AbstractScreen(double sWidth, double sHeight, Stage stage) {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myStage = stage;
@@ -62,12 +63,13 @@ public class AbstractScreen extends Handlers {
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 
         myScene = new Scene(bPane, getScreenWidth(), getScreenHeight());
+        // myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
     }
 
-    public BorderPane setBorderPane(int sWidth, int sHeight, GridPane gPane) {
+    public BorderPane setBorderPane(double sWidth, double sHeight, GridPane gPane) {
         BorderPane bPane = new BorderPane();
 
-        ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("DESIGNPLAN.jpg")));
+        ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
 
@@ -80,9 +82,16 @@ public class AbstractScreen extends Handlers {
         return bPane;
     }
 
-    public int    getScreenWidth()  { return screenWidth; }
-    public int    getScreenHeight() { return screenHeight; }
-    public Stage  getMyStage()      { return myStage; }
-    public Scene  getMyScene()      { return myScene; }
-    public String getScreenTitle()  { return myScreenTitle; }
+//    private void handleKeyInput(KeyCode code) {
+//        if (code == KeyCode.Q) {
+//            System.out.println("Q");
+//            myScene = new MainMenuScreen(screenWidth, screenHeight, myStage).getMyScene();
+//        }
+//    }
+
+    public double    getScreenWidth()  { return screenWidth; }
+    public double    getScreenHeight() { return screenHeight; }
+    public Stage  getMyStage()         { return myStage; }
+    public Scene  getMyScene()         { return myScene; }
+    public String getScreenTitle()     { return myScreenTitle; }
 }

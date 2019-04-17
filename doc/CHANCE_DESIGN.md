@@ -20,3 +20,19 @@
     - Can have different properties files for each dice type? 
 - Players:
     - Data structure needs to hold a set of players -- can iterate through the players 
+
+- Interfaces    
+    - Game/Rules/Wincondition
+        - implemented by controller for each set of different rules; since controller can (possibly?) create
+        the model and the view it makes sense for different monopoly games/rules to be implemented here
+        - can be combined w/ wincondition or at least have it linked some way
+    - GUI components
+        - implemented by the View for visual display
+    - Board topography
+        - shapes, path, behavior
+        - tiles and tile behavior
+    - Card/decks
+        - for chance and community chest
+        - outlines possible interactions
+        
+    

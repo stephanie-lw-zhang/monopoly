@@ -6,29 +6,35 @@ package BackEnd.Board;
  */
 
 import BackEnd.AssetHolder.AbstractPlayer;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
-import BackEnd.Tile.TileInterface;
-import javafx.scene.paint.Color;
+import BackEnd.AssetHolder.Bank;
+import BackEnd.Tile.GoToJailTile;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
 
 import java.util.List;
 import java.util.Map;
 
 public class StandardBoard extends AbstractBoard {
 
-    public StandardBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<Color, List<BuildingTile>> colorListMap){
-        super(playerList, adjacencyList, colorListMap);
+    public StandardBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, Bank bank) {
+        super(playerList, adjacencyMap, colorListMap, go, 2, bank);
     }
 
-    public void movePlayer(AbstractPlayer p, int[] rolls) {
-        TileInterface tile = getPlayerTile(p);
-        TileInterface next = null;
-        for(int i = 0; i<rolls[0]+rolls[1]; i++){
+    public Map<Tile, List<Tile>> makeAdjacencyMap() {
+        return null;
+    }
+
+    public void movePlayer(AbstractPlayer p, int numMoves) {
+        Tile tile = getPlayerTile(p);
+
+        Tile next = null;
+        for(int i = 0; i < numMoves; i++){
             //this needs to change for a non-standard board, could be informed by property file
             next = getAdjacentTiles(tile).get(0);
             tile = next;
-            checkIfGo(p, next);
+//            tile.applyPassedAction(p);
         }
-        getPlayerTileMap().put(p, next);
+        if(tile instanceof GoToJailTile) tile = getJailTile();
+        getPlayerTileMap().put(p, tile);
     }
-
 }

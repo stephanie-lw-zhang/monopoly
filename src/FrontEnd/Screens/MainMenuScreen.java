@@ -21,7 +21,7 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String SCREEN_TITLE = "Monopoly";
     private Scene myIntro;
 
-    public MainMenuScreen(int sWidth, int sHeight, Stage stage) {
+    public MainMenuScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
     }
 
@@ -34,12 +34,15 @@ public class MainMenuScreen extends AbstractScreen {
         Button playButton = new Button("PLAY: Normal mode");
         playButton.setOnAction(f -> handleNormalModeButton(getMyStage()));
 
-        Button randomModeButton = new Button("PLAY: some other mode???");
+        Button randomModeButton = new Button("TESTING");
         // TODO:
         randomModeButton.setOnAction(r -> handleCustomModeButton(getMyStage()));
 
         Button instructButton = new Button("INSTRUCTIONS");
         instructButton.setOnAction(i -> handleInstructButton(getMyStage()));
+
+        Button boardButton = new Button("Board");
+        boardButton.setOnAction(i -> handleBoardButton(getMyStage()));
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20);
@@ -48,6 +51,7 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.add(playButton, 1, 0);
         gridPane.add(randomModeButton, 2, 0);
         gridPane.add(instructButton, 3, 0);
+        gridPane.add(boardButton,4,0);
 
         BorderPane bPane = setBorderPane(
                 getScreenWidth(),
@@ -61,6 +65,15 @@ public class MainMenuScreen extends AbstractScreen {
         myIntro = new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
+    private void handleBoardButton(Stage myStage) {
+        AbstractScreen BoardModeScreen = new BoardModeScreen(
+                getScreenWidth(),
+                getScreenHeight(),
+                myStage
+        );
+        completeStage(myStage, BoardModeScreen);
+    }
+
     private void handleNormalModeButton(Stage stage) {
         AbstractScreen normalModeScreen = new NormalModeScreen(
             getScreenWidth(),
@@ -71,12 +84,18 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void handleCustomModeButton(Stage stage) {
-        AbstractScreen customModeScreen = new CustomModeScreen(
+//        AbstractScreen customModeScreen = new CustomModeScreen(
+//            getScreenWidth(),
+//            getScreenHeight(),
+//            stage
+//        );
+        TestingScreen test = new TestingScreen(
             getScreenWidth(),
             getScreenHeight(),
             stage
         );
-        completeStage(stage, customModeScreen);
+
+        completeTestStage(stage, test);
     }
 
     private void handleInstructButton(Stage stage) {
@@ -86,6 +105,13 @@ public class MainMenuScreen extends AbstractScreen {
             stage
         );
         completeStage(stage, instructionsScreen);
+    }
+
+    private void completeTestStage(Stage stage, TestingScreen menu) {
+        menu.makeScreen();
+        stage.close();
+        stage.setScene(menu.getTestScene());
+        stage.show();
     }
 
     private void completeStage(Stage stage, AbstractScreen menu) {

@@ -1,8 +1,13 @@
 package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import Controller.Actions;
+import org.w3c.dom.Element;
 
-public class FreeParkingTile implements TileInterface {
+import java.util.ArrayList;
+import java.util.List;
+
+public class FreeParkingTile extends Tile {
 
     //private double landedOnMoney;
 
@@ -11,15 +16,14 @@ public class FreeParkingTile implements TileInterface {
         //this.landedOnMoney = landedOnMoney;
     }
 
-    @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
-        //player.setMoney(player.getMoney() + landedOnMoney);
-        return;
-    }
+    public FreeParkingTile(Element n){}
 
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
+
+    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+        //player.setMoney(player.getMoney() + landedOnMoney);
+        List<Actions> possibleActions = new ArrayList<>(  );
+        possibleActions.add(Actions.COLLECT_MONEY);
+        return possibleActions;
     }
 
 }

@@ -1,5 +1,7 @@
+
 package BackEnd.Game;
 
+import Controller.*;
 import BackEnd.Deck.DeckInterface;
 import BackEnd.Dice.AbstractDice;
 import BackEnd.AssetHolder.AbstractPlayer;
@@ -24,28 +26,30 @@ public class Game {
         this.players = players;
     }
 
-    public void play(){
-        while(!gameIsOver()){
-            for(AbstractPlayer p: players){
-                int turns = 1;
-                Turn t = new Turn(p, dice, board);
-                t.rollDice();
-                t.move();
-                //if rolled doubles and not in jail
-                while(t.rolledDoubles() && p.getTurnsInJail()==-1){
-                    //send to jail if three consecutive doubles
-                    if(turns==3){
-                        board.getPlayerTileMap().put(p, board.getJailTile());
-                        p.addTurnInJail();
-                    }
-                    t = new Turn(p, dice, board);
-                    t.rollDice();
-                    t.move();
-                    turns++;
-                }
-            }
-        }
-    }
+
+//
+//    public void play(){
+//        while(!gameIsOver()){
+//            for(AbstractPlayer p: players){
+//                int turns = 1;
+//                Turn t = new Turn(p, dice, board);
+//                t.rollDice(turns);
+//                t.move();
+//                //if rolled doubles and not in jail
+//                while(t.rolledDoubles() && p.getTurnsInJail()==-1){
+//                    //send to jail if three consecutive doubles
+//                    if(turns==3){
+//                        board.getPlayerTileMap().put(p, board.getJailTile());
+//                        p.addTurnInJail();
+//                    }
+//                    t = new Turn(p, dice, board);
+//                    t.rollDice(turns);
+//                    t.move();
+//                    turns++;
+//                }
+//            }
+//        }
+//    }
     public boolean gameIsOver(){
         int sum = 0;
         for(AbstractPlayer p: players){
@@ -53,6 +57,5 @@ public class Game {
         }
         return sum==players.size()-1;
     }
-
 
 }
