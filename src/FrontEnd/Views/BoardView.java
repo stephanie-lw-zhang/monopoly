@@ -32,7 +32,7 @@ public class BoardView {
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
         myPropertyFile=propertyFile;
-        System.out.print(myPropertyFile);
+        //System.out.print(myPropertyFile);
 
         //System.out.print(myPropertyFile.getProp("TileOName"));
         makeBoard();
@@ -191,7 +191,7 @@ public class BoardView {
     }
 
     public void placeCornerTile(String tileName,
-                                ImportPropertyFile details,
+                                String details,
                                 String tileDescription,
                                 String tileColor,
                                 double xDiff,
@@ -203,18 +203,22 @@ public class BoardView {
         Node tileNode = tile.getNodeOfTileView();
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
-        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
+        System.out.print(details);
+        ImportPropertyFile deets = new ImportPropertyFile(details);
+        System.out.print(deets);
+        System.out.print(" ");
+        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
 
 
     }
 
     public void makeCorners(){
-        System.out.print(myPropertyFile.getProp("TileOName"));
-        System.out.print(myPropertyFile.getProp("TileOFile®"));
-        placeCornerTile(myPropertyFile.getProp("Tile0Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile0File")),"Go","clear",1,1);
-        placeCornerTile(myPropertyFile.getProp("Tile10Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile10File")),"Go","clear",0,1);
-        placeCornerTile(myPropertyFile.getProp("Tile20Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile20File")),"Go","clear",0,0);
-        placeCornerTile(myPropertyFile.getProp("Tile30Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile30File")),"Go","clear",1,0);
+        //System.out.print(myPropertyFile.getProp("TileOName"));
+        //System.out.print(myPropertyFile.getProp("TileOFile®"))
+        placeCornerTile(myPropertyFile.getProp("Tile0Name"), myPropertyFile.getProp("Tile0File"),"Go","clear",1,1);
+        placeCornerTile(myPropertyFile.getProp("Tile10Name"), myPropertyFile.getProp("Tile10File"),"Go","clear",0,1);
+        placeCornerTile(myPropertyFile.getProp("Tile20Name"), myPropertyFile.getProp("Tile20File"),"Go","clear",0,0);
+        placeCornerTile(myPropertyFile.getProp("Tile30Name"), myPropertyFile.getProp("Tile30File"),"Go","clear",1,0);
     }
 }

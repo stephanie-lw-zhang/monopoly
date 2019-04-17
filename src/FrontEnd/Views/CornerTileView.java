@@ -15,9 +15,9 @@ public class CornerTileView extends AbstractTileView {
     private double mySideLength;
     private StackPane myRoot;
     ImportPropertyFile myPropertyFile;
-    ImportPropertyFile myDetails;
+    String myDetails;
 
-    public CornerTileView(String name, ImportPropertyFile details, String description, String color) {
+    public CornerTileView(String name, String details, String description, String color) {
         super(name, description);
         myRoot = new StackPane();
         myDetails = details;

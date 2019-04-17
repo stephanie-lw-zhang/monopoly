@@ -27,7 +27,7 @@ public class BoardModeScreen extends AbstractScreen{
 
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        //System.out.println(myPropertyFile);
+        System.out.println(myPropertyFile);
         myBoardView = new BoardView(sWidth, sHeight*0.9,90,11,11, myPropertyFile);
 
     }
