@@ -31,7 +31,9 @@
 
     <Tile>
         <TileNumber>2</TileNumber>
-        <TileType>Community Chest</TileType>
+        <TileType>CommunityChestTile</TileType>
+        <TileName>Community Chest</TileName>
+
     </Tile>
 
     <Tile>
@@ -54,7 +56,8 @@
 
     <Tile>
         <TileNumber>4</TileNumber>
-        <TileType>Income Tax</TileType>
+        <TileType>IncomeTaxTile</TileType>
+        <TileName>Income Tax</TileName>
         <TileRent>200</TileRent>
     </Tile>
 
@@ -91,7 +94,8 @@
 
     <Tile>
         <TileNumber>7</TileNumber>
-        <TileType>Chance</TileType>
+        <TileType>ChanceTile</TileType>
+        <TileName>Chance</TileName>
     </Tile>
 
     <Tile>
@@ -132,7 +136,8 @@
 
     <Tile>
         <TileNumber>10</TileNumber>
-        <TileType>Jail/Just Visiting</TileType>
+        <TileType>JailTile</TileType>
+        <TileName>Jail</TileName>
     </Tile>
 
     <Tile>
@@ -155,7 +160,8 @@
 
     <Tile>
         <TileNumber>12</TileNumber>
-        <TileType>Electric Company</TileType>
+        <TileType>UtilityTile</TileType>
+        <TileName>Electric Company</TileName>
         <TilePrice>150</TilePrice>
         <RentFactor1Utility>4</RentFactor1Utility>
         <RentFactor2Utility>10</RentFactor2Utility>
@@ -231,7 +237,8 @@
 
     <Tile>
         <TileNumber>17</TileNumber>
-        <TileType>Community Chest</TileType>
+        <TileType>CommunityChestTile</TileType>
+        <TileName>Community Chest</TileName>
     </Tile>
 
     <Tile>
@@ -385,7 +392,8 @@
 
     <Tile>
         <TileNumber>28</TileNumber>
-        <TileType>Water Works</TileType>
+        <TileType>UtilityTile</TileType>
+        <TileName>Water Works</TileName>
         <TilePrice>150</TilePrice>
         <RentFactor1Utility>4</RentFactor1Utility>
         <RentFactor2Utility>10</RentFactor2Utility>
@@ -412,7 +420,8 @@
 
     <Tile>
         <TileNumber>30</TileNumber>
-        <TileType>Go to Jail</TileType>
+        <TileType>GoToJailTile</TileType>
+        <TileName>Go to Jail</TileName>
     </Tile>
 
     <Tile>
@@ -453,7 +462,8 @@
 
     <Tile>
         <TileNumber>33</TileNumber>
-        <TileType>Community Chest</TileType>
+        <TileType>CommunityChestTile</TileType>
+        <TileName>Community Chest</TileName>
     </Tile>
 
     <Tile>
@@ -489,7 +499,8 @@
 
     <Tile>
         <TileNumber>36</TileNumber>
-        <TileType>Chance</TileType>
+        <TileType>ChanceTile</TileType>
+        <TileName>Chance</TileName>
     </Tile>
 
     <Tile>
@@ -513,7 +524,8 @@
 
     <Tile>
         <TileNumber>38</TileNumber>
-        <TileType>Luxury Tax</TileType>
+        <TileType>LuxuryTaxTile</TileType>
+        <TileName>Luxury Tax</TileName>
         <TileRent>100</TileRent>
     </Tile>
 

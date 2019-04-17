@@ -1,13 +1,14 @@
-package BackEnd.Tile.DrawCardTiles;
+package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Deck.DeckInterface;
-import BackEnd.Tile.TileInterface;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractDrawCardTile implements TileInterface {
+
+public abstract class AbstractDrawCardTile extends Tile {
 
     private DeckInterface myDeck;
 
@@ -17,15 +18,17 @@ public abstract class AbstractDrawCardTile implements TileInterface {
 
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
-        List<String> possibleActions = new ArrayList<String>(  );
-        possibleActions.add("draw card");
+        List<String> possibleActions = new ArrayList<String>();
+        possibleActions.add( "draw card" );
 //        myDeck.drawCard();
         return possibleActions;
     }
 
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
+    public AbstractDrawCardTile( Element n) {
+        //TODO: Finish this implementation
     }
 
+    public void applyPassedAction (AbstractPlayer player){
+        return;
+    }
 }

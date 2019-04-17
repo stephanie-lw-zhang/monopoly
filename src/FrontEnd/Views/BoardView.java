@@ -1,7 +1,6 @@
-package FrontEnd;
+package FrontEnd.Views;
 
 import BackEnd.Board.AbstractBoard;
-import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -184,6 +183,8 @@ public class BoardView {
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
         myRoot.getChildren().add(tileNode);
+
+
     }
 
     public void makeCorners(){

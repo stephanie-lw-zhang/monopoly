@@ -1,7 +1,10 @@
 package Configuration;
 
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.TileInterface;
+import BackEnd.AssetHolder.Bank;
+import BackEnd.Board.AbstractBoard;
+import BackEnd.Card.AbstractCard;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,10 +21,13 @@ import java.util.Map;
 
 public class XMLData {
 
-    private Map<TileInterface, List<TileInterface>> adjacencyList;
+    private Map<Tile, List<Tile>> adjacencyList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
+    //private Bank bank;
+    private AbstractBoard board;
 
     public XMLData(String fileName) throws Exception {
+        //this.bank = bank;
         File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
@@ -33,11 +39,11 @@ public class XMLData {
             NodeList tileList = doc.getElementsByTagName("Tile");
             //NodeList cardList = doc.getElementsByTagName("Card");
 
-            List<TileInterface> tiles = new ArrayList<>();
+            List<Tile> tiles = new ArrayList<>();
             for (int i = 0; i < tileList.getLength(); i++) {
                 tiles.add(getTile(tileList.item(i)));
             }
-            for (TileInterface tile : tiles) {
+            for (Tile tile : tiles) {
                 System.out.println(tile);
             }
         }catch(ParserConfigurationException | SAXException | IOException e){
@@ -45,13 +51,13 @@ public class XMLData {
         }
     }
 
-    private static TileInterface getTile(Node node) throws Exception {
-        TileInterface tile;
+    private Tile getTile(Node node) throws Exception {
+        Tile tile;
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element element = (Element) node;
             String tileType = getTagValue("TileType", element);
-            System.out.println(tileType);
-            tile = (TileInterface) Class.forName("BackEnd.Tile." + tileType).getConstructor(Element.class).newInstance(element);
+            //System.out.println(tileType);
+            tile = (Tile) Class.forName("BackEnd.Tile." + tileType).getConstructor(Element.class).newInstance(element);
             return tile;
         }
         else{
@@ -59,9 +65,17 @@ public class XMLData {
         }
     }
 
+    private AbstractCard getCard(Node node) throws Exception {
+        return null;
+    }
+
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
         return node.getNodeValue();
+    }
+
+    public AbstractBoard getBoard(){
+        return board;
     }
 }

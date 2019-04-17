@@ -8,40 +8,38 @@ import BackEnd.Board.StandardBoard;
 import BackEnd.Deck.NormalDeck;
 import BackEnd.Dice.SixDice;
 import BackEnd.Tile.GoTile;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.TileInterface;
-import FrontEnd.BoardView;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
+import Controller.Turn;
+import FrontEnd.Views.BoardView;
+import javafx.animation.RotateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import Controller.Game;
+import javafx.util.Duration;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.io.File;
 
 /**
  * For testing purposes
@@ -50,16 +48,15 @@ import java.util.Random;
  */
 public class TestingScreen extends AbstractScreen {
 
+    private BoardView myBoardView;
     private double    screenWidth;
     private double    screenHeight;
-    private Stage  testStage;
-    private Scene  testScene;
-    private Scene myScene;
-    private BoardView myBoardView;
-
-    private Game myGame;
+    private Stage     testStage;
+    private Scene     testScene;
+    private Game      myGame;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
+    private final Button END_TURN_BUTTON = new Button("END TURN");
 
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
@@ -86,21 +83,25 @@ public class TestingScreen extends AbstractScreen {
 
         Label p1Name = new Label("Player 1 Name: ");
         TextField p1Field = new TextField();
+        addTextLimiter(p1Field, 25);
         p1Field.setPrefHeight(30);
         p1Field.setMaxWidth(200);
 
         Label p2Name = new Label("Player 2 Name: ");
         TextField p2Field = new TextField();
+        addTextLimiter(p2Field, 25);
         p2Field.setPrefHeight(30);
         p2Field.setMaxWidth(200);
 
         Label p3Name = new Label("Player 3 Name: ");
         TextField p3Field = new TextField();
+        addTextLimiter(p3Field, 25);
         p3Field.setPrefHeight(30);
         p3Field.setMaxWidth(200);
 
         Label p4Name = new Label("Player 4 Name: ");
         TextField p4Field = new TextField();
+        addTextLimiter(p4Field, 25);
         p4Field.setPrefHeight(30);
         p4Field.setMaxWidth(200);
 
@@ -165,13 +166,11 @@ public class TestingScreen extends AbstractScreen {
 
         StackPane boardStackPane = new StackPane();
 
-//        TilePane playerOptionsModal= new TilePane();
         VBox playerOptionsModal = new VBox();
-         playerOptionsModal.setSpacing(10);
-//        playerOptionsModal.getChildren().add(ROLL_BUTTON);
+        playerOptionsModal.setSpacing(10);
 
         HBox diceLayout = new HBox();
-        diceLayout.setSpacing(5);
+        diceLayout.setSpacing(10);
         diceLayout.setUserData("diceLayout");
 
         ImageView dice1 = new ImageView();
@@ -197,16 +196,36 @@ public class TestingScreen extends AbstractScreen {
         dice2.setFitWidth(30);
 
         diceLayout.getChildren().addAll(dice1, dice2);
+        diceLayout.setAlignment(Pos.CENTER_LEFT);
 
-        // playerOptionsModal.getChildren().addAll(ROLL_BUTTON, dice1, dice2);
-        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON);
+        TextArea playersText = new TextArea();
+        playersText.setText("Joined Players: \n" + getPlayersText());
+        playersText.setEditable(false);
+        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
+
+        TextArea currPlayerText = new TextArea();
+        currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
+        currPlayerText.setEditable(false);
+        currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
+
+        playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText, END_TURN_BUTTON);
+        playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
+        playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
 
         boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
 
-        ROLL_BUTTON.setOnAction(f -> myGame.handleRollButton());
+        // TODO: CONDITION FOR GAME END LOGIC????
+        myGame.startGameLoop();
+    }
+
+    private String getPlayersText() {
+        StringBuilder sb = new StringBuilder();
+        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList())
+            sb.append(p.getMyPlayerName() + "\n");
+        return sb.toString();
     }
 
     private AbstractBoard makeBoard(List<TextField> playerFields) {
@@ -214,7 +233,7 @@ public class TestingScreen extends AbstractScreen {
 
         AbstractBoard board = new StandardBoard(
             playerList,
-            new HashMap<TileInterface, List<TileInterface>>(),
+            new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200)
         );
@@ -225,10 +244,12 @@ public class TestingScreen extends AbstractScreen {
     private List<AbstractPlayer> makePlayerList(List<TextField> playerFields) {
         Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
         List<AbstractPlayer> playerList = new ArrayList<>();
-        playerList.add(new HumanPlayer("Player 1", 200.0, bank));
-        playerList.add(new HumanPlayer("Player 2", 1500.0, bank));
-        playerList.add(new HumanPlayer("Player 3", 1500.0, bank));
-        playerList.add(new HumanPlayer("Player 4", 1500.0, bank));
+
+        for (TextField pName : playerFields) {
+            String name = pName.getText();
+            if (! name.equals(""))
+                playerList.add(new HumanPlayer(name, 1500.0, bank));
+        }
 
         return playerList;
     }
@@ -261,24 +282,76 @@ public class TestingScreen extends AbstractScreen {
 
         List<ImageView> diceViews = (ObservableList) diceLayout.getChildren();
 
-        for (int i = 0; i < rolls.length; i++) {
-            diceViews.get(i).setImage(new Image(this
-                                .getClass()
-                                .getClassLoader()
-                                .getResourceAsStream(
-                                        "dice" + rolls[i] + ".png"
-                                )
-            ));
-        }
+        playDiceAnimation(diceViews, rolls);
     }
 
-//    private Node getByUserData(Parent parent, Object data) {
-//        for (Node n : parent.getChildren()) {
-//            if (data.equals(n.getUserData())) {
-//                return n;
-//            }
-//        }
-//        return null;
-//    }
+    public void updateCurrentPlayer(AbstractPlayer currPlayer) {
+        BorderPane bPane = (BorderPane) testScene.getRoot();
+        StackPane boardStackPane = (StackPane) bPane.getCenter();
+        ObservableList vList = boardStackPane.getChildren();
 
+        // TODO: CANNOT HARDCODE GETTING 1st element in vList (the VBox)
+        // TODO: Maybe use "setUserData" for the VBox and retrieve that way
+        VBox playerOptionsModal = (VBox) vList.get(1);
+
+        TextArea currPlayerText = (TextArea) playerOptionsModal.getChildren().get(3);
+        currPlayerText.setText(currPlayer.getMyPlayerName());
+    }
+
+    public void displayRollsPopup(final Turn turn) {
+        int[] rolls = turn.getRolls();
+
+        Text diceText = new Text("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
+                "Move " + turn.getNumMoves() + " spots!");
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("DICE ROLL");
+        alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
+                "Moving " + turn.getNumMoves() + " spots...");
+        alert.showAndWait();
+    }
+
+    // TODO: MAKE REFLECTION TO MAKE ROTATETRANSITIONS GIVEN DICEVIEWS/ROLLS
+    private void playDiceAnimation(List<ImageView> diceViews, int[] rolls) {
+        Media diceRollSound = new Media(new File("./data/diceRoll.mp3").toURI().toString());
+        MediaPlayer diceSoundPlayer = new MediaPlayer(diceRollSound);
+        diceSoundPlayer.play();
+        RotateTransition rt1 = new RotateTransition(Duration.seconds(1.5), diceViews.get(0));
+        RotateTransition rt2 = new RotateTransition(Duration.seconds(1.5), diceViews.get(1));
+        rt1.setFromAngle(0);
+        rt1.setToAngle(720);
+        rt2.setFromAngle(0);
+        rt2.setToAngle(720);
+        rt1.setOnFinished(e -> setDice(diceViews.get(0), rolls[0]));
+        rt2.setOnFinished(e -> setDice(diceViews.get(1), rolls[1]));
+        rt1.play();
+        rt2.play();
+    }
+
+    private void setDice(ImageView diceView, final int roll) {
+        diceView.setImage(new Image(
+                this.getClass()
+                    .getClassLoader()
+                    .getResourceAsStream(
+                        "dice" + roll + ".png"
+                    )
+                ));
+    }
+
+    /**
+     * Limits size of user input
+     * @param tf
+     * @param maxLength
+     */
+    public void addTextLimiter(final TextField tf, final int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
+    }
 }

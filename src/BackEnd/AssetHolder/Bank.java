@@ -1,8 +1,8 @@
 package BackEnd.AssetHolder;
 
 import BackEnd.Card.BuildingCard;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.BuildingTile;
 
 import java.util.Map;
 

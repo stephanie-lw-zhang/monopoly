@@ -1,7 +1,8 @@
-package BackEnd.Tile.TaxTiles;
+package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
+import BackEnd.Tile.AbstractTaxTile;
 
 import java.util.ArrayList;
 import java.util.List;

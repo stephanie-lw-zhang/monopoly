@@ -4,14 +4,14 @@ package BackEnd.Board;
 /**
  * This class is an abstraction of the game board which contains
  * fundamental pieces to the game itself
+ *
+ * @author Sam
+ *             updated Constructor for PlayerList
  */
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Tile.JailTile;
-import BackEnd.Tile.PropertyTiles.AbstractPropertyTile;
-import BackEnd.Tile.PropertyTiles.BuildingTile;
-import BackEnd.Tile.TileInterface;
-import BackEnd.Tile.GoTile;
-import javafx.scene.paint.Color;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.Tile;
 
 import java.util.*;
 
@@ -20,19 +20,19 @@ import java.util.*;
  */
 public abstract class AbstractBoard {
 
-    private Map<AbstractPlayer, TileInterface> playerPositionMap;
-    private Map<TileInterface, List<TileInterface>> adjacencyList;
+    private Map<AbstractPlayer, Tile>      playerPositionMap;
+    private Map<Tile, List<Tile>> adjacencyMap;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
-    private int numDie;
+    private List<AbstractPlayer>                    myPlayerList;
+    private int                                     numDie;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-
-
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<TileInterface, List<TileInterface>> adjacencyList, Map<String, List<AbstractPropertyTile>> colorListMap, TileInterface go, int nDie) {
-        this.adjacencyList = adjacencyList;
-        this.propertyCategoryToSpecificListMap = colorListMap;
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, int nDie) {
+        myPlayerList = playerList;
+        adjacencyMap = adjacencyMap;
+        propertyCategoryToSpecificListMap = colorListMap;
         playerPositionMap = new HashMap<>();
         numDie = nDie;
         for (AbstractPlayer p : playerList) playerPositionMap.put(p, go);
@@ -41,7 +41,7 @@ public abstract class AbstractBoard {
     /**
      * gets the Tile that the player is currently on
      */
-    public TileInterface getPlayerTile(AbstractPlayer p) {
+    public Tile getPlayerTile(AbstractPlayer p) {
         return playerPositionMap.get(p);
     }
 
@@ -50,17 +50,17 @@ public abstract class AbstractBoard {
      */
     public abstract void movePlayer(AbstractPlayer p, int numMoves);
 
-    public Map<AbstractPlayer, TileInterface> getPlayerTileMap() {
+    public Map<AbstractPlayer, Tile> getPlayerTileMap() {
         return playerPositionMap;
     }
 
-    public List<TileInterface> getAdjacentTiles(TileInterface tile) {
-        return adjacencyList.get(tile);
+    public List<Tile> getAdjacentTiles(Tile tile) {
+        return adjacencyMap.get(tile);
     }
 
-    public TileInterface getJailTile(){
-        TileInterface tile = null;
-        for (TileInterface key: adjacencyList.keySet()) {
+    public Tile getJailTile(){
+        Tile tile = null;
+        for (Tile key: adjacencyMap.keySet()) {
             if(key instanceof JailTile){
                 tile = key;
             }
@@ -68,9 +68,9 @@ public abstract class AbstractBoard {
         return tile;
     }
 
+    public List<AbstractPlayer> getMyPlayerList() { return myPlayerList; }
     public Map<String, List<AbstractPropertyTile>> getColorListMap() {
         return propertyCategoryToSpecificListMap;
     }
-
     public int getNumDie() { return numDie; }
 }

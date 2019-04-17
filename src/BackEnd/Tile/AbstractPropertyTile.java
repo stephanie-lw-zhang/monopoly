@@ -1,17 +1,18 @@
-package BackEnd.Tile.PropertyTiles;
+package BackEnd.Tile;
 
 import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
-import BackEnd.Tile.TileInterface;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractPropertyTile implements TileInterface {
+public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
     private double tileprice;
@@ -32,14 +33,18 @@ public abstract class AbstractPropertyTile implements TileInterface {
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
 
-    public AbstractPropertyTile(Element n){
+    public AbstractPropertyTile(Element n, Bank bank){
         //TODO finish this implementation
+        this.bank = bank;
+        tiletype = getTagValue("TileName", n);
+        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
     //fix this
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<String>(  );
+
 //        //controller will send player option to buy property? interact with front-end
         if (getOwner() instanceof Bank) {
             possibleActions.add( "buy");
@@ -55,7 +60,6 @@ public abstract class AbstractPropertyTile implements TileInterface {
         return possibleActions;
     }
 
-    @Override
     public void applyPassedAction(AbstractPlayer player) {
         return;
     }
@@ -176,6 +180,13 @@ public abstract class AbstractPropertyTile implements TileInterface {
 
     public void setCurrentInUpgradeOrder(String newOrder) {
         currentInUpgradeOrder = newOrder;
+    }
+
+    // maybe make an abstractTile class instead of an Tile
+    private String getTagValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node node = nodeList.item(0);
+        return node.getNodeValue();
     }
 
     //    public boolean isRentNeeded(AbstractPlayer player) {
