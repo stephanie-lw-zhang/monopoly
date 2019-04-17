@@ -4,6 +4,9 @@ import BackEnd.AssetHolder.AbstractPlayer;
 //import api.Monopoly.BackEnd.AbstractTile;
 import org.w3c.dom.Element;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FreeParkingTile extends Tile {
 
     //private double landedOnMoney;
@@ -16,9 +19,11 @@ public class FreeParkingTile extends Tile {
     public FreeParkingTile(Element n){}
 
 
-    public void applyLandedOnAction(AbstractPlayer player) {
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
         //player.setMoney(player.getMoney() + landedOnMoney);
-        return;
+        List<String> possibleActions = new ArrayList<String>(  );
+        possibleActions.add("Collect Money");
+        return possibleActions;
     }
 
     public void applyPassedAction(AbstractPlayer player) {

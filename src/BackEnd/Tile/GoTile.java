@@ -6,6 +6,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GoTile extends Tile {
 
     private double landedOnMoney;
@@ -26,8 +29,11 @@ public class GoTile extends Tile {
     }
 
 
-    public void applyLandedOnAction(AbstractPlayer player) {
-        player.setMoney(player.getMoney() + landedOnMoney);
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<String>(  );
+//        player.setMoney(player.getMoney() + landedOnMoney);
+        possibleActions.add("Collect Money");
+        return possibleActions;
     }
 
 

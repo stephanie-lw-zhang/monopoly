@@ -48,14 +48,14 @@ public abstract class AbstractPropertyTile extends Tile {
 
 //        //controller will send player option to buy property? interact with front-end
         if (getOwner() instanceof Bank) {
-            possibleActions.add( "buy");
-            possibleActions.add( "auction" );
+            possibleActions.add( "Buy");
+            possibleActions.add( "Auction" );
 //            else {
 //                auctionProperty();
 //            }
         }
         else if (!player.equals(getOwner())) {
-            possibleActions.add( "pay rent" );
+            possibleActions.add( "Pay Rent" );
 //            player.paysTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;
@@ -100,6 +100,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.paysTo( owner, price );
+        owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
 
