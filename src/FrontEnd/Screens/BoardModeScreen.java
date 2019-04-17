@@ -23,10 +23,11 @@ public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
     private BoardView myBoardView;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
+    private ImportPropertyFile myPropertyFile;
 
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
+        myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
         System.out.println(myPropertyFile);
         myBoardView = new BoardView(sWidth, sHeight*0.9,90,11,11, myPropertyFile);
 

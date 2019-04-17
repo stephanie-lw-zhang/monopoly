@@ -203,10 +203,10 @@ public class BoardView {
         Node tileNode = tile.getNodeOfTileView();
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
-        System.out.print(details);
+        //System.out.print(details);
         ImportPropertyFile deets = new ImportPropertyFile(details);
-        System.out.print(deets);
-        System.out.print(" ");
+        //System.out.print(deets);
+        //System.out.print(" ");
         tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
 
