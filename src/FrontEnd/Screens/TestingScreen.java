@@ -45,7 +45,7 @@ import java.util.List;
 public class TestingScreen extends AbstractScreen {
 
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
-    private AbstractBoardView myBoardView;
+    private RectangularBoardView myBoardView;
     private DiceView  diceLayout;
     private double    screenWidth;
     private double    screenHeight;
@@ -144,8 +144,8 @@ public class TestingScreen extends AbstractScreen {
                 END_TURN_BUTTON
         );
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
-        playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
-
+        playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
+        diceLayout.setAlignment(Pos.CENTER_RIGHT);
         boardStackPane.getChildren().addAll(myBoardView.getPane(), playerOptionsModal);
 
         bPane.setTop(null);
@@ -233,6 +233,8 @@ public class TestingScreen extends AbstractScreen {
         alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
                 "Moving " + turn.getNumMoves() + " spots...");
         alert.showAndWait();
+        myBoardView.move(rolls[0]+rolls[1]);
+
     }
 
 
