@@ -1,7 +1,11 @@
 package FrontEnd.Screens;
 
 import Configuration.ImportPropertyFile;
-import FrontEnd.Views.BoardView;
+import FrontEnd.Views.Board.RectangularBoardView;
+import FrontEnd.Views.Board.AbstractBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
+import FrontEnd.Views.Game.AbstractGameView;
+import FrontEnd.Views.Game.SplitScreenGameView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,14 +26,16 @@ import javafx.stage.Stage;
 public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;
-    private BoardView myBoardView;
+    private RectangularBoardView myBoardView;
     private ImportPropertyFile myPropertyFile;
+    private SplitScreenGameView myGameView;
 
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
         myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
         System.out.println(myPropertyFile);
-        myBoardView = new BoardView(sWidth, sHeight*0.9,90,11,11, myPropertyFile);
+        myBoardView = new RectangularBoardView(sWidth, sHeight*0.9,90,11,11, myPropertyFile);
+
 
     }
 
@@ -71,7 +77,7 @@ public class BoardModeScreen extends AbstractScreen{
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
         bPane.getChildren().add(backgroundImg);
-        bPane.setCenter(myBoardView.getBoardPane());
+        bPane.setCenter(myGameView.getPane());
         bPane.setBottom(gPane);
 
         bPane.setMargin(gPane, new Insets(0,0, 75, 0));
@@ -80,7 +86,7 @@ public class BoardModeScreen extends AbstractScreen{
     }
 
     private Node makeBoard() {
-        return myBoardView.getBoardPane();
+        return myGameView.getPane();
     }
 
     @Override

@@ -12,7 +12,7 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
-import FrontEnd.Views.BoardView;
+import FrontEnd.Views.Board.RectangularBoardView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -49,7 +49,7 @@ import java.io.File;
  */
 public class TestingScreen extends AbstractScreen {
 
-    private BoardView myBoardView;
+    private RectangularBoardView myBoardView;
     private double    screenWidth;
     private double    screenHeight;
     private Stage     testStage;
@@ -65,7 +65,7 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11, myPropertyFile);
+        myBoardView = new RectangularBoardView(width*0.9, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override
@@ -198,7 +198,7 @@ public class TestingScreen extends AbstractScreen {
         dice2.setFitWidth(30);
 
         diceLayout.getChildren().addAll(dice1, dice2);
-        diceLayout.setAlignment(Pos.CENTER_LEFT);
+        diceLayout.setAlignment(Pos.CENTER_RIGHT);
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());
@@ -212,9 +212,13 @@ public class TestingScreen extends AbstractScreen {
 
         playerOptionsModal.getChildren().addAll(diceLayout, ROLL_BUTTON, playersText, currPlayerText, END_TURN_BUTTON);
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
-        playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
+        playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
 
-        boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
+        Pane boardViewPane = myBoardView.getPane();
+        boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
+        boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
+
+
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
@@ -238,7 +242,8 @@ public class TestingScreen extends AbstractScreen {
             new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200),
-                new Bank()
+
+               new Bank(20000.0, new HashMap<String, Integer>())
         );
 
         return board;

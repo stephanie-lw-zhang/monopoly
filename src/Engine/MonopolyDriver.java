@@ -29,7 +29,6 @@ public class MonopolyDriver extends Application {
         myStage = stage;
         // TODO: MonopolyDriver.start() refactor for MVC principles
         myIntroScene = new ViewMaker().makeIntroScene(myStage);
-
         myStage.setScene(myIntroScene);
         myStage.setTitle(TITLE);
         myIntroScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
