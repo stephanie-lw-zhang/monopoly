@@ -70,6 +70,12 @@ public class Game {
         myTestScreen.updateDiceView(myTurn.getRolls());
         myTestScreen.displayRollsPopup(myTurn);
 
+
+        myTurn.onAction(Actions.MOVE);
+        //TODO: move player front end
+        List<Actions> possibleActions = myTurn.getMyActions();
+        //TODO: front end display these two possible actions
+
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
     }
 

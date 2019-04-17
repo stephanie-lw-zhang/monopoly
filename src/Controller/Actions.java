@@ -8,10 +8,11 @@ public enum Actions {
     BUY ("buy"),
     AUCTION("auction"),
     PAY_RENT("payRent"),
-    PAY_TAX_FULL("payTaxFull"),
+    PAY_TAX_FIXED("payTaxFixed"),
     PAY_TAX_PERCENTAGE("payTaxPercentage"),
     DRAW_CARD("drawCard"),
-    SELL("sell"),
+    SELL_TO_BANK("sellToBank"),
+    SELL_TO_PLAYER("sellToPlayer"),
     COLLECT_MONEY("collectMoney"),
     GO_TO_JAIL("goToJail");
 

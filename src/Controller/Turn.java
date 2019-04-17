@@ -3,6 +3,11 @@ package Controller;
 import BackEnd.AssetHolder.AbstractPlayer;
 import BackEnd.Board.AbstractBoard;
 import BackEnd.Dice.AbstractDice;
+import BackEnd.Tile.AbstractDrawCardTile;
+import BackEnd.Tile.AbstractPropertyTile;
+import BackEnd.Tile.JailTile;
+import BackEnd.Tile.Tile;
+
 import java.util.*;
 
 /**
@@ -43,7 +48,8 @@ public class Turn {
 
     public void start() {
         myActions.clear();
-        numDoubleRolls = 0;
+
+        isTurnOver = false;
 
         myRolls = rollDice(myBoard.getNumDie());
         // TODO: send myRolls to FE to be displayed
@@ -81,6 +87,10 @@ public class Turn {
         myCurrPlayer= getNextPlayer();
     }
 
+    private Tile currPlayerTile(){
+        return myBoard.getPlayerTile( myCurrPlayer );
+    }
+
     private AbstractPlayer getNextPlayer() {
         Iterator<AbstractPlayer> iterator = myBoard.getMyPlayerList().iterator();
 
@@ -93,45 +103,71 @@ public class Turn {
     }
 
     public void onAction(Actions action) {
+        AbstractPropertyTile property;
         switch (action) {
             case MOVE:
 //                myBoard.movePlayer(myCurrPlayer, getNumMoves());
 //                myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
-                move();
+//                move();
                 break;
             case TRADE:
 //                myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
                 // TODO: handle Receiver input and debt as instances
                 break;
-            case END_TURN:
-                isTurnOver = true;
-                // TODO: HANDLE END TURN
-                break;
+//            case END_TURN:
+//                isTurnOver = true;
+//                myCurrPlayer = getNextPlayer();
+//                break;
             case PAY_BAIL:
                 myCurrPlayer.paysTo(myCurrPlayer.getBank(), 1500.00);
                 // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
+                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
                 break;
             case BUY:
+                //buy from bank
+                property = (AbstractPropertyTile) currPlayerTile();
+                List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
+                Double currTilePrice = property.getCard().getTilePrice();
+                property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
                 break;
             case AUCTION:
+
                 break;
             case PAY_RENT:
+                property = (AbstractPropertyTile) currPlayerTile();
+                myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
                 break;
-            case PAY_TAX_FULL:
+            case PAY_TAX_FIXED:
+                myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
+                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
                 break;
             case PAY_TAX_PERCENTAGE:
+                myCurrPlayer.paysTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
+                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
                 break;
             case DRAW_CARD:
+                ((AbstractDrawCardTile) currPlayerTile()).drawCard();
+                //assume draw card tile
                 break;
-            case SELL:
+            case SELL_TO_BANK:
+                break;
+            case SELL_TO_PLAYER:
                 break;
             case COLLECT_MONEY:
+                onAction(Actions.END_TURN);
                 break;
             case GO_TO_JAIL:
+                JailTile jail = (JailTile) myBoard.getJailTile();
+                myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
+                jail.addCriminal( myCurrPlayer );
+                myCurrPlayer.addTurnInJail();
+                //error
                 break;
             default:
                 throw new IllegalArgumentException("Illegal Turn Action!");
         }
+        isTurnOver = true;
+        myCurrPlayer = getNextPlayer();
     }
 
     private void promptEndTurn() {
@@ -150,6 +186,7 @@ public class Turn {
         return rolls;
     }
 
+
     public int getNumMoves() {
         int sum = 0;
         for (int roll : myRolls) sum += roll;
@@ -160,9 +197,9 @@ public class Turn {
         if (myRolls == null){
             //throw exception that dice must be rolled first
         }
-        if(myCurrPlayer.isBankrupt()){
-            return;
-        }
+//        if(myCurrPlayer.isBankrupt()){
+//            return;
+//        }
         else if (myCurrPlayer.getTurnsInJail() == 3) {
             //player must either pay 50 and move or skip one turn
             //series of states OR dialogue boxes
@@ -210,5 +247,8 @@ public class Turn {
 
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
-    public List<Actions> getMyActions() { return myActions; }
+
+    public List<Actions> getMyActions() {
+        return myActions;
+    }
 }

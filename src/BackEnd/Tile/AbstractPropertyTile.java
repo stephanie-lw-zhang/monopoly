@@ -17,7 +17,7 @@ import java.util.Map;
 public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
-    private double tileprice;
+//    private double tileprice;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
@@ -30,7 +30,7 @@ public abstract class AbstractPropertyTile extends Tile {
         //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
-        this.tileprice = tileprice;
+//        this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
     }
@@ -39,7 +39,7 @@ public abstract class AbstractPropertyTile extends Tile {
         //TODO finish this implementation
         this.bank = bank;
         tiletype = getTagValue("TileName", n);
-        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
+//        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
     //fix this
@@ -59,15 +59,17 @@ public abstract class AbstractPropertyTile extends Tile {
         return possibleActions;
     }
 
-    public double sellToBankPrice() {
-        if (!isMortgaged()) {
-            return tileprice/2;
-        }
-        else {
-            //throw exception: CANNOT SELL MORTGAGED PROPERTY BACK TO BANK
-        }
-        return 0;
-    }
+    //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
+//    public abstract double sellToBankPrice();
+//        if (!isMortgaged()) {
+////            return tileprice/2;
+//            getCard().
+//        }
+//        else {
+//            //throw exception: CANNOT SELL_TO_BANK MORTGAGED PROPERTY BACK TO BANK
+//        }
+//        return 0;
+//    }
 
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;

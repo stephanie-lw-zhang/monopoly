@@ -156,7 +156,7 @@ public class BuildingTile extends AbstractPropertyTile {
         return true;
     }
 
-    @Override
+//    @Override
     public double sellToBankPrice() {
         if (!isMortgaged()) {
 //  REMIND LUIS: DIVIDE BY 2 for selling back to bank
@@ -164,7 +164,7 @@ public class BuildingTile extends AbstractPropertyTile {
             return card.getOneBuildingSellToBankPrice(getCurrentInUpgradeOrder());
         }
         else {
-            //throw exception: CANNOT SELL WHEN MORTGAGED
+            //throw exception: CANNOT SELL_TO_BANK WHEN MORTGAGED
         }
         return 0;
     }

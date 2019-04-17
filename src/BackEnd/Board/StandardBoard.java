@@ -6,6 +6,7 @@ package BackEnd.Board;
  */
 
 import BackEnd.AssetHolder.AbstractPlayer;
+import BackEnd.AssetHolder.Bank;
 import BackEnd.Tile.GoToJailTile;
 import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
@@ -15,8 +16,8 @@ import java.util.Map;
 
 public class StandardBoard extends AbstractBoard {
 
-    public StandardBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go) {
-        super(playerList, adjacencyMap, colorListMap, go, 2);
+    public StandardBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, Bank bank) {
+        super(playerList, adjacencyMap, colorListMap, go, 2, bank);
     }
 
     public Map<Tile, List<Tile>> makeAdjacencyMap() {
@@ -31,7 +32,7 @@ public class StandardBoard extends AbstractBoard {
             //this needs to change for a non-standard board, could be informed by property file
             next = getAdjacentTiles(tile).get(0);
             tile = next;
-            tile.applyPassedAction(p);
+//            tile.applyPassedAction(p);
         }
         if(tile instanceof GoToJailTile) tile = getJailTile();
         getPlayerTileMap().put(p, tile);
