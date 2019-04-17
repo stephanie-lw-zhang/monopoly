@@ -316,6 +316,7 @@ public class TestingScreen extends AbstractScreen {
         alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
                 "Moving " + turn.getNumMoves() + " spots...");
         alert.showAndWait();
+        myBoardView.move(rolls[0]+rolls[1]);
     }
 
     // TODO: MAKE REFLECTION TO MAKE ROTATETRANSITIONS GIVEN DICEVIEWS/ROLLS

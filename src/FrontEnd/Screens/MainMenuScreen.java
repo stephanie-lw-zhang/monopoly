@@ -3,6 +3,8 @@ package FrontEnd.Screens;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -27,9 +29,10 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void makeScreen() {
-        Text titleText = new Text("MONOPOLY");
-        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
-        titleText.setFill(Color.DARKGREEN);
+//        Text titleText = new Text("MONOPOLY");
+//        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
+//        titleText.setFill(Color.DARKGREEN);
+        ImageView titleText = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("monoman.png")));
 
         Button playButton = new Button("PLAY: Normal mode");
         playButton.setOnAction(f -> handleNormalModeButton(getMyStage()));
