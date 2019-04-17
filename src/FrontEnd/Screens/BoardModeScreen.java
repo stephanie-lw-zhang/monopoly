@@ -23,6 +23,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * For BOARD testing purposes
+ *
+ * @author Luis
+ */
 public class BoardModeScreen extends AbstractScreen{
 
     private Scene myScene;

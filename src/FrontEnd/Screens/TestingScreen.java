@@ -50,14 +50,14 @@ import java.io.File;
  */
 public class TestingScreen extends AbstractScreen {
 
+
+    private Scene     testScene;
     private RectangularBoardView myBoardView;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private double    screenWidth;
     private double    screenHeight;
     private Stage     testStage;
-    private Scene     testScene;
     private Game      myGame;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
 
@@ -243,7 +243,6 @@ public class TestingScreen extends AbstractScreen {
             new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
             new GoTile(200, 200),
-
                new Bank(20000.0, new HashMap<String, Integer>())
         );
 

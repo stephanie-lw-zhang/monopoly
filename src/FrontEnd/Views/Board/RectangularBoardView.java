@@ -64,7 +64,7 @@ public class RectangularBoardView extends AbstractBoardView{
             }
         });
         for(AbstractTileView a:myTiles){
-            System.out.println(a.getMyTileName());
+            //System.out.println(a.getMyTileName());
         }
         //myModel = board;
 
@@ -176,6 +176,9 @@ public class RectangularBoardView extends AbstractBoardView{
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
+
+        System.out.print("Prop Tile Set");
+        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         tileNode.setRotate(rotationAngle);
         if(rotationAngle==0) {
             myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
@@ -191,15 +194,15 @@ public class RectangularBoardView extends AbstractBoardView{
             myRoot.setLeftAnchor(tileNode,myScreenWidth-myTileHeight/2-width/2);
         }
         tileNode.setRotate(rotationAngle);
-        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         myRoot.getChildren().add(tileNode);
         myTiles.add(tile);
     }
 
     private void showTileClickedAlert(ImportPropertyFile details) {
+        System.out.print("BANG!");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(details.getProp("TileName"));
-        alert.setHeaderText("Property Info:");
+        alert.setHeaderText("Tile Info:");
         alert.setContentText(
                 "Tile Price = " + details.getProp("TilePrice")+"\n"+
                         "Tile Rent = " + details.getProp("TileRent") +"\n" +
@@ -226,6 +229,8 @@ public class RectangularBoardView extends AbstractBoardView{
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
+        System.out.print("Nonprop Tile Set");
+        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         tileNode.setRotate(rotationAngle);
 
         if(rotationAngle==0) {
@@ -242,7 +247,6 @@ public class RectangularBoardView extends AbstractBoardView{
             myRoot.setLeftAnchor(tileNode,myScreenWidth-myTileHeight/2-width/2);
         }
         tileNode.setRotate(rotationAngle);
-        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         myRoot.getChildren().add(tileNode);
         myTiles.add(tile);
     }
@@ -263,10 +267,9 @@ public class RectangularBoardView extends AbstractBoardView{
         //System.out.print(details);
         ImportPropertyFile deets = new ImportPropertyFile(details);
         //System.out.print(deets);
-        //System.out.print(" ");
+        System.out.print("Corner Tile Set");
         tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
-        System.out.println(tileName);
     }
 
     public void makeCorners(){
