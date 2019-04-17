@@ -12,8 +12,13 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
-import FrontEnd.Views.BoardView;
 import FrontEnd.Views.DiceView;
+import FrontEnd.Views.Board.RectangularBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
+import javafx.animation.RotateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 import FrontEnd.Views.FormView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,6 +37,7 @@ import Controller.Game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * For testing purposes
@@ -40,16 +46,18 @@ import java.util.List;
  */
 public class TestingScreen extends AbstractScreen {
 
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
-    private BoardView myBoardView;
-    private DiceView  diceLayout;
+    private Scene     testScene;
+    private RectangularBoardView myBoardView;
+    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
+
     private double    screenWidth;
     private double    screenHeight;
+    private DiceView diceLayout;
     private Stage     testStage;
-    private Scene     testScene;
     private Game      myGame;
 
     private ObservableList<ImageView> myIconsList;
+
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
     private final Button TRADE_BUTTON = new Button("TRADE");
@@ -62,7 +70,7 @@ public class TestingScreen extends AbstractScreen {
         screenHeight = height;
         testStage = stage;
 
-        myBoardView = new BoardView(width*0.9, height*0.9,90,11,11, myPropertyFile);
+        myBoardView = new RectangularBoardView(width*0.89, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override
@@ -90,6 +98,20 @@ public class TestingScreen extends AbstractScreen {
         Button backToMainButton = new Button("Back to Main Menu");
         backToMainButton.setOnAction(f -> handleBackToMainButton(getMyStage()));
 
+        Image logo = new Image("monopopout.png");
+        ImageView iv1 = new ImageView();
+        // resizes the image to have width of 100 while preserving the ratio and using
+        // higher quality filtering method; this ImageView is also cached to
+        // improve performance
+        ImageView iv2 = new ImageView();
+        iv2.setImage(logo);
+        iv2.setFitWidth(400);
+        iv2.setPreserveRatio(true);
+        iv2.setSmooth(true);
+        iv2.setCache(true);
+
+        bPane.setTop(iv2);
+        bPane.setAlignment(iv2, Pos.CENTER);
         bPane.setAlignment(form, Pos.CENTER);
         bPane.setCenter(form);
         bPane.setAlignment(backToMainButton, Pos.CENTER);
@@ -121,10 +143,12 @@ public class TestingScreen extends AbstractScreen {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
 
+
         diceLayout = new DiceView(
                 myGame.getBoard().getNumDie(),
                 myGame.getMyDice().getNumStates()
         );
+
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());
@@ -143,9 +167,12 @@ public class TestingScreen extends AbstractScreen {
                 AUCTION_BUTTON, MORTGAGE_BUTTON
         );
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
-        playerOptionsModal.setAlignment(Pos.CENTER_LEFT);
+        playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
 
-        boardStackPane.getChildren().addAll(myBoardView.getBoardPane(), playerOptionsModal);
+        Pane boardViewPane = myBoardView.getPane();
+        boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
+        boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
+
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
@@ -165,11 +192,12 @@ public class TestingScreen extends AbstractScreen {
         List<AbstractPlayer> playerList = makePlayerList(playerFields);
 
         AbstractBoard board = new StandardBoard(
-                playerList,
-                new HashMap<Tile, List<Tile>>(),
-                new HashMap<String, List<AbstractPropertyTile>>(),
-                new GoTile(200, 200),
-                new Bank(200000.0, new HashMap<String, Integer>())
+
+            playerList,
+            new HashMap<Tile, List<Tile>>(),
+            new HashMap<String, List<AbstractPropertyTile>>(),
+            new GoTile(200, 200),
+            new Bank(200000.0, new HashMap<String, Integer>())
         );
 
         return board;
