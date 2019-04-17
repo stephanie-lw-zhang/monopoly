@@ -43,6 +43,7 @@ public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tile
         return propertiesOwnedBy;
     }
 ```
+
     * Service: Abstract class for property tiles that are not buildings (like railroads, utilities, etc.). Specifically it calculates the rent price if a player lands on it and correctly sells the property to another player or the bank(the important thing here was to make sure the number of properties held was updated after selling it, because that impacts rent price).
     * Extension: calculating the rent price is an abstract method, so it can be specific to each tile.
     * How it has changed: We changed the specifics of the sell to method to be more accurate. Instead of just paying and exchanging the property, we had to make sure the rent price is updated since it depends on how many of each property you own (which changes after selling).
@@ -90,6 +91,7 @@ public abstract class AbstractAssetHolder{
     }
 }
 ```
+
     * Service: Contains common methods for asset holders, namely the bank and players (in original monopoly). 
     * Extension: Includes abstract methods paysTo and addProperty, because bank and players differ on how these need to be implemented. We also implemented our own “equal” comparator method. 
     * How it has changed: No change
@@ -122,6 +124,7 @@ public abstract class AbstractAssetHolder{
         }
     }
     ```
+    
 # describe one element of the design that has changed based on your deeper understanding of the project, how were those changes discussed, and what trade-offs ultimately led to the changes 
 - We have changed our applyLandedOnAction in the Tile classes. Before, we directly were executing the actions in the tile, but now we are returning a list of Actions (which are Enums) to the Controller, so that it can tell the front end to allow the user to push certain buttons whenever a certain tile is landed on. For example, if a property tile is landed on that is owned by the bank, the applyLandedOnAction in the AbstractPropertyTile class will return a list of enums with BUY and AUCTION as the enums in the list. This is called in the controller, which will send it to the front-end. In the controller, we also have a onAction() method that goes through each case action and calls backend methods to implement these actions. 
 - These changes were discussed in the past two days, when we realized that it may not be good design to have the applyLandedOnAction method return nothing. To compensate for this, we were planning on having a Tile Controller class. However, we decided to have all applyLandedOnAction methods return a list of actions so that all tiles will be able to specify some type of action if necessary, instead of some tiles being able to specify and others not being able to. 
