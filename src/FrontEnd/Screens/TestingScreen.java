@@ -13,6 +13,7 @@ import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
 import FrontEnd.Views.Board.RectangularBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -65,7 +66,7 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new RectangularBoardView(width*0.9, height*0.9,90,11,11,myPropertyFile);
+        myBoardView = new RectangularBoardView(width*0.89, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override

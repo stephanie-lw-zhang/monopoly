@@ -62,7 +62,7 @@ public class PropertyTileView extends AbstractTileView {
         tileText.setTextAlignment(TextAlignment.CENTER);
         tileText.setWrappingWidth(myWidth);
         tileText.setFont(Font.font("Verdana",myWidth/5));
-        myRoot.setAlignment(tileText,Pos.CENTER);
+        myRoot.setAlignment(tileText,Pos.BOTTOM_CENTER);
         return tileText;
     }
 
