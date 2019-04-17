@@ -13,6 +13,9 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 /**
  * Extends AbstractScreen. Represents the main menu which is first loaded on game start
@@ -32,7 +35,21 @@ public class MainMenuScreen extends AbstractScreen {
 //        Text titleText = new Text("MONOPOLY");
 //        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
 //        titleText.setFill(Color.DARKGREEN);
-        ImageView titleText = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("monoman.png")));
+        Image logo = new Image("monopolylogo.png");
+        ImageView iv1 = new ImageView();
+        // resizes the image to have width of 100 while preserving the ratio and using
+        // higher quality filtering method; this ImageView is also cached to
+        // improve performance
+        ImageView iv2 = new ImageView();
+        iv2.setImage(logo);
+        iv2.setFitWidth(700);
+        iv2.setPreserveRatio(true);
+        iv2.setSmooth(true);
+        iv2.setCache(true);
+//        iv1.setImage(logo);
+//        Text titleText = new Text("MONOPOLY");
+//        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
+//        titleText.setFill(Color.DARKGREEN);
 
         Button playButton = new Button("PLAY: Normal mode");
         playButton.setOnAction(f -> handleNormalModeButton(getMyStage()));
@@ -61,7 +78,7 @@ public class MainMenuScreen extends AbstractScreen {
                 getScreenHeight(),
                 gridPane
         );
-        bPane.setCenter(titleText);
+        bPane.setCenter(iv2);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 
