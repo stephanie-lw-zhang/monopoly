@@ -68,7 +68,8 @@ public class Game {
 
         //myTurn.move();
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
-        List<Actions> possibleActions = myTurn.getMyActions();
+        List<String> possibleActions = myTurn.getMyActions();
+
         //TODO: front end display these two possible actions
 
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());

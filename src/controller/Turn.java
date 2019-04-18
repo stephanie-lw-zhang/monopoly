@@ -27,7 +27,7 @@ public class Turn {
     private AbstractPlayer myCurrPlayer;
     private AbstractBoard  myBoard;
     private AbstractDice   myDice;
-    private List<Actions>  myActions;
+    private List<String>  myActions;
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;
@@ -271,7 +271,7 @@ public class Turn {
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
 
-    public List<Actions> getMyActions() {
+    public List<String> getMyActions() {
         return myActions;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class Tile {
 
-    public abstract List<Actions> applyLandedOnAction(AbstractPlayer p);
+    public abstract List<String> applyLandedOnAction(AbstractPlayer p);
 
     private String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();

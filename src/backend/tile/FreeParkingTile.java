@@ -20,10 +20,10 @@ public class FreeParkingTile extends Tile {
     public FreeParkingTile(Element n){}
 
 
-    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
         //player.setMoney(player.getMoney() + landedOnMoney);
-        List<Actions> possibleActions = new ArrayList<>(  );
-        possibleActions.add(Actions.COLLECT_MONEY);
+        List<String> possibleActions = new ArrayList<>(  );
+        possibleActions.add("collectMoney");
         return possibleActions;
     }
 

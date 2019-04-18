@@ -44,16 +44,16 @@ public abstract class AbstractPropertyTile extends Tile {
 
     //fix this
     @Override
-    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
-        List<Actions> possibleActions = new ArrayList<>(  );
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<>(  );
 
 //        //controller will send player option to buy property? interact with front-end
         if (getOwner() instanceof Bank) {
-            possibleActions.add(Actions.BUY);
-            possibleActions.add(Actions.AUCTION);
+            possibleActions.add("buy");
+            possibleActions.add("auction");
         }
         else if (!player.equals(getOwner())) {
-            possibleActions.add(Actions.PAY_RENT);
+            possibleActions.add("payRent");
 //            player.paysTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;

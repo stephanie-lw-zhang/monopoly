@@ -16,7 +16,7 @@ public class JailTile extends Tile {
     }
 
     @Override
-    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
         return null;
     }
 

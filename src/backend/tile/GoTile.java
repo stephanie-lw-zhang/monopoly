@@ -30,10 +30,10 @@ public class GoTile extends Tile {
     }
 
 
-    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
-        List<Actions> possibleActions = new ArrayList<>( );
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<>( );
 //        player.setMoney(player.getMoney() + landedOnMoney);
-        possibleActions.add(Actions.COLLECT_MONEY);
+        possibleActions.add("collectMoney");
         return possibleActions;
     }
 

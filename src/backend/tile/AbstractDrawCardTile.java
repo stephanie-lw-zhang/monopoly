@@ -19,9 +19,9 @@ public abstract class AbstractDrawCardTile extends Tile {
     }
 
     @Override
-    public List<Actions> applyLandedOnAction(AbstractPlayer player) {
-        List<Actions> possibleActions = new ArrayList<>();
-        possibleActions.add(Actions.DRAW_CARD);
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<>();
+        possibleActions.add("drawCard");
 //        myDeck.drawCard();
         return possibleActions;
     }
