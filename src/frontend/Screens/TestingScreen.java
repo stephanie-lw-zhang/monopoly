@@ -12,10 +12,13 @@ import backend.Tile.AbstractPropertyTile;
 import backend.Tile.Tile;
 import configuration.ImportPropertyFile;
 import controller.Turn;
+import frontend.Views.Board.AbstractBoardView;
+import frontend.Views.Board.SquareBoardView;
 import frontend.Views.DiceView;
 import frontend.Views.Board.RectangularBoardView;
 
 import frontend.Views.FormView;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -46,11 +49,9 @@ public class TestingScreen extends AbstractScreen {
     private RectangularBoardView myBoardView;
     private DiceView             myDiceView;
     private Scene                myScene;
-
-    private double    screenWidth;
-    private double    screenHeight;
-    private Stage     testStage;
-    private Game      myGame;
+    private Game                 myGame;
+    private double               screenWidth;
+    private double               screenHeight;
 
     private ObservableList<ImageView> myIconsList;
 
@@ -64,9 +65,8 @@ public class TestingScreen extends AbstractScreen {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-        testStage = stage;
 
-        myBoardView = new RectangularBoardView(width*0.7, height*0.9,90,11,11,myPropertyFile);
+        myBoardView = new SquareBoardView(width*0.5, height*0.9,90,11,11, myPropertyFile);
     }
 
     @Override
@@ -159,6 +159,7 @@ public class TestingScreen extends AbstractScreen {
         );
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
         playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
+        myDiceView.setAlignment(Pos.CENTER_RIGHT);
 
         Pane boardViewPane = myBoardView.getPane();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
@@ -182,7 +183,6 @@ public class TestingScreen extends AbstractScreen {
         List<AbstractPlayer> playerList = makePlayerList(playerFields);
 
         AbstractBoard board = new StandardBoard(
-
             playerList,
             new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
@@ -214,10 +214,6 @@ public class TestingScreen extends AbstractScreen {
         return empties <= 2;
     }
 
-    public Scene getMyScene() {
-        return myScene;
-    }
-
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {
         BorderPane bPane = (BorderPane) myScene.getRoot();
         StackPane boardStackPane = (StackPane) bPane.getCenter();
@@ -231,18 +227,8 @@ public class TestingScreen extends AbstractScreen {
         currPlayerText.setText(currPlayer.getMyPlayerName());
     }
 
-
     public void updateDice(final Turn turn) {
-        myDiceView.playDiceAnimation((ObservableList) myDiceView.getChildren(), turn.getRolls());
-        this.displayRollsPopup(turn);
-    }
-
-    public void displayRollsPopup(final Turn turn) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("DICE ROLL");
-        alert.setContentText("Player " + turn.getMyCurrPlayer().getMyPlayerName()
-                    + " gets to move " + turn.getNumMoves() + " spots...");
-        alert.showAndWait();
+        myDiceView.onUpdate(turn);
     }
 
     private void handleKeyInput(KeyCode code) {
@@ -250,4 +236,9 @@ public class TestingScreen extends AbstractScreen {
             handleBackToMainButton(getMyStage());
         }
     }
+
+    public Scene getMyScene() {
+        return myScene;
+    }
+    public AbstractBoardView getMyBoardView() { return myBoardView; }
 }

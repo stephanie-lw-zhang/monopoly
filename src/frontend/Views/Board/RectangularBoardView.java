@@ -2,19 +2,21 @@ package frontend.Views.Board;
 
 import backend.Board.AbstractBoard;
 import frontend.Views.Board.BoardComponents.*;
+import frontend.Views.IconView;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import configuration.ImportPropertyFile;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-import javafx.scene.layout.*;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -27,6 +29,9 @@ public class RectangularBoardView extends AbstractBoardView{
     private ImportPropertyFile myPropertyFile;
     private ImportPropertyFile details;
     private List<AbstractTileView> myTiles = new ArrayList<>();
+    private int myIndex=0;
+    private IconView myIcon;
+    private int myNumMoves;
 
     public RectangularBoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
         super(screenWidth,screenHeight);
@@ -54,17 +59,41 @@ public class RectangularBoardView extends AbstractBoardView{
         //System.out.print(myPropertyFile.getProp("TileOName"));
         makeBoard();
         makeBackground();
-        myTiles.sort(new Comparator<AbstractTileView>() {
-            @Override
-            public int compare(AbstractTileView o1, AbstractTileView o2) {
-                return o1.getMyTileName().compareTo(o2.getMyTileName());
-            }
-        });
-        for(AbstractTileView a:myTiles){
-            //System.out.println(a.getMyTileName());
-        }
+//        myTiles.sort(new Comparator<AbstractTileView>() {
+//            @Override
+//            public int compare(AbstractTileView o1, AbstractTileView o2) {
+//                return o1.getMyTileName().compareTo(o2.getMyTileName());
+//            }
+//        });
+        myIcon = new IconView(new Image(this.getClass().getClassLoader().getResourceAsStream("boot.png")));
+        myIcon.setHeight(myTileHeight/2);
+        myIcon.setWidth(myTileHeight/2);
+
+//        Thread updateThread = new Thread(() -> {
+//            while (true) {
+//                try {
+//                    Thread.sleep(1000);
+//                    Platform.runLater(() -> this.movePieceDemo(test));
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
+//        updateThread.setDaemon(true);
+//        updateThread.start();
         //myModel = board;
 
+    }
+
+    private void movePieceDemo(IconView test) {
+        if(myNumMoves>0) {
+            if (myIndex >= myTiles.size()) {
+                myIndex = 0;
+            }
+            myTiles.get(myIndex).moveTo(test.getMyNode());
+            myIndex++;
+            myNumMoves--;
+        }
     }
 
 
@@ -276,6 +305,26 @@ public class RectangularBoardView extends AbstractBoardView{
         placeCornerTile(myPropertyFile.getProp("Tile10Name"), myPropertyFile.getProp("Tile10File"),"Go","clear",0,1);
         placeCornerTile(myPropertyFile.getProp("Tile20Name"), myPropertyFile.getProp("Tile20File"),"Go","clear",0,0);
         placeCornerTile(myPropertyFile.getProp("Tile30Name"), myPropertyFile.getProp("Tile30File"),"Go","clear",1,0);
+
+    }
+
+    public void move(int nMoves) {
+        myNumMoves = nMoves; // update invariant myNumMoves
+        Thread updateThread = new Thread(() -> {
+            while(myNumMoves>0) {
+                try {
+                    Thread.sleep(300);
+                    Platform.runLater(() -> this.movePieceDemo(myIcon));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        updateThread.setDaemon(true);
+        updateThread.start();
+    }
+
+    private void moveHelper(int i) {
 
     }
 }

@@ -20,7 +20,6 @@ import java.util.*;
  *
  */
 public abstract class AbstractBoard {
-
     private Map<AbstractPlayer, Tile>      playerPositionMap;
     private Map<Tile, List<Tile>> adjacencyMap;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
@@ -75,6 +74,7 @@ public abstract class AbstractBoard {
     public Map<String, List<AbstractPropertyTile>> getColorListMap() {
         return propertyCategoryToSpecificListMap;
     }
+
     public int getNumDie() { return numDie; }
 
     public Bank getBank(){

@@ -1,5 +1,6 @@
 package frontend.Views.Board.BoardComponents;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 
 public abstract class AbstractDeckView {
@@ -9,6 +10,14 @@ public abstract class AbstractDeckView {
     public AbstractDeckView(String name, String description){
         myTileName = name;
         myDescription = description;
+    }
+
+    public void moveTo(Node n){
+        return;
+    }
+
+    public void moveFrom(Node n){
+        return;
     }
 
     abstract public Node getNodeOfTileView();

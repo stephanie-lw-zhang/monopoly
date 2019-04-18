@@ -1,7 +1,10 @@
 package frontend.Views;
 
+import controller.Turn;
 import javafx.animation.RotateTransition;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -16,7 +19,6 @@ import java.util.Random;
 
 public class DiceView extends HBox {
 
-    private int[]             myRolls;
     List<ImageView>           diceImages;
     List<RotateTransition>    rTList;
     private final MediaPlayer diceRollSound = new MediaPlayer(
@@ -24,19 +26,13 @@ public class DiceView extends HBox {
                                                 new File("./data/diceRoll.mp3")
                                                 .toURI().toString()
                                               ));
-    private int numDie;
     private int numDieStates;
 
     public DiceView(int nDie, int nDieStates) {
         this.setSpacing(20);
-        numDie = nDie;
         numDieStates = nDieStates;
         diceImages = new ArrayList<>();
         rTList = new ArrayList<>();
-
-        // TODO:==================================
-        // TODO:==================================
-        // TODO:==================================
 
         ImageView dice1 = new ImageView();
         dice1.setImage(new Image(this
@@ -46,8 +42,8 @@ public class DiceView extends HBox {
                         "dice" + (new Random().nextInt(numDieStates) + 1) + ".png"
                 )
         ));
-        dice1.setFitHeight(30);
-        dice1.setFitWidth(30);
+        dice1.setFitHeight(55);
+        dice1.setFitWidth(55);
 
         ImageView dice2 = new ImageView();
         dice2.setImage(new Image(this
@@ -57,12 +53,17 @@ public class DiceView extends HBox {
                         "dice" + (new Random().nextInt(numDieStates) + 1) + ".png"
                 )
         ));
-        dice2.setFitHeight(30);
-        dice2.setFitWidth(30);
+        dice2.setFitHeight(55);
+        dice2.setFitWidth(55);
 
         this.getChildren().addAll(dice1, dice2);
         this.setAlignment(Pos.CENTER_LEFT);
 
+    }
+
+    public void onUpdate(final Turn turn) {
+        playDiceAnimation((ObservableList) this.getChildren(), turn.getRolls());
+        displayRollsPopup(turn);
     }
 
     // TODO: MAKE REFLECTION TO MAKE ROTATETRANSITIONS GIVEN DICEVIEWS/ROLLS
@@ -90,10 +91,13 @@ public class DiceView extends HBox {
         ));
     }
 
-    public void setMyRolls(int[] rolls) {
-        myRolls = rolls;
+    public void displayRollsPopup(final Turn turn) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("DICE ROLL");
+        alert.setContentText("Player " + turn.getMyCurrPlayer().getMyPlayerName()
+                + " gets to move " + turn.getNumMoves() + " spots...");
+        alert.showAndWait();
     }
-
 
     private void playSound() {
         diceRollSound.play();

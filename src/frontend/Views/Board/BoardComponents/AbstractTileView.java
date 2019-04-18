@@ -19,5 +19,12 @@ public abstract class AbstractTileView {
 
     public String getMyDescription(){ return myDescription; }
 
+    abstract public double getmyX();
+    abstract public double getmyY();
+
+    abstract public void moveTo(Node n);
+    abstract public void moveFrom(Node n);
+
+
 
 }

@@ -8,6 +8,7 @@ abstract public class AbstractBoardView {
         setScreenLimits(screenWidth,screenHeight);
     }
 
+    abstract public void move(int numMoves);
     abstract public void setRoot();
     abstract public void setScreenLimits(double screenWidth,double screenHeight);
     abstract public void makeBoard();

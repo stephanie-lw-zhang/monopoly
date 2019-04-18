@@ -26,9 +26,9 @@ public class AbstractScreen extends Handlers {
 
     private double    screenWidth;
     private double    screenHeight;
-    private Stage  myStage;
-    private Scene  myScene;
-    private String myScreenTitle;
+    private Stage     myStage;
+    private Scene     myScene;
+    private String    myScreenTitle;
 
     public AbstractScreen(double sWidth, double sHeight, Stage stage) {
         screenWidth = sWidth;
