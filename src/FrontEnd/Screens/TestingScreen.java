@@ -12,16 +12,17 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
+import FrontEnd.Views.Board.AbstractBoardView;
+import FrontEnd.Views.Board.RectangularBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
 import FrontEnd.Views.DiceView;
-<<<<<<< HEAD
+import FrontEnd.Views.DiceView;
 import FrontEnd.Views.Board.RectangularBoardView;
 import FrontEnd.Views.Board.SquareBoardView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-=======
 import FrontEnd.Views.FormView;
->>>>>>> 16058366256539957dbb174517116cf7976b4cd1
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,6 +41,7 @@ import Controller.Game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * For testing purposes
@@ -48,17 +50,13 @@ import java.util.List;
  */
 public class TestingScreen extends AbstractScreen {
 
+    private Scene     testScene;
     private RectangularBoardView myBoardView;
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-=======
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("Board Templates/OriginalMonopoly.properties");
-    private BoardView myBoardView;
-    private DiceView  diceLayout;
->>>>>>> 16058366256539957dbb174517116cf7976b4cd1
     private double    screenWidth;
     private double    screenHeight;
+    private DiceView diceLayout;
     private Stage     testStage;
-    private Scene     testScene;
     private Game      myGame;
 
     private ObservableList<ImageView> myIconsList;
@@ -67,13 +65,15 @@ public class TestingScreen extends AbstractScreen {
     private final Button END_TURN_BUTTON = new Button("END TURN");
     private final Button TRADE_BUTTON = new Button("TRADE");
 
+
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-        myBoardView = new RectangularBoardView(width*0.89, height*0.9,90,11,11,myPropertyFile);
+        myBoardView = new SquareBoardView(width*0.5, height*0.9,90,11,11, myPropertyFile);
     }
+
 
     @Override
     public void makeScreen() {
@@ -167,11 +167,11 @@ public class TestingScreen extends AbstractScreen {
         );
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
         playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
+        diceLayout.setAlignment(Pos.CENTER_RIGHT);
 
         Pane boardViewPane = myBoardView.getPane();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
-
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
@@ -200,6 +200,7 @@ public class TestingScreen extends AbstractScreen {
 
         return board;
     }
+
 
     private List<AbstractPlayer> makePlayerList(List<TextField> playerFields) {
         Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
@@ -258,6 +259,10 @@ public class TestingScreen extends AbstractScreen {
         alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
                 "Moving " + turn.getNumMoves() + " spots...");
         alert.showAndWait();
-        myBoardView.move(rolls[0]+rolls[1]);
     }
+
+    public void updatePlayerPosition(int roll) {
+        myBoardView.move(roll);
+    }
+
 }

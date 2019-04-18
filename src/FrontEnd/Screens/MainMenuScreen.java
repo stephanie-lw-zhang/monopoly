@@ -32,6 +32,9 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void makeScreen() {
+//        Text titleText = new Text("MONOPOLY");
+//        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
+//        titleText.setFill(Color.DARKGREEN);
         Image logo = new Image("monopolylogo.png");
         ImageView iv1 = new ImageView();
         // resizes the image to have width of 100 while preserving the ratio and using

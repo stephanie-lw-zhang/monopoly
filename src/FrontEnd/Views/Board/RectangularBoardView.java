@@ -7,13 +7,19 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import Configuration.ImportPropertyFile;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import javax.sound.midi.ControllerEventListener;
+
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -58,15 +64,28 @@ public class RectangularBoardView extends AbstractBoardView{
         //System.out.print(myPropertyFile.getProp("TileOName"));
         makeBoard();
         makeBackground();
-        myTiles.sort(new Comparator<AbstractTileView>() {
-            @Override
-            public int compare(AbstractTileView o1, AbstractTileView o2) {
-                return o1.getMyTileName().compareTo(o2.getMyTileName());
-            }
-        });
-        for(AbstractTileView a:myTiles){
-            //System.out.println(a.getMyTileName());
-        }
+//        myTiles.sort(new Comparator<AbstractTileView>() {
+//            @Override
+//            public int compare(AbstractTileView o1, AbstractTileView o2) {
+//                return o1.getMyTileName().compareTo(o2.getMyTileName());
+//            }
+//        });
+        myIcon = new IconView(new Image(this.getClass().getClassLoader().getResourceAsStream("boot.png")));
+        myIcon.setHeight(myTileHeight/2);
+        myIcon.setWidth(myTileHeight/2);
+
+//        Thread updateThread = new Thread(() -> {
+//            while (true) {
+//                try {
+//                    Thread.sleep(1000);
+//                    Platform.runLater(() -> this.movePieceDemo(test));
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
+//        updateThread.setDaemon(true);
+//        updateThread.start();
         //myModel = board;
 
     }
@@ -81,6 +100,7 @@ public class RectangularBoardView extends AbstractBoardView{
             myTimes--;
         }
     }
+
 
     private double calculateTileWidth(double sideLength, double totalTiles){
         return (double) (sideLength-myTileHeight*2)/(totalTiles-2);
@@ -163,8 +183,8 @@ public class RectangularBoardView extends AbstractBoardView{
 
 
     public void placeDeck(String tileName,
-                                  String tileDescription,
-                                  double width, double length, double prop){
+                          String tileDescription,
+                          double width, double length, double prop){
         var tile = new NormalDeckView(tileName,tileDescription,"");
         var height = length;
         tile.makeTileViewNode(new double[]{width,height});
@@ -230,11 +250,11 @@ public class RectangularBoardView extends AbstractBoardView{
     }
 
     public void placeNonPropertyTile(String tileName, ImportPropertyFile details,
-    String tileDescription,
-    int xoffset,
-    int yoffset,
-    int totalTiles,
-    double sideLength,double rotationAngle){
+                                     String tileDescription,
+                                     int xoffset,
+                                     int yoffset,
+                                     int totalTiles,
+                                     double sideLength,double rotationAngle){
         var tile = new RectangularTileView(tileName, details, tileDescription,"");
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);

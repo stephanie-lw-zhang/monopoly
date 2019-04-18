@@ -9,14 +9,11 @@ import BackEnd.Board.AbstractBoard;
 import Configuration.ImportPropertyFile;
 import FrontEnd.Screens.TestingScreen;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Game {
@@ -71,8 +68,8 @@ public class Game {
 
         myTestScreen.updateDice(myTurn);
 
-        myTurn.onAction(Actions.MOVE);
-        //TODO: move player front end
+        //myTurn.move();
+        myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
         List<Actions> possibleActions = myTurn.getMyActions();
         //TODO: front end display these two possible actions
 
