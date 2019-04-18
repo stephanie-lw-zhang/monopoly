@@ -19,16 +19,20 @@ import frontend.Views.Board.RectangularBoardView;
 
 import frontend.Views.FormView;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -46,8 +50,10 @@ import java.util.List;
 public class TestingScreen extends AbstractScreen {
 
     private ImportPropertyFile   myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
+    private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
     private RectangularBoardView myBoardView;
     private DiceView             myDiceView;
+    private FormView             myFormView;
     private Scene                myScene;
     private Game                 myGame;
     private double               screenWidth;
@@ -60,67 +66,53 @@ public class TestingScreen extends AbstractScreen {
     private final Button TRADE_BUTTON = new Button("TRADE");
     private final Button AUCTION_BUTTON = new Button("AUCTION");
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
+    private final Button MOVE_BUTTON = new Button("MOVE");
 
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-
-        myBoardView = new SquareBoardView(width*0.5, height*0.9,90,11,11, myPropertyFile);
     }
 
     @Override
     public void makeScreen() {
-        // myScene.getStylesheets().add("../../../resources/stylesheet.css");
         BorderPane bPane = new BorderPane();
-
-        ImageView backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
+        // myScene.getStylesheets().add("../../../resources/stylesheet.css");
+        backgroundImg.setSmooth(true);
+        backgroundImg.setCache(true);
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
 
-        bPane.getChildren().add(backgroundImg);
+        myBoardView = new SquareBoardView(screenWidth*0.5, screenHeight*0.9,90,11,11, myPropertyFile);
+        myFormView = new FormView(this);
 
-        FormView form = new FormView();
-
-        List<TextField> playerFields = form.getPlayerFields();
-        Button startGameButton = form.getStartGameButton();
-
-        startGameButton.setOnAction(new EventHandler<ActionEvent>() {
+        ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));
+        backButton.setOnMouseClicked(f -> handleBackToMainButton(getMyStage()));
+        backButton.setFitWidth(45);
+        backButton.setPreserveRatio(true);
+        backButton.setStyle("-fx-background-color: #FFFFFF");
+        backButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent) {
-                handleStartGameButton(playerFields);
+            public void handle(MouseEvent mouseEvent) {
+                backButton.setStyle(
+                        "-fx-background-color: #aed581;"
+                );
             }
         });
 
-        Image logo = new Image("monopopout.png");
-        ImageView iv1 = new ImageView();
-        // resizes the image to have width of 100 while preserving the ratio and using
-        // higher quality filtering method; this ImageView is also cached to
-        // improve performance
-        ImageView iv2 = new ImageView();
-        iv2.setImage(logo);
-        iv2.setFitWidth(400);
-        iv2.setPreserveRatio(true);
-        iv2.setSmooth(true);
-        iv2.setCache(true);
-
-        bPane.setTop(iv2);
-        bPane.setAlignment(iv2, Pos.CENTER);
-        bPane.setAlignment(form, Pos.CENTER);
-        bPane.setCenter(form);
+        bPane.getChildren().add(backgroundImg);
+        bPane.setAlignment(backButton, Pos.TOP_CENTER);
+        bPane.setTop(backButton);
+        bPane.setMargin(backButton, new Insets(35,0,-30,0));
+        bPane.setCenter(myFormView);
 
         myScene = new Scene(bPane, screenWidth, screenHeight);
+//        Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
+//        myScene.setCursor(new ImageCursor(myCursor));
         myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
     }
 
-    private void handleStartGameButton(List<TextField> playerFields) {
-        if (! hasEnoughPlayers(playerFields)) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Not enough players signed up! (need >= 2)");
-            formAlert.showAndWait();
-            return;
-        }
-
+    public void handleStartGameButton(List<TextField> playerFields) {
         myGame = new Game(
                 this,
                 new SixDice(),
@@ -151,12 +143,37 @@ public class TestingScreen extends AbstractScreen {
         currPlayerText.setEditable(false);
         currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
 
+        HBox moveCheatKey = new HBox();
+        moveCheatKey.setSpacing(10);
+        moveCheatKey.setAlignment(Pos.CENTER_RIGHT);
+        TextField movesField = new TextField();
+        movesField.setPrefHeight(30);
+        movesField.setMaxWidth(60);
+        movesField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String toReplace, String newStr) {
+                if (! newStr.matches("\\d*"))
+                    movesField.setText(newStr.replaceAll("[^\\d]", ""));
+            }
+        });
+
+        MOVE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                int numMoves = Integer.parseInt(movesField.getText());
+                myBoardView.move(numMoves);
+            }
+        });
+        moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
+
         playerOptionsModal.getChildren().addAll(
                 myDiceView, ROLL_BUTTON,
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON,
-                AUCTION_BUTTON, MORTGAGE_BUTTON
+                AUCTION_BUTTON, MORTGAGE_BUTTON,
+                moveCheatKey
         );
+
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
         playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
         myDiceView.setAlignment(Pos.CENTER_RIGHT);
@@ -204,14 +221,6 @@ public class TestingScreen extends AbstractScreen {
         }
 
         return playerList;
-    }
-
-    private boolean hasEnoughPlayers(List<TextField> playerFields) {
-        int empties = 0;
-        for (TextField p : playerFields)
-            if (p.getText().equals(""))
-                empties++;
-        return empties <= 2;
     }
 
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {

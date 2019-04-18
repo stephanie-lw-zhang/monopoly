@@ -46,6 +46,10 @@ public class RectangularBoardView extends AbstractBoardView{
         BackgroundFill boardBackgroundFill = new BackgroundFill(Color.rgb(220,237,200), CornerRadii.EMPTY, Insets.EMPTY);
         Background boardBackGround = new Background(boardBackgroundFill);
         myRoot.setBackground(boardBackGround);
+
+        // keeps board background color in line with boardview itself
+        myRoot.maxWidthProperty().bind(myRoot.widthProperty());
+        myRoot.maxHeightProperty().bind(myRoot.heightProperty());
     }
 
     public RectangularBoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
