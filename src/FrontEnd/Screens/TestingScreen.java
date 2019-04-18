@@ -1,3 +1,4 @@
+
 package FrontEnd.Screens;
 
 import BackEnd.AssetHolder.AbstractPlayer;
@@ -12,13 +13,16 @@ import BackEnd.Tile.AbstractPropertyTile;
 import BackEnd.Tile.Tile;
 import Configuration.ImportPropertyFile;
 import Controller.Turn;
+import FrontEnd.Views.Board.AbstractBoardView;
+import FrontEnd.Views.Board.RectangularBoardView;
+import FrontEnd.Views.Board.SquareBoardView;
+import FrontEnd.Views.DiceView;
 import FrontEnd.Views.DiceView;
 import FrontEnd.Views.Board.RectangularBoardView;
 import FrontEnd.Views.Board.SquareBoardView;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-
 import FrontEnd.Views.FormView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,7 +54,6 @@ public class TestingScreen extends AbstractScreen {
     private Scene     testScene;
     private RectangularBoardView myBoardView;
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-
     private double    screenWidth;
     private double    screenHeight;
     private DiceView diceLayout;
@@ -68,8 +71,7 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
         testStage = stage;
-
-        myBoardView = new RectangularBoardView(width*0.89, height*0.9,90,11,11,myPropertyFile);
+        myBoardView = new SquareBoardView(width*0.5, height*0.9,90,11,11, myPropertyFile);
     }
 
     @Override
@@ -142,12 +144,10 @@ public class TestingScreen extends AbstractScreen {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
 
-
         diceLayout = new DiceView(
                 myGame.getBoard().getNumDie(),
                 myGame.getMyDice().getNumStates()
         );
-
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());
@@ -166,11 +166,11 @@ public class TestingScreen extends AbstractScreen {
         );
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
         playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
+        diceLayout.setAlignment(Pos.CENTER_RIGHT);
 
         Pane boardViewPane = myBoardView.getPane();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
-
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
@@ -190,7 +190,6 @@ public class TestingScreen extends AbstractScreen {
         List<AbstractPlayer> playerList = makePlayerList(playerFields);
 
         AbstractBoard board = new StandardBoard(
-
             playerList,
             new HashMap<Tile, List<Tile>>(),
             new HashMap<String, List<AbstractPropertyTile>>(),
@@ -258,6 +257,9 @@ public class TestingScreen extends AbstractScreen {
         alert.setContentText("You rolled a " + rolls[0] + " and a " + rolls[1] + "! " +
                 "Moving " + turn.getNumMoves() + " spots...");
         alert.showAndWait();
-        myBoardView.move();
+        myBoardView.move(rolls[0]+rolls[1]);
+
     }
+
+
 }
