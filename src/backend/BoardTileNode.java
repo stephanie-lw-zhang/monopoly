@@ -1,6 +1,6 @@
 package backend;
 
-import backend.Tile.Tile;
+import backend.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.List;

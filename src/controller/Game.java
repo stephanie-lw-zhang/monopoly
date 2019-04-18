@@ -1,11 +1,11 @@
 package controller;
 
-import backend.Deck.DeckInterface;
-import backend.Dice.AbstractDice;
-import backend.AssetHolder.AbstractPlayer;
-import backend.Board.AbstractBoard;
+import backend.deck.DeckInterface;
+import backend.dice.AbstractDice;
+import backend.assetholder.AbstractPlayer;
+import backend.board.AbstractBoard;
 import configuration.ImportPropertyFile;
-import frontend.Screens.TestingScreen;
+import frontend.screens.TestingScreen;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -66,9 +66,10 @@ public class Game {
         myTestScreen.updateDice(myTurn);
         myTestScreen.getMyBoardView().move(myTurn.getNumMoves());
 
-        myTurn.onAction(Actions.MOVE);
-        //TODO: move player front end
-        List<Actions> possibleActions = myTurn.getMyActions();
+        //myTurn.move();
+        myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
+        List<String> possibleActions = myTurn.getMyActions();
+
         //TODO: front end display these two possible actions
 
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());

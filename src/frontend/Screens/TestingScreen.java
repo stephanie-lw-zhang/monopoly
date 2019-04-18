@@ -1,23 +1,23 @@
-package frontend.Screens;
+package frontend.screens;
 
-import backend.AssetHolder.AbstractPlayer;
-import backend.AssetHolder.Bank;
-import backend.AssetHolder.HumanPlayer;
-import backend.Board.AbstractBoard;
-import backend.Board.StandardBoard;
-import backend.Deck.NormalDeck;
-import backend.Dice.SixDice;
-import backend.Tile.GoTile;
-import backend.Tile.AbstractPropertyTile;
-import backend.Tile.Tile;
+import backend.assetholder.AbstractPlayer;
+import backend.assetholder.Bank;
+import backend.assetholder.HumanPlayer;
+import backend.board.AbstractBoard;
+import backend.board.StandardBoard;
+import backend.deck.NormalDeck;
+import backend.dice.SixDice;
+import backend.tile.GoTile;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import controller.Turn;
-import frontend.Views.Board.AbstractBoardView;
-import frontend.Views.Board.SquareBoardView;
-import frontend.Views.DiceView;
-import frontend.Views.Board.RectangularBoardView;
+import frontend.views.board.AbstractBoardView;
+import frontend.views.board.SquareBoardView;
+import frontend.views.DiceView;
+import frontend.views.board.RectangularBoardView;
 
-import frontend.Views.FormView;
+import frontend.views.FormView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,7 +26,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -68,11 +67,13 @@ public class TestingScreen extends AbstractScreen {
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
     private final Button MOVE_BUTTON = new Button("MOVE");
 
+
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
     }
+
 
     @Override
     public void makeScreen() {
@@ -200,15 +201,16 @@ public class TestingScreen extends AbstractScreen {
         List<AbstractPlayer> playerList = makePlayerList(playerFields);
 
         AbstractBoard board = new StandardBoard(
-            playerList,
-            new HashMap<Tile, List<Tile>>(),
-            new HashMap<String, List<AbstractPropertyTile>>(),
-            new GoTile(200, 200),
-            new Bank(200000.0, new HashMap<String, Integer>())
+                playerList,
+                new HashMap<Tile, List<Tile>>(),
+                new HashMap<String, List<AbstractPropertyTile>>(),
+                new GoTile(200, 200),
+                new Bank(200000.0, new HashMap<String, Integer>())
         );
 
         return board;
     }
+
 
     private List<AbstractPlayer> makePlayerList(List<TextField> playerFields) {
         Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
@@ -238,6 +240,10 @@ public class TestingScreen extends AbstractScreen {
 
     public void updateDice(final Turn turn) {
         myDiceView.onUpdate(turn);
+    }
+
+    public void updatePlayerPosition(int roll) {
+        myBoardView.move(roll);
     }
 
     private void handleKeyInput(KeyCode code) {

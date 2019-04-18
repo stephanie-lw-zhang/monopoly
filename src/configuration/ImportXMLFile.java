@@ -23,7 +23,7 @@ public class ImportXMLFile {
 
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
-            NodeList nList = doc.getElementsByTagName("Tile");
+            NodeList nList = doc.getElementsByTagName("tile");
             System.out.println("----------------------------");
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 Node nNode = nList.item(temp);
@@ -31,7 +31,7 @@ public class ImportXMLFile {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
 
-                    System.out.println("Tile Type : " + eElement.getAttribute("TileType"));
+                    System.out.println("tile Type : " + eElement.getAttribute("TileType"));
                     System.out.println("TileNumber : " + eElement.getElementsByTagName("TileNumber").item(0).getTextContent());
 
                 }

@@ -1,9 +1,9 @@
 package configuration;
 
-import backend.Board.AbstractBoard;
-import backend.Card.AbstractCard;
-import backend.Tile.AbstractPropertyTile;
-import backend.Tile.Tile;
+import backend.board.AbstractBoard;
+import backend.card.AbstractCard;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.Tile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,8 +35,8 @@ public class XMLData {
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList tileList = doc.getElementsByTagName("Tile");
-            //NodeList cardList = doc.getElementsByTagName("Card");
+            NodeList tileList = doc.getElementsByTagName("tile");
+            //NodeList cardList = doc.getElementsByTagName("card");
 
             List<Tile> tiles = new ArrayList<>();
             for (int i = 0; i < tileList.getLength(); i++) {
@@ -56,7 +56,7 @@ public class XMLData {
             Element element = (Element) node;
             String tileType = getTagValue("TileType", element);
             //System.out.println(tileType);
-            tile = (Tile) Class.forName("backend.Tile." + tileType).getConstructor(Element.class).newInstance(element);
+            tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Element.class).newInstance(element);
             return tile;
         }
         else{

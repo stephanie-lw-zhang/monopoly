@@ -1,8 +1,8 @@
 package testing;
 
-import backend.Dice.AbstractDice;
-import backend.Dice.NDice;
-import backend.Dice.SixDice;
+import backend.dice.AbstractDice;
+import backend.dice.NDice;
+import backend.dice.SixDice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

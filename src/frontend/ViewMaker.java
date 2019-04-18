@@ -1,6 +1,6 @@
 package frontend;
 
-import frontend.Screens.MainMenuScreen;
+import frontend.screens.MainMenuScreen;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;

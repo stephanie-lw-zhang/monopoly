@@ -11,7 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * The Driver class of the Monopoly game, acts as the Game and initializes the
+ * The Driver class of the Monopoly game, acts as the game and initializes the
  * entire game framework
  *
  * @author Sam
