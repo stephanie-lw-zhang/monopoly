@@ -4,9 +4,9 @@ Luis Fornes (laf30), Edward Hsieh (eh158), Matt Rose (mjr68), Connie Wu (cw342),
 
 ### Project Structure
 ```md
-- BackEnd contains all relevant pieces of the game (Card, Player, Dice)
-- Configuration contains all classes pertaining to input reading and game configuration
-- Engine contains the single driver class MonopolyDriver to run the game
-- FrontEnd contains all relevant View classes 
-- Testing contains testing files of the program
+- backend contains all relevant pieces of the game (Card, Player, Dice)
+- configuration contains all classes pertaining to input reading and game configuration
+- engine contains the single driver class MonopolyDriver to run the game
+- frontend contains all relevant View classes 
+- testing contains testing files of the program
 ```

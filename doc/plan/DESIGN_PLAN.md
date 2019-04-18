@@ -32,7 +32,7 @@ We need the backend Model module (with Board, Tile, Dice, Player, etc) to encaps
 * This class interacts with the Player class and Tile classes
 * We wanted to make this abstract so that it would be open for extension. Additionally, we wanted to separate it from the front-end grid to make sure that we can change the back-end without breaking the front-end. 
 
-**Controller class**
+**controller class**
 * The controller class will handle the interactions resulting from the player moving on the board. It will receive the coordinates from the board after the player moves and enact the specific response.
 * Serves to pass information from the Model (board) to the View
 * Handles when to draw a card, when to show a pop-up about buying property, when to award $200 for passing GO, etc.
@@ -40,7 +40,7 @@ We need the backend Model module (with Board, Tile, Dice, Player, etc) to encaps
 **Abstract Dice class**
 * We will have an abstract dice class for different types of die, to account for any different number of sides for dice, fair vs weighted dice, speed dice, etc. 
 * The subclass of dice that will be used will be determined in the XML file 
-* This class will be used in the Controller, which will generate the new dice roll 
+* This class will be used in the controller, which will generate the new dice roll 
 * The controller will pass this to the Board, as well as to the AbstractBoardGUI so that it will be displayed for the user to see
 * Since this is abstract, it will be easy to add new dice 
 * We wanted to make this abstract so that it would be open for extension. 
