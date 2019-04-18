@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -65,7 +66,7 @@ public class TestingScreen extends AbstractScreen {
         screenHeight = height;
         testStage = stage;
 
-        myBoardView = new RectangularBoardView(width*0.89, height*0.9,90,11,11,myPropertyFile);
+        myBoardView = new RectangularBoardView(width*0.7, height*0.9,90,11,11,myPropertyFile);
     }
 
     @Override
@@ -91,9 +92,6 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        Button backToMainButton = new Button("Back to Main Menu");
-        backToMainButton.setOnAction(f -> handleBackToMainButton(getMyStage()));
-
         Image logo = new Image("monopopout.png");
         ImageView iv1 = new ImageView();
         // resizes the image to have width of 100 while preserving the ratio and using
@@ -110,10 +108,9 @@ public class TestingScreen extends AbstractScreen {
         bPane.setAlignment(iv2, Pos.CENTER);
         bPane.setAlignment(form, Pos.CENTER);
         bPane.setCenter(form);
-        bPane.setAlignment(backToMainButton, Pos.CENTER);
-        bPane.setBottom(backToMainButton);
 
         myScene = new Scene(bPane, screenWidth, screenHeight);
+        myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
     }
 
     private void handleStartGameButton(List<TextField> playerFields) {
@@ -139,12 +136,10 @@ public class TestingScreen extends AbstractScreen {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
 
-
         myDiceView = new DiceView(
                 myGame.getBoard().getNumDie(),
                 myGame.getMyDice().getNumStates()
         );
-
 
         TextArea playersText = new TextArea();
         playersText.setText("Joined Players: \n" + getPlayersText());
@@ -168,7 +163,6 @@ public class TestingScreen extends AbstractScreen {
         Pane boardViewPane = myBoardView.getPane();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
-
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
@@ -249,5 +243,11 @@ public class TestingScreen extends AbstractScreen {
         alert.setContentText("Player " + turn.getMyCurrPlayer().getMyPlayerName()
                     + " gets to move " + turn.getNumMoves() + " spots...");
         alert.showAndWait();
+    }
+
+    private void handleKeyInput(KeyCode code) {
+        if (code == KeyCode.Q) {
+            handleBackToMainButton(getMyStage());
+        }
     }
 }
