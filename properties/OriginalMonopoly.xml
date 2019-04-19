@@ -449,6 +449,7 @@
         <TileName>Community Chest</TileName>
     </Tile>
 
+
     <Tile>
         <TileNumber>18</TileNumber>
         <TileType>BuildingTile</TileType>
@@ -521,6 +522,7 @@
             <NextTiles>20</NextTiles>
         </Card>
     </Tile>
+
 
     <Tile>
         <TileNumber>20</TileNumber>

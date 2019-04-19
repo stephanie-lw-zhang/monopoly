@@ -36,10 +36,10 @@ public abstract class AbstractPropertyTile extends Tile {
         this.index =index;
     }
 
-    public AbstractPropertyTile(Bank bank, PropertyCard card, Element n){
+    public AbstractPropertyTile(Bank bank, Element n){
         this.owner = bank;
         this.bank = bank;
-        this.card = card;
+        card = new PropertyCard(n.getElementsByTagName("Card").item(0));
         tiletype = getTagValue("TileType", n);
         tileprice = Double.parseDouble(getTagValue("TilePrice", n));
         index = Integer.parseInt(getTagValue("TileNumber", n));

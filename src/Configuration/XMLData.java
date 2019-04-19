@@ -76,12 +76,12 @@ public class XMLData {
             String tileType = getTagValue("TileType", element);
             System.out.println(tileType);
             if(tileType.equalsIgnoreCase("BuildingTile")){
-                BuildingCard card = new BuildingCard(element.getElementsByTagName("Card").item(0));
-                tile = (Tile) Class.forName("BackEnd.Tile." + tileType).getConstructor(Bank.class, PropertyCard.class, Element.class).newInstance(bank, card, element);
+                //BuildingCard card = new BuildingCard(element.getElementsByTagName("Card").item(0));
+                tile = (Tile) Class.forName("BackEnd.Tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
             }
             else if(tileType.equalsIgnoreCase("RailroadTile") || tileType.equalsIgnoreCase("UtilityTile")){
-                PropertyCard card = new PropertyCard(element.getElementsByTagName("Card").item(0));
-                tile = (Tile) Class.forName("BackEnd.Tile." + tileType).getConstructor(Bank.class, PropertyCard.class, Element.class).newInstance(bank, card, element);
+                //PropertyCard card = new PropertyCard(element.getElementsByTagName("Card").item(0));
+                tile = (Tile) Class.forName("BackEnd.Tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
             }
             else if(tileType.contains("Tax")){
                 tile = (Tile) Class.forName("BackEnd.Tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
@@ -94,8 +94,14 @@ public class XMLData {
         }
     }
 
-    private static void initializeAdjacencyList(List<Tile> tiles){
+    private void initializeAdjacencyList(List<Tile> tiles){
         //TODO loop through list and create adjacency list
+        adjacencyList = new HashMap<>();
+        //this implementation is so dumb pls change it
+        for(int i = 0; i<tiles.size(); i++){
+            adjacencyList.put(tiles.get(i), new ArrayList<>());
+            adjacencyList.get(tiles.get(i)).add(tiles.get(i+1));
+        }
     }
 
     private static String getTagValue(String tag, Element element) {

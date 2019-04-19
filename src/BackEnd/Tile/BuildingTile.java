@@ -20,8 +20,8 @@ public class BuildingTile extends AbstractPropertyTile {
         this.tilecolor = tilecolor;
     }
 
-    public BuildingTile(Bank bank, PropertyCard card, Element n){
-        super(bank, card, n);
+    public BuildingTile(Bank bank, Element n){
+        super(bank, n);
     }
 
     //store these as strings and make a hashmap of price lookup

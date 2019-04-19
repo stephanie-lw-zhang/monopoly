@@ -12,8 +12,8 @@ public class UtilityTile extends AbstractNonBuildingPropertyTile {
         super( bank, card, tiletype, tileprice, index);
     }
 
-    public UtilityTile(Bank bank, PropertyCard card, Element n){
-        super(bank, card, n);
+    public UtilityTile(Bank bank, Element n){
+        super(bank, n);
     }
 
     //public UtilityTile(Element n) {

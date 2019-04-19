@@ -15,8 +15,8 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
         super(bank, card, tiletype, tileprice, index);
     }
 
-    public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, Element n){
-        super(bank, card, n);
+    public AbstractNonBuildingPropertyTile(Bank bank, Element n){
+        super(bank, n);
     }
 
     //public AbstractNonBuildingPropertyTile(Element n){
