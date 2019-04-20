@@ -13,4 +13,8 @@ public class CommunityChestTile extends AbstractDrawCardTile {
         super(n);
     }
 
+    public void nothing(){
+        return;
+    }
+
 }
