@@ -5,11 +5,15 @@ import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
+import java.util.List;
+
 public class SplitScreenGameView extends AbstractGameView {
     private GridPane myPane;
+    private AbstractBoardView myBoardView;
 
-    public SplitScreenGameView(double screenWidth, double screenHeight){
-        super(screenWidth,screenHeight);
+    public SplitScreenGameView(double screenWidth, double screenHeight,AbstractBoardView boardView){
+        super(screenWidth,screenHeight, boardView);
+        myBoardView = boardView;
     }
     @Override
     public Node getGameViewNode() {
@@ -38,13 +42,19 @@ public class SplitScreenGameView extends AbstractGameView {
     }
 
     @Override
+    public void setTurnActions(List<String> turnActions) {
+
+    }
+
+    @Override
+    public void setTurnActions() {
+
+    }
+
+    @Override
     public Node getPane() {
         return myPane;
     }
 
-    @Override
-    public void addBoardView(AbstractBoardView boardView){
-        myPane.add(boardView.getPane(),0,0);
-    }
 
 }
