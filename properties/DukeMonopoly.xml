@@ -1,23 +1,25 @@
 <OGMonopoly>
 
-    <BoardLayout>OriginalMonopoly.csv</BoardLayout>
+    <BoardLayout>DukeMonopoly.csv</BoardLayout>
 
-    <NumDie>2</NumDie>
+    <Dice>
+        <NumDie>2</NumDie>
+    </Dice>
 
     <Bank>
         <Money>100000</Money>
         <Properties>
-            <Property>House,32</Property>
+            <Property>Dorm,32</Property>
         </Properties>
         <Properties>
-            <Property>Hotel,12</Property>
+            <Property>Apartment,12</Property>
         </Properties>
     </Bank>
 
     <Tile>
         <TileNumber>0</TileNumber>
         <TileType>GoTile</TileType>
-        <TileColor>Green</TileColor>
+        <TileColor>Blue</TileColor>
         <LandedMoney>200</LandedMoney>
         <PassedMoney>200</PassedMoney>
         <NextTiles>1</NextTiles>
@@ -29,32 +31,32 @@
         <TileColor>Brown</TileColor>
         <TilePrice>60</TilePrice>
         <Card>
-            <TitleDeed>Mediterranean Avenue</TitleDeed>
+            <TitleDeed>Alspaugh</TitleDeed>
             <TileColor>Brown</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,2,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,2,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,4,50,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,4,50,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,10,50,25</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,10,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,30,50,25</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,30,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,90,50,25</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,90,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,160,50,25</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,160,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,250,0,25</Upgrade>
+                <Upgrade>Apartment,1,Apartment,250,0,25</Upgrade>
             </Upgrades>
             <TileMortgageValue>30</TileMortgageValue>
-            <TileHousePrice>50</TileHousePrice>
-            <TileHotelPrice>50</TileHotelPrice>
+            <TileDormPrice>50</TileDormPrice>
+            <TileApartmentPrice>50</TileApartmentPrice>
             <NextTiles>2</NextTiles>
         </Card>
     </Tile>
@@ -72,32 +74,32 @@
         <TileColor>Brown</TileColor>
         <TilePrice>60</TilePrice>
         <Card>
-            <TitleDeed>Baltic Avenue</TitleDeed>
+            <TitleDeed>Epworth</TitleDeed>
             <TileColor>Brown</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,4,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,4,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,8,50,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,8,50,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,20,50,25</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,20,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,60,50,25</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,60,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,180,50,25</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,180,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,320,50,25</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,320,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,450,0,25</Upgrade>
+                <Upgrade>Apartment,1,Apartment,450,0,25</Upgrade>
             </Upgrades>
             <TileMortgageValue>30</TileMortgageValue>
-            <TileHousePrice>50</TileHousePrice>
-            <TileHotelPrice>50</TileHotelPrice>
+            <TileDormPrice>50</TileDormPrice>
+            <TileApartmentPrice>50</TileApartmentPrice>
             <NextTiles>4</NextTiles>
         </Card>
     </Tile>
@@ -106,7 +108,7 @@
     <Tile>
         <TileNumber>4</TileNumber>
         <TileType>IncomeTaxTile</TileType>
-        <TileName>Income Tax</TileName>
+        <TileName>Tuition</TileName>
         <TileRent>200</TileRent>
         <NextTiles>5</NextTiles>
     </Tile>
@@ -117,7 +119,7 @@
         <TileType>RailroadTile</TileType>
         <TilePrice>200</TilePrice>
         <Card>
-            <TitleDeed>King's Cross Station</TitleDeed>
+            <TitleDeed>C1</TitleDeed>
             <TileColor>Railroad</TileColor>
             <Upgrades>
                 <Upgrade>1Railroad,1,,25</Upgrade>
@@ -143,32 +145,32 @@
         <TileColor>Sky Blue</TileColor>
         <TilePrice>100</TilePrice>
         <Card>
-            <TitleDeed>Oriental Avenue</TitleDeed>
+            <TitleDeed>Randolph</TitleDeed>
             <TileColor>Sky Blue</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,6,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,6,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,12,50,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,12,50,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,30,50,25</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,30,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,90,50,25</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,90,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,270,50,25</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,270,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,400,50,25</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,400,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,550,0,25</Upgrade>
+                <Upgrade>Apartment,1,Apartment,550,0,25</Upgrade>
             </Upgrades>
             <TileMortgageValue>50</TileMortgageValue>
-            <TileHousePrice>50</TileHousePrice>
-            <TileHotelPrice>50</TileHotelPrice>
+            <TileDormPrice>50</TileDormPrice>
+            <TileApartmentPrice>50</TileApartmentPrice>
             <NextTiles>7</NextTiles>
         </Card>
     </Tile>
@@ -186,32 +188,32 @@
         <TileColor>Sky Blue</TileColor>
         <TilePrice>100</TilePrice>
         <Card>
-            <TitleDeed>Vermont Avenue</TitleDeed>
+            <TitleDeed>Blackwell</TitleDeed>
             <TileColor>Sky Blue</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,6,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,6,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,12,50,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,12,50,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,30,50,25</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,30,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,90,50,25</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,90,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,270,50,25</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,270,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,400,50,25</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,400,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,550,0,25</Upgrade>
+                <Upgrade>Apartment,1,Apartment,550,0,25</Upgrade>
             </Upgrades>
             <TileMortgageValue>50</TileMortgageValue>
-            <TileHousePrice>50</TileHousePrice>
-            <TileHotelPrice>50</TileHotelPrice>
+            <TileDormPrice>50</TileDormPrice>
+            <TileApartmentPrice>50</TileApartmentPrice>
             <NextTiles>9</NextTiles>
         </Card>
     </Tile>
@@ -223,32 +225,32 @@
         <TileColor>Sky Blue</TileColor>
         <TilePrice>120</TilePrice>
         <Card>
-            <TitleDeed>Connecticut Avenue</TitleDeed>
+            <TitleDeed>Gilbert-Addoms</TitleDeed>
             <TileColor>Sky Blue</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,8,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,8,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,16,50,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,16,50,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,40,50,25</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,40,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,100,50,25</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,100,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,300,50,25</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,300,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,450,50,25</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,450,50,25</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,600,0,25</Upgrade>
+                <Upgrade>Apartment,1,Apartment,600,0,25</Upgrade>
             </Upgrades>
             <TileMortgageValue>50</TileMortgageValue>
-            <TileHousePrice>50</TileHousePrice>
-            <TileHotelPrice>50</TileHotelPrice>
+            <TileDormPrice>50</TileDormPrice>
+            <TileApartmentPrice>50</TileApartmentPrice>
             <NextTiles>10</NextTiles>
         </Card>
     </Tile>
@@ -256,7 +258,7 @@
     <Tile>
         <TileNumber>10</TileNumber>
         <TileType>JailTile</TileType>
-        <TileName>Jail</TileName>
+        <TileName>Fourth Floor Perkins</TileName>
         <NextTiles>11</NextTiles>
     </Tile>
 
@@ -267,32 +269,32 @@
         <TileColor>Magenta</TileColor>
         <TilePrice>140</TilePrice>
         <Card>
-            <TitleDeed>St. Charles Place</TitleDeed>
+            <TitleDeed>Pegram</TitleDeed>
             <TileColor>Magenta</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,10,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,10,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,20,100,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,20,100,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,50,100,50</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,50,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,150,100,50</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,150,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,450,100,50</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,450,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,625,100,50</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,625,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,750,0,50</Upgrade>
+                <Upgrade>Apartment,1,Apartment,750,0,50</Upgrade>
             </Upgrades>
             <TileMortgageValue>70</TileMortgageValue>
-            <TileHousePrice>100</TileHousePrice>
-            <TileHotelPrice>100</TileHotelPrice>
+            <TileDormPrice>100</TileDormPrice>
+            <TileApartmentPrice>100</TileApartmentPrice>
             <NextTiles>12</NextTiles>
         </Card>
     </Tile>
@@ -302,7 +304,7 @@
         <TileType>UtilityTile</TileType>
         <TilePrice>150</TilePrice>
         <Card>
-            <TitleDeed>Electric Company</TitleDeed>
+            <TitleDeed>Grass Company</TitleDeed>
             <TileColor>Utility</TileColor>
             <Upgrades>
                 <Upgrade>1Utility,1,,4</Upgrade>
@@ -323,32 +325,32 @@
         <TileColor>Magenta</TileColor>
         <TilePrice>140</TilePrice>
         <Card>
-            <TitleDeed>States Avenue</TitleDeed>
+            <TitleDeed>Bassett</TitleDeed>
             <TileColor>Magenta</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,10,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,10,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,20,100,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,20,100,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,50,100,50</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,50,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,150,100,50</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,150,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,450,100,50</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,450,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,625,100,50</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,625,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,750,0,50</Upgrade>
+                <Upgrade>Apartment,1,Apartment,750,0,50</Upgrade>
             </Upgrades>
             <TileMortgageValue>70</TileMortgageValue>
-            <TileHousePrice>100</TileHousePrice>
-            <TileHotelPrice>100</TileHotelPrice>
+            <TileDormPrice>100</TileDormPrice>
+            <TileApartmentPrice>100</TileApartmentPrice>
             <NextTiles>14</NextTiles>
         </Card>
     </Tile>
@@ -359,32 +361,32 @@
         <TileColor>Magenta</TileColor>
         <TilePrice>160</TilePrice>
         <Card>
-            <TitleDeed>Virginia Avenue</TitleDeed>
+            <TitleDeed>Wilson</TitleDeed>
             <TileColor>Magenta</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,12,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,12,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,24,100,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,24,100,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,60,100,50</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,60,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,180,100,50</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,180,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,500,100,50</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,500,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,700,100,50</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,700,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,950,0,50</Upgrade>
+                <Upgrade>Apartment,1,Apartment,950,0,50</Upgrade>
             </Upgrades>
             <TileMortgageValue>80</TileMortgageValue>
-            <TileHousePrice>100</TileHousePrice>
-            <TileHotelPrice>100</TileHotelPrice>
+            <TileDormPrice>100</TileDormPrice>
+            <TileApartmentPrice>100</TileApartmentPrice>
             <NextTiles>15</NextTiles>
         </Card>
     </Tile>
@@ -394,7 +396,7 @@
         <TileType>RailroadTile</TileType>
         <TilePrice>200</TilePrice>
         <Card>
-            <TitleDeed>Pennsylvania Railroad</TitleDeed>
+            <TitleDeed>C2</TitleDeed>
             <TileColor>Railroad</TileColor>
             <Upgrades>
                 <Upgrade>1Railroad,1,,25</Upgrade>
@@ -419,32 +421,32 @@
         <TileColor>Orange</TileColor>
         <TilePrice>180</TilePrice>
         <Card>
-            <TitleDeed>St. James Place</TitleDeed>
+            <TitleDeed>Edens Quad</TitleDeed>
             <TileColor>Orange</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,14,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,14,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,28,100,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,28,100,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,70,100,50</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,70,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,200,100,50</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,200,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,550,100,50</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,550,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,750,100,50</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,750,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,950,0,50</Upgrade>
+                <Upgrade>Apartment,1,Apartment,950,0,50</Upgrade>
             </Upgrades>
             <TileMortgageValue>90</TileMortgageValue>
-            <TileHousePrice>100</TileHousePrice>
-            <TileHotelPrice>100</TileHotelPrice>
+            <TileDormPrice>100</TileDormPrice>
+            <TileApartmentPrice>100</TileApartmentPrice>
             <NextTiles>17</NextTiles>
         </Card>
     </Tile>
@@ -463,32 +465,32 @@
         <TileColor>Orange</TileColor>
         <TilePrice>180</TilePrice>
         <Card>
-            <TitleDeed>Tennessee Avenue</TitleDeed>
+            <TitleDeed>Few Quad</TitleDeed>
             <TileColor>Orange</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,14,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,14,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,28,100,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,28,100,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,70,100,50</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,70,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,200,100,50</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,200,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,550,100,50</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,550,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,750,100,50</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,750,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,950,0,50</Upgrade>
+                <Upgrade>Apartment,1,Apartment,950,0,50</Upgrade>
             </Upgrades>
             <TileMortgageValue>90</TileMortgageValue>
-            <TileHousePrice>100</TileHousePrice>
-            <TileHotelPrice>100</TileHotelPrice>
+            <TileDormPrice>100</TileDormPrice>
+            <TileApartmentPrice>100</TileApartmentPrice>
             <NextTiles>19</NextTiles>
         </Card>
     </Tile>
@@ -500,32 +502,32 @@
         <TileColor>Orange</TileColor>
         <TilePrice>180</TilePrice>
         <Card>
-            <TitleDeed>New York Avenue</TitleDeed>
+            <TitleDeed>Keohane Quad</TitleDeed>
             <TileColor>Orange</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,16,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,16,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,32,100,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,32,100,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,80,100,50</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,80,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,220,100,50</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,220,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,600,100,50</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,600,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,800,100,50</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,800,100,50</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1000,0,50</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1000,0,50</Upgrade>
             </Upgrades>
             <TileMortgageValue>100</TileMortgageValue>
-            <TileHousePrice>100</TileHousePrice>
-            <TileHotelPrice>100</TileHotelPrice>
+            <TileDormPrice>100</TileDormPrice>
+            <TileApartmentPrice>100</TileApartmentPrice>
             <NextTiles>20</NextTiles>
         </Card>
     </Tile>
@@ -544,32 +546,32 @@
         <TileColor>Red</TileColor>
         <TilePrice>220</TilePrice>
         <Card>
-            <TitleDeed>Kentucky Avenue</TitleDeed>
+            <TitleDeed>Craven Quad</TitleDeed>
             <TileColor>Red</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,18,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,18,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,36,150,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,36,150,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,90,150,75</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,90,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,250,150,75</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,250,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,700,150,75</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,700,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,875,150,75</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,875,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1050,0,75</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1050,0,75</Upgrade>
             </Upgrades>
             <TileMortgageValue>110</TileMortgageValue>
-            <TileHousePrice>150</TileHousePrice>
-            <TileHotelPrice>150</TileHotelPrice>
+            <TileDormPrice>150</TileDormPrice>
+            <TileApartmentPrice>150</TileApartmentPrice>
             <NextTiles>22</NextTiles>
         </Card>
     </Tile>
@@ -586,32 +588,32 @@
         <TileColor>Red</TileColor>
         <TilePrice>220</TilePrice>
         <Card>
-            <TitleDeed>Indiana Avenue</TitleDeed>
+            <TitleDeed>Crowell Quad</TitleDeed>
             <TileColor>Red</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,18,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,18,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,36,150,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,36,150,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,90,150,75</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,90,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,250,150,75</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,250,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,700,150,75</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,700,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,875,150,75</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,875,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1050,0,75</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1050,0,75</Upgrade>
             </Upgrades>
             <TileMortgageValue>110</TileMortgageValue>
-            <TileHousePrice>150</TileHousePrice>
-            <TileHotelPrice>150</TileHotelPrice>
+            <TileDormPrice>150</TileDormPrice>
+            <TileApartmentPrice>150</TileApartmentPrice>
             <NextTiles>24</NextTiles>
         </Card>
     </Tile>
@@ -622,32 +624,32 @@
         <TileColor>Red</TileColor>
         <TilePrice>240</TilePrice>
         <Card>
-            <TitleDeed>Illinois Avenue</TitleDeed>
+            <TitleDeed>Kilgo Quad</TitleDeed>
             <TileColor>Red</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,20,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,20,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,40,150,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,40,150,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,100,150,75</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,100,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,300,150,75</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,300,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,750,150,75</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,750,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,925,150,75</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,925,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1100,0,75</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1100,0,75</Upgrade>
             </Upgrades>
             <TileMortgageValue>120</TileMortgageValue>
-            <TileHousePrice>150</TileHousePrice>
-            <TileHotelPrice>150</TileHotelPrice>
+            <TileDormPrice>150</TileDormPrice>
+            <TileApartmentPrice>150</TileApartmentPrice>
             <NextTiles>25</NextTiles>
         </Card>
     </Tile>
@@ -658,7 +660,7 @@
         <TileType>RailroadTile</TileType>
         <TilePrice>200</TilePrice>
         <Card>
-            <TitleDeed>B. and O. Railroad</TitleDeed>
+            <TitleDeed>C3</TitleDeed>
             <TileColor>Railroad</TileColor>
             <Upgrades>
                 <Upgrade>1Railroad,1,,25</Upgrade>
@@ -684,32 +686,32 @@
         <TileColor>Yellow</TileColor>
         <TilePrice>260</TilePrice>
         <Card>
-            <TitleDeed>Atlantic Avenue</TitleDeed>
+            <TitleDeed>Wannamaker Quad</TitleDeed>
             <TileColor>Yellow</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,22,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,22,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,44,150,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,44,150,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,110,150,75</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,110,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,330,150,75</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,330,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,800,150,75</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,800,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,975,150,75</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,975,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1150,0,75</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1150,0,75</Upgrade>
             </Upgrades>
             <TileMortgageValue>130</TileMortgageValue>
-            <TileHousePrice>150</TileHousePrice>
-            <TileHotelPrice>150</TileHotelPrice>
+            <TileDormPrice>150</TileDormPrice>
+            <TileApartmentPrice>150</TileApartmentPrice>
             <NextTiles>27</NextTiles>
         </Card>
     </Tile>
@@ -721,32 +723,32 @@
         <TileColor>Yellow</TileColor>
         <TilePrice>260</TilePrice>
         <Card>
-            <TitleDeed>Ventnor Avenue</TitleDeed>
+            <TitleDeed>The Hollows</TitleDeed>
             <TileColor>Yellow</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,22,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,22,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,44,150,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,44,150,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,110,150,75</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,110,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,330,150,75</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,330,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,800,150,75</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,800,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,975,150,75</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,975,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1150,0,75</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1150,0,75</Upgrade>
             </Upgrades>
             <TileMortgageValue>130</TileMortgageValue>
-            <TileHousePrice>150</TileHousePrice>
-            <TileHotelPrice>150</TileHotelPrice>
+            <TileDormPrice>150</TileDormPrice>
+            <TileApartmentPrice>150</TileApartmentPrice>
             <NextTiles>28</NextTiles>
         </Card>
     </Tile>
@@ -756,7 +758,7 @@
         <TileType>UtilityTile</TileType>
         <TilePrice>150</TilePrice>
         <Card>
-            <TitleDeed>Water Works</TitleDeed>
+            <TitleDeed>Drainage</TitleDeed>
             <TileColor>Utility</TileColor>
             <Upgrades>
                 <Upgrade>1Utility,1,,4</Upgrade>
@@ -775,32 +777,32 @@
         <TileColor>Yellow</TileColor>
         <TilePrice>280</TilePrice>
         <Card>
-            <TitleDeed>Marvin Gardens</TitleDeed>
+            <TitleDeed>300 Swift</TitleDeed>
             <TileColor>Yellow</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,24,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,24,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,48,150,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,48,150,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,120,150,75</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,120,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,360,150,75</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,360,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,850,150,75</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,850,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,1025,150,75</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,1025,150,75</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1200,0,75</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1200,0,75</Upgrade>
             </Upgrades>
             <TileMortgageValue>140</TileMortgageValue>
-            <TileHousePrice>150</TileHousePrice>
-            <TileHotelPrice>150</TileHotelPrice>
+            <TileDormPrice>150</TileDormPrice>
+            <TileApartmentPrice>150</TileApartmentPrice>
             <NextTiles>30</NextTiles>
         </Card>
     </Tile>
@@ -808,7 +810,7 @@
     <Tile>
         <TileNumber>30</TileNumber>
         <TileType>GoToJailTile</TileType>
-        <TileName>Go to Jail</TileName>
+        <TileName>Go to Perkins</TileName>
         <NextTiles>31</NextTiles>
     </Tile>
 
@@ -819,32 +821,32 @@
         <TileColor>Green</TileColor>
         <TilePrice>300</TilePrice>
         <Card>
-            <TitleDeed>Pacific Avenue</TitleDeed>
+            <TitleDeed>University Apartments</TitleDeed>
             <TileColor>Green</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,26,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,26,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,52,200,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,52,200,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,130,200,100</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,130,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,390,200,100</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,390,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,900,200,100</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,900,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,1100,200,100</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,1100,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1275,0,100</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1275,0,100</Upgrade>
             </Upgrades>
             <TileMortgageValue>150</TileMortgageValue>
-            <TileHousePrice>200</TileHousePrice>
-            <TileHotelPrice>200</TileHotelPrice>
+            <TileDormPrice>200</TileDormPrice>
+            <TileApartmentPrice>200</TileApartmentPrice>
             <NextTiles>32</NextTiles>
         </Card>
     </Tile>
@@ -856,32 +858,32 @@
         <TileColor>Green</TileColor>
         <TilePrice>300</TilePrice>
         <Card>
-            <TitleDeed>North Carolina Avenue</TitleDeed>
+            <TitleDeed>Erwin Mills</TitleDeed>
             <TileColor>Green</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,26,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,26,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,52,200,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,52,200,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,130,200,100</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,130,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,390,200,100</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,390,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,900,200,100</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,900,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,1100,200,100</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,1100,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1275,0,100</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1275,0,100</Upgrade>
             </Upgrades>
             <TileMortgageValue>150</TileMortgageValue>
-            <TileHousePrice>200</TileHousePrice>
-            <TileHotelPrice>200</TileHotelPrice>
+            <TileDormPrice>200</TileDormPrice>
+            <TileApartmentPrice>200</TileApartmentPrice>
             <NextTiles>33</NextTiles>
         </Card>
     </Tile>
@@ -901,32 +903,32 @@
         <TileColor>Green</TileColor>
         <TilePrice>320</TilePrice>
         <Card>
-            <TitleDeed>Pennsylvania Avenue</TitleDeed>
+            <TitleDeed>Berkshire</TitleDeed>
             <TileColor>Green</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,28,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,28,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,56,200,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,56,200,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,150,200,100</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,150,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,450,200,100</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,450,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,1000,200,100</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,1000,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,1200,200,100</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,1200,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1400,0,100</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1400,0,100</Upgrade>
             </Upgrades>
             <TileMortgageValue>160</TileMortgageValue>
-            <TileHousePrice>200</TileHousePrice>
-            <TileHotelPrice>200</TileHotelPrice>
+            <TileDormPrice>200</TileDormPrice>
+            <TileApartmentPrice>200</TileApartmentPrice>
             <NextTiles>35</NextTiles>
         </Card>
     </Tile>
@@ -936,7 +938,7 @@
         <TileType>RailroadTile</TileType>
         <TilePrice>200</TilePrice>
         <Card>
-            <TitleDeed>Short Line Railroad</TitleDeed>
+            <TitleDeed>CCX</TitleDeed>
             <TileColor>Railroad</TileColor>
             <Upgrades>
                 <Upgrade>1Railroad,1,,25</Upgrade>
@@ -968,32 +970,32 @@
         <TileColor>Blue</TileColor>
         <TilePrice>350</TilePrice>
         <Card>
-            <TitleDeed>Park Place</TitleDeed>
+            <TitleDeed>Baldwin Auditorium</TitleDeed>
             <TileColor>Blue</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,35,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,35,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,70,200,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,70,200,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,175,200,100</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,175,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,500,200,100</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,500,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,1100,200,100</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,1100,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,1300,200,100</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,1300,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,1500,0,100</Upgrade>
+                <Upgrade>Apartment,1,Apartment,1500,0,100</Upgrade>
             </Upgrades>
             <TileMortgageValue>175</TileMortgageValue>
-            <TileHousePrice>200</TileHousePrice>
-            <TileHotelPrice>200</TileHotelPrice>
+            <TileDormPrice>200</TileDormPrice>
+            <TileApartmentPrice>200</TileApartmentPrice>
             <NextTiles>38</NextTiles>
         </Card>
     </Tile>
@@ -1003,7 +1005,7 @@
     <Tile>
         <TileNumber>38</TileNumber>
         <TileType>LuxuryTaxTile</TileType>
-        <TileName>Luxury Tax</TileName>
+        <TileName>Loan Interest</TileName>
         <TileRent>100</TileRent>
         <NextTiles>39</NextTiles>
     </Tile>
@@ -1015,32 +1017,32 @@
         <TileColor>Blue</TileColor>
         <TilePrice>400</TilePrice>
         <Card>
-            <TitleDeed>Boardwalk</TitleDeed>
+            <TitleDeed>The Chapel</TitleDeed>
             <TileColor>Blue</TileColor>
             <Upgrades>
-                <Upgrade>NoHouse,0,House,50,0,0</Upgrade>
+                <Upgrade>NoDorm,0,Dorm,50,0,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>NoHouseColorSet,0,House,100,200,0</Upgrade>
+                <Upgrade>NoDormColorSet,0,Dorm,100,200,0</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>1House,1,House,200,200,100</Upgrade>
+                <Upgrade>1Dorm,1,Dorm,200,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>2House,2,House,600,200,100</Upgrade>
+                <Upgrade>2Dorm,2,Dorm,600,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>3House,3,House,1400,200,100</Upgrade>
+                <Upgrade>3Dorm,3,Dorm,1400,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>4House,4,House,1700,200,100</Upgrade>
+                <Upgrade>4Dorm,4,Dorm,1700,200,100</Upgrade>
             </Upgrades>
             <Upgrades>
-                <Upgrade>Hotel,1,Hotel,2000,0,100</Upgrade>
+                <Upgrade>Apartment,1,Apartment,2000,0,100</Upgrade>
             </Upgrades>
             <TileMortgageValue>200</TileMortgageValue>
-            <TileHousePrice>200</TileHousePrice>
-            <TileHotelPrice>200</TileHotelPrice>
+            <TileDormPrice>200</TileDormPrice>
+            <TileApartmentPrice>200</TileApartmentPrice>
             <NextTiles>0</NextTiles>
         </Card>
     </Tile>

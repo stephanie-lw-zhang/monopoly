@@ -5,7 +5,7 @@ public class ImportXMLFile {
 
     public static void main(String args[]) {
         try{
-            XMLData data = new XMLData("OriginalMonopoly.xml");
+            XMLData data = new XMLData("DukeMonopoly.xml");
         }catch(Exception e){
             e.printStackTrace();
         }
