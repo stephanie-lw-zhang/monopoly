@@ -25,6 +25,7 @@ public class XMLData {
     private Map<Tile, List<Integer>> indexNeighborList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private Bank bank;
+    private int numDie;
 
     public XMLData(String fileName) throws Exception {
         File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
@@ -34,7 +35,9 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-            //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+
+            numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
 
             NodeList tileList = doc.getElementsByTagName("tile");
             NodeList banks = doc.getElementsByTagName("Bank");
@@ -90,7 +93,7 @@ public class XMLData {
     }
 
     private void updateCategoryList(Element element, Tile tile){
-        String color = "";
+        String color;
         try{
             color = getTagValue("TileColor", element);
         }catch (NullPointerException e){
@@ -114,6 +117,22 @@ public class XMLData {
                 }
             }
         }
+    }
+
+    public Map<Tile, List<Tile>> getAdjacencyList(){
+        return adjacencyList;
+    }
+
+    public Map<String, List<AbstractPropertyTile>> getPropertyCategoryMap(){
+        return propertyCategoryToSpecificListMap;
+    }
+
+    public Bank getBank(){
+        return bank;
+    }
+
+    public int getNumDie(){
+        return numDie;
     }
 
     private static String getTagValue(String tag, Element element) {

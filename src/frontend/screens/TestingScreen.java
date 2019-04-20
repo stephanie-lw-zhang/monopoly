@@ -6,6 +6,7 @@ import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
+import backend.exceptions.IllegalInputTypeException;
 import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -35,9 +36,9 @@ import javafx.stage.Stage;
 
 import controller.Game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * For testing purposes
@@ -64,12 +65,17 @@ public class TestingScreen extends AbstractScreen {
     private final Button AUCTION_BUTTON = new Button("AUCTION");
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
     private final Button MOVE_BUTTON = new Button("MOVE");
+    private final Button BUY_BUTTON = new Button("BUY");
 
 
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
+        END_TURN_BUTTON.setId("endTurn");
+        BUY_BUTTON.setId("buy");
+        AUCTION_BUTTON.setId("auction");
+        MORTGAGE_BUTTON.setId("mortgage");
     }
 
 
@@ -117,7 +123,8 @@ public class TestingScreen extends AbstractScreen {
                 new SixDice(),
                 new NormalDeck(),
                 new NormalDeck(),
-                makeBoard(playerFields)
+                makeBoard(playerFields),
+                playerFields
         );
 
         BorderPane bPane = (BorderPane) myScene.getRoot();
@@ -163,6 +170,34 @@ public class TestingScreen extends AbstractScreen {
                 myBoardView.move(numMoves);
             }
         });
+
+        BUY_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
+            }
+        });
+
+        AUCTION_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
+                for (int i = 0; i < myGame.getNumberOfPlayers(); i++) {
+                    AbstractPlayer key = myGame.getPlayerAtIndex(i);
+                    String value = showInputTextDialog(myGame.getPlayerNameAtIndex(i));
+                    try {
+                        auctionAmount.put(key, Double.parseDouble((value)));
+                    } catch (NumberFormatException n) {
+                         new IllegalInputTypeException("Input must be a number!");
+                         i--;
+                    }
+                }
+//                Map.Entry<AbstractPlayer, Double> winner = myGame.getMyTurn().auction(auctionAmount);
+                Object winner = myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
+                displayAuctionWinner((Map.Entry<AbstractPlayer, Double>)winner);
+            }
+        });
+
         moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
 
         playerOptionsModal.getChildren().addAll(
@@ -170,7 +205,7 @@ public class TestingScreen extends AbstractScreen {
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON,
                 AUCTION_BUTTON, MORTGAGE_BUTTON,
-                moveCheatKey
+                moveCheatKey, BUY_BUTTON
         );
 
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
@@ -186,6 +221,31 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
+    }
+
+    private void displayAuctionWinner(Map.Entry<AbstractPlayer, Double> winner) {
+        Alert formAlert = new Alert(Alert.AlertType.ERROR);
+        formAlert.setContentText("The winner is " + winner.getKey() + " for " + winner.getValue() + " Monopoly Dollars!");
+        formAlert.showAndWait();
+    }
+
+    private String showInputTextDialog(String name) {
+
+        TextInputDialog dialog = new TextInputDialog("0");
+
+        dialog.setTitle("Auction Amount for player " + name);
+        dialog.setHeaderText("Enter your auction amount:");
+        dialog.setContentText("Amount:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            return result.get();
+        }
+        else {
+            //TODO: throw exception
+            return null;
+        }
     }
 
     private String getPlayersText() {
@@ -250,9 +310,20 @@ public class TestingScreen extends AbstractScreen {
         }
     }
 
+    public void greyOutButtons(List<String> possibleActions) {
+        for (String str : possibleActions) {
+            Button myButton = (Button)myScene.lookup("#" + str);
+            myButton.setDisable(false);
+        }
+    }
+
     public Scene getMyScene() {
         return myScene;
     }
     public AbstractBoardView getMyBoardView() { return myBoardView; }
+
+    public FormView getMyFormView() {
+        return myFormView;
+    }
 }
 

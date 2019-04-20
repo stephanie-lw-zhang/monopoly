@@ -25,7 +25,7 @@ public abstract class AbstractBoard {
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private List<AbstractPlayer>                    myPlayerList;
     private int                                     numDie;
-    private Bank bank;
+    private Bank                                    bank;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
