@@ -176,7 +176,7 @@ public class TestingScreen extends AbstractScreen {
         BUY_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase());
+                myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
             }
         });
 
@@ -194,6 +194,9 @@ public class TestingScreen extends AbstractScreen {
                          i--;
                     }
                 }
+//                Map.Entry<AbstractPlayer, Double> winner = myGame.getMyTurn().auction(auctionAmount);
+                Object winner = myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
+                displayAuctionWinner((Map.Entry<AbstractPlayer, Double>)winner);
             }
         });
 
@@ -220,6 +223,12 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
+    }
+
+    private void displayAuctionWinner(Map.Entry<AbstractPlayer, Double> winner) {
+        Alert formAlert = new Alert(Alert.AlertType.ERROR);
+        formAlert.setContentText("The winner is " + winner.getKey() + " for " + winner.getValue() + " Monopoly Dollars!");
+        formAlert.showAndWait();
     }
 
     private String showInputTextDialog(String name) {

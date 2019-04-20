@@ -40,17 +40,15 @@ public class Game {
         myBank = new Bank(3000.0, null);
 
         myTestScreen = view;
-        myPlayers = new ArrayList<>();
 
+        // make first param list of players
+        myPlayers = new ArrayList<>();
         //TODO: need money read in from data file
         for (TextField t : playerFields) {
-            System.out.println(t.getText());
             if (!t.getText().equals("")) {
                 myPlayers.add(new HumanPlayer(t.getText(),1500.0, myBank));
             }
         }
-
-        // make first param list of players
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 

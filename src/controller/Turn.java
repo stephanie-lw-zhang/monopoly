@@ -3,10 +3,7 @@ package controller;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
-import backend.tile.AbstractDrawCardTile;
-import backend.tile.AbstractPropertyTile;
-import backend.tile.JailTile;
-import backend.tile.Tile;
+import backend.tile.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -121,22 +118,34 @@ public class Turn {
         return sum;
     }
 
-    public void onAction(String action) {
+    public Object onAction(String action, Map<AbstractPlayer,Double> amountMap) {
+        Class[] o = new Class[1];
+        Object[] params = new Object[1];
+        if (amountMap!=null) {
+            o[0] = Map.class;
+            params[0] = amountMap;
+        }
         Method method = null;
+        Object ret = null;
         try {
-            method = this.getClass().getMethod(action);
+            method = this.getClass().getMethod(action, o);
+            Class<?>[] types = method.getParameterTypes();
+            if (types.length == 0) {
+                ret = method.invoke(this);
+            }
+            else if (types.length == 1) {
+                ret = method.invoke(this,params);
+            }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-        }
-        try {
-            method.invoke(this);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            e.getCause();
         }
         isTurnOver = true;
         myCurrPlayer = getNextPlayer();
+        return ret;
     }
 
     public void move() {
@@ -178,20 +187,22 @@ public class Turn {
         }
     }
 
-    public void goToJail() {
+    public Map.Entry<AbstractPlayer, Double> goToJail() {
         JailTile jail = (JailTile) myBoard.getJailTile();
         myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
         jail.addCriminal( myCurrPlayer );
         myCurrPlayer.addTurnInJail();
+        return null;
     }
 
-    public void payRent() {
+    public Map.Entry<AbstractPlayer, Double> payRent() {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
         myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+        return null;
     }
 
-    public void buy() {
+    public Map.Entry<AbstractPlayer, Double> buy() {
         System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
@@ -199,49 +210,55 @@ public class Turn {
         Double currTilePrice = property.getCard().getTilePrice();
         property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
         System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
+        return null;
     }
 
-    public void payBail() {
+    public Map.Entry<AbstractPlayer, Double> payBail() {
         myCurrPlayer.paysTo(myCurrPlayer.getBank(), 1500.00);
         // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
         // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+        return null;
     }
 
-    public void trade() {
+    public Map.Entry<AbstractPlayer, Double> trade() {
 //      myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
 //      TODO: handle Receiver input and debt as instances
+        return null;
     }
 
-    public void auction() {
+    public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
         AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
-        //property.determineAuctionResults();
+        return property.determineAuctionResults(auctionAmount);
     }
 
-    public void collectMoney() {
-
+    public Map.Entry<AbstractPlayer, Double> collectMoney() {
+        return null;
     }
 
-    public void sellToPlayer() {
-
+    public Map.Entry<AbstractPlayer, Double> sellToPlayer() {
+        return null;
     }
 
-    public void sellToBank(){
-
+    public Map.Entry<AbstractPlayer, Double> sellToBank(){
+        return null;
     }
 
-    public void drawCard(){
+    public Map.Entry<AbstractPlayer, Double> drawCard(){
         ((AbstractDrawCardTile) currPlayerTile()).drawCard();
 //       assume draw card tile
+        return null;
     }
 
-    public void payTaxFixed() {
+    public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
         myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+        return null;
     }
 
-    public void payTaxPercentage() {
+    public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
         myCurrPlayer.paysTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+        return null;
     }
 
 
