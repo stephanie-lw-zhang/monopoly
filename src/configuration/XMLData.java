@@ -93,7 +93,7 @@ public class XMLData {
     }
 
     private void updateCategoryList(Element element, Tile tile){
-        String color = "";
+        String color;
         try{
             color = getTagValue("TileColor", element);
         }catch (NullPointerException e){
