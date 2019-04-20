@@ -4,6 +4,9 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import backend.tile.*;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.JailTile;
+import backend.tile.Tile;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

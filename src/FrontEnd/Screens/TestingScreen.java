@@ -264,7 +264,7 @@ public class TestingScreen extends AbstractScreen {
                 playerList,
                 new HashMap<Tile, List<Tile>>(),
                 new HashMap<String, List<AbstractPropertyTile>>(),
-                new GoTile(200, 200),
+                new GoTile(200, 200, 0),
                 new Bank(200000.0, new HashMap<String, Integer>())
         );
 
@@ -328,3 +328,4 @@ public class TestingScreen extends AbstractScreen {
         return myFormView;
     }
 }
+

@@ -1,7 +1,12 @@
 package backend.card;
 
 import backend.assetholder.AbstractPlayer;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +30,35 @@ public class PropertyCard extends AbstractCard {
         this.specificToNumeric = specificToNumeric;
         this.tilePrice = tilePrice;
 
+    }
+
+    public PropertyCard(Node node){
+        Element element = (Element) node;
+        double propertyMortgageValue = Double.parseDouble(getTagValue("TileMortgageValue", element));
+        String titleDeed = getTagValue("TitleDeed", element);
+        String category = getTagValue("TileColor", element);
+        Map<String, Double> buildingPriceLookupTable = new HashMap<>();
+        List<String> upgradeOrder = new ArrayList<>();
+        Map<String, Integer> specificToNumeric = new HashMap<>();
+
+        NodeList upgrades = element.getElementsByTagName("Upgrades");
+        for(int i = 0; i<upgrades.getLength();i++){
+            //get tag values from properties file//do we need to split the array
+            String property = getTagValue("Upgrade", (Element) upgrades.item(i));
+            String[] entry = property.split(",");
+            String upgrade = entry[0];
+            int numeric = Integer.parseInt(entry[1]);
+            Double rentPrice = Double.parseDouble(entry[3]);
+            upgradeOrder.add(upgrade);
+            buildingPriceLookupTable.put(upgrade, rentPrice);
+            specificToNumeric.put(upgrade, numeric);
+        }
+        this.propertyMortgageValue = propertyMortgageValue;
+        this.rentPriceLookupTable = buildingPriceLookupTable;
+        this.upgradeOrder = upgradeOrder;
+        this.titleDeed = titleDeed;
+        this.category = category;
+        this.specificToNumeric = specificToNumeric;
     }
 
     public double getMortgageValue(){
