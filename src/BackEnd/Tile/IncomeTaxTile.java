@@ -1,9 +1,11 @@
-package BackEnd.Tile;
+package backend.tile;
 
-import BackEnd.AssetHolder.AbstractPlayer;
-import BackEnd.AssetHolder.Bank;
-import BackEnd.Tile.AbstractTaxTile;
+import backend.assetholder.AbstractPlayer;
+import backend.assetholder.Bank;
 import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IncomeTaxTile extends AbstractTaxTile {
 
@@ -12,17 +14,21 @@ public class IncomeTaxTile extends AbstractTaxTile {
     }
 
     public IncomeTaxTile(Bank bank, Element n){
-        super(bank,n);
+        super(bank, n);
     }
 
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
         //interaction with front-end: pay full or 10%?
-        if (true) {
-            player.paysTo(getBank(),getAmountToDeduct());
-        }
-        else {
-            player.paysTo(getBank(), player.getMoney() * 0.1);
-        }
+        List<String> possibleActions = new ArrayList<>(  );
+        possibleActions.add("payTaxFixed");
+        possibleActions.add("payTaxPercentage");
+//        if (true) {
+//            player.paysTo(getBank(),getAmountToDeduct());
+//        }
+//        else {
+//            player.paysTo(getBank(), player.getMoney() * 0.1);
+//        }
+        return possibleActions;
     }
 }

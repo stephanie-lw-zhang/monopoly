@@ -1,31 +1,24 @@
-package BackEnd.Tile;
+package backend.tile;
 
-import BackEnd.AssetHolder.AbstractPlayer;
-import api.Monopoly.BackEnd.AbstractTile;
+import backend.assetholder.AbstractPlayer;
 import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GoToJailTile extends Tile {
 
-    private JailTile jail;
-    int index;
-
-    public GoToJailTile(JailTile jail, int index) {
-        this.jail = jail;
-        this.index = index;
-    }
-
-    public GoToJailTile(Element n){
-        index = Integer.parseInt(getTagValue("TileNumber", n));
-    }
+    public GoToJailTile(Element n){}
 
     @Override
-    public void applyLandedOnAction(AbstractPlayer player) {
+    public List<String> applyLandedOnAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<>(  );
+        possibleActions.add("goToJail");
+        return possibleActions;
+    }
+
+    public void putPlayerInJail(AbstractPlayer player) {
         player.addTurnInJail();
-        jail.addCriminal(player);
-    }
-
-    @Override
-    public void applyPassedAction(AbstractPlayer player) {
-        return;
     }
 }
+

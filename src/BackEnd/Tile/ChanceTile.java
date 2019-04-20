@@ -1,7 +1,6 @@
-package BackEnd.Tile;
+package backend.tile;
 
-import BackEnd.Deck.DeckInterface;
-import BackEnd.Tile.AbstractDrawCardTile;
+import backend.deck.DeckInterface;
 import org.w3c.dom.Element;
 
 public class ChanceTile extends AbstractDrawCardTile {

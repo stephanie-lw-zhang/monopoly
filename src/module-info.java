@@ -8,5 +8,5 @@ module monopoly {
 
     requires org.junit.jupiter.api;
 
-    exports Engine;
+    exports engine;
 }
