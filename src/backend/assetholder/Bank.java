@@ -2,6 +2,7 @@ package backend.assetholder;
 
 import backend.tile.AbstractPropertyTile;
 
+import java.util.List;
 import java.util.Map;
 
 public class Bank extends AbstractAssetHolder {
@@ -37,6 +38,13 @@ public class Bank extends AbstractAssetHolder {
     @Override
     public void paysTo(AbstractAssetHolder receiver, Double debt) {
         receiver.setMoney( receiver.getMoney() + debt );
+    }
+
+    @Override
+    public boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties) {
+        return false;
+        //return false because this function is used to check if player owns all of the same category for upgrade purposes
+        //therefore should exclude bank
     }
 
 }

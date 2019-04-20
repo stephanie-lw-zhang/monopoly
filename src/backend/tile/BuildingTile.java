@@ -70,25 +70,25 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellAllBuildingsOnTile() {
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
         setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
-        getBank().paysTo(getOwner(),sellToBankPrice());
+        getBank().paysTo(getOwner(), sellBuildingToBankPrice());
     }
 
     /**
      * or they may be sold one house at a time (one hotel equals five houses),
      * evenly, in reverse of the manner in which they were erected.
      */
-    public void sellOneAtATime(List<AbstractPropertyTile> properties) {
+    public void sellOneBuilding(List<AbstractPropertyTile> properties) {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
+        getBank().paysTo( getOwner(), sellBuildingToBankPrice() );
         setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
     @Override
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) {
         super.sellTo(assetHolder,price, sameColorProperties);
-        if (assetHolder instanceof  AbstractPlayer
-                && checkIfPlayerOwnsAllOfOneColor(sameColorProperties)
-                && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
+        if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
+            //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
                 upgrade((AbstractPlayer) assetHolder, sameColorProperties);
         }
     }
@@ -98,7 +98,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         //this can only happen if owner is player -- controller must call checkIfOwnerIsCurrentPlayer
 //        List<AbstractPropertyTile> properties = board.getColorListMap().get(this.getTilecolor());
         String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
-        if (checkIfPlayerOwnsAllOfOneColor(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
+        if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
             //throw exception if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
             player.paysTo(getBank(), payment);
@@ -107,17 +107,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         }
     }
 
-    public boolean checkIfPlayerOwnsAllOfOneColor(List<AbstractPropertyTile> properties) {
-        for (AbstractPropertyTile tile : properties) {
-            if (tile instanceof BuildingTile){
-                if(!(tile.getOwner().equals(this.getOwner()))) {
-                    //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+
 
     //UPGRADE OR DOWNGRADE
     private boolean checkIfUpdatingEvenly(List<AbstractPropertyTile> properties, boolean upgrade) {
@@ -148,7 +138,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     //    @Override
-    public double sellToBankPrice() {
+    public double sellBuildingToBankPrice() {
         if (!isMortgaged()) {
 //  REMIND LUIS: DIVIDE BY 2 for selling back to bank
 //            return (numberOfHouses * card.lookupPrice(currentInUpgradeOrder) + numberOfHotels * card.getPropertyHotelPrice()) / 2;
@@ -165,7 +155,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
-//            getBank().paysTo(player,building.sellToBankPrice());
+//            getBank().paysTo(player,building.sellBuildingToBankPrice());
 //            getBank().addHouses(this.getNumberOfHouses());
 //            getBank().addHotels(this.getNumberOfHotels());
 //        }

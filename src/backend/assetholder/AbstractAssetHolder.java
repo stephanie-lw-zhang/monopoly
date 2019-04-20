@@ -35,6 +35,10 @@ public abstract class AbstractAssetHolder{
 
     public abstract void paysTo (AbstractAssetHolder receiver, Double debt);
 
+    public abstract boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties);
+
+
+
     @Override
     public boolean equals (Object o) {
         if (o == this) { return true; }

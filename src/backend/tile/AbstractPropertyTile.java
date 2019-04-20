@@ -65,7 +65,7 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
     //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
-//    public abstract double sellToBankPrice();
+//    public abstract double sellBuildingToBankPrice();
 //        if (!isMortgaged()) {
 ////            return tileprice/2;
 //            getCard().
