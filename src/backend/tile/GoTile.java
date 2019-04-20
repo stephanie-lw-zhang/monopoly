@@ -37,9 +37,9 @@ public class GoTile extends Tile {
         return possibleActions;
     }
 
-    public List<Actions> applyPassedAction(AbstractPlayer player) {
-        List<Actions> possibleActions = new ArrayList<>();
-        possibleActions.add(Actions.COLLECT_MONEY);
+    public List<String> applyPassedAction(AbstractPlayer player) {
+        List<String> possibleActions = new ArrayList<>();
+        possibleActions.add("collectMoney");
         return possibleActions;
     }
 
