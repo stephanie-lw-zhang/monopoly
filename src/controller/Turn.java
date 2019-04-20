@@ -119,22 +119,16 @@ public class Turn {
     }
 
     public Object onAction(String action, Map<AbstractPlayer,Double> amountMap) {
-        Class[] o = new Class[1];
-        Object[] params = new Object[1];
-        if (amountMap!=null) {
-            o[0] = Map.class;
-            params[0] = amountMap;
-        }
         Method method = null;
         Object ret = null;
         try {
-            method = this.getClass().getMethod(action, o);
+            method = this.getClass().getMethod(action, Map.class);
             Class<?>[] types = method.getParameterTypes();
             if (types.length == 0) {
                 ret = method.invoke(this);
             }
             else if (types.length == 1) {
-                ret = method.invoke(this,params);
+                ret = method.invoke(this,amountMap);
             }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -227,6 +221,7 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
+        System.out.println("HI!!!!!!");
         AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
         return property.determineAuctionResults(auctionAmount);
     }
