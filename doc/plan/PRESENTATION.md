@@ -4,7 +4,7 @@
 - Sam -- Movement, engine, fullstack
 - Luis -- configuration, data, integration
 - Edward -- fullstack, display, paths
-- Matt -- backend class: Board, Controller
+- Matt -- backend class: Board, controller
 - Connie -- backend class: Tile and all its subclasses
 - Stephanie -- backend classes: Dice, Player, Bank, Deck, Card
 
