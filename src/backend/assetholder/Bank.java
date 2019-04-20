@@ -47,4 +47,5 @@ public class Bank extends AbstractAssetHolder {
         //therefore should exclude bank
     }
 
+
 }

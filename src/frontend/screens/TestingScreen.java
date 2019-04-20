@@ -4,6 +4,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
+import backend.board.StandardBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;

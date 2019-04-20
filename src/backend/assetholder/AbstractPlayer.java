@@ -117,14 +117,10 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //    }
 
     public boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties) {
-        for (AbstractPropertyTile tile : properties) {
-                if(!tile.getOwner().equals( this )) {
-                    //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
-                    return false;
-            }
-        }
-        return true;
+        return ownsSublistOfPropertiesIn( properties ).size() == properties.size();
     }
+
+
 
     @Override
     public boolean equals(Object o) {

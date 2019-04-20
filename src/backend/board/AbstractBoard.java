@@ -71,6 +71,7 @@ public abstract class AbstractBoard {
             }
         }
         return tile;
+        //EXCEPTION: THERE IS NO JAIL TILE
     }
 
     public List<AbstractPlayer> getMyPlayerList() { return myPlayerList; }
