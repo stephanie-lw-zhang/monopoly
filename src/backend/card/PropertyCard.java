@@ -4,6 +4,7 @@ import backend.assetholder.AbstractPlayer;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import backend.card.AbstractCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,7 +97,7 @@ public class PropertyCard extends AbstractCard {
         return upgradeOrder.indexOf(current);
     }
 
-    @Override
+//    @Override
     public void applyTo(AbstractPlayer player) {
         return;
     }

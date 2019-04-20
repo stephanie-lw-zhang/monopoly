@@ -6,12 +6,11 @@ import backend.assetholder.Bank;
 import backend.card.BuildingCard;
 import backend.card.PropertyCard;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.util.List;
+import java.util.Map;
 
-public class BuildingTile extends AbstractPropertyTile {
+public class BuildingTile extends backend.tile.AbstractPropertyTile {
     private String tilecolor;
     private BuildingCard card;
     private int tileprice;
@@ -71,25 +70,25 @@ public class BuildingTile extends AbstractPropertyTile {
     public void sellAllBuildingsOnTile() {
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
         setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
-        getBank().paysTo(getOwner(),sellToBankPrice());
+        getBank().paysTo(getOwner(), sellBuildingToBankPrice());
     }
 
     /**
      * or they may be sold one house at a time (one hotel equals five houses),
      * evenly, in reverse of the manner in which they were erected.
      */
-    public void sellOneAtATime(List<AbstractPropertyTile> properties) {
+    public void sellOneBuilding(List<AbstractPropertyTile> properties) {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
+        getBank().paysTo( getOwner(), sellBuildingToBankPrice() );
         setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
     @Override
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) {
         super.sellTo(assetHolder,price, sameColorProperties);
-        if (assetHolder instanceof  AbstractPlayer
-                && checkIfPlayerOwnsAllOfOneColor(sameColorProperties)
-                && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
+        if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
+            //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
                 upgrade((AbstractPlayer) assetHolder, sameColorProperties);
         }
     }
@@ -98,7 +97,8 @@ public class BuildingTile extends AbstractPropertyTile {
         //this will be throwing an exception (see property card class)
         //this can only happen if owner is player -- controller must call checkIfOwnerIsCurrentPlayer
 //        List<AbstractPropertyTile> properties = board.getColorListMap().get(this.getTilecolor());
-        if (checkIfPlayerOwnsAllOfOneColor(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true)) {
+        String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
+        if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
             //throw exception if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
             player.paysTo(getBank(), payment);
@@ -107,42 +107,38 @@ public class BuildingTile extends AbstractPropertyTile {
         }
     }
 
-    public boolean checkIfPlayerOwnsAllOfOneColor(List<AbstractPropertyTile> properties) {
-        for (AbstractPropertyTile tile : properties) {
-            if (tile instanceof BuildingTile && !(tile.getOwner().equals(this.getOwner()))) {
-                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     //UPGRADE OR DOWNGRADE
     private boolean checkIfUpdatingEvenly(List<AbstractPropertyTile> properties, boolean upgrade) {
         int thresholdForUpdate = card.getUpgradeOrderIndexOf(this.getCurrentInUpgradeOrder());
         for (AbstractPropertyTile tile : properties) {
-            if (tile instanceof BuildingTile) {
-                BuildingTile currentTile = (BuildingTile) tile;
-                BuildingCard currentCard = (BuildingCard) currentTile.getCard();
-                if (upgrade) {
-                    if (currentCard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) < thresholdForUpdate) {
-                        //throw exception: YOU CANNOT UPGRADE UNEVENLY
-                        return false;
-                    }
-                }
-                else {
-                    if (currentCard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) > thresholdForUpdate) {
-                        //throw exception: YOU CANNOT DOWNGRADE UNEVENLY
-                        return false;
-                    }
-                }
-            }
+                if (individualUpdateEvenCheck( upgrade, thresholdForUpdate, (BuildingTile) tile )) return false;
         }
         return true;
     }
 
-//    @Override
-    public double sellToBankPrice() {
+    @Override
+    public boolean individualUpdateEvenCheck(boolean upgrade, int thresholdForUpdate, BuildingTile tile) {
+        BuildingTile currentTile = tile;
+        BuildingCard currentCard = (BuildingCard) currentTile.getCard();
+        if (upgrade) {
+            if (currentCard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) < thresholdForUpdate) {
+                //throw exception: YOU CANNOT UPGRADE UNEVENLY
+                return true;
+            }
+        }
+        else {
+            if (currentCard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) > thresholdForUpdate) {
+                //throw exception: YOU CANNOT DOWNGRADE UNEVENLY
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //    @Override
+    public double sellBuildingToBankPrice() {
         if (!isMortgaged()) {
 //  REMIND LUIS: DIVIDE BY 2 for selling back to bank
 //            return (numberOfHouses * card.lookupPrice(currentInUpgradeOrder) + numberOfHotels * card.getPropertyHotelPrice()) / 2;
@@ -159,7 +155,7 @@ public class BuildingTile extends AbstractPropertyTile {
 //    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
-//            getBank().paysTo(player,building.sellToBankPrice());
+//            getBank().paysTo(player,building.sellBuildingToBankPrice());
 //            getBank().addHouses(this.getNumberOfHouses());
 //            getBank().addHotels(this.getNumberOfHotels());
 //        }
@@ -178,5 +174,28 @@ public class BuildingTile extends AbstractPropertyTile {
 
     public String getTilecolor() {
         return tilecolor;
+    }
+
+    @Override
+    public void recalculateTotalPropertiesLeftOneBuildingUpdate(Map<String,Integer> totalPropertiesLeft){
+        String current = this.getCurrentInUpgradeOrder();
+        String baseKey = card.getBasePropertyType(current);
+        Integer baseValue = card.getNumericValueOfPropertyType(current);
+        int currentIndex = card.getUpgradeOrderIndexOf(current);
+        if(currentIndex > 0){
+            String previous = card.getUpgradeOrderAtIndex(currentIndex - 1);
+            String previousBaseKey = card.getBasePropertyType(previous);
+            Integer previousBaseValue = card.getNumericValueOfPropertyType(previous);
+            totalPropertiesLeft.put(previousBaseKey, totalPropertiesLeft.get(previousBaseKey) + previousBaseValue);
+        }
+        totalPropertiesLeft.put(baseKey, totalPropertiesLeft.get(baseKey) - baseValue);
+    }
+
+    @Override
+    public void recalculateTotalPropertiesLeftAfterWholeSale(Map<String,Integer> totalPropertiesLeft){
+        String current = this.getCurrentInUpgradeOrder();
+        String baseKey = card.getBasePropertyType(current);
+        Integer baseValue = card.getNumericValueOfPropertyType(current);
+        totalPropertiesLeft.put(baseKey, totalPropertiesLeft.get(baseKey) + baseValue);
     }
 }
