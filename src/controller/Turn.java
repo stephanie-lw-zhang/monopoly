@@ -97,101 +97,6 @@ public class Turn {
         return myBoard.getMyPlayerList().get(0); // reached end of list thus modulo to beginning
     }
 
-    public void onAction(String action) {
-        Method method = null;
-        try {
-            method = this.getClass().getMethod(action);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        try {
-            method.invoke(this);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-//        AbstractPropertyTile property;
-//        switch (action) {
-////            case MOVE:
-//////                myBoard.movePlayer(myCurrPlayer, getNumMoves());
-//////                myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
-//////                move();
-////                break;
-//            case TRADE:
-////                myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
-//                // TODO: handle Receiver input and debt as instances
-//                break;
-////            case END_TURN:
-////                isTurnOver = true;
-////                myCurrPlayer = getNextPlayer();
-////                break;
-//            case PAY_BAIL:
-//                myCurrPlayer.paysTo(myCurrPlayer.getBank(), 1500.00);
-//                // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
-//                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//                break;
-//            case BUY:
-//                //buy from bank
-//                buyFromBank();
-//                break;
-//            case AUCTION:
-//
-//                break;
-//            case PAY_RENT:
-//                payRent();
-//                break;
-//            case PAY_TAX_FIXED:
-//                myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
-//                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//                break;
-//            case PAY_TAX_PERCENTAGE:
-//                myCurrPlayer.paysTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
-//                //MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//                break;
-//            case DRAW_CARD:
-//                ((AbstractDrawCardTile) currPlayerTile()).drawCard();
-//                //assume draw card tile
-//                break;
-//            case SELL_TO_BANK:
-//                break;
-//            case SELL_TO_PLAYER:
-//                break;
-//            case COLLECT_MONEY:
-//                onAction(Actions.END_TURN);
-//                break;
-//            case GO_TO_JAIL:
-//                goToJail();
-//                //error
-//                break;
-//            default:
-//                throw new IllegalArgumentException("Illegal Turn Action!");
-//        }
-        isTurnOver = true;
-        myCurrPlayer = getNextPlayer();
-    }
-
-    private void goToJail() {
-        JailTile jail = (JailTile) myBoard.getJailTile();
-        myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
-        jail.addCriminal( myCurrPlayer );
-        myCurrPlayer.addTurnInJail();
-    }
-
-    private void payRent() {
-        AbstractPropertyTile property;
-        property = (AbstractPropertyTile) currPlayerTile();
-        myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
-    }
-
-    private void buyFromBank() {
-        AbstractPropertyTile property;
-        property = (AbstractPropertyTile) currPlayerTile();
-        List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
-        Double currTilePrice = property.getCard().getTilePrice();
-        property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
-    }
-
     private void promptEndTurn() {
 
     }
@@ -216,7 +121,26 @@ public class Turn {
         return sum;
     }
 
+    public void onAction(String action) {
+        Method method = null;
+        try {
+            method = this.getClass().getMethod(action);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        try {
+            method.invoke(this);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        isTurnOver = true;
+        myCurrPlayer = getNextPlayer();
+    }
+
     public void move() {
+        System.out.println("MOVING");
         if (myRolls == null){
             //throw exception that dice must be rolled first
         }
@@ -253,6 +177,73 @@ public class Turn {
             myActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
         }
     }
+
+    public void goToJail() {
+        JailTile jail = (JailTile) myBoard.getJailTile();
+        myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
+        jail.addCriminal( myCurrPlayer );
+        myCurrPlayer.addTurnInJail();
+    }
+
+    public void payRent() {
+        AbstractPropertyTile property;
+        property = (AbstractPropertyTile) currPlayerTile();
+        myCurrPlayer.paysTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+    }
+
+    public void buy() {
+        System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
+        AbstractPropertyTile property;
+        property = (AbstractPropertyTile) currPlayerTile();
+        List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
+        Double currTilePrice = property.getCard().getTilePrice();
+        property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
+        System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
+    }
+
+    public void payBail() {
+        myCurrPlayer.paysTo(myCurrPlayer.getBank(), 1500.00);
+        // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
+        // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+    }
+
+    public void trade() {
+//      myCurrPlayer.paysTo(myCurrPlayer, 1500.00);
+//      TODO: handle Receiver input and debt as instances
+    }
+
+    public void auction() {
+        AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
+        //property.determineAuctionResults();
+    }
+
+    public void collectMoney() {
+
+    }
+
+    public void sellToPlayer() {
+
+    }
+
+    public void sellToBank(){
+
+    }
+
+    public void drawCard(){
+        ((AbstractDrawCardTile) currPlayerTile()).drawCard();
+//       assume draw card tile
+    }
+
+    public void payTaxFixed() {
+        myCurrPlayer.paysTo( myBoard.getBank(), 200.0 );
+//      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+    }
+
+    public void payTaxPercentage() {
+        myCurrPlayer.paysTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
+//      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+    }
+
 
     //in a turn a player can roll/move, trade, mortgage
     public void setNextPlayer(AbstractPlayer nextPlayer) {
