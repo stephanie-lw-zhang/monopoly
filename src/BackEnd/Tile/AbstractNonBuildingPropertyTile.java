@@ -4,6 +4,7 @@ import BackEnd.AssetHolder.AbstractAssetHolder;
 import BackEnd.AssetHolder.Bank;
 import BackEnd.Card.PropertyCard;
 
+import javax.swing.text.Element;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +15,9 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
         super(bank, card, tiletype, tileprice);
     }
 
-    //public AbstractNonBuildingPropertyTile(Element n){
-    //    super(n);
-    //}
+//    public AbstractNonBuildingPropertyTile(Element n){
+//        super(n);
+//    }
 
 
     public abstract double calculateRentPrice(int roll);

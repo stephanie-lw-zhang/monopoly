@@ -49,6 +49,11 @@ public class Bank extends AbstractAssetHolder {
         }
     }
 
+    public Boolean buildingsRemain(String building){
+        return totalPropertiesLeft.get( building ) != 0;
+        //assume building isn't faulty string (it exists in map)
+    }
+
     //money is supposed to be unlimited in standard version
     @Override
     public void paysTo(AbstractAssetHolder receiver, Double debt) {

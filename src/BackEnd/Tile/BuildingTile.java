@@ -113,7 +113,8 @@ public class BuildingTile extends AbstractPropertyTile {
         //this will be throwing an exception (see property card class)
         //this can only happen if owner is player -- controller must call checkIfOwnerIsCurrentPlayer
 //        List<AbstractPropertyTile> properties = board.getColorListMap().get(this.getTilecolor());
-        if (checkIfPlayerOwnsAllOfOneColor(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true)) {
+        String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
+        if (checkIfPlayerOwnsAllOfOneColor(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
             //throw exception if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
             player.paysTo(getBank(), payment);
@@ -136,6 +137,8 @@ public class BuildingTile extends AbstractPropertyTile {
     private boolean checkIfUpdatingEvenly(List<AbstractPropertyTile> properties, boolean upgrade) {
         int thresholdForUpdate = card.getUpgradeOrderIndexOf(this.getCurrentInUpgradeOrder());
         for (AbstractPropertyTile tile : properties) {
+//            tile.doWhateverUpdateEvenCheck();
+            //do nothing in other classes or default
             if (tile instanceof BuildingTile) {
                 BuildingTile currentTile = (BuildingTile) tile;
                 BuildingCard currentCard = (BuildingCard) currentTile.getCard();
