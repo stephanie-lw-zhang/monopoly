@@ -47,11 +47,6 @@ public class SplitScreenGameView extends AbstractGameView {
     }
 
     @Override
-    public void setTurnActions() {
-
-    }
-
-    @Override
     public Node getPane() {
         return myPane;
     }
