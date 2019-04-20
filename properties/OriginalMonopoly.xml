@@ -2,7 +2,9 @@
 
     <BoardLayout>OriginalMonopoly.csv</BoardLayout>
 
-    <NumDie>2</NumDie>
+    <Dice>
+        <NumDie>2</NumDie>
+    </Dice>
 
     <Bank>
         <Money>100000</Money>
