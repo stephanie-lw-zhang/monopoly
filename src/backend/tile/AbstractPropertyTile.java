@@ -5,7 +5,6 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.card.PropertyCard;
 
-import controller.Actions;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -17,14 +16,15 @@ import java.util.Map;
 public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
-//    private double tileprice;
+    //private double tileprice;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
     private PropertyCard card;
     private String currentInUpgradeOrder;
+    private int index;
 
-    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
+    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
         this.owner = bank;
         this.bank = bank;
         //throw exception if card is not propertycard type
@@ -33,12 +33,19 @@ public abstract class AbstractPropertyTile extends Tile {
 //        this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
+        this.index =index;
     }
 
-    public AbstractPropertyTile(Element n, Bank bank){
-        //TODO finish this implementation
+    public AbstractPropertyTile(Bank bank, Element n){
+        this.owner = bank;
         this.bank = bank;
-        tiletype = getTagValue("TileName", n);
+        card = new PropertyCard(n.getElementsByTagName("Card").item(0));
+        tiletype = getTagValue("TileType", n);
+      //  tileprice = Double.parseDouble(getTagValue("TilePrice", n));
+        index = Integer.parseInt(getTagValue("TileNumber", n));
+        this.mortgaged = false;
+        currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
+
 //        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
@@ -181,11 +188,11 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
     // maybe make an abstractTile class instead of an tile
-    private String getTagValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node = nodeList.item(0);
-        return node.getNodeValue();
-    }
+    //private String getTagValue(String tag, Element element) {
+    //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+    //    Node node = nodeList.item(0);
+    //    return node.getNodeValue();
+    //}
 
     //    public boolean isRentNeeded(AbstractPlayer player) {
 //        return (!player.equals(getOwner()) && !mortgaged);

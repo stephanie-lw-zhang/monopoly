@@ -1,7 +1,8 @@
 package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
-import controller.Actions;
+
+import org.w3c.dom.Element;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,9 +11,16 @@ import java.util.Set;
 public class JailTile extends Tile {
 
     private Set<AbstractPlayer> criminals;
+    private int index;
 
-    public JailTile() {
+    public JailTile(int index) {
         criminals = new HashSet<>();
+        this.index = index;
+    }
+
+    public JailTile(Element n){
+        criminals = new HashSet<>();
+        index = Integer.parseInt(getTagValue("TileNumber", n));
     }
 
     @Override

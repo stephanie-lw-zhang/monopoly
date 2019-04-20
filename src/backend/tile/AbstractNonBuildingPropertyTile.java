@@ -3,6 +3,7 @@ package backend.tile;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.Bank;
 import backend.card.PropertyCard;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,12 @@ import java.util.List;
 public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTile {
 
 
-    public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice) {
-        super(bank, card, tiletype, tileprice);
+    public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
+        super(bank, card, tiletype, tileprice, index);
+    }
+
+    public AbstractNonBuildingPropertyTile(Bank bank, Element n){
+        super(bank, n);
     }
 
     //public AbstractNonBuildingPropertyTile(Element n){

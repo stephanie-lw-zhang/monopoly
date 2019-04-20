@@ -2,15 +2,19 @@ package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-import controller.Actions;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IncomeTaxTile extends AbstractTaxTile {
 
-    public IncomeTaxTile(int money, Bank bank) {
-        super(money, bank);
+    public IncomeTaxTile(int money, Bank bank, int index) {
+        super(money, bank, index);
+    }
+
+    public IncomeTaxTile(Bank bank, Element n){
+        super(bank, n);
     }
 
     @Override

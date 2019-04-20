@@ -3,8 +3,6 @@ package backend.tile;
 import backend.assetholder.AbstractPlayer;
 import org.w3c.dom.Element;
 
-import controller.Actions;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,3 +21,4 @@ public class GoToJailTile extends Tile {
         player.addTurnInJail();
     }
 }
+
