@@ -28,31 +28,16 @@ public class BuildingTile extends AbstractPropertyTile {
     private int tilehouseprice;
     private int tilehotelprice;
 
-    public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor) {
-        super(bank, card, tiletype, tileprice);
-        this.card = (BuildingCard)this.getCard();
+    public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor, int index) {
+        super(bank, card, tiletype, tileprice, index);
+        this.card = (BuildingCard) this.getCard();
         this.tilecolor = tilecolor;
     }
 
-    //public BuildingTile(Element n){
-    //    super(n);
-    //}
-//
-//    public BuildingTile(Element n){
-//        this.tileprice = Integer.parseInt(getTagValue("TilePrice", n));
-//        this.tilenumber = Integer.parseInt(getTagValue("TileNumber", n));
-//        this.tilename = getTagValue("TileName", n);
-//        this.tilerent = Integer.parseInt(getTagValue("TileRent", n));
-//        this.tilerentwithcolorset = Integer.parseInt(getTagValue("TileRentWithColorSet", n));
-//        this.tilerent1house = Integer.parseInt(getTagValue("TileRent1House", n));
-//        this.tilerent2house = Integer.parseInt(getTagValue("TileRent2House", n));
-//        this.tilerent3house = Integer.parseInt(getTagValue("TileRent3House", n));
-//        this.tilerent4house = Integer.parseInt(getTagValue("TileRent4House", n));
-//        this.tilerenthotel = Integer.parseInt(getTagValue("TileRentHotel", n));
-//        this.tilemortgagevalue = Integer.parseInt(getTagValue("TileMortgageValue", n));
-//        this.tilehouseprice = Integer.parseInt(getTagValue("TileHousePrice", n));
-//        this.tilehotelprice = Integer.parseInt(getTagValue("TileHotelPrice", n));
-//    }
+    public BuildingTile(Bank bank, Element n){
+        super(bank, n);
+    }
+
     //store these as strings and make a hashmap of price lookup
     public double calculateRentPrice(int roll) {
         if (isMortgaged()) {
@@ -185,11 +170,11 @@ public class BuildingTile extends AbstractPropertyTile {
         return (card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) > 0);
     }
 
-    private static String getTagValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node = nodeList.item(0);
-        return node.getNodeValue();
-    }
+    //private static String getTagValue(String tag, Element element) {
+    //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+    //    Node node = nodeList.item(0);
+    //    return node.getNodeValue();
+    //}
 
     public String getTilecolor() {
         return tilecolor;

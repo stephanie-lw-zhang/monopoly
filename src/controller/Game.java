@@ -21,7 +21,7 @@ public class Game {
     private DeckInterface        chestDeck;
     private AbstractBoard        myBoard;
     private AbstractDice         myDice;
-    private TestingScreen        myTestScreen;
+    private TestingScreen myTestScreen;
     private Turn                 myTurn;
     private ImportPropertyFile myPropertyFile;
 

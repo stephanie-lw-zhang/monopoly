@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractAssetHolder{
-    private List<AbstractPropertyTile> properties  = new ArrayList<>(  );
+    private List<AbstractPropertyTile> properties  = new ArrayList<>();
     private Double money;
 
     public AbstractAssetHolder(Double money) {

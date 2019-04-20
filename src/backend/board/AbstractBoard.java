@@ -5,7 +5,7 @@ package backend.board;
  * This class is an abstraction of the game board which contains
  * fundamental pieces to the game itself
  *
- * @author Sam
+ * @author Matt, Sam
  *             updated Constructor for PlayerList
  */
 import backend.assetholder.AbstractPlayer;
@@ -20,8 +20,8 @@ import java.util.*;
  *
  */
 public abstract class AbstractBoard {
-    private Map<AbstractPlayer, Tile>      playerPositionMap;
-    private Map<Tile, List<Tile>> adjacencyMap;
+    private Map<AbstractPlayer, Tile>               playerPositionMap;
+    private Map<Tile, List<Tile>>                   adjacencyMap;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private List<AbstractPlayer>                    myPlayerList;
     private int                                     numDie;
@@ -32,7 +32,7 @@ public abstract class AbstractBoard {
      */
     public AbstractBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, int nDie, Bank bank) {
         myPlayerList = playerList;
-        adjacencyMap = adjacencyMap;
+        this.adjacencyMap = adjacencyMap;
         propertyCategoryToSpecificListMap = colorListMap;
         playerPositionMap = new HashMap<>();
         numDie = nDie;
@@ -71,6 +71,7 @@ public abstract class AbstractBoard {
     }
 
     public List<AbstractPlayer> getMyPlayerList() { return myPlayerList; }
+
     public Map<String, List<AbstractPropertyTile>> getColorListMap() {
         return propertyCategoryToSpecificListMap;
     }

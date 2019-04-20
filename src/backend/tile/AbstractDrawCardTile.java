@@ -13,9 +13,11 @@ import java.util.List;
 public abstract class AbstractDrawCardTile extends Tile {
 
     private DeckInterface myDeck;
+    private int index;
 
-    public AbstractDrawCardTile(DeckInterface deck) {
+    public AbstractDrawCardTile(DeckInterface deck, int index) {
         myDeck = deck;
+        this.index = index;
     }
 
     @Override
@@ -27,6 +29,7 @@ public abstract class AbstractDrawCardTile extends Tile {
     }
 
     public AbstractDrawCardTile( Element n) {
+        index = Integer.parseInt(getTagValue("TileNumber", n));
         //TODO: Finish this implementation
     }
 
