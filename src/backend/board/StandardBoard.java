@@ -14,7 +14,7 @@ import backend.tile.Tile;
 import java.util.List;
 import java.util.Map;
 
-public class StandardBoard extends backend.board.AbstractBoard {
+public class StandardBoard extends AbstractBoard {
 
     public StandardBoard(List<AbstractPlayer> playerList,
                          Map<Tile, List<Tile>> adjacencyMap,
@@ -36,4 +36,10 @@ public class StandardBoard extends backend.board.AbstractBoard {
         if(tile instanceof GoToJailTile) tile = getJailTile();
         getPlayerTileMap().put(p, tile);
     }
+
+    @Override
+    public void movePlayer(AbstractPlayer p, Tile tile) {
+
+    }
 }
+

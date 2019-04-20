@@ -19,9 +19,9 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
         super(bank, n);
     }
 
-    //public AbstractNonBuildingPropertyTile(Element n){
-    //    super(n);
-    //}
+//    public AbstractNonBuildingPropertyTile(Element n){
+//        super(n);
+//    }
 
 
     public abstract double calculateRentPrice(int roll);
@@ -36,22 +36,23 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
     }
 
     private void updateUpgradeOrder(AbstractAssetHolder owner, List<AbstractPropertyTile> sameSetProperties) {
-        int numProperties = sublistOfPropertiesOwnedBy(owner, sameSetProperties ).size();
+        //assume parameter is inputted correctly
+        int numProperties = owner.ownsSublistOfPropertiesIn(sameSetProperties ).size();
         String newInUpgradeOrder = getCard().getSpecificFromNumeric( numProperties );
-        for(AbstractNonBuildingPropertyTile each: sublistOfPropertiesOwnedBy(owner, sameSetProperties )){
+        for(AbstractPropertyTile each: owner.ownsSublistOfPropertiesIn(sameSetProperties )){
             each.setCurrentInUpgradeOrder( newInUpgradeOrder );
         }
     }
 
-    private List<AbstractNonBuildingPropertyTile> sublistOfPropertiesOwnedBy(AbstractAssetHolder owner, List<AbstractPropertyTile> properties) {
-        List<AbstractNonBuildingPropertyTile> propertiesOwnedBy = new ArrayList<>();
-        for (AbstractPropertyTile tile : properties) {
-            if (tile instanceof RailroadTile && (tile.getOwner().equals(owner))) {
-                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
-                propertiesOwnedBy.add( (RailroadTile) tile );
-            }
-        }
-        return propertiesOwnedBy;
-    }
+//    private List<AbstractNonBuildingPropertyTile> sublistOfPropertiesOwnedBy(AbstractAssetHolder owner, List<AbstractPropertyTile> properties) {
+//        List<AbstractNonBuildingPropertyTile> propertiesOwnedBy = new ArrayList<>();
+//        for (AbstractPropertyTile tile : properties) {
+//            if (tile instanceof RailroadTile && (tile.getOwner().equals(owner))) {
+//                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
+//                propertiesOwnedBy.add( (RailroadTile) tile );
+//            }
+//        }
+//        return propertiesOwnedBy;
+//    }
 
 }

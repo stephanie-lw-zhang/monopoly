@@ -16,7 +16,6 @@ import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.DiceView;
-import frontend.views.board.RectangularBoardView;
 
 import frontend.views.FormView;
 
@@ -51,7 +50,7 @@ public class TestingScreen extends AbstractScreen {
 
     private ImportPropertyFile   myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
-    private RectangularBoardView myBoardView;
+    private SquareBoardView myBoardView;
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
