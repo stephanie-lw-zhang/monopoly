@@ -182,7 +182,9 @@ public class TestingScreen extends AbstractScreen {
         BUY_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
+                Map.Entry<AbstractPlayer, Double> playerValue = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
+                String info = playerValue.getKey().getMyPlayerName() + " bought " + myGame.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
+                displayActionInfo(info);
             }
         });
 
@@ -192,7 +194,7 @@ public class TestingScreen extends AbstractScreen {
                 Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
                 for (int i = 0; i < myGame.getNumberOfPlayers(); i++) {
                     AbstractPlayer key = myGame.getPlayerAtIndex(i);
-                    String value = showInputTextDialog(myGame.getPlayerNameAtIndex(i));
+                    String value = showAuctionInputTextDialog(myGame.getPlayerNameAtIndex(i));
                     try {
                         auctionAmount.put(key, Double.parseDouble((value)));
                     } catch (NumberFormatException n) {
@@ -201,9 +203,10 @@ public class TestingScreen extends AbstractScreen {
                     }
                 }
                 Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
-                displayAuctionWinner(winner);
+                String info = winner.getKey().getMyPlayerName() + " wins " + myGame.getMyTurn().getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
+                displayActionInfo(info);
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
-                myGame.getMyTurn().buyInAuction(playerValue);
+                myGame.getMyTurn().onAction("buy", playerValue);
             }
         });
 
@@ -238,13 +241,13 @@ public class TestingScreen extends AbstractScreen {
         return mapFromSet;
     }
 
-    private void displayAuctionWinner(Map.Entry<AbstractPlayer, Double> winner) {
+    private void displayActionInfo(String info) {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
-        formAlert.setContentText("The winner is " + winner.getKey().getMyPlayerName() + " for " + winner.getValue() + " Monopoly Dollars!");
+        formAlert.setContentText(info);
         formAlert.showAndWait();
     }
 
-    private String showInputTextDialog(String name) {
+    private String showAuctionInputTextDialog(String name) {
 
         TextInputDialog dialog = new TextInputDialog("0");
 
