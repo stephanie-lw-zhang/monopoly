@@ -33,7 +33,7 @@ public abstract class AbstractAssetHolder{
         return properties;
     }
 
-    public abstract void paysFullAmountTo(AbstractAssetHolder receiver, Double debt);
+    public abstract void payFullAmountTo(AbstractAssetHolder receiver, Double debt);
 
     public abstract boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties);
 

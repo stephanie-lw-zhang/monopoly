@@ -5,8 +5,4 @@ public class AutomatedPlayer extends AbstractPlayer {
         super("CPU", money, bank );
     }
 
-    @Override
-    public void paysFullAmountTo(AbstractAssetHolder receiver, Double debt) {
-
-    }
 }

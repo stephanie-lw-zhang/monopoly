@@ -21,7 +21,6 @@ import frontend.views.FormView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,8 +39,6 @@ import javafx.stage.Stage;
 
 import controller.Game;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -53,7 +50,7 @@ public class TestingScreen extends AbstractScreen {
 
     private ImportPropertyFile   myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
-    private SquareBoardView myBoardView;
+    private SquareBoardView      myBoardView;
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
@@ -108,8 +105,6 @@ public class TestingScreen extends AbstractScreen {
                 );
             }
         });
-
-
 
         bPane.getChildren().add(backgroundImg);
         bPane.setAlignment(backButton, Pos.TOP_CENTER);
@@ -180,6 +175,7 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
                 myBoardView.move(numMoves);
+                myGame.getMyTurn().moveCheat(numMoves);
             }
         });
 
@@ -204,9 +200,10 @@ public class TestingScreen extends AbstractScreen {
                          i--;
                     }
                 }
-//                Map.Entry<AbstractPlayer, Double> winner = myGame.getMyTurn().auction(auctionAmount);
-                Object winner = myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
-                displayAuctionWinner((Map.Entry<AbstractPlayer, Double>)winner);
+                Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
+                displayAuctionWinner(winner);
+                Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
+                myGame.getMyTurn().buyInAuction(playerValue);
             }
         });
 
@@ -233,6 +230,12 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
+    }
+
+    private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer,Double> param) {
+        Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
+        mapFromSet.put(param.getKey(), param.getValue());
+        return mapFromSet;
     }
 
     private void displayAuctionWinner(Map.Entry<AbstractPlayer, Double> winner) {

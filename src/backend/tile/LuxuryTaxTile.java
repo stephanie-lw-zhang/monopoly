@@ -22,7 +22,7 @@ public class LuxuryTaxTile extends AbstractTaxTile {
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>(  );
         possibleActions.add("payTaxFixed");
-//      player.paysFullAmountTo(getBank(),getAmountToDeduct());
+//      player.payFullAmountTo(getBank(),getAmountToDeduct());
         return possibleActions;
     }
 
