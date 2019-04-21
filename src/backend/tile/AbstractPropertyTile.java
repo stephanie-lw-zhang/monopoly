@@ -21,7 +21,7 @@ public abstract class AbstractPropertyTile extends Tile {
     private String currentInUpgradeOrder;
     private int index;
 
-    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
+    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, int index) {
         this.owner = bank;
         this.bank = bank;
         //throw exception if card is not propertycard type
@@ -48,14 +48,14 @@ public abstract class AbstractPropertyTile extends Tile {
         List<String> possibleActions = new ArrayList<>(  );
 
 //        //controller will send player option to buy property? interact with front-end
-        if (getOwner().equals( bank )) {
+        if (isBuyableFromBank()) {
             possibleActions.add("buy");
             possibleActions.add("auction");
         }
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
 
-
+//      player.payFullAmountTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;
     }
@@ -192,7 +192,9 @@ public abstract class AbstractPropertyTile extends Tile {
         return card.getTitleDeed();
     }
 
-
+    public double getTilePrice() {
+        return card.getTilePrice();
+    }
 
     // maybe make an abstractTile class instead of an tile
     //private String getTagValue(String tag, Element element) {
@@ -231,6 +233,5 @@ public abstract class AbstractPropertyTile extends Tile {
 //            //throw exception: CAN'T BUY BECAUSE BANK DOESN'T OWN
 //        }
 //    }
-
 
 }

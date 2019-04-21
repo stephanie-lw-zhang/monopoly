@@ -85,9 +85,7 @@ public class XMLData {
             indexNeighborList.put(tile, new ArrayList<>());
             String [] neighbors = getTagValue("NextTiles", element).split(",");
             for(String s: neighbors){
-                List<Integer> temp = indexNeighborList.get(tile);
-                temp.add(Integer.parseInt(s));
-                indexNeighborList.put(tile,temp);
+                indexNeighborList.get(tile).add(Integer.parseInt(s));
             }
             return tile;
         }
@@ -119,9 +117,7 @@ public class XMLData {
                 int j = indexNeighborList.get(tile).get(i);
                 for(Tile neighbor : tiles){
                     if(neighbor.getTileIndex() == j) {
-                        List<Tile> temp = adjacencyList.get(tile);
-                        temp.add(neighbor);
-                        adjacencyList.put(tile, temp);
+                        adjacencyList.get(tile).add(neighbor);
                     }
                 }
             }
