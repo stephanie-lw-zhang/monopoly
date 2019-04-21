@@ -230,12 +230,12 @@ public class Turn {
     }
 
     public void buyProperty(AbstractPlayer player, Double value) {
-        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
+//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
         property.sellTo( player, value, sameSetProperties );
-        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
+//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
     }
 
     public Map.Entry<AbstractPlayer, Double> payBail() {

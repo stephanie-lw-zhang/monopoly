@@ -70,13 +70,8 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellAllBuildingsOnTile() {
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
         setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
-<<<<<<< HEAD
-
         getBank().payFullAmountTo(getOwner(), sellBuildingToBankPrice());
 
-=======
-        getBank().payFullAmountTo(getOwner(), sellBuildingToBankPrice());
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
     }
 
     /**
@@ -86,13 +81,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellOneBuilding(List<AbstractPropertyTile> properties) {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
-<<<<<<< HEAD
-
         getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
-
-=======
-        getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
         setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
@@ -113,13 +102,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
             //throw exception if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
-<<<<<<< HEAD
-
             player.payFullAmountTo(getBank(), payment);
-
-=======
-            player.payFullAmountTo(getBank(), payment);
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
             setCurrentInUpgradeOrder(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
         }
@@ -173,12 +156,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
-
-<<<<<<< HEAD
-=======
-
 //            getBank().payFullAmountTo(player,building.sellBuildingToBankPrice());
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
 //            getBank().addHouses(this.getNumberOfHouses());
 //            getBank().addHotels(this.getNumberOfHotels());
 //        }
