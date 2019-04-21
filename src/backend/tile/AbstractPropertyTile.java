@@ -14,7 +14,6 @@ import java.util.Map;
 public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
-    //private double tileprice;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
@@ -28,7 +27,6 @@ public abstract class AbstractPropertyTile extends Tile {
         //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
-//        this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
         this.index =index;
@@ -39,12 +37,9 @@ public abstract class AbstractPropertyTile extends Tile {
         this.bank = bank;
         card = new PropertyCard(n.getElementsByTagName("Card").item(0));
         tiletype = getTagValue("TileType", n);
-      //  tileprice = Double.parseDouble(getTagValue("TilePrice", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
-
-//        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
     //fix this

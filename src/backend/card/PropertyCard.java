@@ -35,12 +35,13 @@ public class PropertyCard extends AbstractCard {
 
     public PropertyCard(Node node){
         Element element = (Element) node;
-        double propertyMortgageValue = Double.parseDouble(getTagValue("TileMortgageValue", element));
-        String titleDeed = getTagValue("TitleDeed", element);
-        String category = getTagValue("TileColor", element);
-        Map<String, Double> buildingPriceLookupTable = new HashMap<>();
-        List<String> upgradeOrder = new ArrayList<>();
-        Map<String, Integer> specificToNumeric = new HashMap<>();
+        tilePrice = Double.parseDouble(getTagValue("TilePrice", element));
+        propertyMortgageValue = Double.parseDouble(getTagValue("TileMortgageValue", element));
+        titleDeed = getTagValue("TitleDeed", element);
+        category = getTagValue("TileColor", element);
+        rentPriceLookupTable = new HashMap<>();
+        upgradeOrder = new ArrayList<>();
+        specificToNumeric = new HashMap<>();
 
         NodeList upgrades = element.getElementsByTagName("Upgrades");
         for(int i = 0; i<upgrades.getLength();i++){
@@ -51,15 +52,9 @@ public class PropertyCard extends AbstractCard {
             int numeric = Integer.parseInt(entry[1]);
             Double rentPrice = Double.parseDouble(entry[3]);
             upgradeOrder.add(upgrade);
-            buildingPriceLookupTable.put(upgrade, rentPrice);
+            rentPriceLookupTable.put(upgrade, rentPrice);
             specificToNumeric.put(upgrade, numeric);
         }
-        this.propertyMortgageValue = propertyMortgageValue;
-        this.rentPriceLookupTable = buildingPriceLookupTable;
-        this.upgradeOrder = upgradeOrder;
-        this.titleDeed = titleDeed;
-        this.category = category;
-        this.specificToNumeric = specificToNumeric;
     }
 
     public double getMortgageValue(){
