@@ -59,7 +59,11 @@ public abstract class AbstractPropertyTile extends Tile {
         }
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
+<<<<<<< HEAD
 //            player.paysFullAmountTo(getOwner(), calculateRentPrice());
+=======
+//            player.payFullAmountTo(getOwner(), calculateRentPrice());
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
         }
         return possibleActions;
     }
@@ -100,7 +104,11 @@ public abstract class AbstractPropertyTile extends Tile {
      */
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
+<<<<<<< HEAD
         assetHolder.paysFullAmountTo( owner, price );
+=======
+        assetHolder.payFullAmountTo( owner, price );
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
         owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
@@ -114,7 +122,11 @@ public abstract class AbstractPropertyTile extends Tile {
     public void mortgageProperty() {
         //need to turn over card on front end
         if (!isMortgaged()) {
+<<<<<<< HEAD
                 bank.paysFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
+=======
+                bank.payFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
                 this.mortgaged = true;
         }
         else {
@@ -124,7 +136,11 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
+<<<<<<< HEAD
                 owner.paysFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+=======
+                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
                 this.mortgaged = false;
         }
         else {
@@ -137,7 +153,11 @@ public abstract class AbstractPropertyTile extends Tile {
     // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
+<<<<<<< HEAD
             owner.paysFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+=======
+            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -189,6 +209,9 @@ public abstract class AbstractPropertyTile extends Tile {
         //do nothing
     }
 
+    public String getTitleDeed() {
+        return card.getTitleDeed();
+    }
 
 
     // maybe make an abstractTile class instead of an tile
@@ -203,7 +226,11 @@ public abstract class AbstractPropertyTile extends Tile {
 //    }
 
     //    public void buyPropertyFromPlayer(AbstractPlayer player, double price) {
+<<<<<<< HEAD
 //        player.paysFullAmountTo(owner,price);
+=======
+//        player.payFullAmountTo(owner,price);
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
 //        switchOwner(player);
 //        player.addProperty(this);
 //    }
@@ -216,7 +243,11 @@ public abstract class AbstractPropertyTile extends Tile {
 ////        }
 //        if (owner.equals(bank)) {
 //            player.addProperty(this);
+<<<<<<< HEAD
 //            player.paysFullAmountTo( bank, tileprice );
+=======
+//            player.payFullAmountTo( bank, tileprice );
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
 //            switchOwner(player);
 //        }
 //        else {

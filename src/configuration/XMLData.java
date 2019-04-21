@@ -78,6 +78,9 @@ public class XMLData {
             String tileType = getTagValue("TileType", element);
             if(tileType.equalsIgnoreCase("BuildingTile")|| tileType.equalsIgnoreCase("RailroadTile")||tileType.equalsIgnoreCase("UtilityTile")|| tileType.contains("Tax")){
                 tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
+                if (!tileType.contains("Tax")) {
+                    updateCategoryList(element, tile);
+                }
             }
             else tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Element.class).newInstance(element);
             indexNeighborList.put(tile, new ArrayList<>());
@@ -87,7 +90,6 @@ public class XMLData {
                 temp.add(Integer.parseInt(s));
                 indexNeighborList.put(tile,temp);
             }
-            updateCategoryList(element, tile);
             return tile;
         }
         else{
@@ -106,7 +108,7 @@ public class XMLData {
             if(!propertyCategoryToSpecificListMap.containsKey(color)) {
                 propertyCategoryToSpecificListMap.put(color, new ArrayList<>());
             }
-            else propertyCategoryToSpecificListMap.get(color).add((AbstractPropertyTile) tile);
+            propertyCategoryToSpecificListMap.get(color).add((AbstractPropertyTile)tile);
         }
     }
 

@@ -120,17 +120,16 @@ public class Turn {
         return sum;
     }
 
-    public Object onAction(String action, Map<AbstractPlayer,Double> amountMap) {
+    public Object onAction(String action, Map<AbstractPlayer,Double> paramMap) {
         Method method = null;
-        Object ret = null;
         try {
             method = this.getClass().getMethod(action, Map.class);
             Class<?>[] types = method.getParameterTypes();
             if (types.length == 0) {
-                ret = method.invoke(this);
+                return method.invoke(this);
             }
             else if (types.length == 1) {
-                ret = method.invoke(this,amountMap);
+                return method.invoke(this,paramMap);
             }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -139,9 +138,12 @@ public class Turn {
         } catch (InvocationTargetException e) {
             e.getCause();
         }
+        return null;
+    }
+
+    public void endTurn(){
         isTurnOver = true;
         myCurrPlayer = getNextPlayer();
-        return ret;
     }
 
     public void move() {
@@ -179,9 +181,16 @@ public class Turn {
         //
         else{
             myBoard.movePlayer(myCurrPlayer, getNumMoves());
-            System.out.println(myBoard.getPlayerTileMap().get(myCurrPlayer));
             myActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
         }
+    }
+
+    /**
+     * FOR TESTING
+     * @param n number of moves
+     */
+    public void moveCheat(int n) {
+        myBoard.movePlayer(myCurrPlayer, n);
     }
 
     public Map.Entry<AbstractPlayer, Double> goToJail() {
@@ -195,11 +204,44 @@ public class Turn {
     public Map.Entry<AbstractPlayer, Double> payRent() {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
+<<<<<<< HEAD
         myCurrPlayer.paysFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+=======
+        myCurrPlayer.payFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
         return null;
     }
 
-    public Map.Entry<AbstractPlayer, Double> buy() {
+    public Map.Entry<AbstractPlayer, Double> buy(Map<AbstractPlayer,Double> paramMap) {
+        if (paramMap != null) {
+            buyInAuction(paramMap);
+        }
+        else {
+            buyFromBank();
+        }
+        endTurn();
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+        return null;
+    }
+
+    public void buyInAuction(Map<AbstractPlayer, Double> paramMap) {
+        AbstractPlayer player = null;
+        if (paramMap.keySet().size()==1) {
+            for (AbstractPlayer p : paramMap.keySet()) {
+                player = p;
+            }
+        }
+        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
+        AbstractPropertyTile property;
+        property = (AbstractPropertyTile) currPlayerTile();
+        List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
+        for (AbstractPropertyTile a : sameSetProperties) {
+            System.out.println(property.getCard().getCategory() + " " + a.getTitleDeed());
+        }
+        property.sellTo( player, paramMap.get(player), sameSetProperties );
+        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
+    }
+
+    private void buyFromBank() {
         System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
@@ -207,24 +249,30 @@ public class Turn {
         Double currTilePrice = property.getCard().getTilePrice();
         property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
         System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
-        return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> payBail() {
+<<<<<<< HEAD
         myCurrPlayer.paysFullAmountTo(myCurrPlayer.getBank(), 1500.00);
+=======
+        myCurrPlayer.payFullAmountTo(myCurrPlayer.getBank(), 1500.00);
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
         // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
         // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> trade() {
+<<<<<<< HEAD
 //      myCurrPlayer.paysFullAmountTo(myCurrPlayer, 1500.00);
+=======
+//      myCurrPlayer.payFullAmountTo(myCurrPlayer, 1500.00);
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
 //      TODO: handle Receiver input and debt as instances
         return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
-        System.out.println("HI!!!!!!");
         AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
         return property.determineAuctionResults(auctionAmount);
     }
@@ -248,13 +296,21 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
+<<<<<<< HEAD
         myCurrPlayer.paysFullAmountTo( myBoard.getBank(), 200.0 );
+=======
+        myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
+<<<<<<< HEAD
         myCurrPlayer.paysFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
+=======
+        myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
+>>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }

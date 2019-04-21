@@ -49,8 +49,8 @@ class BankTest {
     }
 
     @Test
-    void paysFullAmountTo() {
-        bank.paysFullAmountTo(player, 300.0);
+    void payFullAmountTo() {
+        bank.payFullAmountTo(player, 300.0);
         assertEquals(300.0, player.getMoney());
     }
     */
