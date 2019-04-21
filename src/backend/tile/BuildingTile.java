@@ -71,10 +71,14 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
         setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
 <<<<<<< HEAD
+<<<<<<< HEAD
         getBank().paysFullAmountTo(getOwner(), sellBuildingToBankPrice());
 =======
         getBank().payFullAmountTo(getOwner(), sellBuildingToBankPrice());
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+        getBank().payFullAmountTo(getOwner(), sellBuildingToBankPrice());
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
     }
 
     /**
@@ -85,10 +89,14 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
 <<<<<<< HEAD
+<<<<<<< HEAD
         getBank().paysFullAmountTo( getOwner(), sellBuildingToBankPrice() );
 =======
         getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+        getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
         setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
@@ -111,10 +119,14 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
             //throw exception if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
 <<<<<<< HEAD
+<<<<<<< HEAD
             player.paysFullAmountTo(getBank(), payment);
 =======
             player.payFullAmountTo(getBank(), payment);
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+            player.payFullAmountTo(getBank(), payment);
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
             setCurrentInUpgradeOrder(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
         }
@@ -169,10 +181,14 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 //            getBank().paysFullAmountTo(player,building.sellBuildingToBankPrice());
 =======
 //            getBank().payFullAmountTo(player,building.sellBuildingToBankPrice());
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+//            getBank().payFullAmountTo(player,building.sellBuildingToBankPrice());
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
 //            getBank().addHouses(this.getNumberOfHouses());
 //            getBank().addHotels(this.getNumberOfHotels());
 //        }

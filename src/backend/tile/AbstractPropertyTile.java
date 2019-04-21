@@ -60,10 +60,14 @@ public abstract class AbstractPropertyTile extends Tile {
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
 <<<<<<< HEAD
+<<<<<<< HEAD
 //            player.paysFullAmountTo(getOwner(), calculateRentPrice());
 =======
 //            player.payFullAmountTo(getOwner(), calculateRentPrice());
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+//            player.payFullAmountTo(getOwner(), calculateRentPrice());
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
         }
         return possibleActions;
     }
@@ -105,10 +109,14 @@ public abstract class AbstractPropertyTile extends Tile {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
 <<<<<<< HEAD
+<<<<<<< HEAD
         assetHolder.paysFullAmountTo( owner, price );
 =======
         assetHolder.payFullAmountTo( owner, price );
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+        assetHolder.payFullAmountTo( owner, price );
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
         owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
@@ -123,10 +131,14 @@ public abstract class AbstractPropertyTile extends Tile {
         //need to turn over card on front end
         if (!isMortgaged()) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 bank.paysFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
 =======
                 bank.payFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+                bank.payFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
                 this.mortgaged = true;
         }
         else {
@@ -137,10 +149,14 @@ public abstract class AbstractPropertyTile extends Tile {
     public void unmortgageProperty() {
         if (isMortgaged()) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 owner.paysFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
 =======
                 owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
                 this.mortgaged = false;
         }
         else {
@@ -154,10 +170,14 @@ public abstract class AbstractPropertyTile extends Tile {
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
 <<<<<<< HEAD
+<<<<<<< HEAD
             owner.paysFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
 =======
             owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -227,10 +247,14 @@ public abstract class AbstractPropertyTile extends Tile {
 
     //    public void buyPropertyFromPlayer(AbstractPlayer player, double price) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 //        player.paysFullAmountTo(owner,price);
 =======
 //        player.payFullAmountTo(owner,price);
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+//        player.payFullAmountTo(owner,price);
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
 //        switchOwner(player);
 //        player.addProperty(this);
 //    }
@@ -244,10 +268,14 @@ public abstract class AbstractPropertyTile extends Tile {
 //        if (owner.equals(bank)) {
 //            player.addProperty(this);
 <<<<<<< HEAD
+<<<<<<< HEAD
 //            player.paysFullAmountTo( bank, tileprice );
 =======
 //            player.payFullAmountTo( bank, tileprice );
 >>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
+=======
+//            player.payFullAmountTo( bank, tileprice );
+>>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
 //            switchOwner(player);
 //        }
 //        else {
