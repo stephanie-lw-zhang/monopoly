@@ -6,7 +6,7 @@ public class AutomatedPlayer extends AbstractPlayer {
     }
 
     @Override
-    public void paysTo(AbstractAssetHolder receiver, Double debt) {
+    public void paysFullAmountTo(AbstractAssetHolder receiver, Double debt) {
 
     }
 }

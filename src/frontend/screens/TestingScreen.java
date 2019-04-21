@@ -34,6 +34,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import controller.Game;
@@ -143,9 +145,10 @@ public class TestingScreen extends AbstractScreen {
                 myGame.getMyDice().getNumStates()
         );
 
-        TextArea playersText = new TextArea();
-        playersText.setText("Joined Players: \n" + getPlayersText());
-        playersText.setEditable(false);
+        TextFlow playersText = new TextFlow();
+        Text text = new Text("Joined Players: \n" + getPlayersText());
+//        playersText.setText("Joined Players: \n" + getPlayersText());
+//        playersText.setEditable(false);
         playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
 
         TextArea currPlayerText = new TextArea();

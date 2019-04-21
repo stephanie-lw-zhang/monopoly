@@ -24,10 +24,10 @@ public class IncomeTaxTile extends AbstractTaxTile {
         possibleActions.add("payTaxFixed");
         possibleActions.add("payTaxPercentage");
 //        if (true) {
-//            player.paysTo(getBank(),getAmountToDeduct());
+//            player.paysFullAmountTo(getBank(),getAmountToDeduct());
 //        }
 //        else {
-//            player.paysTo(getBank(), player.getMoney() * 0.1);
+//            player.paysFullAmountTo(getBank(), player.getMoney() * 0.1);
 //        }
         return possibleActions;
     }

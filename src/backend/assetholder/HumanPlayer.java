@@ -12,8 +12,4 @@ public class HumanPlayer extends AbstractPlayer {
     }
 
 
-    @Override
-    public void paysTo(AbstractAssetHolder receiver, Double debt) {
-
-    }
 }

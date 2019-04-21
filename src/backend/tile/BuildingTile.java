@@ -70,7 +70,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellAllBuildingsOnTile() {
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
         setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
-        getBank().paysTo(getOwner(), sellBuildingToBankPrice());
+        getBank().paysFullAmountTo(getOwner(), sellBuildingToBankPrice());
     }
 
     /**
@@ -80,7 +80,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellOneBuilding(List<AbstractPropertyTile> properties) {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
-        getBank().paysTo( getOwner(), sellBuildingToBankPrice() );
+        getBank().paysFullAmountTo( getOwner(), sellBuildingToBankPrice() );
         setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
@@ -101,7 +101,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
             //throw exception if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
-            player.paysTo(getBank(), payment);
+            player.paysFullAmountTo(getBank(), payment);
             setCurrentInUpgradeOrder(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
         }
@@ -155,7 +155,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
-//            getBank().paysTo(player,building.sellBuildingToBankPrice());
+//            getBank().paysFullAmountTo(player,building.sellBuildingToBankPrice());
 //            getBank().addHouses(this.getNumberOfHouses());
 //            getBank().addHotels(this.getNumberOfHotels());
 //        }

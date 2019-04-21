@@ -25,14 +25,17 @@ import javafx.util.Callback;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FormView extends GridPane {
 
     private List<TextField> playerFields;
     private Button submitFormButton;
     private TestingScreen myScreen;
-    private List<ComboBox<ImageView>> comboBoxes;
+    private Map<String, String> playersToIcon = new HashMap<String, String>(  );
+
 
     public FormView(TestingScreen screen) {
         myScreen = screen;
@@ -51,38 +54,12 @@ public class FormView extends GridPane {
 //        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 //        this.setConstraints( headerLabel,0,0 );
 
-
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll( "icon1", "icon2", "icon3", "icon4" );
-        ComboBox<String> comboBox1 = new ComboBox<>();
-        comboBox1.getItems().addAll(options );
-        this.setConstraints( comboBox1, 1, 1);
-        comboBox1.setCellFactory(param -> new CellFactory());
-        comboBox1.setButtonCell(new CellFactory());
-
-
-        ComboBox<String> comboBox2 = new ComboBox<>();
-        comboBox2.getItems().addAll(options );
-        this.setConstraints( comboBox2, 1, 2 );
-        comboBox2.setCellFactory(param -> new CellFactory());
-        comboBox2.setButtonCell(new CellFactory());
-
-
-        ComboBox<String> comboBox3 = new ComboBox<>();
-        comboBox3.getItems().addAll(options );
-        this.setConstraints( comboBox3, 1, 3 );
-        comboBox3.setCellFactory(param -> new CellFactory());
-        comboBox3.setButtonCell(new CellFactory());
-
-
-
-        ComboBox<String> comboBox4 = new ComboBox<>();
-        comboBox4.getItems().addAll(options );
-        this.setConstraints( comboBox4, 1, 4 );
-        comboBox4.setCellFactory(param -> new CellFactory());
-        comboBox4.setButtonCell(new CellFactory());
-
-
+        ComboBox<String> comboBox1 = createIconDropDown( options, 1 );
+        ComboBox<String> comboBox2 = createIconDropDown( options, 2 );
+        ComboBox<String> comboBox3 = createIconDropDown( options, 3 );
+        ComboBox<String> comboBox4 = createIconDropDown( options, 4 );
 
 
         TextField p1Field = new TextField();
@@ -91,8 +68,6 @@ public class FormView extends GridPane {
         p1Field.setPrefHeight(30);
         p1Field.setMaxWidth(200);
         this.setConstraints( p1Field, 0, 1 );
-
-
 
 
         TextField p2Field = new TextField();
@@ -155,6 +130,21 @@ public class FormView extends GridPane {
         playerFields.add(p2Field);
         playerFields.add(p3Field);
         playerFields.add(p4Field);
+
+        playersToIcon.put( p1Field.getText(), comboBox1.getValue() );
+        playersToIcon.put( p2Field.getText(), comboBox2.getValue() );
+        playersToIcon.put( p3Field.getText(), comboBox3.getValue() );
+        playersToIcon.put( p4Field.getText(), comboBox4.getValue() );
+
+    }
+
+    private ComboBox<String> createIconDropDown(ObservableList<String> options, int i) {
+        ComboBox<String> comboBox2 = new ComboBox<>();
+        comboBox2.getItems().addAll( options );
+        this.setConstraints( comboBox2, 1, i );
+        comboBox2.setCellFactory( param -> new CellFactory() );
+        comboBox2.setButtonCell( new CellFactory() );
+        return comboBox2;
     }
 
     private void handleSubmitFormButton(List<TextField> playerFields) {

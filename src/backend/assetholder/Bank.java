@@ -36,7 +36,7 @@ public class Bank extends AbstractAssetHolder {
 
     //money is supposed to be unlimited in standard version
     @Override
-    public void paysTo(AbstractAssetHolder receiver, Double debt) {
+    public void paysFullAmountTo(AbstractAssetHolder receiver, Double debt) {
         receiver.setMoney( receiver.getMoney() + debt );
     }
 

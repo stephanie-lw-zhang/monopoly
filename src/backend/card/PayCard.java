@@ -22,7 +22,7 @@ public class PayCard extends ApplicationCard {
     public void applyTo(AbstractPlayer player) {
         for(AbstractAssetHolder payer: payers){
             for(AbstractAssetHolder payee: payees){
-                payer.paysTo( payee, amount );
+                payer.paysFullAmountTo( payee, amount );
             }
         }
     }

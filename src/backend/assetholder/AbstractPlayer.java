@@ -75,7 +75,8 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //    }
 
     //assumption, can only pay if you have full amount
-    public void payFullAmountTo (AbstractAssetHolder receiver, Double debt){
+    @Override
+    public void paysFullAmountTo (AbstractAssetHolder receiver, Double debt){
 //        if(this.getMoney() > debt){
 //            receiver.setMoney( receiver.getMoney() + this.getMoney() );
 //            this.setMoney( 0.0 );
