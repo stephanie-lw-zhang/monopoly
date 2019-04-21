@@ -32,9 +32,11 @@ public class RectangularBoardView extends AbstractBoardView{
     private int myIndex=0;
     private IconView myIcon;
     private int myNumMoves;
+    private AbstractBoard myBoard;
 
-    public RectangularBoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
+    public RectangularBoardView(AbstractBoard board, double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
         super(screenWidth,screenHeight);
+        myBoard = board;
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
@@ -53,7 +55,7 @@ public class RectangularBoardView extends AbstractBoardView{
     }
 
     public RectangularBoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
-        super(screenWidth,screenHeight);
+        super(screenWidth,screenHeight); //this constructor should probably be deleted
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
@@ -132,6 +134,9 @@ public class RectangularBoardView extends AbstractBoardView{
     }
 
     private void makeBottomRow() {
+        //for(int i = 0; i<myHorizontals/4;i++){
+        //    if(myBoard.getTilesIndex(i))
+        //}
         placePropertyTile(myPropertyFile.getProp("Tile1Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile1File")), "test", Color.BROWN,1,1,myHorizontals,myScreenWidth,0);
         placeNonPropertyTile(myPropertyFile.getProp("Tile2Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile2File")), "",2,1,myHorizontals,myScreenWidth,0);
         placePropertyTile(myPropertyFile.getProp("Tile3Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile3File")), "test",Color.BROWN,3,1,myHorizontals,myScreenWidth,0);

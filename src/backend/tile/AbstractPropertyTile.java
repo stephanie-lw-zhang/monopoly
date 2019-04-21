@@ -14,7 +14,6 @@ import java.util.Map;
 public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
-    //private double tileprice;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
@@ -28,7 +27,6 @@ public abstract class AbstractPropertyTile extends Tile {
         //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
-//        this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
         this.index =index;
@@ -39,12 +37,9 @@ public abstract class AbstractPropertyTile extends Tile {
         this.bank = bank;
         card = new PropertyCard(n.getElementsByTagName("Card").item(0));
         tiletype = getTagValue("TileType", n);
-      //  tileprice = Double.parseDouble(getTagValue("TilePrice", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
-
-//        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
     //fix this
@@ -60,6 +55,10 @@ public abstract class AbstractPropertyTile extends Tile {
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
 
+<<<<<<< HEAD
+=======
+//            player.payFullAmountTo(getOwner(), calculateRentPrice());
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
         }
         return possibleActions;
     }
@@ -125,9 +124,13 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
+<<<<<<< HEAD
 
                 owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
 
+=======
+                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
                 this.mortgaged = false;
         }
         else {
@@ -140,9 +143,13 @@ public abstract class AbstractPropertyTile extends Tile {
     // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
+<<<<<<< HEAD
 
             owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
 
+=======
+            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -199,5 +206,46 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
 
+<<<<<<< HEAD
+=======
+    // maybe make an abstractTile class instead of an tile
+    //private String getTagValue(String tag, Element element) {
+    //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+    //    Node node = nodeList.item(0);
+    //    return node.getNodeValue();
+    //}
+
+    //    public boolean isRentNeeded(AbstractPlayer player) {
+//        return (!player.equals(getOwner()) && !mortgaged);
+//    }
+
+    //    public void buyPropertyFromPlayer(AbstractPlayer player, double price) {
+
+//        player.paysFullAmountTo(owner,price);
+//        player.payFullAmountTo(owner,price);
+
+//        switchOwner(player);
+//        player.addProperty(this);
+//    }
+
+    //    public void buyPropertyFromBank(AbstractPlayer player) {
+//        //in controller, we first check if player can buy property --> sends to front-end
+////        if(player.getMoney() < tileprice) {
+////            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
+////            //maybe options to sell other properties or mortgage or something from front end?
+////        }
+//        if (owner.equals(bank)) {
+//            player.addProperty(this);
+
+//
+//            player.payFullAmountTo( bank, tileprice );
+//            switchOwner(player);
+//        }
+//        else {
+//            //throw exception: CAN'T BUY BECAUSE BANK DOESN'T OWN
+//        }
+//    }
+
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
 
 }
