@@ -20,7 +20,7 @@ public class JailTile extends Tile {
 
     public JailTile(Element n){
         criminals = new HashSet<>();
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 
     @Override

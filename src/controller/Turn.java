@@ -117,7 +117,6 @@ public class Turn {
     public int getNumMoves() {
         int sum = 0;
         for (int roll : myRolls) sum += roll;
-        System.out.println(sum);
         return sum;
     }
 
@@ -180,6 +179,7 @@ public class Turn {
         //
         else{
             myBoard.movePlayer(myCurrPlayer, getNumMoves());
+            System.out.println(myBoard.getPlayerTileMap().get(myCurrPlayer));
             myActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
         }
     }

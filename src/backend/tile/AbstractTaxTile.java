@@ -20,7 +20,7 @@ public abstract class AbstractTaxTile extends Tile {
     public AbstractTaxTile(Bank bank, Element n){
         this.bank = bank;
         this.amountToDeduct = Integer.parseInt(getTagValue("TileRent", n));
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         //this.bank = ;
     }
 

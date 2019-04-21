@@ -60,6 +60,7 @@ public abstract class AbstractBoard {
     }
 
     public List<Tile> getAdjacentTiles(Tile tile) {
+        //System.out.println(adjacencyMap.get(backend.tile.GoTile@746de32));
         return adjacencyMap.get(tile);
     }
 

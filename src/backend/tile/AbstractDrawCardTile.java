@@ -29,7 +29,7 @@ public abstract class AbstractDrawCardTile extends Tile {
     }
 
     public AbstractDrawCardTile( Element n) {
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         //TODO: Finish this implementation
     }
 
