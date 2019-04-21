@@ -124,4 +124,7 @@ public class PropertyCard extends AbstractCard {
         return this.category;
     }
 
+    public String getTitleDeed() {
+        return titleDeed;
+    }
 }
