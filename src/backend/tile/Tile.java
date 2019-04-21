@@ -25,6 +25,10 @@ public abstract class Tile {
         return index;
     }
 
+    public void setTileIndex(int i){
+        index = i;
+    }
+
     public boolean individualUpdateEvenCheck(boolean upgrade, int thresholdForUpdate, BuildingTile tile){
         return true;
     };

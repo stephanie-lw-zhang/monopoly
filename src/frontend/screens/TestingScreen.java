@@ -228,8 +228,8 @@ public class TestingScreen extends AbstractScreen {
     }
 
     private void displayAuctionWinner(Map.Entry<AbstractPlayer, Double> winner) {
-        Alert formAlert = new Alert(Alert.AlertType.ERROR);
-        formAlert.setContentText("The winner is " + winner.getKey() + " for " + winner.getValue() + " Monopoly Dollars!");
+        Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
+        formAlert.setContentText("The winner is " + winner.getKey().getMyPlayerName() + " for " + winner.getValue() + " Monopoly Dollars!");
         formAlert.showAndWait();
     }
 
@@ -261,6 +261,7 @@ public class TestingScreen extends AbstractScreen {
 
     private AbstractBoard makeBoard(List<TextField> playerFields) {
         List<AbstractPlayer> playerList = makePlayerList(playerFields);
+
 
         AbstractBoard board = new StandardBoard(
                 playerList,
