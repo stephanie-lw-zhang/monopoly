@@ -11,17 +11,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.util.Callback;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -114,8 +108,6 @@ public class FormView extends GridPane {
         headerImg.setSmooth(true);
         headerImg.setCache(true);
 
-
-
         this.getChildren().addAll(
                 headerImg,
                 p1Field, comboBox1,
@@ -131,10 +123,12 @@ public class FormView extends GridPane {
         playerFields.add(p3Field);
         playerFields.add(p4Field);
 
-        playersToIcon.put( p1Field.getText(), comboBox1.getValue() );
-        playersToIcon.put( p2Field.getText(), comboBox2.getValue() );
-        playersToIcon.put( p3Field.getText(), comboBox3.getValue() );
-        playersToIcon.put( p4Field.getText(), comboBox4.getValue() );
+//        playersToIcon.put( p1Field.getText(), comboBox1.getValue() );
+//        playersToIcon.put( p2Field.getText(), comboBox2.getValue() );
+//        playersToIcon.put( p3Field.getText(), comboBox3.getValue() );
+//        playersToIcon.put( p4Field.getText(), comboBox4.getValue() );
+//
+//        System.out.println("\n" + "value:" + comboBox1.getValue());
 
     }
 
@@ -184,6 +178,10 @@ public class FormView extends GridPane {
 
     private List<TextField> getPlayerFields() {
         return playerFields;
+    }
+
+    public String getIconFor(String player){
+        return playersToIcon.get( player );
     }
 
 
