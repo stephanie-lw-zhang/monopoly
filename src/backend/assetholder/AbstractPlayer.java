@@ -2,6 +2,7 @@ package backend.assetholder;
 
 import backend.card.AbstractCard;
 import backend.tile.AbstractPropertyTile;
+import backend.tile.BuildingTile;
 
 import java.util.List;
 import java.util.Objects;
@@ -74,6 +75,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //    }
 
     //assumption, can only pay if you have full amount
+    @Override
     public void payFullAmountTo (AbstractAssetHolder receiver, Double debt){
 //        if(this.getMoney() > debt){
 //            receiver.setMoney( receiver.getMoney() + this.getMoney() );
@@ -100,7 +102,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //        while(goal > 0){
 //            AbstractPropertyTile currentProperty = this.getProperties().get( i );
 //            //assume selling in order of buying property, but can change this to own choice
-//            goal -= currentProperty.sellToBankPrice();
+//            goal -= currentProperty.sellBuildingToBankPrice();
 //            bank.addProperty( currentProperty );
 //            i++;
 //        }
@@ -109,11 +111,17 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //    private Double getTotalAssetValue() {
 //        Double totalAssetValue = 0.0;
 //        for(AbstractPropertyTile each: this.getProperties()){
-//            totalAssetValue += each.sellToBankPrice();
+//            totalAssetValue += each.sellBuildingToBankPrice();
 //            //assume can only sell to bank, no trading
 //        }
 //        return totalAssetValue;
 //    }
+
+    public boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties) {
+        return ownsSublistOfPropertiesIn( properties ).size() == properties.size();
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -121,20 +129,23 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         if (!(o instanceof AbstractPlayer)) return false;
         if (!super.equals(o)) return false;
         AbstractPlayer that = (AbstractPlayer) o;
-        // TODO: UNCOMMENT WHEN ICONS ARE DONE
-//        return getIcon().equals(that.getIcon()) &&
-//                getMyPlayerName().equals(that.getMyPlayerName());
-        return getMyPlayerName().equals(that.getMyPlayerName());
+//         TODO: UNCOMMENT WHEN ICONS ARE DONE
+        return getIcon().equals(that.getIcon()) &&
+                getMyPlayerName().equals(that.getMyPlayerName());
+//        return getMyPlayerName().equals(that.getMyPlayerName());
     }
 
     @Override
     public int hashCode() {
         // TODO: UNCOMMENT WHEN ICONS ARE DONE
-//        return Objects.hash(getIcon(), getMyPlayerName());
-        return Objects.hash(getMyPlayerName());
+        return Objects.hash(getIcon(), getMyPlayerName());
+//        return Objects.hash(getMyPlayerName());
     }
 
     public String getMyPlayerName() { return myPlayerName; }
+
+
+
     public Bank getBank() {
         return bank;
     }

@@ -3,6 +3,7 @@ package frontend.views.board;
 import javafx.scene.layout.Pane;
 
 abstract public class AbstractBoardView {
+
     public AbstractBoardView(double screenWidth, double screenHeight){
         setRoot();
         setScreenLimits(screenWidth,screenHeight);

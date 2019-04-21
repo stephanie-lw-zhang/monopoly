@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,8 @@ public class XMLData {
     private Map<Tile, List<Integer>> indexNeighborList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private Bank bank;
+    private int numDie;
+    private Tile firstTile;
 
     public XMLData(String fileName) throws Exception {
         File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
@@ -34,8 +37,9 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-            //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+//            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
+            numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
             NodeList tileList = doc.getElementsByTagName("Tile");
             NodeList banks = doc.getElementsByTagName("Bank");
             getBank(banks.item(0));
@@ -43,9 +47,9 @@ public class XMLData {
             indexNeighborList = new HashMap<>();
             propertyCategoryToSpecificListMap = new HashMap<>();
             for (int i = 0; i < tileList.getLength(); i++) {
-                //System.out.println(i);
                 tiles.add(getTile(tileList.item(i)));
             }
+            firstTile = tiles.get(0);
             initializeAdjacencyList(tiles);
         }catch(ParserConfigurationException | SAXException | IOException e){
             e.printStackTrace(); //change this !!!
@@ -71,9 +75,11 @@ public class XMLData {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element element = (Element) node;
             String tileType = getTagValue("TileType", element);
-            System.out.println(tileType);
             if(tileType.equalsIgnoreCase("BuildingTile")|| tileType.equalsIgnoreCase("RailroadTile")||tileType.equalsIgnoreCase("UtilityTile")|| tileType.contains("Tax")){
                 tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
+                if (!tileType.contains("Tax")) {
+                    updateCategoryList(element, tile);
+                }
             }
             else tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Element.class).newInstance(element);
             indexNeighborList.put(tile, new ArrayList<>());
@@ -81,7 +87,6 @@ public class XMLData {
             for(String s: neighbors){
                 indexNeighborList.get(tile).add(Integer.parseInt(s));
             }
-            updateCategoryList(element, tile);
             return tile;
         }
         else{
@@ -90,7 +95,7 @@ public class XMLData {
     }
 
     private void updateCategoryList(Element element, Tile tile){
-        String color = "";
+        String color;
         try{
             color = getTagValue("TileColor", element);
         }catch (NullPointerException e){
@@ -100,7 +105,7 @@ public class XMLData {
             if(!propertyCategoryToSpecificListMap.containsKey(color)) {
                 propertyCategoryToSpecificListMap.put(color, new ArrayList<>());
             }
-            else propertyCategoryToSpecificListMap.get(color).add((AbstractPropertyTile) tile);
+            propertyCategoryToSpecificListMap.get(color).add((AbstractPropertyTile)tile);
         }
     }
 
@@ -108,17 +113,40 @@ public class XMLData {
         adjacencyList = new HashMap<>();
         for(Tile tile: tiles){
             adjacencyList.put(tile, new ArrayList<>());
-            for(int i: indexNeighborList.get(tile)){
-                for(Tile neighbor: tiles){
-                    if(neighbor.getTileIndex() == i) adjacencyList.get(tile).add(neighbor);
+            for(int i = 0; i < indexNeighborList.get(tile).size(); i++){
+                int j = indexNeighborList.get(tile).get(i);
+                for(Tile neighbor : tiles){
+                    if(neighbor.getTileIndex() == j) {
+                        adjacencyList.get(tile).add(neighbor);
+                    }
                 }
             }
         }
+    }
+
+    public Map<Tile, List<Tile>> getAdjacencyList(){
+        return adjacencyList;
+    }
+
+    public Map<String, List<AbstractPropertyTile>> getPropertyCategoryMap(){
+        return propertyCategoryToSpecificListMap;
+    }
+
+    public Bank getBank(){
+        return bank;
+    }
+
+    public int getNumDie(){
+        return numDie;
     }
 
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
         return node.getNodeValue();
+    }
+
+    public Tile getFirstTile() {
+        return firstTile;
     }
 }

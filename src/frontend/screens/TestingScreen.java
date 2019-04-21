@@ -16,7 +16,6 @@ import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.DiceView;
-import frontend.views.board.RectangularBoardView;
 
 import frontend.views.FormView;
 
@@ -34,12 +33,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import controller.Game;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -51,7 +50,7 @@ public class TestingScreen extends AbstractScreen {
 
     private ImportPropertyFile   myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
-    private RectangularBoardView myBoardView;
+    private SquareBoardView      myBoardView;
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
@@ -119,14 +118,14 @@ public class TestingScreen extends AbstractScreen {
         myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
     }
 
-    public void handleStartGameButton(List<TextField> playerFields) {
+    public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
         myGame = new Game(
                 this,
                 new SixDice(),
                 new NormalDeck(),
                 new NormalDeck(),
-                makeBoard(playerFields),
-                playerFields
+                makeBoard( playerToIcon ),
+                playerToIcon
         );
 
         BorderPane bPane = (BorderPane) myScene.getRoot();
@@ -141,10 +140,7 @@ public class TestingScreen extends AbstractScreen {
                 myGame.getMyDice().getNumStates()
         );
 
-        TextArea playersText = new TextArea();
-        playersText.setText("Joined Players: \n" + getPlayersText());
-        playersText.setEditable(false);
-        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
+        TextFlow playersText = createPlayersText();
 
         TextArea currPlayerText = new TextArea();
         currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
@@ -170,13 +166,16 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
                 myBoardView.move(numMoves);
+                myGame.getMyTurn().moveCheat(numMoves);
             }
         });
 
         BUY_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
+                Map.Entry<AbstractPlayer, Double> playerValue = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
+                String info = playerValue.getKey().getMyPlayerName() + " bought " + myGame.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
+                displayActionInfo(info);
             }
         });
 
@@ -186,17 +185,19 @@ public class TestingScreen extends AbstractScreen {
                 Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
                 for (int i = 0; i < myGame.getNumberOfPlayers(); i++) {
                     AbstractPlayer key = myGame.getPlayerAtIndex(i);
-                    String value = showInputTextDialog(myGame.getPlayerNameAtIndex(i));
+                    String value = showAuctionInputTextDialog(myGame.getPlayerNameAtIndex(i));
                     try {
                         auctionAmount.put(key, Double.parseDouble((value)));
                     } catch (NumberFormatException n) {
-                         new IllegalInputTypeException("Input must be a number!");
-                         i--;
+                        new IllegalInputTypeException("Input must be a number!");
+                        i--;
                     }
                 }
-//                Map.Entry<AbstractPlayer, Double> winner = myGame.getMyTurn().auction(auctionAmount);
-                Object winner = myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
-                displayAuctionWinner((Map.Entry<AbstractPlayer, Double>)winner);
+                Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
+                String info = winner.getKey().getMyPlayerName() + " wins " + myGame.getMyTurn().getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
+                displayActionInfo(info);
+                Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
+                myGame.getMyTurn().onAction("buy", playerValue);
             }
         });
 
@@ -225,13 +226,31 @@ public class TestingScreen extends AbstractScreen {
         myGame.startGameLoop();
     }
 
-    private void displayAuctionWinner(Map.Entry<AbstractPlayer, Double> winner) {
-        Alert formAlert = new Alert(Alert.AlertType.ERROR);
-        formAlert.setContentText("The winner is " + winner.getKey() + " for " + winner.getValue() + " Monopoly Dollars!");
+    private TextFlow createPlayersText() {
+        TextFlow playersText = new TextFlow();
+        Text title = new Text("Joined Players: \n");
+        playersText.getChildren().add( title );
+        setPlayerNameAndIcon( playersText );
+        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
+        playersText.setStyle( "-fx-background-color: white" );
+        playersText.setMaxWidth( Control.USE_PREF_SIZE);
+        playersText.setMaxHeight(Control.USE_PREF_SIZE);
+        return playersText;
+    }
+
+    private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer,Double> param) {
+        Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
+        mapFromSet.put(param.getKey(), param.getValue());
+        return mapFromSet;
+    }
+
+    private void displayActionInfo(String info) {
+        Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
+        formAlert.setContentText(info);
         formAlert.showAndWait();
     }
 
-    private String showInputTextDialog(String name) {
+    private String showAuctionInputTextDialog(String name) {
 
         TextInputDialog dialog = new TextInputDialog("0");
 
@@ -250,15 +269,23 @@ public class TestingScreen extends AbstractScreen {
         }
     }
 
-    private String getPlayersText() {
-        StringBuilder sb = new StringBuilder();
-        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList())
-            sb.append(p.getMyPlayerName() + "\n");
-        return sb.toString();
+    private void setPlayerNameAndIcon(TextFlow box) {
+        for (TextField p : myFormView.getPlayerToIcon().keySet()){
+            if(!p.getText().equals("")){
+                Text player = new Text(p.getText());
+                ImageView icon = new ImageView(  myFormView.getPlayerToIcon().get( p ).getValue() + ".png");
+                icon.setFitWidth( 25 );
+                icon.setFitHeight( 25 );
+                icon.setPreserveRatio( true );
+                Text nextLine = new Text("\n");
+                box.getChildren().addAll( player, icon, nextLine );
+            }
+        }
     }
 
-    private AbstractBoard makeBoard(List<TextField> playerFields) {
-        List<AbstractPlayer> playerList = makePlayerList(playerFields);
+    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
+        List<AbstractPlayer> playerList = makePlayerList( playerToIcon );
+
 
         AbstractBoard board = new StandardBoard(
                 playerList,
@@ -272,14 +299,16 @@ public class TestingScreen extends AbstractScreen {
     }
 
 
-    private List<AbstractPlayer> makePlayerList(List<TextField> playerFields) {
+    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
         Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
         List<AbstractPlayer> playerList = new ArrayList<>();
 
-        for (TextField pName : playerFields) {
+        for (TextField pName : playerToIcon.keySet()) {
             String name = pName.getText();
             if (! name.equals(""))
                 playerList.add(new HumanPlayer(name, 1500.0, bank));
+            //should be from data file
+            //throw exception
         }
 
         return playerList;

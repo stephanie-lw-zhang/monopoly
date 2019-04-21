@@ -3,75 +3,50 @@ package frontend.views;
 import frontend.screens.TestingScreen;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class FormView extends VBox {
+public class FormView extends GridPane {
 
-    private List<TextField> playerFields;
+//    private List<TextField> playerFields;
+//    private List<ComboBox> iconList;
     private Button submitFormButton;
     private TestingScreen myScreen;
+    private final int POSSIBLE_PLAYERS = 4; //TODO: READ IN FROM DATA FILE
+    private Map<TextField, ComboBox> playerToIcon;
+
 
     public FormView(TestingScreen screen) {
         myScreen = screen;
-        this.setSpacing(10);
+        this.setHgap(5);
+        this.setVgap(10);
         this.setAlignment(Pos.CENTER);
         this.setStyle("-fx-background-color: #d32f2f;");
         this.setMaxSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 400);
-        this.setPadding(new Insets(0, 20, 20, 20)); //
+        this.setPadding(new Insets(20, 20, 20, 100)); //
         this.maxWidthProperty().bind(this.widthProperty());
 
-        Label headerLabel = new Label("ENTER GAME INFORMATION: ");
-        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        this.getColumnConstraints().add(new ColumnConstraints( 200 ) );
+        this.getColumnConstraints().add(new ColumnConstraints(200));
 
-        TextField p1Field = new TextField();
-        p1Field.setPromptText("Enter Player Name");
-        addTextLimiter(p1Field, 25);
-        p1Field.setPrefHeight(30);
-        p1Field.setMaxWidth(200);
-
-        TextField p2Field = new TextField();
-        p2Field.setPromptText("Enter Player Name");
-        addTextLimiter(p2Field, 25);
-        p2Field.setPrefHeight(30);
-        p2Field.setMaxWidth(200);
-
-        TextField p3Field = new TextField();
-        p3Field.setPromptText("Enter Player Name");
-        addTextLimiter(p3Field, 25);
-        p3Field.setPrefHeight(30);
-        p3Field.setMaxWidth(200);
-
-        TextField p4Field = new TextField();
-        p4Field.setPromptText("Enter Player Name");
-        addTextLimiter(p4Field, 25);
-        p4Field.setPrefHeight(30);
-        p4Field.setMaxWidth(200);
-
-        submitFormButton = new Button("START GAME");
-        submitFormButton.setPrefHeight(20);
-        submitFormButton.setPrefWidth(150);
-        submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                handleSubmitFormButton(getPlayerFields());
-            }
-        });
+//        Label headerLabel = new Label("ENTER GAME INFORMATION: ");
+//        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+//        this.setConstraints( headerLabel,0,0 );
 
         ImageView headerImg = new ImageView();
         headerImg.setImage(new Image("monopopout.png"));
@@ -80,33 +55,71 @@ public class FormView extends VBox {
         headerImg.setSmooth(true);
         headerImg.setCache(true);
 
-        this.getChildren().addAll(
-                headerImg, headerLabel,
-                p1Field, p2Field,
-                p3Field, p4Field,
-                submitFormButton
-        );
+        this.getChildren().add( headerImg );
 
-        playerFields = new ArrayList<>();
-        playerFields.add(p1Field);
-        playerFields.add(p2Field);
-        playerFields.add(p3Field);
-        playerFields.add(p4Field);
+        ObservableList<String> options = FXCollections.observableArrayList();
+        options.addAll( "icon1", "icon2", "icon3", "icon4" );
+
+//        playerFields = new ArrayList<>();
+        playerToIcon = new HashMap<>(  );
+
+        for(int i = 1; i<= POSSIBLE_PLAYERS; i++){
+            ComboBox<String> comboBox = createIconDropDown( options, i );
+            TextField pField = createPlayerTextField( i );
+            this.getChildren().addAll( comboBox, pField );
+            playerToIcon.put( pField, comboBox );
+        }
+
+        submitFormButton = new Button("START GAME");
+        submitFormButton.setPrefHeight(20);
+        submitFormButton.setPrefWidth(150);
+        submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                handleSubmitFormButton(getPlayerFields());
+//            }
+            public void handle(ActionEvent actionEvent) {
+                handleSubmitFormButton(getPlayerToIcon());
+            }
+        });
+        this.setConstraints( submitFormButton, 1, 6);
+
+        this.getChildren().add( submitFormButton );
+
     }
 
-    private void handleSubmitFormButton(List<TextField> playerFields) {
+    private TextField createPlayerTextField(int row) {
+        TextField pField = new TextField();
+        pField.setPromptText( "Enter Player Name" );
+        addTextLimiter( pField, 25 );
+        pField.setPrefHeight( 30 );
+        pField.setMaxWidth( 200 );
+        this.setConstraints( pField, 0, row );
+        return pField;
+    }
+
+    private ComboBox<String> createIconDropDown(ObservableList<String> options, int row) {
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.getItems().addAll( options );
+        this.setConstraints( comboBox, 1, row );
+        comboBox.setCellFactory( param -> new CellFactory() );
+        comboBox.setButtonCell( new CellFactory() );
+        return comboBox;
+    }
+
+    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) {
         if (! this.hasEnoughPlayers()) {
             Alert formAlert = new Alert(Alert.AlertType.ERROR);
             formAlert.setContentText("Not enough players signed up! (need >= 2)");
             formAlert.showAndWait();
             return;
         }
-        myScreen.handleStartGameButton(playerFields);
+        myScreen.handleStartGameButton(playerToIcon);
     }
 
     public boolean hasEnoughPlayers() {
         int empties = 0;
-        for (TextField p : playerFields)
+        for (TextField p : playerToIcon.keySet())
             if (p.getText().equals(""))
                 empties++;
         return empties <= 2;
@@ -129,8 +142,17 @@ public class FormView extends VBox {
         });
     }
 
-    private List<TextField> getPlayerFields() {
-        return playerFields;
+//    private List<TextField> getPlayerFields() {
+//        return playerFields;
+//    }
+
+    public Map<TextField, ComboBox> getPlayerToIcon(){
+        return playerToIcon;
     }
+
+
+
+
+
 
 }

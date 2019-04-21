@@ -18,7 +18,7 @@ public class PropertyCard extends AbstractCard {
     private List<String> upgradeOrder;
     private String titleDeed;
     private String category;
-    private Double tilePrice;
+    private double tilePrice;
 
     public PropertyCard(double propertyMortgageValue, Map<String, Double> priceLookupTable, List<String> upgradeOrder,
                         String titleDeed, String category, Map<String, Integer> specificToNumeric, Double tilePrice) {
@@ -28,18 +28,18 @@ public class PropertyCard extends AbstractCard {
         this.titleDeed = titleDeed;
         this.category = category;
         this.specificToNumeric = specificToNumeric;
-        this.tilePrice = tilePrice;
 
     }
 
     public PropertyCard(Node node){
         Element element = (Element) node;
-        double propertyMortgageValue = Double.parseDouble(getTagValue("TileMortgageValue", element));
-        String titleDeed = getTagValue("TitleDeed", element);
-        String category = getTagValue("TileColor", element);
-        Map<String, Double> buildingPriceLookupTable = new HashMap<>();
-        List<String> upgradeOrder = new ArrayList<>();
-        Map<String, Integer> specificToNumeric = new HashMap<>();
+        tilePrice = Double.parseDouble(getTagValue("TilePrice", element));
+        propertyMortgageValue = Double.parseDouble(getTagValue("TileMortgageValue", element));
+        titleDeed = getTagValue("TitleDeed", element);
+        category = getTagValue("TileColor", element);
+        rentPriceLookupTable = new HashMap<>();
+        upgradeOrder = new ArrayList<>();
+        specificToNumeric = new HashMap<>();
 
         NodeList upgrades = element.getElementsByTagName("Upgrades");
         for(int i = 0; i<upgrades.getLength();i++){
@@ -50,15 +50,9 @@ public class PropertyCard extends AbstractCard {
             int numeric = Integer.parseInt(entry[1]);
             Double rentPrice = Double.parseDouble(entry[3]);
             upgradeOrder.add(upgrade);
-            buildingPriceLookupTable.put(upgrade, rentPrice);
+            rentPriceLookupTable.put(upgrade, rentPrice);
             specificToNumeric.put(upgrade, numeric);
         }
-        this.propertyMortgageValue = propertyMortgageValue;
-        this.rentPriceLookupTable = buildingPriceLookupTable;
-        this.upgradeOrder = upgradeOrder;
-        this.titleDeed = titleDeed;
-        this.category = category;
-        this.specificToNumeric = specificToNumeric;
     }
 
     public double getMortgageValue(){
@@ -96,7 +90,7 @@ public class PropertyCard extends AbstractCard {
         return upgradeOrder.indexOf(current);
     }
 
-    @Override
+//    @Override
     public void applyTo(AbstractPlayer player) {
         return;
     }
@@ -123,4 +117,7 @@ public class PropertyCard extends AbstractCard {
         return this.category;
     }
 
+    public String getTitleDeed() {
+        return titleDeed;
+    }
 }

@@ -20,7 +20,7 @@ public class JailTile extends Tile {
 
     public JailTile(Element n){
         criminals = new HashSet<>();
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 
     @Override
@@ -35,5 +35,6 @@ public class JailTile extends Tile {
     public void removeCriminal(AbstractPlayer player) {
         //throw exception?? if player is not in the hashset
         criminals.remove(player);
+        player.getOutOfJail();
     }
 }

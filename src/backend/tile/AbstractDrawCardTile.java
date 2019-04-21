@@ -3,7 +3,6 @@ package backend.tile;
 import backend.assetholder.AbstractPlayer;
 import backend.card.AbstractCard;
 import backend.deck.DeckInterface;
-import controller.Actions;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -28,8 +27,9 @@ public abstract class AbstractDrawCardTile extends Tile {
         return possibleActions;
     }
 
-    public AbstractDrawCardTile( Element n) {
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+
+    public AbstractDrawCardTile(Element n) {
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         //TODO: Finish this implementation
     }
 

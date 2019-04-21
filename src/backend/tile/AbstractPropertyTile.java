@@ -6,8 +6,6 @@ import backend.assetholder.Bank;
 import backend.card.PropertyCard;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,6 @@ import java.util.Map;
 public abstract class AbstractPropertyTile extends Tile {
 
     private String tiletype;
-    //private double tileprice;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
@@ -24,13 +21,12 @@ public abstract class AbstractPropertyTile extends Tile {
     private String currentInUpgradeOrder;
     private int index;
 
-    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, double tileprice, int index) {
+    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, int index) {
         this.owner = bank;
         this.bank = bank;
         //throw exception if card is not propertycard type
         this.card = card;
         this.tiletype = tiletype;
-//        this.tileprice = tileprice;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
         this.index =index;
@@ -41,12 +37,9 @@ public abstract class AbstractPropertyTile extends Tile {
         this.bank = bank;
         card = new PropertyCard(n.getElementsByTagName("Card").item(0));
         tiletype = getTagValue("TileType", n);
-      //  tileprice = Double.parseDouble(getTagValue("TilePrice", n));
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
-
-//        tileprice = Double.parseDouble(getTagValue("TilePrice", n));
     }
 
     //fix this
@@ -55,19 +48,21 @@ public abstract class AbstractPropertyTile extends Tile {
         List<String> possibleActions = new ArrayList<>(  );
 
 //        //controller will send player option to buy property? interact with front-end
-        if (getOwner() instanceof Bank) {
+        if (isBuyableFromBank()) {
             possibleActions.add("buy");
             possibleActions.add("auction");
         }
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
-//            player.paysTo(getOwner(), calculateRentPrice());
+
+
+//      player.payFullAmountTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;
     }
 
     //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
-//    public abstract double sellToBankPrice();
+//    public abstract double sellBuildingToBankPrice();
 //        if (!isMortgaged()) {
 ////            return tileprice/2;
 //            getCard().
@@ -102,7 +97,8 @@ public abstract class AbstractPropertyTile extends Tile {
      */
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
-        assetHolder.paysTo( owner, price );
+        assetHolder.payFullAmountTo( owner, price );
+
         owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
@@ -116,10 +112,8 @@ public abstract class AbstractPropertyTile extends Tile {
     public void mortgageProperty() {
         //need to turn over card on front end
         if (!isMortgaged()) {
-            if(card instanceof PropertyCard) {
-                bank.paysTo(owner, ((PropertyCard) card).getMortgageValue() );
+                bank.payFullAmountTo(owner, card.getMortgageValue() );
                 this.mortgaged = true;
-            }
         }
         else {
             //throw exception: HOUSE IS ALREADY MORTGAGED
@@ -128,10 +122,8 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
-            if (card instanceof PropertyCard) {
-                owner.paysTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+                owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
                 this.mortgaged = false;
-            }
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -143,7 +135,8 @@ public abstract class AbstractPropertyTile extends Tile {
     // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
-            owner.paysTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -187,6 +180,22 @@ public abstract class AbstractPropertyTile extends Tile {
         currentInUpgradeOrder = newOrder;
     }
 
+    public void recalculateTotalPropertiesLeftOneBuildingUpdate(Map<String,Integer> totalPropertiesLeft){
+        //do nothing
+    }
+
+    public void recalculateTotalPropertiesLeftAfterWholeSale(Map<String,Integer> totalPropertiesLeft){
+        //do nothing
+    }
+
+    public String getTitleDeed() {
+        return card.getTitleDeed();
+    }
+
+    public double getTilePrice() {
+        return card.getTilePrice();
+    }
+
     // maybe make an abstractTile class instead of an tile
     //private String getTagValue(String tag, Element element) {
     //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -199,7 +208,10 @@ public abstract class AbstractPropertyTile extends Tile {
 //    }
 
     //    public void buyPropertyFromPlayer(AbstractPlayer player, double price) {
-//        player.paysTo(owner,price);
+
+//        player.paysFullAmountTo(owner,price);
+//        player.payFullAmountTo(owner,price);
+
 //        switchOwner(player);
 //        player.addProperty(this);
 //    }
@@ -212,7 +224,9 @@ public abstract class AbstractPropertyTile extends Tile {
 ////        }
 //        if (owner.equals(bank)) {
 //            player.addProperty(this);
-//            player.paysTo( bank, tileprice );
+
+//
+//            player.payFullAmountTo( bank, tileprice );
 //            switchOwner(player);
 //        }
 //        else {
@@ -221,14 +235,5 @@ public abstract class AbstractPropertyTile extends Tile {
 //    }
 
 
-    // If you are the new owner, you may lift the mortgage at once if you wish by paying
-    // off the mortgage plus 10% interest to the Bank.
-//       public void soldMortgagedPropertyImmediatelyUnmortgages(AbstractPlayer player, double price) {
-//        if (isMortgaged()) {
-//            unmortgageProperty();
-//        }
-//        else {
-//            //throw exception: HOUSE IS NOT MORTGAGED
-//        }
-//    }
+
 }

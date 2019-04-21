@@ -33,7 +33,20 @@ public abstract class AbstractAssetHolder{
         return properties;
     }
 
-    public abstract void paysTo (AbstractAssetHolder receiver, Double debt);
+    public abstract void payFullAmountTo(AbstractAssetHolder receiver, Double debt);
+
+    public abstract boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties);
+
+    public List<AbstractPropertyTile> ownsSublistOfPropertiesIn(List<AbstractPropertyTile> properties){
+        List<AbstractPropertyTile> propertiesOwnedBy = new ArrayList<>();
+        for (AbstractPropertyTile tile : properties) {
+            if (tile.getOwner().equals(this)) {
+                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
+                propertiesOwnedBy.add( tile );
+            }
+        }
+        return propertiesOwnedBy;
+    }
 
     @Override
     public boolean equals (Object o) {
