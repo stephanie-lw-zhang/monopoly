@@ -55,10 +55,7 @@ public abstract class AbstractPropertyTile extends Tile {
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
 
-<<<<<<< HEAD
-=======
-//            player.payFullAmountTo(getOwner(), calculateRentPrice());
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
+
         }
         return possibleActions;
     }
@@ -114,7 +111,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void mortgageProperty() {
         //need to turn over card on front end
         if (!isMortgaged()) {
-                bank.payFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
+                bank.payFullAmountTo(owner, card.getMortgageValue() );
                 this.mortgaged = true;
         }
         else {
@@ -124,13 +121,7 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
-<<<<<<< HEAD
-
-                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
-
-=======
-                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
+                owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
                 this.mortgaged = false;
         }
         else {
@@ -143,13 +134,9 @@ public abstract class AbstractPropertyTile extends Tile {
     // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
-<<<<<<< HEAD
 
-            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+            owner.payFullAmountTo(bank, card.getMortgageValue() * 0.1);
 
-=======
-            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -206,8 +193,7 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
 
-<<<<<<< HEAD
-=======
+
     // maybe make an abstractTile class instead of an tile
     //private String getTagValue(String tag, Element element) {
     //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -246,6 +232,5 @@ public abstract class AbstractPropertyTile extends Tile {
 //        }
 //    }
 
->>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
 
 }
