@@ -33,6 +33,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import controller.Game;
@@ -138,10 +140,16 @@ public class TestingScreen extends AbstractScreen {
                 myGame.getMyDice().getNumStates()
         );
 
-        TextArea playersText = new TextArea();
-        playersText.setText("Joined Players: \n" + getPlayersText());
-        playersText.setEditable(false);
+        TextFlow playersText = new TextFlow();
+        Text title = new Text("Joined Players: \n");
+        playersText.getChildren().add( title );
+//        playersText.setText("Joined Players: \n" + getPlayersText());
+//        playersText.setEditable(false);
+        setPlayerNameAndIcon( playersText );
         playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
+        playersText.setStyle( "-fx-background-color: white" );
+        playersText.setMaxWidth(Control.USE_PREF_SIZE);
+        playersText.setMaxHeight(Control.USE_PREF_SIZE);
 
         TextArea currPlayerText = new TextArea();
         currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
@@ -255,11 +263,19 @@ public class TestingScreen extends AbstractScreen {
         }
     }
 
-    private String getPlayersText() {
-        StringBuilder sb = new StringBuilder();
-        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList())
-            sb.append(p.getMyPlayerName() + "\n");
-        return sb.toString();
+    private void setPlayerNameAndIcon(TextFlow box) {
+        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList()){
+            Text player = new Text(p.getMyPlayerName());
+//            System.out.println(p.getMyPlayerName());
+//            System.out.println();
+//            System.out.println(myFormView.getIconFor( p.getMyPlayerName() ));
+            ImageView icon = new ImageView(  "icon1.png");
+            icon.setFitWidth( 25 );
+            icon.setFitHeight( 25 );
+            icon.setPreserveRatio( true );
+            Text nextLine = new Text("\n");
+            box.getChildren().addAll( player, icon, nextLine );
+        }
     }
 
     private AbstractBoard makeBoard(List<TextField> playerFields) {
