@@ -17,9 +17,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.util.Callback;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -73,25 +75,38 @@ public class FormView extends GridPane {
         icon4.setFitWidth( 50 );
         icon4.setPreserveRatio( true );
 
-        ObservableList<ImageView> options = FXCollections.observableArrayList();
-        options.addAll( icon1, icon2, icon3, icon4 );
-        ComboBox<ImageView> comboBox1 = new ComboBox<>();
+        ObservableList<String> options = FXCollections.observableArrayList();
+        options.addAll( "icon1", "icon2", "icon3", "icon4" );
+        ComboBox<String> comboBox1 = new ComboBox<>();
         comboBox1.getItems().addAll(options );
         this.setConstraints( comboBox1, 1, 1);
+        comboBox1.setCellFactory(param -> new CellFactory());
+        comboBox1.setButtonCell(new CellFactory());
 
-        ComboBox<ImageView> comboBox2 = new ComboBox<>();
+
+        ComboBox<String> comboBox2 = new ComboBox<>();
         comboBox2.getItems().addAll(options );
         this.setConstraints( comboBox2, 1, 2 );
+        comboBox2.setCellFactory(param -> new CellFactory());
+        comboBox2.setButtonCell(new CellFactory());
 
 
-        ComboBox<ImageView> comboBox3 = new ComboBox<>();
+
+
+        ComboBox<String> comboBox3 = new ComboBox<>();
         comboBox3.getItems().addAll(options );
         this.setConstraints( comboBox3, 1, 3 );
+        comboBox3.setCellFactory(param -> new CellFactory());
+        comboBox3.setButtonCell(new CellFactory());
 
 
-        ComboBox<ImageView> comboBox4 = new ComboBox<>();
+
+        ComboBox<String> comboBox4 = new ComboBox<>();
         comboBox4.getItems().addAll(options );
         this.setConstraints( comboBox4, 1, 4 );
+        comboBox4.setCellFactory(param -> new CellFactory());
+        comboBox4.setButtonCell(new CellFactory());
+
 
 
 
@@ -205,5 +220,8 @@ public class FormView extends GridPane {
     private List<TextField> getPlayerFields() {
         return playerFields;
     }
+
+
+
 
 }
