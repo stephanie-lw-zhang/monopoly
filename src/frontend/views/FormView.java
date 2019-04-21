@@ -18,17 +18,17 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FormView extends GridPane {
 
-    private List<TextField> playerFields;
+//    private List<TextField> playerFields;
+//    private List<ComboBox> iconList;
     private Button submitFormButton;
     private TestingScreen myScreen;
     private final int POSSIBLE_PLAYERS = 4; //TODO: READ IN FROM DATA FILE
+    private Map<TextField, ComboBox> playerToIcon;
 
 
     public FormView(TestingScreen screen) {
@@ -60,22 +60,26 @@ public class FormView extends GridPane {
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll( "icon1", "icon2", "icon3", "icon4" );
 
-        playerFields = new ArrayList<>();
+//        playerFields = new ArrayList<>();
+        playerToIcon = new HashMap<>(  );
 
         for(int i = 1; i<= POSSIBLE_PLAYERS; i++){
             ComboBox<String> comboBox = createIconDropDown( options, i );
             TextField pField = createPlayerTextField( i );
             this.getChildren().addAll( comboBox, pField );
-            playerFields.add( pField );
+            playerToIcon.put( pField, comboBox );
         }
 
         submitFormButton = new Button("START GAME");
         submitFormButton.setPrefHeight(20);
         submitFormButton.setPrefWidth(150);
         submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                handleSubmitFormButton(getPlayerFields());
+//            }
             public void handle(ActionEvent actionEvent) {
-                handleSubmitFormButton(getPlayerFields());
+                handleSubmitFormButton(getPlayerToIcon());
             }
         });
         this.setConstraints( submitFormButton, 1, 6);
@@ -103,19 +107,19 @@ public class FormView extends GridPane {
         return comboBox;
     }
 
-    private void handleSubmitFormButton(List<TextField> playerFields) {
+    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) {
         if (! this.hasEnoughPlayers()) {
             Alert formAlert = new Alert(Alert.AlertType.ERROR);
             formAlert.setContentText("Not enough players signed up! (need >= 2)");
             formAlert.showAndWait();
             return;
         }
-        myScreen.handleStartGameButton(playerFields);
+        myScreen.handleStartGameButton(playerToIcon);
     }
 
     public boolean hasEnoughPlayers() {
         int empties = 0;
-        for (TextField p : playerFields)
+        for (TextField p : playerToIcon.keySet())
             if (p.getText().equals(""))
                 empties++;
         return empties <= 2;
@@ -138,8 +142,12 @@ public class FormView extends GridPane {
         });
     }
 
-    private List<TextField> getPlayerFields() {
-        return playerFields;
+//    private List<TextField> getPlayerFields() {
+//        return playerFields;
+//    }
+
+    public Map<TextField, ComboBox> getPlayerToIcon(){
+        return playerToIcon;
     }
 
 

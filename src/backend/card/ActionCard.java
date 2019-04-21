@@ -2,10 +2,10 @@ package backend.card;
 
 import backend.board.AbstractBoard;
 
-public abstract class ApplicationCard {
+public abstract class ActionCard {
         private AbstractBoard board;
 
-        public ApplicationCard(AbstractBoard board) {
+        public ActionCard(AbstractBoard board) {
                 this.board = board;
         }
 

@@ -7,9 +7,6 @@ import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import backend.tile.AbstractPropertyTile;
-import backend.tile.GoTile;
-import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import frontend.screens.TestingScreen;
@@ -22,8 +19,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
 
@@ -38,7 +35,7 @@ public class Game {
     private Bank                myBank;
 
 
-    public Game(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, List<TextField> playerFields) {
+    public Game(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, Map<TextField, ComboBox> playerToIcon) {
         myDice = dice;
         chanceDeck = chanceDeck;
         chestDeck = chestDeck;
@@ -58,13 +55,11 @@ public class Game {
         // make first param list of players
         myPlayers = new ArrayList<>();
         //TODO: need money read in from data file
-        for (TextField t : playerFields) {
-            if (!t.getText().equals("")) {
-                myPlayers.add(new HumanPlayer(t.getText(),1500.0, myBank));
+        for (TextField player: playerToIcon.keySet()){
+            if (!player.getText().equals("")) {
+                myPlayers.add(new HumanPlayer(player.getText(), 1500.0, myBank));
             }
         }
-
-
 
 
         //should game create board? and who creates game?
