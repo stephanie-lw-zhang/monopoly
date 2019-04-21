@@ -189,8 +189,8 @@ public class TestingScreen extends AbstractScreen {
                     try {
                         auctionAmount.put(key, Double.parseDouble((value)));
                     } catch (NumberFormatException n) {
-                         new IllegalInputTypeException("Input must be a number!");
-                         i--;
+                        new IllegalInputTypeException("Input must be a number!");
+                        i--;
                     }
                 }
                 Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
@@ -271,9 +271,7 @@ public class TestingScreen extends AbstractScreen {
 
     private void setPlayerNameAndIcon(TextFlow box) {
         for (TextField p : myFormView.getPlayerToIcon().keySet()){
-            //CURRENTLY ONLY WORKS WHEN ALL FIELDS ARE FILLED IN
-//            if(p.getText() == null || p.getText().trim().isEmpty()){
-//                System.out.println("\n" + "here");
+            if(!p.getText().equals("")){
                 Text player = new Text(p.getText());
                 ImageView icon = new ImageView(  myFormView.getPlayerToIcon().get( p ).getValue() + ".png");
                 icon.setFitWidth( 25 );
@@ -281,7 +279,7 @@ public class TestingScreen extends AbstractScreen {
                 icon.setPreserveRatio( true );
                 Text nextLine = new Text("\n");
                 box.getChildren().addAll( player, icon, nextLine );
-//            }
+            }
         }
     }
 
