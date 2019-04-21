@@ -29,7 +29,6 @@
         <TileNumber>1</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Brown</TileColor>
-        <TilePrice>60</TilePrice>
         <Card>
             <TitleDeed>Mediterranean Avenue</TitleDeed>
             <TileColor>Brown</TileColor>
@@ -54,6 +53,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,250,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>60</TilePrice>
             <TileMortgageValue>30</TileMortgageValue>
             <TileHousePrice>50</TileHousePrice>
             <TileHotelPrice>50</TileHotelPrice>
@@ -72,7 +72,6 @@
         <TileNumber>3</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Brown</TileColor>
-        <TilePrice>60</TilePrice>
         <Card>
             <TitleDeed>Baltic Avenue</TitleDeed>
             <TileColor>Brown</TileColor>
@@ -97,6 +96,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,450,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>60</TilePrice>
             <TileMortgageValue>30</TileMortgageValue>
             <TileHousePrice>50</TileHousePrice>
             <TileHotelPrice>50</TileHotelPrice>
@@ -117,7 +117,6 @@
     <Tile>
         <TileNumber>5</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>King's Cross Station</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -133,6 +132,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>6</NextTiles>
         </Card>
@@ -143,7 +143,6 @@
         <TileNumber>6</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Sky Blue</TileColor>
-        <TilePrice>100</TilePrice>
         <Card>
             <TitleDeed>Oriental Avenue</TitleDeed>
             <TileColor>Sky Blue</TileColor>
@@ -168,6 +167,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,550,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>100</TilePrice>
             <TileMortgageValue>50</TileMortgageValue>
             <TileHousePrice>50</TileHousePrice>
             <TileHotelPrice>50</TileHotelPrice>
@@ -186,7 +186,6 @@
         <TileNumber>8</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Sky Blue</TileColor>
-        <TilePrice>100</TilePrice>
         <Card>
             <TitleDeed>Vermont Avenue</TitleDeed>
             <TileColor>Sky Blue</TileColor>
@@ -211,6 +210,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,550,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>100</TilePrice>
             <TileMortgageValue>50</TileMortgageValue>
             <TileHousePrice>50</TileHousePrice>
             <TileHotelPrice>50</TileHotelPrice>
@@ -223,7 +223,6 @@
         <TileNumber>9</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Sky Blue</TileColor>
-        <TilePrice>120</TilePrice>
         <Card>
             <TitleDeed>Connecticut Avenue</TitleDeed>
             <TileColor>Sky Blue</TileColor>
@@ -248,6 +247,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,600,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>120</TilePrice>
             <TileMortgageValue>50</TileMortgageValue>
             <TileHousePrice>50</TileHousePrice>
             <TileHotelPrice>50</TileHotelPrice>
@@ -267,7 +267,6 @@
         <TileNumber>11</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
-        <TilePrice>140</TilePrice>
         <Card>
             <TitleDeed>St. Charles Place</TitleDeed>
             <TileColor>Magenta</TileColor>
@@ -292,6 +291,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,750,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>140</TilePrice>
             <TileMortgageValue>70</TileMortgageValue>
             <TileHousePrice>100</TileHousePrice>
             <TileHotelPrice>100</TileHotelPrice>
@@ -302,7 +302,6 @@
     <Tile>
         <TileNumber>12</TileNumber>
         <TileType>UtilityTile</TileType>
-        <TilePrice>150</TilePrice>
         <Card>
             <TitleDeed>Electric Company</TitleDeed>
             <TileColor>Utility</TileColor>
@@ -312,6 +311,7 @@
             <Upgrades>
                 <Upgrade>2Utility,2,,10</Upgrade>
             </Upgrades>
+            <TilePrice>150</TilePrice>
             <TileMortgageValue>75</TileMortgageValue>
             <NextTiles>13</NextTiles>
         </Card>
@@ -323,7 +323,6 @@
         <TileNumber>13</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
-        <TilePrice>140</TilePrice>
         <Card>
             <TitleDeed>States Avenue</TitleDeed>
             <TileColor>Magenta</TileColor>
@@ -348,6 +347,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,750,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>140</TilePrice>
             <TileMortgageValue>70</TileMortgageValue>
             <TileHousePrice>100</TileHousePrice>
             <TileHotelPrice>100</TileHotelPrice>
@@ -359,7 +359,6 @@
         <TileNumber>14</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
-        <TilePrice>160</TilePrice>
         <Card>
             <TitleDeed>Virginia Avenue</TitleDeed>
             <TileColor>Magenta</TileColor>
@@ -384,6 +383,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,950,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>160</TilePrice>
             <TileMortgageValue>80</TileMortgageValue>
             <TileHousePrice>100</TileHousePrice>
             <TileHotelPrice>100</TileHotelPrice>
@@ -394,7 +394,6 @@
     <Tile>
         <TileNumber>15</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>Pennsylvania Railroad</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -410,6 +409,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>16</NextTiles>
         </Card>
@@ -419,7 +419,6 @@
         <TileNumber>16</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
-        <TilePrice>180</TilePrice>
         <Card>
             <TitleDeed>St. James Place</TitleDeed>
             <TileColor>Orange</TileColor>
@@ -444,6 +443,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,950,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>180</TilePrice>
             <TileMortgageValue>90</TileMortgageValue>
             <TileHousePrice>100</TileHousePrice>
             <TileHotelPrice>100</TileHotelPrice>
@@ -463,7 +463,6 @@
         <TileNumber>18</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
-        <TilePrice>180</TilePrice>
         <Card>
             <TitleDeed>Tennessee Avenue</TitleDeed>
             <TileColor>Orange</TileColor>
@@ -488,6 +487,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,950,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>180</TilePrice>
             <TileMortgageValue>90</TileMortgageValue>
             <TileHousePrice>100</TileHousePrice>
             <TileHotelPrice>100</TileHotelPrice>
@@ -500,7 +500,6 @@
         <TileNumber>19</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
-        <TilePrice>180</TilePrice>
         <Card>
             <TitleDeed>New York Avenue</TitleDeed>
             <TileColor>Orange</TileColor>
@@ -525,6 +524,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1000,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>180</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <TileHousePrice>100</TileHousePrice>
             <TileHotelPrice>100</TileHotelPrice>
@@ -544,7 +544,6 @@
         <TileNumber>21</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
-        <TilePrice>220</TilePrice>
         <Card>
             <TitleDeed>Kentucky Avenue</TitleDeed>
             <TileColor>Red</TileColor>
@@ -569,6 +568,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1050,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>220</TilePrice>
             <TileMortgageValue>110</TileMortgageValue>
             <TileHousePrice>150</TileHousePrice>
             <TileHotelPrice>150</TileHotelPrice>
@@ -586,7 +586,6 @@
         <TileNumber>23</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
-        <TilePrice>220</TilePrice>
         <Card>
             <TitleDeed>Indiana Avenue</TitleDeed>
             <TileColor>Red</TileColor>
@@ -611,6 +610,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1050,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>220</TilePrice>
             <TileMortgageValue>110</TileMortgageValue>
             <TileHousePrice>150</TileHousePrice>
             <TileHotelPrice>150</TileHotelPrice>
@@ -622,7 +622,6 @@
         <TileNumber>24</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
-        <TilePrice>240</TilePrice>
         <Card>
             <TitleDeed>Illinois Avenue</TitleDeed>
             <TileColor>Red</TileColor>
@@ -647,6 +646,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1100,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>240</TilePrice>
             <TileMortgageValue>120</TileMortgageValue>
             <TileHousePrice>150</TileHousePrice>
             <TileHotelPrice>150</TileHotelPrice>
@@ -658,7 +658,6 @@
     <Tile>
         <TileNumber>25</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>B. and O. Railroad</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -674,6 +673,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>26</NextTiles>
         </Card>
@@ -684,7 +684,6 @@
         <TileNumber>26</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
-        <TilePrice>260</TilePrice>
         <Card>
             <TitleDeed>Atlantic Avenue</TitleDeed>
             <TileColor>Yellow</TileColor>
@@ -709,6 +708,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1150,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>260</TilePrice>
             <TileMortgageValue>130</TileMortgageValue>
             <TileHousePrice>150</TileHousePrice>
             <TileHotelPrice>150</TileHotelPrice>
@@ -721,7 +721,6 @@
         <TileNumber>27</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
-        <TilePrice>260</TilePrice>
         <Card>
             <TitleDeed>Ventnor Avenue</TitleDeed>
             <TileColor>Yellow</TileColor>
@@ -746,6 +745,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1150,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>260</TilePrice>
             <TileMortgageValue>130</TileMortgageValue>
             <TileHousePrice>150</TileHousePrice>
             <TileHotelPrice>150</TileHotelPrice>
@@ -756,7 +756,6 @@
     <Tile>
         <TileNumber>28</TileNumber>
         <TileType>UtilityTile</TileType>
-        <TilePrice>150</TilePrice>
         <Card>
             <TitleDeed>Water Works</TitleDeed>
             <TileColor>Utility</TileColor>
@@ -766,6 +765,7 @@
             <Upgrades>
                 <Upgrade>2Utility,2,,10</Upgrade>
             </Upgrades>
+            <TilePrice>150</TilePrice>
             <TileMortgageValue>75</TileMortgageValue>
             <NextTiles>29</NextTiles>
         </Card>
@@ -775,7 +775,6 @@
         <TileNumber>29</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
-        <TilePrice>280</TilePrice>
         <Card>
             <TitleDeed>Marvin Gardens</TitleDeed>
             <TileColor>Yellow</TileColor>
@@ -800,6 +799,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1200,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>280</TilePrice>
             <TileMortgageValue>140</TileMortgageValue>
             <TileHousePrice>150</TileHousePrice>
             <TileHotelPrice>150</TileHotelPrice>
@@ -819,7 +819,6 @@
         <TileNumber>31</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
-        <TilePrice>300</TilePrice>
         <Card>
             <TitleDeed>Pacific Avenue</TitleDeed>
             <TileColor>Green</TileColor>
@@ -844,6 +843,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1275,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>300</TilePrice>
             <TileMortgageValue>150</TileMortgageValue>
             <TileHousePrice>200</TileHousePrice>
             <TileHotelPrice>200</TileHotelPrice>
@@ -856,7 +856,6 @@
         <TileNumber>32</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
-        <TilePrice>300</TilePrice>
         <Card>
             <TitleDeed>North Carolina Avenue</TitleDeed>
             <TileColor>Green</TileColor>
@@ -881,6 +880,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1275,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>300</TilePrice>
             <TileMortgageValue>150</TileMortgageValue>
             <TileHousePrice>200</TileHousePrice>
             <TileHotelPrice>200</TileHotelPrice>
@@ -901,7 +901,6 @@
         <TileNumber>34</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
-        <TilePrice>320</TilePrice>
         <Card>
             <TitleDeed>Pennsylvania Avenue</TitleDeed>
             <TileColor>Green</TileColor>
@@ -926,6 +925,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1400,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>320</TilePrice>
             <TileMortgageValue>160</TileMortgageValue>
             <TileHousePrice>200</TileHousePrice>
             <TileHotelPrice>200</TileHotelPrice>
@@ -936,7 +936,6 @@
     <Tile>
         <TileNumber>35</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>Short Line Railroad</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -952,6 +951,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>36</NextTiles>
         </Card>
@@ -968,7 +968,6 @@
         <TileNumber>37</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
-        <TilePrice>350</TilePrice>
         <Card>
             <TitleDeed>Park Place</TitleDeed>
             <TileColor>Blue</TileColor>
@@ -993,6 +992,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,1500,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>350</TilePrice>
             <TileMortgageValue>175</TileMortgageValue>
             <TileHousePrice>200</TileHousePrice>
             <TileHotelPrice>200</TileHotelPrice>
@@ -1015,7 +1015,6 @@
         <TileNumber>39</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
-        <TilePrice>400</TilePrice>
         <Card>
             <TitleDeed>Boardwalk</TitleDeed>
             <TileColor>Blue</TileColor>
@@ -1040,6 +1039,7 @@
             <Upgrades>
                 <Upgrade>Hotel,1,Hotel,2000,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>400</TilePrice>
             <TileMortgageValue>200</TileMortgageValue>
             <TileHousePrice>200</TileHousePrice>
             <TileHotelPrice>200</TileHotelPrice>

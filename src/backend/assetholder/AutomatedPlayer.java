@@ -5,4 +5,5 @@ public class AutomatedPlayer extends AbstractPlayer {
         super("CPU", money, bank );
     }
 
+
 }

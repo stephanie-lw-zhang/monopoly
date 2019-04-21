@@ -40,7 +40,6 @@ public class XMLData {
 //            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
-
             NodeList tileList = doc.getElementsByTagName("Tile");
             NodeList banks = doc.getElementsByTagName("Bank");
             getBank(banks.item(0));

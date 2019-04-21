@@ -56,7 +56,11 @@ public abstract class AbstractPropertyTile extends Tile {
         }
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
+
+<<<<<<< HEAD
+=======
 //            player.payFullAmountTo(getOwner(), calculateRentPrice());
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
         }
         return possibleActions;
     }
@@ -98,6 +102,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.payFullAmountTo( owner, price );
+
         owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
@@ -121,7 +126,13 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
+<<<<<<< HEAD
+
                 owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+
+=======
+                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
                 this.mortgaged = false;
         }
         else {
@@ -134,7 +145,13 @@ public abstract class AbstractPropertyTile extends Tile {
     // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
+<<<<<<< HEAD
+
             owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+
+=======
+            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -195,6 +212,8 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
 
+<<<<<<< HEAD
+=======
     // maybe make an abstractTile class instead of an tile
     //private String getTagValue(String tag, Element element) {
     //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -207,7 +226,10 @@ public abstract class AbstractPropertyTile extends Tile {
 //    }
 
     //    public void buyPropertyFromPlayer(AbstractPlayer player, double price) {
+
+//        player.paysFullAmountTo(owner,price);
 //        player.payFullAmountTo(owner,price);
+
 //        switchOwner(player);
 //        player.addProperty(this);
 //    }
@@ -220,6 +242,8 @@ public abstract class AbstractPropertyTile extends Tile {
 ////        }
 //        if (owner.equals(bank)) {
 //            player.addProperty(this);
+
+//
 //            player.payFullAmountTo( bank, tileprice );
 //            switchOwner(player);
 //        }
@@ -228,15 +252,6 @@ public abstract class AbstractPropertyTile extends Tile {
 //        }
 //    }
 
+>>>>>>> 00ebac6a2b828f7ee33ad2136f4b34918f16526c
 
-    // If you are the new owner, you may lift the mortgage at once if you wish by paying
-    // off the mortgage plus 10% interest to the Bank.
-//       public void soldMortgagedPropertyImmediatelyUnmortgages(AbstractPlayer player, double price) {
-//        if (isMortgaged()) {
-//            unmortgageProperty();
-//        }
-//        else {
-//            //throw exception: HOUSE IS NOT MORTGAGED
-//        }
-//    }
 }

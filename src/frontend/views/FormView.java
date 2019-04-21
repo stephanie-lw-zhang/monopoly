@@ -11,28 +11,25 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.util.Callback;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FormView extends GridPane {
 
     private List<TextField> playerFields;
     private Button submitFormButton;
     private TestingScreen myScreen;
-    private List<ComboBox<ImageView>> comboBoxes;
+    private final int POSSIBLE_PLAYERS = 4; //TODO: READ IN FROM DATA FILE
+
 
     public FormView(TestingScreen screen) {
         myScreen = screen;
@@ -51,99 +48,26 @@ public class FormView extends GridPane {
 //        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 //        this.setConstraints( headerLabel,0,0 );
 
-        ImageView icon1 = new ImageView();
-        icon1.setImage(new Image("icon1.png"));
-        icon1.setFitWidth( 40 );
-        icon1.setFitWidth( 40 );
-        icon1.setPreserveRatio( true );
+        ImageView headerImg = new ImageView();
+        headerImg.setImage(new Image("monopopout.png"));
+        headerImg.setFitWidth(400);
+        headerImg.setPreserveRatio(true);
+        headerImg.setSmooth(true);
+        headerImg.setCache(true);
 
-        ImageView icon2 = new ImageView();
-        icon2.setImage(new Image("icon2.png"));
-        icon2.setFitWidth( 50 );
-        icon2.setFitWidth( 50 );
-        icon2.setPreserveRatio( true );
-
-        ImageView icon3 = new ImageView();
-        icon3.setImage(new Image("icon3.png"));
-        icon3.setFitWidth( 50 );
-        icon3.setFitWidth( 50 );
-        icon3.setPreserveRatio( true );
-
-        ImageView icon4 = new ImageView();
-        icon4.setImage(new Image("icon4.png"));
-        icon4.setFitWidth( 50 );
-        icon4.setFitWidth( 50 );
-        icon4.setPreserveRatio( true );
+        this.getChildren().add( headerImg );
 
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll( "icon1", "icon2", "icon3", "icon4" );
-        ComboBox<String> comboBox1 = new ComboBox<>();
-        comboBox1.getItems().addAll(options );
-        this.setConstraints( comboBox1, 1, 1);
-        comboBox1.setCellFactory(param -> new CellFactory());
-        comboBox1.setButtonCell(new CellFactory());
 
+        playerFields = new ArrayList<>();
 
-        ComboBox<String> comboBox2 = new ComboBox<>();
-        comboBox2.getItems().addAll(options );
-        this.setConstraints( comboBox2, 1, 2 );
-        comboBox2.setCellFactory(param -> new CellFactory());
-        comboBox2.setButtonCell(new CellFactory());
-
-
-
-
-        ComboBox<String> comboBox3 = new ComboBox<>();
-        comboBox3.getItems().addAll(options );
-        this.setConstraints( comboBox3, 1, 3 );
-        comboBox3.setCellFactory(param -> new CellFactory());
-        comboBox3.setButtonCell(new CellFactory());
-
-
-
-        ComboBox<String> comboBox4 = new ComboBox<>();
-        comboBox4.getItems().addAll(options );
-        this.setConstraints( comboBox4, 1, 4 );
-        comboBox4.setCellFactory(param -> new CellFactory());
-        comboBox4.setButtonCell(new CellFactory());
-
-
-
-
-        TextField p1Field = new TextField();
-        p1Field.setPromptText("Enter Player Name");
-        addTextLimiter(p1Field, 25);
-        p1Field.setPrefHeight(30);
-        p1Field.setMaxWidth(200);
-        this.setConstraints( p1Field, 0, 1 );
-
-
-
-
-        TextField p2Field = new TextField();
-        p2Field.setPromptText("Enter Player Name");
-        addTextLimiter(p2Field, 25);
-        p2Field.setPrefHeight(30);
-        p2Field.setMaxWidth(200);
-        this.setConstraints( p2Field, 0, 2 );
-
-
-
-        TextField p3Field = new TextField();
-        p3Field.setPromptText("Enter Player Name");
-        addTextLimiter(p3Field, 25);
-        p3Field.setPrefHeight(30);
-        p3Field.setMaxWidth(200);
-        this.setConstraints( p3Field, 0, 3 );
-
-
-        TextField p4Field = new TextField();
-        p4Field.setPromptText("Enter Player Name");
-        addTextLimiter(p4Field, 25);
-        p4Field.setPrefHeight(30);
-        p4Field.setMaxWidth(200);
-        this.setConstraints( p4Field, 0, 4 );
-
+        for(int i = 1; i<= POSSIBLE_PLAYERS; i++){
+            ComboBox<String> comboBox = createIconDropDown( options, i );
+            TextField pField = createPlayerTextField( i );
+            this.getChildren().addAll( comboBox, pField );
+            playerFields.add( pField );
+        }
 
         submitFormButton = new Button("START GAME");
         submitFormButton.setPrefHeight(20);
@@ -156,30 +80,27 @@ public class FormView extends GridPane {
         });
         this.setConstraints( submitFormButton, 1, 6);
 
+        this.getChildren().add( submitFormButton );
 
-        ImageView headerImg = new ImageView();
-        headerImg.setImage(new Image("monopopout.png"));
-        headerImg.setFitWidth(400);
-        headerImg.setPreserveRatio(true);
-        headerImg.setSmooth(true);
-        headerImg.setCache(true);
+    }
 
+    private TextField createPlayerTextField(int row) {
+        TextField pField = new TextField();
+        pField.setPromptText( "Enter Player Name" );
+        addTextLimiter( pField, 25 );
+        pField.setPrefHeight( 30 );
+        pField.setMaxWidth( 200 );
+        this.setConstraints( pField, 0, row );
+        return pField;
+    }
 
-
-        this.getChildren().addAll(
-                headerImg,
-                p1Field, comboBox1,
-                p2Field, comboBox2,
-                p3Field, comboBox3,
-                p4Field, comboBox4,
-                submitFormButton
-        );
-
-        playerFields = new ArrayList<>();
-        playerFields.add(p1Field);
-        playerFields.add(p2Field);
-        playerFields.add(p3Field);
-        playerFields.add(p4Field);
+    private ComboBox<String> createIconDropDown(ObservableList<String> options, int row) {
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.getItems().addAll( options );
+        this.setConstraints( comboBox, 1, row );
+        comboBox.setCellFactory( param -> new CellFactory() );
+        comboBox.setButtonCell( new CellFactory() );
+        return comboBox;
     }
 
     private void handleSubmitFormButton(List<TextField> playerFields) {
@@ -220,6 +141,8 @@ public class FormView extends GridPane {
     private List<TextField> getPlayerFields() {
         return playerFields;
     }
+
+
 
 
 
