@@ -11,9 +11,4 @@ public class HumanPlayer extends AbstractPlayer {
         this("GiddyGiraffe", 1500.00, bank);
     }
 
-
-    @Override
-    public void paysTo(AbstractAssetHolder receiver, Double debt) {
-
-    }
 }

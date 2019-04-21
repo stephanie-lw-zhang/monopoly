@@ -70,7 +70,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellAllBuildingsOnTile() {
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
         setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
-        getBank().paysTo(getOwner(), sellBuildingToBankPrice());
+        getBank().payFullAmountTo(getOwner(), sellBuildingToBankPrice());
     }
 
     /**
@@ -80,13 +80,14 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellOneBuilding(List<AbstractPropertyTile> properties) {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
-        getBank().paysTo( getOwner(), sellBuildingToBankPrice() );
+        getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
         setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
     @Override
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) {
         super.sellTo(assetHolder,price, sameColorProperties);
+        System.out.println(sameColorProperties);
         if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
             //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
                 upgrade((AbstractPlayer) assetHolder, sameColorProperties);
@@ -101,7 +102,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
             //throw exception if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
-            player.paysTo(getBank(), payment);
+            player.payFullAmountTo(getBank(), payment);
             setCurrentInUpgradeOrder(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
         }
@@ -155,7 +156,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
-//            getBank().paysTo(player,building.sellBuildingToBankPrice());
+//            getBank().payFullAmountTo(player,building.sellBuildingToBankPrice());
 //            getBank().addHouses(this.getNumberOfHouses());
 //            getBank().addHotels(this.getNumberOfHotels());
 //        }
