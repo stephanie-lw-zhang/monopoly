@@ -16,12 +16,12 @@ import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.DiceView;
-import frontend.views.board.RectangularBoardView;
 
 import frontend.views.FormView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -51,7 +51,7 @@ public class TestingScreen extends AbstractScreen {
 
     private ImportPropertyFile   myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
-    private RectangularBoardView myBoardView;
+    private SquareBoardView myBoardView;
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
@@ -106,6 +106,8 @@ public class TestingScreen extends AbstractScreen {
                 );
             }
         });
+
+
 
         bPane.getChildren().add(backgroundImg);
         bPane.setAlignment(backButton, Pos.TOP_CENTER);
@@ -226,8 +228,8 @@ public class TestingScreen extends AbstractScreen {
     }
 
     private void displayAuctionWinner(Map.Entry<AbstractPlayer, Double> winner) {
-        Alert formAlert = new Alert(Alert.AlertType.ERROR);
-        formAlert.setContentText("The winner is " + winner.getKey() + " for " + winner.getValue() + " Monopoly Dollars!");
+        Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
+        formAlert.setContentText("The winner is " + winner.getKey().getMyPlayerName() + " for " + winner.getValue() + " Monopoly Dollars!");
         formAlert.showAndWait();
     }
 
@@ -260,6 +262,7 @@ public class TestingScreen extends AbstractScreen {
     private AbstractBoard makeBoard(List<TextField> playerFields) {
         List<AbstractPlayer> playerList = makePlayerList(playerFields);
 
+
         AbstractBoard board = new StandardBoard(
                 playerList,
                 new HashMap<Tile, List<Tile>>(),
@@ -280,6 +283,8 @@ public class TestingScreen extends AbstractScreen {
             String name = pName.getText();
             if (! name.equals(""))
                 playerList.add(new HumanPlayer(name, 1500.0, bank));
+            //should be from data file
+            //throw exception
         }
 
         return playerList;

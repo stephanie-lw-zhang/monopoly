@@ -2,11 +2,16 @@ package controller;
 
 import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
+import backend.board.StandardBoard;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.GoTile;
+import backend.tile.Tile;
 import configuration.ImportPropertyFile;
+import configuration.XMLData;
 import frontend.screens.TestingScreen;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -16,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Game {
@@ -25,9 +31,9 @@ public class Game {
     private DeckInterface        chestDeck;
     private AbstractBoard        myBoard;
     private AbstractDice         myDice;
-    private TestingScreen myTestScreen;
+    private TestingScreen        myTestScreen;
     private Turn                 myTurn;
-    private ImportPropertyFile myPropertyFile;
+    private ImportPropertyFile  myPropertyFile;
     private Bank                myBank;
 
 
@@ -35,9 +41,16 @@ public class Game {
         myDice = dice;
         chanceDeck = chanceDeck;
         chestDeck = chestDeck;
-        myBoard = board;
+//        myBoard = board;
+
         //TODO: need money and totalPropertiesLeft read in from Data File
-        myBank = new Bank(3000.0, null);
+        XMLData myData = null;
+        try {
+            myData = new XMLData("OriginalMonopoly.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myBank = myData.getBank();
 
         myTestScreen = view;
 
@@ -49,6 +62,17 @@ public class Game {
                 myPlayers.add(new HumanPlayer(t.getText(),1500.0, myBank));
             }
         }
+
+        //should game create board? and who creates game?
+        myBoard = new StandardBoard(
+                myPlayers,
+                myData.getAdjacencyList(),
+                myData.getPropertyCategoryMap(),
+                myData.getFirstTile(),
+                myBank);
+
+//        System.out.println(myBoard.getAdjacentTiles();
+
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 

@@ -52,22 +52,27 @@ public abstract class AbstractBoard {
      */
     public abstract void movePlayer(AbstractPlayer p, int numMoves);
 
+    public abstract void movePlayer(AbstractPlayer p, Tile tile);
+
+
     public Map<AbstractPlayer, Tile> getPlayerTileMap() {
         return playerPositionMap;
     }
 
     public List<Tile> getAdjacentTiles(Tile tile) {
+        //System.out.println(adjacencyMap.get(backend.tile.GoTile@746de32));
         return adjacencyMap.get(tile);
     }
 
-    public Tile getJailTile(){
-        Tile tile = null;
+    public JailTile getJailTile(){
+        JailTile tile = null;
         for (Tile key: adjacencyMap.keySet()) {
             if(key instanceof JailTile){
-                tile = key;
+                tile = (JailTile) key;
             }
         }
         return tile;
+        //EXCEPTION: THERE IS NO JAIL TILE
     }
 
     public List<AbstractPlayer> getMyPlayerList() { return myPlayerList; }

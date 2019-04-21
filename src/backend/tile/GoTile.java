@@ -22,7 +22,7 @@ public class GoTile extends Tile {
     public GoTile(Element n){
         this.landedOnMoney = Integer.parseInt(getTagValue("LandedMoney", n));
         this.passedMoney = Integer.parseInt(getTagValue("PassedMoney", n));
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 
     public double getLandedOnMoney() {

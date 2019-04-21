@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ public class XMLData {
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private Bank bank;
     private int numDie;
+    private Tile firstTile;
 
     public XMLData(String fileName) throws Exception {
         File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
@@ -45,9 +47,9 @@ public class XMLData {
             indexNeighborList = new HashMap<>();
             propertyCategoryToSpecificListMap = new HashMap<>();
             for (int i = 0; i < tileList.getLength(); i++) {
-                //System.out.println(i);
                 tiles.add(getTile(tileList.item(i)));
             }
+            firstTile = tiles.get(0);
             initializeAdjacencyList(tiles);
         }catch(ParserConfigurationException | SAXException | IOException e){
             e.printStackTrace(); //change this !!!
@@ -73,7 +75,6 @@ public class XMLData {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element element = (Element) node;
             String tileType = getTagValue("TileType", element);
-            System.out.println(tileType);
             if(tileType.equalsIgnoreCase("BuildingTile")|| tileType.equalsIgnoreCase("RailroadTile")||tileType.equalsIgnoreCase("UtilityTile")|| tileType.contains("Tax")){
                 tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
             }
@@ -81,7 +82,9 @@ public class XMLData {
             indexNeighborList.put(tile, new ArrayList<>());
             String [] neighbors = getTagValue("NextTiles", element).split(",");
             for(String s: neighbors){
-                indexNeighborList.get(tile).add(Integer.parseInt(s));
+                List<Integer> temp = indexNeighborList.get(tile);
+                temp.add(Integer.parseInt(s));
+                indexNeighborList.put(tile,temp);
             }
             updateCategoryList(element, tile);
             return tile;
@@ -110,9 +113,14 @@ public class XMLData {
         adjacencyList = new HashMap<>();
         for(Tile tile: tiles){
             adjacencyList.put(tile, new ArrayList<>());
-            for(int i: indexNeighborList.get(tile)){
-                for(Tile neighbor: tiles){
-                    if(neighbor.getTileIndex() == i) adjacencyList.get(tile).add(neighbor);
+            for(int i = 0; i < indexNeighborList.get(tile).size(); i++){
+                int j = indexNeighborList.get(tile).get(i);
+                for(Tile neighbor : tiles){
+                    if(neighbor.getTileIndex() == j) {
+                        List<Tile> temp = adjacencyList.get(tile);
+                        temp.add(neighbor);
+                        adjacencyList.put(tile, temp);
+                    }
                 }
             }
         }
@@ -138,5 +146,9 @@ public class XMLData {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
         return node.getNodeValue();
+    }
+
+    public Tile getFirstTile() {
+        return firstTile;
     }
 }
