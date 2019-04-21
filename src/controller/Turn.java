@@ -204,12 +204,7 @@ public class Turn {
     public Map.Entry<AbstractPlayer, Double> payRent() {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        myCurrPlayer.paysFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
-=======
-=======
->>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
+
         myCurrPlayer.payFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
         return null;
     }
@@ -222,10 +217,7 @@ public class Turn {
             buyFromBank();
         }
         endTurn();
-<<<<<<< HEAD
->>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
-=======
->>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
+
         return null;
     }
 
@@ -258,30 +250,16 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> payBail() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        myCurrPlayer.paysFullAmountTo(myCurrPlayer.getBank(), 1500.00);
-=======
+
         myCurrPlayer.payFullAmountTo(myCurrPlayer.getBank(), 1500.00);
->>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
-=======
-        myCurrPlayer.payFullAmountTo(myCurrPlayer.getBank(), 1500.00);
->>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
+
         // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
         // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> trade() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-//      myCurrPlayer.paysFullAmountTo(myCurrPlayer, 1500.00);
-=======
-//      myCurrPlayer.payFullAmountTo(myCurrPlayer, 1500.00);
->>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
-=======
-//      myCurrPlayer.payFullAmountTo(myCurrPlayer, 1500.00);
->>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
+
 //      TODO: handle Receiver input and debt as instances
         return null;
     }
@@ -310,29 +288,17 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        myCurrPlayer.paysFullAmountTo( myBoard.getBank(), 200.0 );
-=======
+
         myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
->>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
-=======
-        myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
->>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
+
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        myCurrPlayer.paysFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
-=======
+
         myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
->>>>>>> 14f2f2b37ae82b8302118ba2ecba0554310e8564
-=======
-        myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
->>>>>>> 9a9c68a39301a66f4dfefd6560b6893148453277
+
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }

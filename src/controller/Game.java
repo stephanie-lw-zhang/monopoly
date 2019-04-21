@@ -15,6 +15,7 @@ import configuration.XMLData;
 import frontend.screens.TestingScreen;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -62,6 +63,9 @@ public class Game {
                 myPlayers.add(new HumanPlayer(t.getText(),1500.0, myBank));
             }
         }
+
+
+
 
         //should game create board? and who creates game?
         myBoard = new StandardBoard(
