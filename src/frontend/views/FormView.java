@@ -51,29 +51,6 @@ public class FormView extends GridPane {
 //        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 //        this.setConstraints( headerLabel,0,0 );
 
-        ImageView icon1 = new ImageView();
-        icon1.setImage(new Image("icon1.png"));
-        icon1.setFitWidth( 40 );
-        icon1.setFitWidth( 40 );
-        icon1.setPreserveRatio( true );
-
-        ImageView icon2 = new ImageView();
-        icon2.setImage(new Image("icon2.png"));
-        icon2.setFitWidth( 50 );
-        icon2.setFitWidth( 50 );
-        icon2.setPreserveRatio( true );
-
-        ImageView icon3 = new ImageView();
-        icon3.setImage(new Image("icon3.png"));
-        icon3.setFitWidth( 50 );
-        icon3.setFitWidth( 50 );
-        icon3.setPreserveRatio( true );
-
-        ImageView icon4 = new ImageView();
-        icon4.setImage(new Image("icon4.png"));
-        icon4.setFitWidth( 50 );
-        icon4.setFitWidth( 50 );
-        icon4.setPreserveRatio( true );
 
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll( "icon1", "icon2", "icon3", "icon4" );
@@ -89,8 +66,6 @@ public class FormView extends GridPane {
         this.setConstraints( comboBox2, 1, 2 );
         comboBox2.setCellFactory(param -> new CellFactory());
         comboBox2.setButtonCell(new CellFactory());
-
-
 
 
         ComboBox<String> comboBox3 = new ComboBox<>();
