@@ -54,6 +54,9 @@ public abstract class AbstractPropertyTile extends Tile {
         }
         else if (!player.equals(getOwner())) {
             possibleActions.add("payRent");
+
+
+//      player.payFullAmountTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;
     }
@@ -133,6 +136,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
             owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -229,6 +233,7 @@ public abstract class AbstractPropertyTile extends Tile {
 //            //throw exception: CAN'T BUY BECAUSE BANK DOESN'T OWN
 //        }
 //    }
+
 
 
 }

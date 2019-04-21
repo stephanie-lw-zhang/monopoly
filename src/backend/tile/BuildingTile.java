@@ -88,6 +88,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     @Override
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) {
         super.sellTo(assetHolder,price, sameColorProperties);
+
         if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
             //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
                 upgrade((AbstractPlayer) assetHolder, sameColorProperties);
