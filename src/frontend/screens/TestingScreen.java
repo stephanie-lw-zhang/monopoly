@@ -21,6 +21,7 @@ import frontend.views.FormView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -105,6 +106,8 @@ public class TestingScreen extends AbstractScreen {
                 );
             }
         });
+
+
 
         bPane.getChildren().add(backgroundImg);
         bPane.setAlignment(backButton, Pos.TOP_CENTER);
@@ -279,6 +282,8 @@ public class TestingScreen extends AbstractScreen {
             String name = pName.getText();
             if (! name.equals(""))
                 playerList.add(new HumanPlayer(name, 1500.0, bank));
+            //should be from data file
+            //throw exception
         }
 
         return playerList;
