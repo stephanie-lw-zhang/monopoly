@@ -18,7 +18,7 @@ public class FreeParkingTile extends Tile {
     }
 
     public FreeParkingTile(Element n){
-        index = Integer.parseInt(getTagValue("TileNumber", n));
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 
 

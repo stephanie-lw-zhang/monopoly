@@ -8,7 +8,9 @@ import java.util.List;
 
 public class GoToJailTile extends Tile {
 
-    public GoToJailTile(Element n){}
+    public GoToJailTile(Element n){
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
+    }
 
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
