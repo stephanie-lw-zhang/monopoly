@@ -28,9 +28,9 @@ public class BuildingCard extends PropertyCard {
         super(node);
         Element element = (Element) node;
 
-        Map<String,Double> buySingleBuildingPrice = new HashMap<>();
-        Map<String,Double> sellToBankPriceLookupTable = new HashMap<>();
-        Map<String, String> specificToBase = new HashMap<>();
+        priceNeededToUpgradeLookupTable = new HashMap<>();
+        sellToBankPriceLookupTable = new HashMap<>();
+        specificToBase = new HashMap<>();
 
         NodeList upgrades = element.getElementsByTagName("Upgrades");
         for(int i = 0; i<upgrades.getLength();i++){
@@ -41,13 +41,10 @@ public class BuildingCard extends PropertyCard {
             String base = entry[2];
             Double upgradePrice = Double.parseDouble(entry[4]);
             Double bankPrice = Double.parseDouble(entry[5]);
-            buySingleBuildingPrice.put(upgrade, upgradePrice);
+            priceNeededToUpgradeLookupTable.put(upgrade, upgradePrice);
             specificToBase.put(upgrade,base);
             sellToBankPriceLookupTable.put(upgrade, bankPrice);
         }
-        this.priceNeededToUpgradeLookupTable = buySingleBuildingPrice;
-        this.sellToBankPriceLookupTable = sellToBankPriceLookupTable;
-        this.specificToBase = specificToBase;
     }
 
     public double getOneBuildingSellToBankPrice(String currentInUpgradeOrder) {

@@ -87,6 +87,13 @@ public abstract class AbstractBoard {
         return bank;
     }
 
+    public Tile getTilesIndex(int i){
+        for(Tile t: adjacencyMap.keySet()){
+            if(t.getTileIndex() == i) return t;
+        }
+        return null; //change this !!!
+    }
+
 //    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){
 //        List<AbstractPropertyTile> allOfCategory = new ArrayList<AbstractPropertyTile>(  );
 //        String targetCategory = property.getCard().getCategory();
