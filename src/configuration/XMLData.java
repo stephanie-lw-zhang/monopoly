@@ -38,7 +38,6 @@ public class XMLData {
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
-
             NodeList tileList = doc.getElementsByTagName("Tile");
             NodeList banks = doc.getElementsByTagName("Bank");
             getBank(banks.item(0));
@@ -93,7 +92,7 @@ public class XMLData {
     }
 
     private void updateCategoryList(Element element, Tile tile){
-        String color = "";
+        String color;
         try{
             color = getTagValue("TileColor", element);
         }catch (NullPointerException e){
