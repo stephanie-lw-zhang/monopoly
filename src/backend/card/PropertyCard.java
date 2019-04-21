@@ -4,7 +4,6 @@ import backend.assetholder.AbstractPlayer;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import backend.card.AbstractCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ public class PropertyCard extends AbstractCard {
     private List<String> upgradeOrder;
     private String titleDeed;
     private String category;
-    private Double tilePrice;
 
     public PropertyCard(double propertyMortgageValue, Map<String, Double> priceLookupTable, List<String> upgradeOrder,
                         String titleDeed, String category, Map<String, Integer> specificToNumeric, Double tilePrice) {
@@ -29,7 +27,6 @@ public class PropertyCard extends AbstractCard {
         this.titleDeed = titleDeed;
         this.category = category;
         this.specificToNumeric = specificToNumeric;
-        this.tilePrice = tilePrice;
 
     }
 
@@ -116,9 +113,9 @@ public class PropertyCard extends AbstractCard {
         return "";
     }
 
-    public double getTilePrice(){
-        return this.tilePrice;
-    }
+//    public double getTilePrice(){
+//        return this.tilePrice;
+//    }
 
     public String getCategory(){
         return this.category;

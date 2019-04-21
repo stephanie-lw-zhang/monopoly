@@ -82,7 +82,7 @@ public class Turn {
         myCurrPlayer = getNextPlayer();
     }
 
-    private Tile currPlayerTile(){
+    public Tile currPlayerTile(){
         return myBoard.getPlayerTile( myCurrPlayer );
     }
 
@@ -147,7 +147,6 @@ public class Turn {
     }
 
     public void move() {
-        System.out.println("MOVING");
         if (myRolls == null){
             //throw exception that dice must be rolled first
         }
@@ -209,42 +208,33 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> buy(Map<AbstractPlayer,Double> paramMap) {
+        AbstractPlayer player = null;
+        double value = 0;
         if (paramMap != null) {
-            buyInAuction(paramMap);
+            if (paramMap.keySet().size()==1) {
+                for (AbstractPlayer p : paramMap.keySet()) {
+                    player = p;
+                }
+            }
+            value = paramMap.get(player);
         }
         else {
-            buyFromBank();
+            player = myCurrPlayer;
+            value = ((AbstractPropertyTile)currPlayerTile()).getTilePrice();
         }
+        buyProperty(player, value);
+        Map.Entry<AbstractPlayer,Double> ret = new AbstractMap.SimpleEntry<>(player, value);
         endTurn();
-        return null;
+        return ret;
     }
 
-    public void buyInAuction(Map<AbstractPlayer, Double> paramMap) {
-        AbstractPlayer player = null;
-        if (paramMap.keySet().size()==1) {
-            for (AbstractPlayer p : paramMap.keySet()) {
-                player = p;
-            }
-        }
+    public void buyProperty(AbstractPlayer player, Double value) {
         System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
-        for (AbstractPropertyTile a : sameSetProperties) {
-            System.out.println(property.getCard().getCategory() + " " + a.getTitleDeed());
-        }
-        property.sellTo( player, paramMap.get(player), sameSetProperties );
+        property.sellTo( player, value, sameSetProperties );
         System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
-    }
-
-    private void buyFromBank() {
-        System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
-        AbstractPropertyTile property;
-        property = (AbstractPropertyTile) currPlayerTile();
-        List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
-        Double currTilePrice = property.getCard().getTilePrice();
-        property.sellTo( myCurrPlayer, currTilePrice, sameSetProperties );
-        System.out.println(myCurrPlayer.getMyPlayerName() + ": " + myCurrPlayer.getMoney());
     }
 
     public Map.Entry<AbstractPlayer, Double> payBail() {
@@ -315,5 +305,10 @@ public class Turn {
 
     public List<String> getMyActions() {
         return myActions;
+    }
+
+    public String getTileNameforPlayer(AbstractPlayer p) {
+        //TODO: exception if current tile is not abstract property tile
+        return ((AbstractPropertyTile)myBoard.getPlayerTile(p)).getTitleDeed();
     }
 }
