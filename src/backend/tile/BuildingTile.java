@@ -27,8 +27,8 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     private int tilehouseprice;
     private int tilehotelprice;
 
-    public BuildingTile(Bank bank, PropertyCard card, String tiletype, double tileprice, String tilecolor, int index) {
-        super(bank, card, tiletype, tileprice, index);
+    public BuildingTile(Bank bank, PropertyCard card, String tiletype, String tilecolor, int index) {
+        super(bank, card, tiletype, index);
         this.card = (BuildingCard) this.getCard();
         this.tilecolor = tilecolor;
     }
@@ -81,16 +81,13 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     public void sellOneBuilding(List<AbstractPropertyTile> properties) {
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
-
         getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
-
         setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
     }
 
     @Override
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) {
         super.sellTo(assetHolder,price, sameColorProperties);
-//        System.out.println(sameColorProperties);
         if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
             //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
                 upgrade((AbstractPlayer) assetHolder, sameColorProperties);
@@ -159,11 +156,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
-
-
-
 //            getBank().payFullAmountTo(player,building.sellBuildingToBankPrice());
-
 //            getBank().addHouses(this.getNumberOfHouses());
 //            getBank().addHotels(this.getNumberOfHotels());
 //        }
