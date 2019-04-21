@@ -204,6 +204,7 @@ public class Turn {
     public Map.Entry<AbstractPlayer, Double> payRent() {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
+
         myCurrPlayer.payFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
         return null;
     }
@@ -216,6 +217,7 @@ public class Turn {
             buyFromBank();
         }
         endTurn();
+
         return null;
     }
 
@@ -248,14 +250,16 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> payBail() {
+
         myCurrPlayer.payFullAmountTo(myCurrPlayer.getBank(), 1500.00);
+
         // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
         // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> trade() {
-//      myCurrPlayer.payFullAmountTo(myCurrPlayer, 1500.00);
+
 //      TODO: handle Receiver input and debt as instances
         return null;
     }
@@ -284,7 +288,9 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
+
         myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
+
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }
@@ -292,6 +298,7 @@ public class Turn {
     public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
 
         myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
+
 //      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
         return null;
     }
