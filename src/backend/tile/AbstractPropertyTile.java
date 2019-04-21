@@ -111,7 +111,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void mortgageProperty() {
         //need to turn over card on front end
         if (!isMortgaged()) {
-                bank.payFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
+                bank.payFullAmountTo(owner, card.getMortgageValue() );
                 this.mortgaged = true;
         }
         else {
@@ -121,7 +121,7 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
-                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+                owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
                 this.mortgaged = false;
         }
         else {
@@ -134,7 +134,9 @@ public abstract class AbstractPropertyTile extends Tile {
     // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
-            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+
+            owner.payFullAmountTo(bank, card.getMortgageValue() * 0.1);
+
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED

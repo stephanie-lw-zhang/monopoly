@@ -118,14 +118,14 @@ public class TestingScreen extends AbstractScreen {
         myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
     }
 
-    public void handleStartGameButton(List<TextField> playerFields) {
+    public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
         myGame = new Game(
                 this,
                 new SixDice(),
                 new NormalDeck(),
                 new NormalDeck(),
-                makeBoard(playerFields),
-                playerFields
+                makeBoard( playerToIcon ),
+                playerToIcon
         );
 
         BorderPane bPane = (BorderPane) myScene.getRoot();
@@ -140,16 +140,7 @@ public class TestingScreen extends AbstractScreen {
                 myGame.getMyDice().getNumStates()
         );
 
-        TextFlow playersText = new TextFlow();
-        Text title = new Text("Joined Players: \n");
-        playersText.getChildren().add( title );
-//        playersText.setText("Joined Players: \n" + getPlayersText());
-//        playersText.setEditable(false);
-        setPlayerNameAndIcon( playersText );
-        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
-        playersText.setStyle( "-fx-background-color: white" );
-        playersText.setMaxWidth(Control.USE_PREF_SIZE);
-        playersText.setMaxHeight(Control.USE_PREF_SIZE);
+        TextFlow playersText = createPlayersText();
 
         TextArea currPlayerText = new TextArea();
         currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
@@ -235,6 +226,18 @@ public class TestingScreen extends AbstractScreen {
         myGame.startGameLoop();
     }
 
+    private TextFlow createPlayersText() {
+        TextFlow playersText = new TextFlow();
+        Text title = new Text("Joined Players: \n");
+        playersText.getChildren().add( title );
+        setPlayerNameAndIcon( playersText );
+        playersText.setStyle("-fx-max-width: 150; -fx-max-height: 200");
+        playersText.setStyle( "-fx-background-color: white" );
+        playersText.setMaxWidth( Control.USE_PREF_SIZE);
+        playersText.setMaxHeight(Control.USE_PREF_SIZE);
+        return playersText;
+    }
+
     private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer,Double> param) {
         Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
         mapFromSet.put(param.getKey(), param.getValue());
@@ -267,22 +270,23 @@ public class TestingScreen extends AbstractScreen {
     }
 
     private void setPlayerNameAndIcon(TextFlow box) {
-        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList()){
-            Text player = new Text(p.getMyPlayerName());
-//            System.out.println(p.getMyPlayerName());
-//            System.out.println();
-//            System.out.println(myFormView.getIconFor( p.getMyPlayerName() ));
-            ImageView icon = new ImageView(  "icon1.png");
-            icon.setFitWidth( 25 );
-            icon.setFitHeight( 25 );
-            icon.setPreserveRatio( true );
-            Text nextLine = new Text("\n");
-            box.getChildren().addAll( player, icon, nextLine );
+        for (TextField p : myFormView.getPlayerToIcon().keySet()){
+            //CURRENTLY ONLY WORKS WHEN ALL FIELDS ARE FILLED IN
+//            if(p.getText() == null || p.getText().trim().isEmpty()){
+//                System.out.println("\n" + "here");
+                Text player = new Text(p.getText());
+                ImageView icon = new ImageView(  myFormView.getPlayerToIcon().get( p ).getValue() + ".png");
+                icon.setFitWidth( 25 );
+                icon.setFitHeight( 25 );
+                icon.setPreserveRatio( true );
+                Text nextLine = new Text("\n");
+                box.getChildren().addAll( player, icon, nextLine );
+//            }
         }
     }
 
-    private AbstractBoard makeBoard(List<TextField> playerFields) {
-        List<AbstractPlayer> playerList = makePlayerList(playerFields);
+    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
+        List<AbstractPlayer> playerList = makePlayerList( playerToIcon );
 
 
         AbstractBoard board = new StandardBoard(
@@ -297,11 +301,11 @@ public class TestingScreen extends AbstractScreen {
     }
 
 
-    private List<AbstractPlayer> makePlayerList(List<TextField> playerFields) {
+    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
         Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
         List<AbstractPlayer> playerList = new ArrayList<>();
 
-        for (TextField pName : playerFields) {
+        for (TextField pName : playerToIcon.keySet()) {
             String name = pName.getText();
             if (! name.equals(""))
                 playerList.add(new HumanPlayer(name, 1500.0, bank));
