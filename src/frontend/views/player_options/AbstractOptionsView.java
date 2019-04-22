@@ -1,13 +1,10 @@
 package frontend.views.player_options;
 
-import backend.board.AbstractBoard;
-import controller.Game;
 import frontend.views.game.AbstractGameView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 
-import java.util.List;
 import java.util.Map;
 
 abstract public class AbstractOptionsView {

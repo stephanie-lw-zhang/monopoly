@@ -1,7 +1,5 @@
 package frontend.views.player_options;
 
-import backend.board.AbstractBoard;
-import controller.Game;
 import frontend.views.game.AbstractGameView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,9 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class VBoxOptionsView extends AbstractOptionsView {
@@ -29,6 +25,7 @@ public class VBoxOptionsView extends AbstractOptionsView {
     private void makeNode() {
         VBox playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
+        myOptionsViewNode=playerOptionsModal;
     }
 
     @Override
@@ -36,7 +33,6 @@ public class VBoxOptionsView extends AbstractOptionsView {
         for(String action:actionMap.keySet()){
             makeButton(action,actionMap.get(action));
         }
-
     }
 
     private void makeButton(String action, EventHandler<ActionEvent> handler) {
