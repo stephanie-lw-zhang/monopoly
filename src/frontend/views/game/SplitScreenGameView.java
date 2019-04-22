@@ -9,11 +9,13 @@ import frontend.views.player_options.VBoxOptionsView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SplitScreenGameView extends AbstractGameView {
     private GridPane myPane;
@@ -50,12 +52,28 @@ public class SplitScreenGameView extends AbstractGameView {
 
     @Override
     public void addPlayerOptionsView() {
-
+        myPane.add(myOptionsView.getOptionsViewNode(),1,0);
     }
 
     @Override
     public void setTurnActions(List<String> turnActions) {
 
+    }
+
+    @Override
+    public String showInputTextDialog(String title, String header, String content) {
+        TextInputDialog dialog = new TextInputDialog("0");
+        dialog.setTitle(title);
+        dialog.setHeaderText(header);
+        dialog.setContentText(content);
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            return result.get();
+        }
+        else {
+            //TODO: throw exception
+            return null;
+        }
     }
 
     @Override
@@ -65,6 +83,10 @@ public class SplitScreenGameView extends AbstractGameView {
 
     public void setPossibleActions(Map<String, EventHandler<ActionEvent>> actionMap){
 
+    }
+
+    public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap){
+        myOptionsView.createButtons(handlerMap);
     }
 
 }
