@@ -37,7 +37,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-import controller.Game;
+import controller.GameController;
 
 import java.util.*;
 
@@ -54,7 +54,7 @@ public class TestingScreen extends AbstractScreen {
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
-    private Game                 myGame;
+    private GameController myGame;
     private double               screenWidth;
     private double               screenHeight;
 
@@ -119,7 +119,7 @@ public class TestingScreen extends AbstractScreen {
     }
 
     public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
-        myGame = new Game(
+        myGame = new GameController(
                 this,
                 new SixDice(),
                 new NormalDeck(),

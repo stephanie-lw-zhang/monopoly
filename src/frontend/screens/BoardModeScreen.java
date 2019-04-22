@@ -1,6 +1,7 @@
 package frontend.screens;
 
 import configuration.ImportPropertyFile;
+import controller.GameController;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.game.AbstractGameView;
@@ -33,9 +34,11 @@ public class BoardModeScreen extends AbstractScreen{
     private AbstractGameView myGameView;
     private AbstractBoardView myBoardView;
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
+    private GameController myController;
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
         myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight,myPropertyFile);
+        myController = new GameController("OriginalMonopoly.xml",myGameView);
     }
 
 

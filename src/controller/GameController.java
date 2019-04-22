@@ -7,10 +7,15 @@ import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.exceptions.IllegalInputTypeException;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
+import frontend.screens.BoardModeScreen;
 import frontend.screens.TestingScreen;
+import frontend.views.game.AbstractGameView;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -19,11 +24,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Game {
+public class GameController {
 
+    //TODO: make all the back-end stuff be managed by a MonopolyModel/board class
     private List<AbstractPlayer> myPlayers;
     private DeckInterface        chanceDeck;
     private DeckInterface        chestDeck;
@@ -33,9 +40,11 @@ public class Game {
     private Turn                 myTurn;
     private ImportPropertyFile  myPropertyFile;
     private Bank                myBank;
+    private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
+    //Strings are all actions
+    private AbstractGameView myGameView;
 
-
-    public Game(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, Map<TextField, ComboBox> playerToIcon) {
+    public GameController(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, Map<TextField, ComboBox> playerToIcon) {
         myDice = dice;
         chanceDeck = chanceDeck;
         chestDeck = chestDeck;
@@ -61,7 +70,6 @@ public class Game {
             }
         }
 
-
         //should game create board? and who creates game?
         myBoard = new StandardBoard(
                 myPlayers,
@@ -71,6 +79,20 @@ public class Game {
                 myBank);
 
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+    }
+
+    public GameController(String configFile, AbstractGameView gameView) {
+
+        //TODO: need money and totalPropertiesLeft read in from Data File
+        XMLData myData = null;
+        try {
+            myData = new XMLData(configFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myGameView = gameView;
+        addHandlers();
+        //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
     public void startGameLoop() {
@@ -124,7 +146,36 @@ public class Game {
         return getPlayerAtIndex(i).getMyPlayerName();
     }
 
-    public ImportPropertyFile getMyPropertyFile() {
-        return myPropertyFile;
+    private void addHandlers(){
+        handlerMap.put("auction",event->this.handleAuction());
+        myGameView.createOptions(handlerMap);
+        myGameView.addPlayerOptionsView();
+    }
+
+    private void handleAuction() {
+        Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
+        for (int i = 0; i < myPlayers.size(); i++) {
+            AbstractPlayer key = getPlayerAtIndex(i);
+            String value = myGameView.showInputTextDialog("Auction Amount for player " + getPlayerNameAtIndex(i),
+                    "Enter your auction amount:",
+                    "Amount:");
+            try {
+                auctionAmount.put(key, Double.parseDouble((value)));
+            } catch (NumberFormatException n) {
+                new IllegalInputTypeException("Input must be a number!");
+                i--;
+            }
+        }
+        Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)getMyTurn().onAction("auction", auctionAmount);
+        String info = winner.getKey().getMyPlayerName() + " wins " + this.getMyTurn().getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
+        myGameView.displayActionInfo(info);
+        Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
+        this.getMyTurn().onAction("buy", playerValue);
+    }
+
+    private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer,Double> param) {
+        Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
+        mapFromSet.put(param.getKey(), param.getValue());
+        return mapFromSet;
     }
 }
