@@ -8,6 +8,8 @@ import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import frontend.screens.BoardModeScreen;
@@ -171,15 +173,32 @@ public class GameController {
         handlerMap.put("pay bail",event->this.handlePayBail());
         handlerMap.put("collect money",event->this.handleCollectMoney());
         handlerMap.put("trade",event->this.handleTrade());
+//        handlerMap.put("mortgage", event->this.handleMortgage());
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
     }
 
     private void handleCollectMoney() {
+        Boolean passed = true; //temp variable
+        if(passed){
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
+        } else {
+            //means you landed directly on it
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
+        }
     }
 
     private void handlePayBail(){
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBank, myBoard.getJailTile().getBailAmount() );
+        myBoard.getJailTile().removeCriminal( myTurn.getMyCurrPlayer() );
+        myGameView.displayActionInfo( "You've successfully paid bail. You're free now!" );
     }
+
+//    private void handleMortgage(AbstractPropertyTile property){
+//        property.mortgageProperty();
+//    }
 
     private void handleTrade() {
     }
@@ -188,12 +207,15 @@ public class GameController {
     }
 
     private void handlePayRent() {
+
     }
 
     private void handlePayTaxFixed() {
     }
 
     private void handleGoToJail() {
+       myTurn.goToJail();
+       myGameView.displayActionInfo( "Arrested! You're going to Jail." );
     }
 
     private void handleDrawCard() {

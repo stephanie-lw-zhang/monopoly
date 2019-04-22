@@ -27,6 +27,7 @@ abstract public class AbstractGameView {
     abstract public void addPlayerOptionsView();
     abstract public void setTurnActions(List<String> turnActions);
     abstract public String showInputTextDialog(String title, String header, String content);
+
     public void displayActionInfo(String info) {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
         formAlert.setContentText(info);

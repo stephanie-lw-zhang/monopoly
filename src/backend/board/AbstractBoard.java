@@ -10,6 +10,7 @@ package backend.board;
  */
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
+import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -72,6 +73,15 @@ public abstract class AbstractBoard {
         }
         return null;
         //EXCEPTION: THERE IS NO JAIL TILE
+    }
+
+    public GoTile getGoTile(){
+        for (Tile key: adjacencyMap.keySet()) {
+            if(key.isGoTile()){
+                return (GoTile) key;
+            }
+        }
+        return null;
     }
 
     public List<AbstractPlayer> getMyPlayerList() { return myPlayerList; }
