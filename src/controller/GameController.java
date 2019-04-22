@@ -13,9 +13,12 @@ import configuration.XMLData;
 import frontend.screens.BoardModeScreen;
 import frontend.screens.TestingScreen;
 import frontend.views.game.AbstractGameView;
+import frontend.views.game.SplitScreenGameView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -27,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static controller.Actions.GO_TO_JAIL;
 
 public class GameController {
 
@@ -81,7 +86,7 @@ public class GameController {
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
-    public GameController(String configFile, AbstractGameView gameView) {
+    public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {
 
         //TODO: need money and totalPropertiesLeft read in from Data File
         XMLData myData = null;
@@ -90,10 +95,12 @@ public class GameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        myGameView = gameView;
+        myGameView = new SplitScreenGameView(width, height, propertyFile);
         addHandlers();
         //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
+
+
 
     public void startGameLoop() {
         BorderPane bPane = (BorderPane) myTestScreen.getMyScene().getRoot();
@@ -148,8 +155,52 @@ public class GameController {
 
     private void addHandlers(){
         handlerMap.put("auction",event->this.handleAuction());
+        handlerMap.put("buy",event->this.handleBuy());
+        handlerMap.put("sell to bank",event->this.handleSellToBank());
+        handlerMap.put("sell to player",event->this.handleSellToPlayer());
+        handlerMap.put("draw card",event->this.handleDrawCard());
+        handlerMap.put("go to jail",event->this.handleGoToJail());
+        handlerMap.put("pay tax fixed",event->this.handlePayTaxFixed());
+        handlerMap.put("pay tax percentage",event->this.handlePayTaxPercentage());
+        handlerMap.put("pay rent",event->this.handlePayRent());
+        handlerMap.put("pay bail",event->this.handlePayBail());
+        handlerMap.put("collect money",event->this.handleCollectMoney());
+        handlerMap.put("trade",event->this.handleTrade());
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
+    }
+
+    private void handleCollectMoney() {
+    }
+
+    private void handlePayBail(){
+    }
+
+    private void handleTrade() {
+    }
+
+    private void handlePayTaxPercentage() {
+    }
+
+    private void handlePayRent() {
+    }
+
+    private void handlePayTaxFixed() {
+    }
+
+    private void handleGoToJail() {
+    }
+
+    private void handleDrawCard() {
+    }
+
+    private void handleSellToPlayer() {
+    }
+
+    private void handleSellToBank() {
+    }
+
+    private void handleBuy() {
     }
 
     private void handleAuction() {
@@ -177,5 +228,9 @@ public class GameController {
         Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
         mapFromSet.put(param.getKey(), param.getValue());
         return mapFromSet;
+    }
+
+    public Node getGameNode() {
+        return myGameView.getPane();
     }
 }
