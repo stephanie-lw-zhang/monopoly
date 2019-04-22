@@ -2,6 +2,7 @@ package frontend.screens;
 
 import configuration.ImportPropertyFile;
 import controller.GameController;
+import controller.GameSetUpController;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.game.AbstractGameView;
@@ -30,18 +31,16 @@ import javafx.stage.Stage;
  */
 public class BoardModeScreen extends AbstractScreen{
 
+
     private Scene myScene;
-    private AbstractGameView myGameView;
-    private AbstractBoardView myBoardView;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-    private GameController myController;
+
+    private GameSetUpController myController;
+
+
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight,myPropertyFile);
-        myController = new GameController("OriginalMonopoly.xml",myGameView);
+        myController = new GameSetUpController(sWidth,sHeight);
     }
-
-
     @Override
     public void makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
@@ -79,16 +78,12 @@ public class BoardModeScreen extends AbstractScreen{
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
         bPane.getChildren().add(backgroundImg);
-        bPane.setCenter(myGameView.getPane());
+        bPane.setCenter(myController.getNode());
         bPane.setBottom(gPane);
 
         bPane.setMargin(gPane, new Insets(0,0, 75, 0));
 
         return bPane;
-    }
-
-    private Node makeBoard() {
-        return myGameView.getPane();
     }
 
     @Override
