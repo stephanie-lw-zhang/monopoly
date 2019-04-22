@@ -65,13 +65,12 @@ public abstract class AbstractBoard {
     }
 
     public JailTile getJailTile(){
-        JailTile tile = null;
         for (Tile key: adjacencyMap.keySet()) {
-            if(key instanceof JailTile){
-                tile = (JailTile) key;
+            if(key.isJailTile()){
+                return (JailTile) key;
             }
         }
-        return tile;
+        return null;
         //EXCEPTION: THERE IS NO JAIL TILE
     }
 

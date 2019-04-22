@@ -33,4 +33,12 @@ public abstract class Tile {
         return true;
     };
 
+    public boolean isJailTile(){
+        return false;
+    }
+
+    public boolean isGoToJailTile(){
+        return true;
+    }
+
 }
