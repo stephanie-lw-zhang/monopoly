@@ -15,7 +15,7 @@ import configuration.ImportPropertyFile;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
-import frontend.views.DiceView;
+import frontend.views.player_options.DiceView;
 
 import frontend.views.FormView;
 
@@ -76,7 +76,7 @@ public class TestingScreen extends AbstractScreen {
         END_TURN_BUTTON.setId("endTurn");
         BUY_BUTTON.setId("buy");
         AUCTION_BUTTON.setId("auction");
-        MORTGAGE_BUTTON.setId("mortgage");
+            MORTGAGE_BUTTON.setId("mortgage");
     }
 
 
