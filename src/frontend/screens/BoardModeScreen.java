@@ -35,8 +35,7 @@ public class BoardModeScreen extends AbstractScreen{
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myBoardView = new SquareBoardView(0.9*sWidth, 0.9*sHeight,90,11,11,myPropertyFile);
-        myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight,myBoardView);
+        myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight,myPropertyFile);
     }
 
 

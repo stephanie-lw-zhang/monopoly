@@ -76,7 +76,7 @@ public class TestingScreen extends AbstractScreen {
         END_TURN_BUTTON.setId("endTurn");
         BUY_BUTTON.setId("buy");
         AUCTION_BUTTON.setId("auction");
-        MORTGAGE_BUTTON.setId("mortgage");
+            MORTGAGE_BUTTON.setId("mortgage");
     }
 
 

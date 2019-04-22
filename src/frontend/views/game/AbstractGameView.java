@@ -1,5 +1,6 @@
 package frontend.views.game;
 
+import configuration.ImportPropertyFile;
 import frontend.views.board.AbstractBoardView;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,7 +13,7 @@ abstract public class AbstractGameView {
     private AbstractBoardView myBoardView;
     private BorderPane myPane;
 
-    public AbstractGameView(double screenWidth, double screenHeight, AbstractBoardView boardView){
+    public AbstractGameView(double screenWidth, double screenHeight, ImportPropertyFile propertyFile){
         setBoundsForEntireGame(screenWidth,screenHeight);
         divideScreen();
     }
