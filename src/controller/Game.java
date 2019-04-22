@@ -95,8 +95,6 @@ public class Game {
     private void handleEndTurnButton() {
         myTurn.skipTurn();
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
-        myTestScreen.getMyScene().lookup("#endTurn");
-
     }
 
     private void handleRollButton() {
@@ -124,5 +122,9 @@ public class Game {
 
     public String getPlayerNameAtIndex(int i) {
         return getPlayerAtIndex(i).getMyPlayerName();
+    }
+
+    public ImportPropertyFile getMyPropertyFile() {
+        return myPropertyFile;
     }
 }

@@ -286,7 +286,6 @@ public class TestingScreen extends AbstractScreen {
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
         List<AbstractPlayer> playerList = makePlayerList( playerToIcon );
 
-
         AbstractBoard board = new StandardBoard(
                 playerList,
                 new HashMap<Tile, List<Tile>>(),
@@ -294,7 +293,6 @@ public class TestingScreen extends AbstractScreen {
                 new GoTile(200, 200, 0),
                 new Bank(200000.0, new HashMap<String, Integer>())
         );
-
         return board;
     }
 

@@ -12,6 +12,12 @@ public class GoTile extends Tile {
     private double passedMoney;
     private int index;
 
+    public GoTile(double landedOnMoney, double passedMoney, int index) {
+        this.landedOnMoney = landedOnMoney;
+        this.passedMoney = passedMoney;
+        this.index = index;
+    }
+
     public GoTile(Element n){
         this.landedOnMoney = Integer.parseInt(getTagValue("LandedMoney", n));
         this.passedMoney = Integer.parseInt(getTagValue("PassedMoney", n));
