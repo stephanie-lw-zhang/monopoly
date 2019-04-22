@@ -169,11 +169,13 @@ public class GameController {
         handlerMap.put("go to jail",event->this.handleGoToJail());
         handlerMap.put("pay tax fixed",event->this.handlePayTaxFixed());
         handlerMap.put("pay tax percentage",event->this.handlePayTaxPercentage());
-        handlerMap.put("pay rent",event->this.handlePayRent());
+//        handlerMap.put("pay rent",event->this.handlePayRent());
         handlerMap.put("pay bail",event->this.handlePayBail());
         handlerMap.put("collect money",event->this.handleCollectMoney());
         handlerMap.put("trade",event->this.handleTrade());
 //        handlerMap.put("mortgage", event->this.handleMortgage());
+//        handlerMap.put("forfeit",event->this.handleForfeit());
+
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
     }
@@ -196,9 +198,9 @@ public class GameController {
         myGameView.displayActionInfo( "You've successfully paid bail. You're free now!" );
     }
 
-//    private void handleMortgage(AbstractPropertyTile property){
-//        property.mortgageProperty();
-//    }
+    private void handleMortgage(AbstractPropertyTile property){
+        property.mortgageProperty();
+    }
 
     private void handleTrade() {
     }
@@ -206,8 +208,9 @@ public class GameController {
     private void handlePayTaxPercentage() {
     }
 
-    private void handlePayRent() {
-
+    private void handlePayRent(AbstractPropertyTile property) {
+        myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
+    //all methods with payment involved have to update front end display of money as well
     }
 
     private void handlePayTaxFixed() {
@@ -228,6 +231,12 @@ public class GameController {
     }
 
     private void handleBuy() {
+    }
+
+    private void handleForfeit(AbstractPlayer player){
+        player.declareBankruptcy();
+
+        //Grey out all player info, remove them from board (something getChildren.remove)
     }
 
     private void handleAuction() {
