@@ -61,18 +61,6 @@ public abstract class AbstractPropertyTile extends Tile {
         return possibleActions;
     }
 
-    //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
-//    public abstract double sellBuildingToBankPrice();
-//        if (!isMortgaged()) {
-////            return tileprice/2;
-//            getCard().
-//        }
-//        else {
-//            //throw exception: CANNOT SELL_TO_BANK MORTGAGED PROPERTY BACK TO BANK
-//        }
-//        return 0;
-//    }
-
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;
     }

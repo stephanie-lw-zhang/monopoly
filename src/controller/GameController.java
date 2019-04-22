@@ -8,6 +8,8 @@ import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import frontend.screens.BoardModeScreen;
@@ -167,18 +169,37 @@ public class GameController {
         handlerMap.put("go to jail",event->this.handleGoToJail());
         handlerMap.put("pay tax fixed",event->this.handlePayTaxFixed());
         handlerMap.put("pay tax percentage",event->this.handlePayTaxPercentage());
-        handlerMap.put("pay rent",event->this.handlePayRent());
+//        handlerMap.put("pay rent",event->this.handlePayRent());
         handlerMap.put("pay bail",event->this.handlePayBail());
         handlerMap.put("collect money",event->this.handleCollectMoney());
         handlerMap.put("trade",event->this.handleTrade());
+//        handlerMap.put("mortgage", event->this.handleMortgage());
+//        handlerMap.put("forfeit",event->this.handleForfeit());
+
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
     }
 
     private void handleCollectMoney() {
+        Boolean passed = true; //temp variable
+        if(passed){
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
+        } else {
+            //means you landed directly on it
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
+        }
     }
 
     private void handlePayBail(){
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBank, myBoard.getJailTile().getBailAmount() );
+        myBoard.getJailTile().removeCriminal( myTurn.getMyCurrPlayer() );
+        myGameView.displayActionInfo( "You've successfully paid bail. You're free now!" );
+    }
+
+    private void handleMortgage(AbstractPropertyTile property){
+        property.mortgageProperty();
     }
 
     private void handleTrade() {
@@ -187,13 +208,17 @@ public class GameController {
     private void handlePayTaxPercentage() {
     }
 
-    private void handlePayRent() {
+    private void handlePayRent(AbstractPropertyTile property) {
+        myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
+    //all methods with payment involved have to update front end display of money as well
     }
 
     private void handlePayTaxFixed() {
     }
 
     private void handleGoToJail() {
+       myTurn.goToJail();
+       myGameView.displayActionInfo( "Arrested! You're going to Jail." );
     }
 
     private void handleDrawCard() {
@@ -206,6 +231,12 @@ public class GameController {
     }
 
     private void handleBuy() {
+    }
+
+    private void handleForfeit(AbstractPlayer player){
+        player.declareBankruptcy();
+
+        //Grey out all player info, remove them from board (something getChildren.remove)
     }
 
     private void handleAuction() {

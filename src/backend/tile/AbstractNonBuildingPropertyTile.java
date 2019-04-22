@@ -38,15 +38,4 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
         }
     }
 
-//    private List<AbstractNonBuildingPropertyTile> sublistOfPropertiesOwnedBy(AbstractAssetHolder owner, List<AbstractPropertyTile> properties) {
-//        List<AbstractNonBuildingPropertyTile> propertiesOwnedBy = new ArrayList<>();
-//        for (AbstractPropertyTile tile : properties) {
-//            if (tile instanceof RailroadTile && (tile.getOwner().equals(owner))) {
-//                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
-//                propertiesOwnedBy.add( (RailroadTile) tile );
-//            }
-//        }
-//        return propertiesOwnedBy;
-//    }
-
 }

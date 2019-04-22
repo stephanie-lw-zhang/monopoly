@@ -29,6 +29,10 @@ public class GoTile extends Tile {
         return landedOnMoney;
     }
 
+    public double getPassedMoney(){
+        return passedMoney;
+    }
+
 
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>( );
@@ -43,7 +47,12 @@ public class GoTile extends Tile {
         return possibleActions;
     }
 
-//    public void applyPassedAction(AbstractPlayer player) {
+    @Override
+    public boolean isGoTile() {
+        return true;
+    }
+
+    //    public void applyPassedAction(AbstractPlayer player) {
 //        player.setMoney(player.getMoney() + passedMoney);
 //    }
 

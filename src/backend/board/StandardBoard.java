@@ -25,16 +25,19 @@ public class StandardBoard extends AbstractBoard {
     }
 
     public void movePlayer(AbstractPlayer p, int numMoves) {
-        Tile tile = getPlayerTile(p);
-        Tile next;
-        for(int i = 0; i < numMoves; i++){
-            //this needs to change for a non-standard board, could be informed by property file
-            next = getAdjacentTiles(tile).get(0);
-            tile = next;
-            //tile.applyPassedAction(p);
+        if(!p.inJail()){
+            Tile tile = getPlayerTile(p);
+            Tile next;
+            for(int i = 0; i < numMoves; i++){
+                //this needs to change for a non-standard board, could be informed by property file
+                next = getAdjacentTiles(tile).get(0);
+                tile = next;
+                //tile.applyPassedAction(p);
+            }
+            if(tile.isGoToJailTile()) tile = getJailTile();
+            getPlayerTileMap().put(p, tile);
         }
-        if(tile.isGoToJailTile()) tile = getJailTile();
-        getPlayerTileMap().put(p, tile);
+
     }
 
     @Override

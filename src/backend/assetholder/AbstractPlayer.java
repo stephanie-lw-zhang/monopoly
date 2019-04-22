@@ -42,6 +42,10 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         //must call this when going to jail to set value to 0
     }
 
+    public boolean inJail(){
+        return turnsInJail != -1;
+    }
+
     public void getOutOfJail(){
         turnsInJail = -1;
     }
@@ -59,9 +63,16 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
     }
     //is this exposing guts??
 
-    public void declareBankruptcyTo(AbstractAssetHolder receiver){
+//    public void declareBankruptcyTo(AbstractAssetHolder receiver){
+//        this.bankrupt = true;
+//        receiver.addAllProperties( this.getProperties() );
+//        this.getProperties().clear();
+//        this.setMoney( 0 );
+//    }
+
+    public void declareBankruptcy(){
         this.bankrupt = true;
-        receiver.addAllProperties( this.getProperties() );
+        bank.addAllProperties( this.getProperties() );
         this.getProperties().clear();
         this.setMoney( 0 );
     }
