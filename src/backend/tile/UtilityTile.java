@@ -6,18 +6,9 @@ import org.w3c.dom.Element;
 
 public class UtilityTile extends AbstractNonBuildingPropertyTile {
 
-
-    public UtilityTile(Bank bank, PropertyCard card, String tiletype, int index) {
-        super( bank, card, tiletype, index);
-    }
-
     public UtilityTile(Bank bank, Element n){
         super(bank, n);
     }
-
-    //public UtilityTile(Element n) {
-    //    super( n );
-    //}
 
     @Override
     public double calculateRentPrice(int roll) {

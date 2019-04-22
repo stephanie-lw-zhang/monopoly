@@ -14,9 +14,9 @@ public abstract class AbstractDrawCardTile extends Tile {
     private DeckInterface myDeck;
     private int index;
 
-    public AbstractDrawCardTile(DeckInterface deck, int index) {
-        myDeck = deck;
-        this.index = index;
+    public AbstractDrawCardTile(Element n) {
+        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
+        //TODO: Finish this implementation
     }
 
     @Override
@@ -25,12 +25,6 @@ public abstract class AbstractDrawCardTile extends Tile {
         possibleActions.add("drawCard");
 //        myDeck.drawCard();
         return possibleActions;
-    }
-
-
-    public AbstractDrawCardTile(Element n) {
-        setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
-        //TODO: Finish this implementation
     }
 
     public AbstractCard drawCard(){

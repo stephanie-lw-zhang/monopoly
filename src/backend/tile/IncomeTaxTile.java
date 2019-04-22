@@ -9,10 +9,6 @@ import java.util.List;
 
 public class IncomeTaxTile extends AbstractTaxTile {
 
-    public IncomeTaxTile(int money, Bank bank, int index) {
-        super(money, bank, index);
-    }
-
     public IncomeTaxTile(Bank bank, Element n){
         super(bank, n);
     }
@@ -23,7 +19,6 @@ public class IncomeTaxTile extends AbstractTaxTile {
         List<String> possibleActions = new ArrayList<>(  );
         possibleActions.add("payTaxFixed");
         possibleActions.add("payTaxPercentage");
-
         return possibleActions;
     }
 }

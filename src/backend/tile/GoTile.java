@@ -1,7 +1,6 @@
 package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
-import controller.Actions;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -12,12 +11,6 @@ public class GoTile extends Tile {
     private double landedOnMoney;
     private double passedMoney;
     private int index;
-
-    public GoTile(double landedOnMoney, double passedMoney, int index) {
-        this.landedOnMoney = landedOnMoney;
-        this.passedMoney = passedMoney;
-        this.index = index;
-    }
 
     public GoTile(Element n){
         this.landedOnMoney = Integer.parseInt(getTagValue("LandedMoney", n));

@@ -13,11 +13,6 @@ public class JailTile extends Tile {
     private Set<AbstractPlayer> criminals;
     private int index;
 
-    public JailTile(int index) {
-        criminals = new HashSet<>();
-        this.index = index;
-    }
-
     public JailTile(Element n){
         criminals = new HashSet<>();
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));

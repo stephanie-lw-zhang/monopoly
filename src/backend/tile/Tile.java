@@ -12,9 +12,7 @@ public abstract class Tile {
     private int index;
 
     public abstract List<String> applyLandedOnAction(AbstractPlayer p);
-    //public void applyLandedOnAction(AbstractPlayer p) {
-    //    System.out.println("Player " + p.getMyPlayerName() + " landed on ");
-    //}
+
     public String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);

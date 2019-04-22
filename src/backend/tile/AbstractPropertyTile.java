@@ -21,17 +21,6 @@ public abstract class AbstractPropertyTile extends Tile {
     private String currentInUpgradeOrder;
     private int index;
 
-    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, int index) {
-        this.owner = bank;
-        this.bank = bank;
-        //throw exception if card is not propertycard type
-        this.card = card;
-        this.tiletype = tiletype;
-        this.mortgaged = false;
-        currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
-        this.index =index;
-    }
-
     public AbstractPropertyTile(Bank bank, Element n){
         this.owner = bank;
         this.bank = bank;

@@ -70,8 +70,6 @@ public class Game {
                 myData.getFirstTile(),
                 myBank);
 
-//        System.out.println(myBoard.getAdjacentTiles();
-
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
