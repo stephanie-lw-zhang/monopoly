@@ -1,5 +1,6 @@
 package engine;
 
+import controller.GameController;
 import frontend.ViewMaker;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ public class MonopolyDriver extends Application {
 
     private Stage myStage;
     private Scene myIntroScene;
+    private GameController myGameController;
 
     @Override
     public void start(Stage stage) {
