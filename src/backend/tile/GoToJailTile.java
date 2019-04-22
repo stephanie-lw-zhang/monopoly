@@ -22,5 +22,10 @@ public class GoToJailTile extends Tile {
     public void putPlayerInJail(AbstractPlayer player) {
         player.addTurnInJail();
     }
+
+    @Override
+    public boolean isGoToJailTile(){
+        return true;
+    }
 }
 

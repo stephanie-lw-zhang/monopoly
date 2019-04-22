@@ -37,4 +37,9 @@ public class JailTile extends Tile {
         criminals.remove(player);
         player.getOutOfJail();
     }
+
+    @Override
+    public boolean isJailTile(){
+        return true;
+    }
 }

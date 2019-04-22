@@ -33,7 +33,7 @@ public class StandardBoard extends AbstractBoard {
             tile = next;
             //tile.applyPassedAction(p);
         }
-        if(tile instanceof GoToJailTile) tile = getJailTile();
+        if(tile.isGoToJailTile()) tile = getJailTile();
         getPlayerTileMap().put(p, tile);
     }
 
