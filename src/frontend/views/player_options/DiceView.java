@@ -1,4 +1,4 @@
-package frontend.views;
+package frontend.views.player_options;
 
 import controller.Turn;
 import javafx.animation.RotateTransition;

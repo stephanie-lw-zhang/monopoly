@@ -15,7 +15,7 @@ import configuration.ImportPropertyFile;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
-import frontend.views.DiceView;
+import frontend.views.player_options.DiceView;
 
 import frontend.views.FormView;
 

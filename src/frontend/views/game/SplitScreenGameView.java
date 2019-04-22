@@ -14,10 +14,11 @@ public class SplitScreenGameView extends AbstractGameView {
     public SplitScreenGameView(double screenWidth, double screenHeight,AbstractBoardView boardView){
         super(screenWidth,screenHeight, boardView);
         myBoardView = boardView;
+        myPane.add(myBoardView.getPane(),0,0);
     }
     @Override
     public Node getGameViewNode() {
-        return null;
+        return myPane;
     }
 
     @Override
