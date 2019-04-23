@@ -363,10 +363,7 @@ public class RectangularBoardView extends AbstractBoardView{
         Node tileNode = tile.getNodeOfTileView();
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
-        //System.out.print(details);
         ImportPropertyFile deets = new ImportPropertyFile(details);
-        //System.out.print(deets);
-//        System.out.print("Corner tile Set");
 
         tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
@@ -384,12 +381,6 @@ public class RectangularBoardView extends AbstractBoardView{
         placeCornerTile(tileTen.getTileType(), "", tileTen.getTileType(), "clear", 0, 1);
         placeCornerTile(tileTwenty.getTileType(), "", tileTwenty.getTileType(), "clear", 0, 0);
         placeCornerTile(tileThirty.getTileType(), "", tileThirty.getTileType(), "clear", 1, 0);
-
-//        placeCornerTile(myPropertyFile.getProp("Tile0Name"), myPropertyFile.getProp("Tile0File"),"Go","clear",1,1);
-//        placeCornerTile(myPropertyFile.getProp("Tile10Name"), myPropertyFile.getProp("Tile10File"),"Go","clear",0,1);
-//        placeCornerTile(myPropertyFile.getProp("Tile20Name"), myPropertyFile.getProp("Tile20File"),"Go","clear",0,0);
-//        placeCornerTile(myPropertyFile.getProp("Tile30Name"), myPropertyFile.getProp("Tile30File"),"Go","clear",1,0);
-
     }
 
     public void move(int nMoves) {
