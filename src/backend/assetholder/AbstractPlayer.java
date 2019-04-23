@@ -15,7 +15,7 @@ import java.util.Objects;
 public abstract class AbstractPlayer extends AbstractAssetHolder{
     private String icon;
     private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
-    private Boolean bankrupt;
+    private Boolean bankrupt = false;
     private List<AbstractCard> cards;
     private Bank bank;
     // private int roll;
@@ -141,16 +141,16 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         if (!super.equals(o)) return false;
         AbstractPlayer that = (AbstractPlayer) o;
 //         TODO: UNCOMMENT WHEN ICONS ARE DONE
-        return getIcon().equals(that.getIcon()) &&
-                getMyPlayerName().equals(that.getMyPlayerName());
-//        return getMyPlayerName().equals(that.getMyPlayerName());
+//        return getIcon().equals(that.getIcon()) &&
+//                getMyPlayerName().equals(that.getMyPlayerName());
+        return getMyPlayerName().equals(that.getMyPlayerName());
     }
 
     @Override
     public int hashCode() {
         // TODO: UNCOMMENT WHEN ICONS ARE DONE
-        return Objects.hash(getIcon(), getMyPlayerName());
-//        return Objects.hash(getMyPlayerName());
+//        return Objects.hash(getIcon(), getMyPlayerName());
+        return Objects.hash(getMyPlayerName());
     }
 
     public String getMyPlayerName() { return myPlayerName; }

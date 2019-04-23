@@ -55,7 +55,7 @@ public class GameController {
         myDice = dice;
         chanceDeck = chanceDeck;
         chestDeck = chestDeck;
-//        myBoard = board;
+        myBoard = board;
 
         //TODO: need money and totalPropertiesLeft read in from Data File
         XMLData myData = null;
@@ -68,7 +68,6 @@ public class GameController {
 
         myTestScreen = view;
 
-        // make first param list of players
         myPlayers = new ArrayList<>();
         //TODO: need money read in from data file
         for (TextField player: playerToIcon.keySet()){
@@ -77,6 +76,7 @@ public class GameController {
             }
         }
 
+//        System.out.println(myPlayers.size());
 
         //should game create board? and who creates game?
         myBoard = new StandardBoard(
@@ -235,7 +235,6 @@ public class GameController {
 
     private void handleForfeit(AbstractPlayer player){
         player.declareBankruptcy();
-
         //Grey out all player info, remove them from board (something getChildren.remove)
     }
 

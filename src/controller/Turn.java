@@ -153,6 +153,9 @@ public class Turn {
 //        if(myCurrPlayer.isBankrupt()){
 //            return;
 //        }
+        else if (myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 1){
+            //
+        }
         else if (myCurrPlayer.getTurnsInJail() == 3) {
             //player must either pay 50 and move or skip one turn
             //series of states OR dialogue boxes
@@ -222,9 +225,11 @@ public class Turn {
             player = myCurrPlayer;
             value = ((AbstractPropertyTile)currPlayerTile()).getTilePrice();
         }
+        System.out.println(myCurrPlayer.getMoney());
         buyProperty(player, value);
         Map.Entry<AbstractPlayer,Double> ret = new AbstractMap.SimpleEntry<>(player, value);
-        endTurn();
+        System.out.println(myCurrPlayer.getMoney());
+        //endTurn();
         return ret;
     }
 
@@ -257,9 +262,18 @@ public class Turn {
         return property.determineAuctionResults(auctionAmount);
     }
 
-    public Map.Entry<AbstractPlayer, Double> collectMoney() {
-        return null;
-    }
+//    public Map.Entry<AbstractPlayer, Double> collectMoney() {
+//
+//        Boolean passed = true; //temp variable
+//        if(passed){
+//            myBoard.getBank().payFullAmountTo( myCurrPlayer, myBoard.getGoTile().getPassedMoney() );
+//            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
+//        } else {
+//            //means you landed directly on it
+//            myBoard.getBank().payFullAmountTo( myCurrPlayer, myBoard.getGoTile().getLandedOnMoney() );
+//            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
+//        }
+//    }
 
     public Map.Entry<AbstractPlayer, Double> sellToPlayer() {
         return null;
