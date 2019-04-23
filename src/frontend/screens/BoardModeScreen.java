@@ -43,6 +43,7 @@ public class BoardModeScreen extends AbstractScreen{
         super(sWidth, sHeight, stage);
         myController = new GameSetUpController(sWidth,sHeight);
     }
+
     @Override
     public void makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
