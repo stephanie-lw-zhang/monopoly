@@ -197,6 +197,7 @@ public class TestingScreen extends AbstractScreen {
 //                System.out.println("after buy money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
 //                System.out.println("after buy properties: " + myGame.getMyTurn().getMyCurrPlayer().getProperties());
                 updatePlayerFundsDisplay();
+                updatePlayerPropertiesDisplay();
             }
         });
 
@@ -274,6 +275,7 @@ public class TestingScreen extends AbstractScreen {
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
                 myGame.getMyTurn().onAction("buy", playerValue);
                 updatePlayerFundsDisplay();
+                updatePlayerPropertiesDisplay();
             }
 
         });
@@ -351,6 +353,13 @@ public class TestingScreen extends AbstractScreen {
 
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
                 updatePlayerFundsDisplay();
+                for(Tab tab: allPlayerProperties.getTabs()){
+                    if(tab.getText().equalsIgnoreCase( player )){
+                        allPlayerProperties.getTabs().remove(tab);
+                    }
+                }
+                updatePlayerPropertiesDisplay();
+
             }
         });
 
@@ -387,7 +396,8 @@ public class TestingScreen extends AbstractScreen {
                 END_TURN_BUTTON, TRADE_BUTTON,
                 AUCTION_BUTTON, MORTGAGE_BUTTON,
                 moveCheatKey, createPlayerPropertiesDisplay(),
-                //BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON, FORFEIT_BUTTON,
+//                BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON,
+                FORFEIT_BUTTON,
                 MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, createPlayerFundsDisplay()
         );
 
@@ -480,9 +490,9 @@ public class TestingScreen extends AbstractScreen {
 
     }
 
+
     private void writeInPlayerProperties(AbstractPlayer player, Tab tab){
         TextArea properties = new TextArea();
-//            String text = "";
         String text = "";
         for(AbstractPropertyTile prop: player.getProperties()){
             text = text + prop.getName() + "\n";
