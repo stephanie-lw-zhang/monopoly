@@ -89,7 +89,7 @@ public class SplitScreenGameView extends AbstractGameView {
 
 //https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html#stayup
 //    @Override
-//    public void showOnTileLandingActions(Object[] options, String message, String title) {
+//    public void displayOptionsPopup(Object[] options, String message, String title) {
 ////        int n = JOptionPane.showOptionDialog(frame,message,title, JOptionPane.YES_NO_OPTION,
 ////                JOptionPane.QUESTION_MESSAGE,null, options, options[0]);
 //

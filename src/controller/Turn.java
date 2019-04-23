@@ -50,6 +50,7 @@ public class Turn {
     }
 
     public void start() {
+        System.out.println(myActions);
         myActions.clear();
         isTurnOver = false;
 
@@ -225,10 +226,8 @@ public class Turn {
             player = myCurrPlayer;
             value = ((AbstractPropertyTile)currPlayerTile()).getTilePrice();
         }
-        System.out.println(myCurrPlayer.getMoney());
         buyProperty(player, value);
         Map.Entry<AbstractPlayer,Double> ret = new AbstractMap.SimpleEntry<>(player, value);
-        System.out.println(myCurrPlayer.getMoney());
         //endTurn();
         return ret;
     }

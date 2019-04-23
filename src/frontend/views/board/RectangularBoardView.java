@@ -1,11 +1,7 @@
 package frontend.views.board;
 
-import api.Monopoly.BackEnd.PropertyTile;
 import backend.board.AbstractBoard;
-import backend.card.AbstractCard;
-import backend.card.BuildingCard;
 import backend.card.PropertyCard;
-import backend.tile.AbstractNonBuildingPropertyTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import frontend.views.board.boardcomponents.*;
@@ -110,9 +106,8 @@ public class RectangularBoardView extends AbstractBoardView{
         }
     }
 
-
     private double calculateTileWidth(double sideLength, double totalTiles){
-        return (double) (sideLength-myTileHeight*2)/(totalTiles-2);
+        return (sideLength-myTileHeight*2)/(totalTiles-2);
     }
 
     @Override

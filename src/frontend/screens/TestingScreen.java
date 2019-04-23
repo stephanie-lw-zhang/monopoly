@@ -245,13 +245,6 @@ public class TestingScreen extends AbstractScreen {
 
         });
 
-        MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handlePayTaxPercentage();
-            }
-        });
-
         COLLECT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             //WORKS
             @Override
@@ -333,7 +326,6 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-
         moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
         playerOptionsModal.getChildren().addAll(
                 myDiceView, ROLL_BUTTON,
@@ -357,6 +349,36 @@ public class TestingScreen extends AbstractScreen {
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
     }
+
+    //TODO: delete these (FOR TESTING rn)
+//    public String showInputTextDialog(String title, String header, String content) {
+//        TextInputDialog dialog = new TextInputDialog("0");
+//        dialog.setTitle(title);
+//        dialog.setHeaderText(header);
+//        dialog.setContentText(content);
+//        Optional<String> result = dialog.showAndWait();
+//        if (result.isPresent()) {
+//            return result.get();
+//        }
+//        else {
+//            //TODO: throw exception
+//            return null;
+//        }
+//    }
+//
+//    public String displayOptionsPopup(List<String> options, String title, String header, String content) {
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle(title);
+//        alert.setHeaderText(header);
+//        alert.setContentText(content);
+//        List<ButtonType> buttonOptions = new ArrayList<>();
+//        for (String option : options) {
+//            buttonOptions.add(new ButtonType(option));
+//        }
+//        alert.getButtonTypes().setAll(buttonOptions);
+//        Optional<ButtonType> result = alert.showAndWait();
+//        return result.get().getText();
+//    }
 
     private TextFlow createPlayersText() {
         TextFlow playersText = new TextFlow();
@@ -458,4 +480,3 @@ public class TestingScreen extends AbstractScreen {
         return myFormView;
     }
 }
-
