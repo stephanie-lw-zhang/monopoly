@@ -8,6 +8,8 @@ import backend.board.StandardBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.ImprovedPropertyException;
+import backend.exceptions.MortgagePropertyException;
 import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -204,7 +206,13 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles( myGame.getBoard().getJailTile() ).get( 0 );
                 //HARDCODED
-                property.mortgageProperty();
+                try {
+                    property.mortgageProperty();
+                } catch (MortgagePropertyException e) {
+                    e.popUp();
+                } catch (ImprovedPropertyException e) {
+                    e.popUp();
+                }
 
             }
         });

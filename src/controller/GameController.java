@@ -9,6 +9,8 @@ import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.ImprovedPropertyException;
+import backend.exceptions.MortgagePropertyException;
 import backend.tile.AbstractTaxTile;
 import backend.tile.IncomeTaxTile;
 import backend.tile.AbstractPropertyTile;
@@ -222,7 +224,14 @@ public class GameController {
     }
 
     private void handleMortgage(AbstractPropertyTile property){
-        property.mortgageProperty();
+        try {
+            property.mortgageProperty();
+        } catch (MortgagePropertyException m) {
+            m.popUp();
+        }
+        catch (ImprovedPropertyException i) {
+            i.popUp();
+        }
     }
 
     private void handleTrade() {
@@ -260,34 +269,39 @@ public class GameController {
     private void handleSellToPlayer(AbstractPlayer buyer, AbstractPropertyTile tile) {
 //        System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties() + " " + tile.isMortgaged());
 //        System.out.println("initial money for buyer: " + buyer.getMoney() + " " + buyer.getProperties());
-        double amount = 0;
-        boolean sellAmountDetermined = false;
-        while (!sellAmountDetermined) {
-            String value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
-                    "Enter your proposed amount:",
-                    "Amount:");
-            try {
-                amount = Double.parseDouble(value);
-            } catch (NumberFormatException n) {
-                new IllegalInputTypeException("Input must be a number!");
-            }
-            List<String> options = listYesNoOptionsOnly();
-            String result = myGameView.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
-            if (result.equals("Yes")) {
-                sellAmountDetermined = true;
-                tile.sellTo(buyer,amount,getSameSetProperties(tile));
+        //TODO: check if property is improved
+        try {
+            double amount = 0;
+            boolean sellAmountDetermined = false;
+            while (!sellAmountDetermined) {
+                String value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
+                        "Enter your proposed amount:",
+                        "Amount:");
+                try {
+                    amount = Double.parseDouble(value);
+                } catch (NumberFormatException n) {
+                    new IllegalInputTypeException("Input must be a number!");
+                }
+                List<String> options = listYesNoOptionsOnly();
+                String result = myGameView.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
+                if (result.equals("Yes")) {
+                    sellAmountDetermined = true;
+                    tile.sellTo(buyer,amount,getSameSetProperties(tile));
 //                System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
 //                System.out.println("after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
-                if (tile.isMortgaged()) {
-                    result = myGameView.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
-                    if (result.equals("Yes")) {
-                        tile.unmortgageProperty();
-                    }
-                    else {
-                        tile.soldMortgagedPropertyLaterUnmortgages();
+                    if (tile.isMortgaged()) {
+                        result = myGameView.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
+                        if (result.equals("Yes")) {
+                            tile.unmortgageProperty();
+                        }
+                        else {
+                            tile.soldMortgagedPropertyLaterUnmortgages();
+                        }
                     }
                 }
             }
+        } catch (MortgagePropertyException m) {
+             m.popUp();
         }
 //        System.out.println("after after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
 //        System.out.println("after after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
