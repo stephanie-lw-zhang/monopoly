@@ -19,7 +19,6 @@ public class CellFactory extends ListCell<String> {
             imageView.setFitWidth(25);
             setGraphic(new HBox(imageView));
         }
-
         setText("");
     }
 
