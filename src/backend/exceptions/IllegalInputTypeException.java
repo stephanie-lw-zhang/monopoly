@@ -2,7 +2,7 @@ package backend.exceptions;
 
 import javafx.scene.control.Alert;
 
-public class IllegalInputTypeException extends Exception {
+public class IllegalInputTypeException extends NumberFormatException {
 
     public IllegalInputTypeException(String message) {
         super(message);

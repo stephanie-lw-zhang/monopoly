@@ -14,13 +14,9 @@ public class JailTile extends Tile {
     private int index;
     private double bailAmount = 50;
 
-    public JailTile(int index) {
-        criminals = new HashSet<>();
-        this.index = index;
-    }
-
     public JailTile(Element n){
         criminals = new HashSet<>();
+        setTileType(getTagValue("TileType", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 

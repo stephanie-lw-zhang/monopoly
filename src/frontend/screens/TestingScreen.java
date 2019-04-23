@@ -12,6 +12,7 @@ import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.ImportPropertyFile;
+import configuration.XMLData;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -67,7 +68,6 @@ public class TestingScreen extends AbstractScreen {
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
     private final Button MOVE_BUTTON = new Button("MOVE");
     private final Button BUY_BUTTON = new Button("BUY");
-
     private final Button COLLECT_BUTTON = new Button("COLLECT");
     private final Button GO_TO_JAIL_BUTTON = new Button("Go To Jail");
     private final Button PAY_RENT_BUTTON = new Button("Pay Rent");
@@ -80,17 +80,17 @@ public class TestingScreen extends AbstractScreen {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-        END_TURN_BUTTON.setId("endTurn");
-        BUY_BUTTON.setId("buy");
-        AUCTION_BUTTON.setId("auction");
-        MORTGAGE_BUTTON.setId("mortgage");
-        COLLECT_BUTTON.setId( "collect" );
-        PAY_RENT_BUTTON.setId( "payRent" );
-        PAY_BAIL_BUTTON.setId( "payBail" );
-        FORFEIT_BUTTON.setId("forfeit");
-        MOVE_BUTTON.setId( "move handler" );
-    }
 
+//        END_TURN_BUTTON.setId("endTurn");
+//        BUY_BUTTON.setId("buy");
+//        AUCTION_BUTTON.setId("auction");
+//        MORTGAGE_BUTTON.setId("mortgage");
+//        COLLECT_BUTTON.setId( "collect" );
+//        PAY_RENT_BUTTON.setId( "payRent" );
+//        PAY_BAIL_BUTTON.setId( "payBail" );
+//        FORFEIT_BUTTON.setId("forfeit");
+//        MOVE_BUTTON.setId( "move handler" );
+ }
 
     @Override
     public void makeScreen() {
@@ -100,8 +100,13 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setCache(true);
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
-
-        myBoardView = new SquareBoardView(screenWidth*0.5, screenHeight*0.9,90,11,11, myPropertyFile);
+        XMLData data = null;
+        try {
+            data = new XMLData("OriginalMonopoly.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
         myFormView = new FormView(this);
 
         ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));
@@ -235,6 +240,14 @@ public class TestingScreen extends AbstractScreen {
                 displayActionInfo(info);
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
                 myGame.getMyTurn().onAction("buy", playerValue);
+            }
+
+        });
+
+        MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.handlePayTaxPercentage();
             }
         });
 
