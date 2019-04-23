@@ -244,7 +244,7 @@ public class Turn {
 
     public Map.Entry<AbstractPlayer, Double> payBail() {
 
-        myCurrPlayer.payFullAmountTo(myCurrPlayer.getBank(), 1500.00);
+        myCurrPlayer.payFullAmountTo(myBoard.getBank(), 1500.00);
 
         // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
         // MUST BE FROM DATA FILE, CURRENTLY HARD CODED

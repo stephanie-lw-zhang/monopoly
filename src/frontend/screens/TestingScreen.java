@@ -76,8 +76,6 @@ public class TestingScreen extends AbstractScreen {
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
 
 
-
-
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
@@ -405,15 +403,6 @@ public class TestingScreen extends AbstractScreen {
                 box.getChildren().addAll( player, icon, nextLine );
             }
         }
-    }
-
-    private ImageView makeIcon(ComboBox iconSelection) {
-        Image image = new Image(iconSelection.getValue() + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-
-        return imageView;
     }
 
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {
