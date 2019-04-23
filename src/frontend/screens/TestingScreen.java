@@ -139,7 +139,7 @@ public class TestingScreen extends AbstractScreen {
                 new SixDice(),
                 new NormalDeck(),
                 new NormalDeck(),
-                makeBoard( playerToIcon ),
+//                makeBoard( playerToIcon )
                 playerToIcon
         );
 
@@ -394,10 +394,10 @@ public class TestingScreen extends AbstractScreen {
     }
 
     private void setPlayerNameAndIcon(TextFlow box) {
-        for (TextField p : myFormView.getPlayerToIcon().keySet()){
+        for (TextField p : myFormView.getPlayerToIconMap().keySet()){
             if(!p.getText().equals("")){
                 Text player = new Text(p.getText());
-                ImageView icon = new ImageView(  myFormView.getPlayerToIcon().get( p ).getValue() + ".png");
+                ImageView icon = new ImageView(  myFormView.getPlayerToIconMap().get( p ).getValue() + ".png");
                 icon.setFitWidth( 25 );
                 icon.setFitHeight( 25 );
                 icon.setPreserveRatio( true );
@@ -407,33 +407,13 @@ public class TestingScreen extends AbstractScreen {
         }
     }
 
-    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
-        List<AbstractPlayer> playerList = makePlayerList( playerToIcon );
+    private ImageView makeIcon(ComboBox iconSelection) {
+        Image image = new Image(iconSelection.getValue() + ".png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
 
-        AbstractBoard board = new StandardBoard(
-                playerList,
-                new HashMap<Tile, List<Tile>>(),
-                new HashMap<String, List<AbstractPropertyTile>>(),
-                new GoTile(200, 200, 0),
-                new Bank(200000.0, new HashMap<String, Integer>())
-        );
-
-        return board;
-    }
-
-    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
-        Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
-        List<AbstractPlayer> playerList = new ArrayList<>();
-
-        for (TextField pName : playerToIcon.keySet()) {
-            String name = pName.getText();
-            if (! name.equals(""))
-                playerList.add(new HumanPlayer(name, 1500.0, bank));
-            //should be from data file
-            //throw exception
-        }
-
-        return playerList;
+        return imageView;
     }
 
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {
