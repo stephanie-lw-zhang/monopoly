@@ -1,19 +1,13 @@
 package frontend.screens;
 
 import backend.assetholder.AbstractPlayer;
-import backend.assetholder.Bank;
-import backend.assetholder.HumanPlayer;
-import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
-import backend.card.PropertyCard;
-import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
 import backend.exceptions.ImprovedPropertyException;
 import backend.exceptions.MortgagePropertyException;
-import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.Tile;
+import backend.tile.BuildingTile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import controller.Turn;
@@ -63,6 +57,7 @@ public class TestingScreen extends AbstractScreen {
     private double               screenWidth;
     private double               screenHeight;
     private TextArea             fundsDisplay;
+    private TabPane allPlayerProperties;
     private ObservableList<ImageView> myIconsList;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
@@ -391,7 +386,8 @@ public class TestingScreen extends AbstractScreen {
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON,
                 AUCTION_BUTTON, MORTGAGE_BUTTON,
-                moveCheatKey, BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON, FORFEIT_BUTTON,
+                moveCheatKey, createPlayerPropertiesDisplay(),
+                //BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON, FORFEIT_BUTTON,
                 MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, createPlayerFundsDisplay()
         );
 
@@ -460,11 +456,46 @@ public class TestingScreen extends AbstractScreen {
         return playersText;
     }
 
+    private TabPane createPlayerPropertiesDisplay(){
+        allPlayerProperties = new TabPane( );
+        for(AbstractPlayer p: myGame.getBoard().getMyPlayerList()){
+            Tab tab = new Tab(p.getMyPlayerName());
+            tab.setId( p.getMyPlayerName() );
+            writeInPlayerProperties( p, tab );
+            allPlayerProperties.getTabs().add( tab );
+
+        }
+        allPlayerProperties.setMaxHeight( 200 );
+        allPlayerProperties.setMaxWidth( 200 );
+        return allPlayerProperties;
+
+    }
+
+    private void updatePlayerPropertiesDisplay() {
+        System.out.println(allPlayerProperties.getTabs());
+        for(Tab tab: allPlayerProperties.getTabs()){
+            AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
+            writeInPlayerProperties(player, tab);
+        }
+
+    }
+
+    private void writeInPlayerProperties(AbstractPlayer player, Tab tab){
+        TextArea properties = new TextArea();
+//            String text = "";
+        String text = "";
+        for(AbstractPropertyTile prop: player.getProperties()){
+            text = text + prop.getName() + "\n";
+        }
+        properties.setText( text );
+        tab.setContent( properties );
+    }
+
     private TextArea createPlayerFundsDisplay(){
         fundsDisplay = new TextArea( );
         updatePlayerFundsDisplay();
-        fundsDisplay.setMaxHeight( 200 );
-        fundsDisplay.setMaxWidth( 150 );
+        fundsDisplay.setMaxHeight( 150 );
+        fundsDisplay.setMaxWidth( 200 );
         fundsDisplay.setStyle( "-fx-background-color: white" );
         return fundsDisplay;
     }
