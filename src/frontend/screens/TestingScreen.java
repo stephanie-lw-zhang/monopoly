@@ -8,6 +8,7 @@ import backend.board.StandardBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
+import backend.tile.AbstractTaxTile;
 import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -68,17 +69,11 @@ public class TestingScreen extends AbstractScreen {
     private final Button MOVE_BUTTON = new Button("MOVE");
     private final Button BUY_BUTTON = new Button("BUY");
 
-
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-        END_TURN_BUTTON.setId("endTurn");
-        BUY_BUTTON.setId("buy");
-        AUCTION_BUTTON.setId("auction");
-            MORTGAGE_BUTTON.setId("mortgage");
     }
-
 
     @Override
     public void makeScreen() {
@@ -198,6 +193,14 @@ public class TestingScreen extends AbstractScreen {
                 displayActionInfo(info);
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
                 myGame.getMyTurn().onAction("buy", playerValue);
+            }
+
+        });
+
+        MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.handlePayTaxPercentage();
             }
         });
 

@@ -38,11 +38,11 @@ public abstract class AbstractPropertyTile extends Tile {
 
 //        //controller will send player option to buy property? interact with front-end
         if (isBuyableFromBank()) {
-            possibleActions.add("buy");
-            possibleActions.add("auction");
+            possibleActions.add("BUY");
+            possibleActions.add("AUCTION");
         }
         else if (!player.equals(getOwner())) {
-            possibleActions.add("payRent");
+            possibleActions.add("PAY RENT");
 
 
 //      player.payFullAmountTo(getOwner(), calculateRentPrice());

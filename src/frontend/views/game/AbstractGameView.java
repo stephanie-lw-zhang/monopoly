@@ -7,10 +7,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 abstract public class AbstractGameView {
     private Scene myScene;
@@ -32,6 +35,21 @@ abstract public class AbstractGameView {
         formAlert.setContentText(info);
         formAlert.showAndWait();
     }
+
+    public String showOnTileLandingActions(List<String> options, String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        List<ButtonType> buttonOptions = new ArrayList<>();
+        for (String option : options) {
+            buttonOptions.add(new ButtonType(option));
+        }
+        alert.getButtonTypes().setAll(buttonOptions);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.get().getText();
+    }
+
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
 
     public abstract Node getPane();

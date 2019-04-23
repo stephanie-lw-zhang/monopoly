@@ -36,7 +36,7 @@ public abstract class Tile {
     }
 
     public boolean isGoToJailTile(){
-        return true;
+        return false;
     }
 
 }

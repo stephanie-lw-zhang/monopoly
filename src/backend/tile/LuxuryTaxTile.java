@@ -17,7 +17,7 @@ public class LuxuryTaxTile extends AbstractTaxTile {
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>(  );
-        possibleActions.add("payTaxFixed");
+        possibleActions.add("PAY TAX FIXED");
         return possibleActions;
     }
 
