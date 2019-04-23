@@ -260,6 +260,7 @@ public class GameController {
     private void handleGoToJail() {
        myTurn.goToJail();
        myGameView.displayActionInfo( "Arrested! You're going to Jail." );
+       //DO NOT COLLECT MONEY PASSING GO
     }
 
     private void handleDrawCard() {

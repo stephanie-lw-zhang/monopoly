@@ -5,6 +5,7 @@ import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
+import backend.card.PropertyCard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
@@ -24,6 +25,7 @@ import frontend.views.FormView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -60,7 +62,7 @@ public class TestingScreen extends AbstractScreen {
     private GameController       myGame;
     private double               screenWidth;
     private double               screenHeight;
-
+    private TextArea             fundsDisplay;
     private ObservableList<ImageView> myIconsList;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
@@ -76,6 +78,8 @@ public class TestingScreen extends AbstractScreen {
     private final Button PAY_BAIL_BUTTON = new Button("Pay Bail");
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
+    private final Button UNMORTGAGE_BUTTON = new Button("Unmortgage");
+
 
 
     public TestingScreen(double width, double height, Stage stage) {
@@ -197,17 +201,40 @@ public class TestingScreen extends AbstractScreen {
                 displayActionInfo(info);
 //                System.out.println("after buy money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
 //                System.out.println("after buy properties: " + myGame.getMyTurn().getMyCurrPlayer().getProperties());
-
+                updatePlayerFundsDisplay();
             }
         });
 
         MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles( myGame.getBoard().getJailTile() ).get( 0 );
-                //HARDCODED
                 try {
+                    ObservableList<String> players = getAllPlayerNames();
+                    String mortgagerName = displayDropDownAndReturnResult( "Mortgage", "Select the player who wants to mortgage: ", players );
+                    AbstractPlayer mortgager = myGame.getBoard().getPlayerFromName( mortgagerName );
+
+                    ObservableList<String> possibleProperties = FXCollections.observableArrayList();
+                    for(AbstractPropertyTile p: mortgager.getProperties()){
+                        possibleProperties.add( p.getName() );
+                    }
+
+                    AbstractPropertyTile property = null;
+                    if (possibleProperties.size()==0){
+                        displayActionInfo( "You have no properties to mortgage at this time." );
+                    } else{
+                        String propertyToMortgage = displayDropDownAndReturnResult( "Mortgage", "Select the property to be mortgaged", possibleProperties );
+                        for(AbstractPropertyTile p: mortgager.getProperties()){
+                            if(p.getName().equalsIgnoreCase( propertyToMortgage )){
+                                property = p;
+                            }
+                        }
+                    }
+//                    System.out.println(property);
+//                    System.out.println("mortgaged: " + property.isMortgaged());
                     property.mortgageProperty();
+//                    System.out.println("mortgaged: " + property.isMortgaged());
+
+                    updatePlayerFundsDisplay();
                 } catch (MortgagePropertyException e) {
                     e.popUp();
                 } catch (ImprovedPropertyException e) {
@@ -227,6 +254,7 @@ public class TestingScreen extends AbstractScreen {
                 myGame.getMyTurn().getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myGame.getMyTurn().getNumMoves()));
 //                System.out.println("After owner:" + property.getOwner().getMoney());
 //                System.out.println("After payee: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+                updatePlayerFundsDisplay();
             }
         });
 
@@ -250,6 +278,7 @@ public class TestingScreen extends AbstractScreen {
                 displayActionInfo(info);
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
                 myGame.getMyTurn().onAction("buy", playerValue);
+                updatePlayerFundsDisplay();
             }
 
         });
@@ -276,6 +305,7 @@ public class TestingScreen extends AbstractScreen {
 //                    System.out.println("After money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
 
                 }
+                updatePlayerFundsDisplay();
             }
         });
 
@@ -300,6 +330,7 @@ public class TestingScreen extends AbstractScreen {
                 displayActionInfo( "You've successfully paid bail. You're free now!" );
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+                updatePlayerFundsDisplay();
             }
         });
 
@@ -307,14 +338,16 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
-                AbstractPlayer player = myGame.getMyTurn().getMyCurrPlayer();
-                //TEMPORARY FIX
+                ObservableList<String> players = getAllPlayerNames();
+                String player = displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
+                AbstractPlayer forfeiter = myGame.getBoard().getPlayerFromName( player );
+
 //                System.out.println("initial money:" + player.getMoney());
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
-                player.declareBankruptcy(myGame.getBoard().getBank());
-                myGame.getBoard().getMyPlayerList().remove( player );
-                myGame.getBoard().getPlayerTileMap().remove( player );
+                forfeiter.declareBankruptcy(myGame.getBoard().getBank());
+                myGame.getBoard().getMyPlayerList().remove( forfeiter );
+                myGame.getBoard().getPlayerTileMap().remove( forfeiter );
                 //MUST REMOVE FROM FRONT END
 
 //                System.out.println("After money:" + player.getMoney());
@@ -322,17 +355,33 @@ public class TestingScreen extends AbstractScreen {
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
 
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
+                updatePlayerFundsDisplay();
             }
         });
 
         MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
+                    //throw exception "you cannot move because you are in jail"
+                }
+                else{
+                    myGame.getBoard().movePlayer( myGame.getMyTurn().getMyCurrPlayer(), myGame.getMyTurn().getNumMoves() );
+                }
+            }
+        });
+
+        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() >= 0 || myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() <= 2 )
-                myGame.getMyTurn().goToJail();
-                displayActionInfo( "Arrested! You're going to Jail." );
-//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getN  ame());
+                AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles( myGame.getBoard().getJailTile() ).get( 0 );
+                try {
+                    property.unmortgageProperty();
+                    updatePlayerFundsDisplay();
+                } catch (MortgagePropertyException e) {
+                    e.popUp();
+                }
             }
         });
 
@@ -342,7 +391,8 @@ public class TestingScreen extends AbstractScreen {
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON,
                 AUCTION_BUTTON, MORTGAGE_BUTTON,
-                moveCheatKey, BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON, FORFEIT_BUTTON
+                moveCheatKey, BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON, FORFEIT_BUTTON,
+                MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, createPlayerFundsDisplay()
         );
 
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
@@ -358,6 +408,14 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
+    }
+
+    private ObservableList<String> getAllPlayerNames() {
+        ObservableList<String> players = FXCollections.observableArrayList();
+        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList()) {
+            players.add( p.getMyPlayerName() );
+        }
+        return players;
     }
 
     //TODO: delete these (FOR TESTING rn)
@@ -402,6 +460,23 @@ public class TestingScreen extends AbstractScreen {
         return playersText;
     }
 
+    private TextArea createPlayerFundsDisplay(){
+        fundsDisplay = new TextArea( );
+        updatePlayerFundsDisplay();
+        fundsDisplay.setMaxHeight( 200 );
+        fundsDisplay.setMaxWidth( 150 );
+        fundsDisplay.setStyle( "-fx-background-color: white" );
+        return fundsDisplay;
+    }
+
+    private void updatePlayerFundsDisplay(){
+        String text = "Player Funds \n";
+        for(AbstractPlayer p: myGame.getBoard().getMyPlayerList() ){
+            text = text + p.getMyPlayerName() + ": " + p.getMoney() + "\n";
+        }
+        fundsDisplay.setText( text );
+    }
+
     private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer,Double> param) {
         Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
         mapFromSet.put(param.getKey(), param.getValue());
@@ -412,6 +487,15 @@ public class TestingScreen extends AbstractScreen {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
         formAlert.setContentText(info);
         formAlert.showAndWait();
+    }
+
+    private String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options){
+        ChoiceDialog players = new ChoiceDialog( options.get( 0 ), options );
+        players.setHeaderText( title );
+        players.setContentText(prompt);
+        //"Select the player who wants to mortgage a property: "
+        players.showAndWait();
+        return (String) players.getSelectedItem();
     }
 
     private String showAuctionInputTextDialog(String name) {
