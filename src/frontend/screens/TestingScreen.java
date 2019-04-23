@@ -319,9 +319,10 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
+                if (myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() >= 0 || myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() <= 2 )
                 myGame.getMyTurn().goToJail();
                 displayActionInfo( "Arrested! You're going to Jail." );
-//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
+//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getN  ame());
             }
         });
 
