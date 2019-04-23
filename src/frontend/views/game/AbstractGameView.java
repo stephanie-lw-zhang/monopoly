@@ -20,7 +20,7 @@ abstract public class AbstractGameView {
     private AbstractBoardView myBoardView;
     private BorderPane myPane;
 
-    public AbstractGameView(double screenWidth, double screenHeight, ImportPropertyFile propertyFile){
+    public AbstractGameView(double screenWidth, double screenHeight){
         setBoundsForEntireGame(screenWidth,screenHeight);
         divideScreen();
     }

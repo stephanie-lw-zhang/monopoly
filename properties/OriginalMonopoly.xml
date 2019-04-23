@@ -143,10 +143,10 @@
     <Tile>
         <TileNumber>6</TileNumber>
         <TileType>BuildingTile</TileType>
-        <TileColor>Sky Blue</TileColor>
+        <TileColor>LightBlue</TileColor>
         <Card>
             <TitleDeed>Oriental Avenue</TitleDeed>
-            <TileColor>Sky Blue</TileColor>
+            <TileColor>LightBlue</TileColor>
             <Upgrades>
                 <Upgrade>NoHouse,0,House,6,0,0</Upgrade>
             </Upgrades>
@@ -186,10 +186,10 @@
     <Tile>
         <TileNumber>8</TileNumber>
         <TileType>BuildingTile</TileType>
-        <TileColor>Sky Blue</TileColor>
+        <TileColor>LightBlue</TileColor>
         <Card>
             <TitleDeed>Vermont Avenue</TitleDeed>
-            <TileColor>Sky Blue</TileColor>
+            <TileColor>LightBlue</TileColor>
             <Upgrades>
                 <Upgrade>NoHouse,0,House,6,0,0</Upgrade>
             </Upgrades>
@@ -223,10 +223,10 @@
     <Tile>
         <TileNumber>9</TileNumber>
         <TileType>BuildingTile</TileType>
-        <TileColor>Sky Blue</TileColor>
+        <TileColor>LightBlue</TileColor>
         <Card>
             <TitleDeed>Connecticut Avenue</TitleDeed>
-            <TileColor>Sky Blue</TileColor>
+            <TileColor>LightBlue</TileColor>
             <Upgrades>
                 <Upgrade>NoHouse,0,House,8,0,0</Upgrade>
             </Upgrades>
