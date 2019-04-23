@@ -142,7 +142,7 @@ public class GameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        myGameView = new SplitScreenGameView(width, height, propertyFile);
+        myGameView = new SplitScreenGameView(width, height);
 //        myBoard = new StandardBoard(
 //                myPlayers,
 //                myData.getAdjacencyList(),

@@ -16,6 +16,7 @@ import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+import configuration.XMLData;
 
 import java.util.*;
 
@@ -35,16 +36,24 @@ public abstract class AbstractBoard {
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
      */
-    public AbstractBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjacencyMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, int nDie, Bank bank) {
+    public AbstractBoard(List<AbstractPlayer> playerList, Map<Tile, List<Tile>> adjMap, Map<String, List<AbstractPropertyTile>> colorListMap, Tile go, int nDie, Bank bnk) {
         myPlayerList = playerList;
-        this.adjacencyMap = adjacencyMap;
+        adjacencyMap = adjMap;
         propertyCategoryToSpecificListMap = colorListMap;
-        playerPositionMap = new HashMap<>();
         numDie = nDie;
+        bank = bnk;
+        playerPositionMap = new HashMap<>();
         for (AbstractPlayer p : playerList) playerPositionMap.put(p, go);
-        this.bank = bank;
-        DeckInterface        chanceDeck;
-        DeckInterface        chestDeck;
+    }
+
+    public AbstractBoard(List<AbstractPlayer> playerList, XMLData data){
+        myPlayerList = playerList;
+        adjacencyMap = data.getAdjacencyList();
+        propertyCategoryToSpecificListMap = data.getPropertyCategoryMap();
+        numDie = data.getNumDie();
+        bank = data.getBank();
+        playerPositionMap = new HashMap<>();
+        for (AbstractPlayer p : playerList) playerPositionMap.put(p, data.getFirstTile());
     }
 
     /**

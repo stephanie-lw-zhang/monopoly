@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IncomeTaxTile extends AbstractTaxTile {
+
     private double taxMultiplier;
+
+    public IncomeTaxTile(int money, Bank bank, String tileType, int index) {
+        super(money, bank, tileType, index);
+    }
 
     public IncomeTaxTile(Bank bank, Element n){
         super(bank, n);

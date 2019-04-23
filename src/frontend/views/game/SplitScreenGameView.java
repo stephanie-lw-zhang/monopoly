@@ -1,6 +1,8 @@
 package frontend.views.game;
 
+import backend.board.StandardBoard;
 import configuration.ImportPropertyFile;
+import configuration.XMLData;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.player_options.AbstractOptionsView;
@@ -12,6 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,9 +29,13 @@ public class SplitScreenGameView extends AbstractGameView {
 //    private JOptionPane optionPane;
 //    private JDialog dialog;
 
-    public SplitScreenGameView(double screenWidth, double screenHeight, ImportPropertyFile propertyFile){
-        super(screenWidth,screenHeight, propertyFile);
-        myBoardView = new SquareBoardView(0.9*screenWidth, 0.9*screenHeight,90,11,11,propertyFile);
+    public SplitScreenGameView(double screenWidth, double screenHeight){
+        super(screenWidth,screenHeight);
+        try {
+            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), new XMLData("OriginalMonopoly.xml")), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
+        } catch (Exception e) {
+            e.printStackTrace(); //change this !!!
+        }
         myOptionsView = new VBoxOptionsView(this);
         myPane.add(myBoardView.getPane(),0,0);
 //        frame = new JFrame("Frame");

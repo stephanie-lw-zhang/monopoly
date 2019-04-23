@@ -9,6 +9,7 @@ import java.util.List;
 public class GoToJailTile extends Tile {
 
     public GoToJailTile(Element n){
+        setTileType(getTagValue("TileType", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 

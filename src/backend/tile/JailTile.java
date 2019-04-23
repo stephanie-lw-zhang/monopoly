@@ -16,6 +16,7 @@ public class JailTile extends Tile {
 
     public JailTile(Element n){
         criminals = new HashSet<>();
+        setTileType(getTagValue("TileType", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 
