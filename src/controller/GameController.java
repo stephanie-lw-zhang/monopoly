@@ -210,7 +210,7 @@ public class GameController {
         handlerMap.put("AUCTION",event->this.handleAuction());
         handlerMap.put("BUY",event->this.handleBuy());
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
-        handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
+//        handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("DRAW CARD",event->this.handleDrawCard());
         handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
         handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
@@ -255,17 +255,15 @@ public class GameController {
     private void handleTrade() {
     }
 
-    public void handlePayTaxPercentage() {
-//        System.out.println("initial money: " + myTurn.getMyCurrPlayer().getMoney());
+    private void handlePayTaxPercentage() {
         myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier() );
-//        System.out.println("after money: " + myTurn.getMyCurrPlayer().getMoney());
     }
 
     private void handleTileLanding() {
         List<String> actions = new ArrayList<>();
         actions.add("PAY TAX PERCENTAGE");
         actions.add("PAY TAX FIXED");
-        String action = myGameView.showOnTileLandingActions(actions, "Options", "Tile Actions", "Choose One");
+        String action = myGameView.displayOptionsPopup(actions, "Options", "Tile Actions", "Choose One");
     }
 
     private void handlePayRent(AbstractPropertyTile property) {
@@ -283,12 +281,49 @@ public class GameController {
     }
 
     private void handleDrawCard() {
+
     }
 
-    private void handleSellToPlayer() {
+    public void handleSellToPlayer(AbstractPlayer buyer, AbstractPropertyTile tile) {
+        System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties() + " " + tile.isMortgaged());
+        System.out.println("initial money for buyer: " + buyer.getMoney() + " " + buyer.getProperties());
+        double amount = 0;
+        boolean sellAmountDetermined = false;
+        while (!sellAmountDetermined) {
+            String value = myTestScreen.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
+                    "Enter your proposed amount:",
+                    "Amount:");
+            try {
+                amount = Double.parseDouble(value);
+            } catch (NumberFormatException n) {
+                new IllegalInputTypeException("Input must be a number!");
+            }
+            List<String> options = new ArrayList<>();
+            options.add("Yes");
+            options.add("No");
+            String result = myTestScreen.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
+            if (result.equals("Yes")) {
+                sellAmountDetermined = true;
+                tile.sellTo(buyer,amount,getSameSetProperties(tile));
+                System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+                System.out.println("after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
+                if (tile.isMortgaged()) {
+                    result = myTestScreen.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
+                    if (result.equals("Yes")) {
+                        tile.unmortgageProperty();
+                    }
+                    else {
+                        tile.soldMortgagedPropertyLaterUnmortgages();
+                    }
+                }
+            }
+        }
+        System.out.println("after after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+        System.out.println("after after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
     }
 
     private void handleSellToBank() {
+
     }
 
     private void handleBuy() {
@@ -331,5 +366,9 @@ public class GameController {
 
     public Node getGameNode() {
         return myGameView.getPane();
+    }
+
+    private List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {
+        return myBoard.getColorListMap().get( property.getCard().getCategory());
     }
 }

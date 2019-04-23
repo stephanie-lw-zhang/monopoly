@@ -37,7 +37,7 @@ abstract public class AbstractGameView {
         formAlert.showAndWait();
     }
 
-    public String showOnTileLandingActions(List<String> options, String title, String header, String content) {
+    public String displayOptionsPopup(List<String> options, String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
