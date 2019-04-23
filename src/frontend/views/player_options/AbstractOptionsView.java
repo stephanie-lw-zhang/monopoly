@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 
+import javax.sound.sampled.Control;
 import java.util.Map;
 
 abstract public class AbstractOptionsView {

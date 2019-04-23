@@ -1,5 +1,8 @@
 package frontend.screens;
 
+import backend.board.StandardBoard;
+import configuration.ImportPropertyFile;
+import configuration.XMLData;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import configuration.ImportPropertyFile;
@@ -26,6 +29,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 /**
  * For BOARD testing purposes
  *
@@ -41,8 +46,17 @@ public class BoardModeScreen extends AbstractScreen{
 
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myController = new GameSetUpController(sWidth,sHeight);
+        myController = new GameSetUpController(sWidth, sHeight);
+//        try {
+//            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), new XMLData("OriginalMonopoly.xml")), 0.9*sWidth, 0.9*sHeight,90,11,11);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        //myGameView.addBoardView(myBoardView);
     }
+        //myController = new GameSetUpController(sWidth,sHeight);
+    //}
+
     @Override
     public void makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
@@ -89,5 +103,5 @@ public class BoardModeScreen extends AbstractScreen{
     }
 
     @Override
-    public Scene  getMyScene()      { return myScene; }
+    public Scene  getMyScene(){ return myScene; }
 }

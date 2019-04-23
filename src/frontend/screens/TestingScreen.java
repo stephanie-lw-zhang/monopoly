@@ -8,10 +8,13 @@ import backend.board.StandardBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.ImprovedPropertyException;
+import backend.exceptions.MortgagePropertyException;
 import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.ImportPropertyFile;
+import configuration.XMLData;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -67,7 +70,6 @@ public class TestingScreen extends AbstractScreen {
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
     private final Button MOVE_BUTTON = new Button("MOVE");
     private final Button BUY_BUTTON = new Button("BUY");
-
     private final Button COLLECT_BUTTON = new Button("COLLECT");
     private final Button GO_TO_JAIL_BUTTON = new Button("Go To Jail");
     private final Button PAY_RENT_BUTTON = new Button("Pay Rent");
@@ -76,24 +78,21 @@ public class TestingScreen extends AbstractScreen {
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
 
 
-
-
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-        END_TURN_BUTTON.setId("endTurn");
-        BUY_BUTTON.setId("buy");
-        AUCTION_BUTTON.setId("auction");
-        MORTGAGE_BUTTON.setId("mortgage");
-        COLLECT_BUTTON.setId( "collect" );
-        PAY_RENT_BUTTON.setId( "payRent" );
-        PAY_BAIL_BUTTON.setId( "payBail" );
-        FORFEIT_BUTTON.setId("forfeit");
-        MOVE_BUTTON.setId( "move handler" );
 
-    }
-
+//        END_TURN_BUTTON.setId("endTurn");
+//        BUY_BUTTON.setId("buy");
+//        AUCTION_BUTTON.setId("auction");
+//        MORTGAGE_BUTTON.setId("mortgage");
+//        COLLECT_BUTTON.setId( "collect" );
+//        PAY_RENT_BUTTON.setId( "payRent" );
+//        PAY_BAIL_BUTTON.setId( "payBail" );
+//        FORFEIT_BUTTON.setId("forfeit");
+//        MOVE_BUTTON.setId( "move handler" );
+ }
 
     @Override
     public void makeScreen() {
@@ -104,7 +103,14 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
 
-        myBoardView = new SquareBoardView(screenWidth*0.5, screenHeight*0.9,90,11,11, myPropertyFile);
+        XMLData data = null;
+        try {
+            data = new XMLData("OriginalMonopoly.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
+
         myFormView = new FormView(this);
 
         ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));
@@ -137,9 +143,6 @@ public class TestingScreen extends AbstractScreen {
         myGame = new GameController(
                 this,
                 new SixDice(),
-                new NormalDeck(),
-                new NormalDeck(),
-                makeBoard( playerToIcon ),
                 playerToIcon
         );
 
@@ -203,7 +206,13 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles( myGame.getBoard().getJailTile() ).get( 0 );
                 //HARDCODED
-                property.mortgageProperty();
+                try {
+                    property.mortgageProperty();
+                } catch (MortgagePropertyException e) {
+                    e.popUp();
+                } catch (ImprovedPropertyException e) {
+                    e.popUp();
+                }
 
             }
         });
@@ -242,6 +251,7 @@ public class TestingScreen extends AbstractScreen {
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
                 myGame.getMyTurn().onAction("buy", playerValue);
             }
+
         });
 
         COLLECT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
@@ -326,7 +336,6 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-
         moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
         playerOptionsModal.getChildren().addAll(
                 myDiceView, ROLL_BUTTON,
@@ -350,6 +359,36 @@ public class TestingScreen extends AbstractScreen {
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
     }
+
+    //TODO: delete these (FOR TESTING rn)
+//    public String showInputTextDialog(String title, String header, String content) {
+//        TextInputDialog dialog = new TextInputDialog("0");
+//        dialog.setTitle(title);
+//        dialog.setHeaderText(header);
+//        dialog.setContentText(content);
+//        Optional<String> result = dialog.showAndWait();
+//        if (result.isPresent()) {
+//            return result.get();
+//        }
+//        else {
+//            //TODO: throw exception
+//            return null;
+//        }
+//    }
+//
+//    public String displayOptionsPopup(List<String> options, String title, String header, String content) {
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle(title);
+//        alert.setHeaderText(header);
+//        alert.setContentText(content);
+//        List<ButtonType> buttonOptions = new ArrayList<>();
+//        for (String option : options) {
+//            buttonOptions.add(new ButtonType(option));
+//        }
+//        alert.getButtonTypes().setAll(buttonOptions);
+//        Optional<ButtonType> result = alert.showAndWait();
+//        return result.get().getText();
+//    }
 
     private TextFlow createPlayersText() {
         TextFlow playersText = new TextFlow();
@@ -395,10 +434,10 @@ public class TestingScreen extends AbstractScreen {
     }
 
     private void setPlayerNameAndIcon(TextFlow box) {
-        for (TextField p : myFormView.getPlayerToIcon().keySet()){
+        for (TextField p : myFormView.getPlayerToIconMap().keySet()){
             if(!p.getText().equals("")){
                 Text player = new Text(p.getText());
-                ImageView icon = new ImageView(  myFormView.getPlayerToIcon().get( p ).getValue() + ".png");
+                ImageView icon = new ImageView(  myFormView.getPlayerToIconMap().get( p ).getValue() + ".png");
                 icon.setFitWidth( 25 );
                 icon.setFitHeight( 25 );
                 icon.setPreserveRatio( true );
@@ -406,35 +445,6 @@ public class TestingScreen extends AbstractScreen {
                 box.getChildren().addAll( player, icon, nextLine );
             }
         }
-    }
-
-    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
-        List<AbstractPlayer> playerList = makePlayerList( playerToIcon );
-
-        AbstractBoard board = new StandardBoard(
-                playerList,
-                new HashMap<Tile, List<Tile>>(),
-                new HashMap<String, List<AbstractPropertyTile>>(),
-                new GoTile(200, 200, 0),
-                new Bank(200000.0, new HashMap<String, Integer>())
-        );
-
-        return board;
-    }
-
-    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
-        Bank bank = new Bank(20000.0, new HashMap<String, Integer>());
-        List<AbstractPlayer> playerList = new ArrayList<>();
-
-        for (TextField pName : playerToIcon.keySet()) {
-            String name = pName.getText();
-            if (! name.equals(""))
-                playerList.add(new HumanPlayer(name, 1500.0, bank));
-            //should be from data file
-            //throw exception
-        }
-
-        return playerList;
     }
 
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {
@@ -480,4 +490,3 @@ public class TestingScreen extends AbstractScreen {
         return myFormView;
     }
 }
-

@@ -9,12 +9,11 @@ import java.util.List;
 
 public abstract class Tile {
 
+    private String tileType;
     private int index;
 
     public abstract List<String> applyLandedOnAction(AbstractPlayer p);
-    //public void applyLandedOnAction(AbstractPlayer p) {
-    //    System.out.println("Player " + p.getMyPlayerName() + " landed on ");
-    //}
+
     public String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
@@ -25,9 +24,16 @@ public abstract class Tile {
         return index;
     }
 
+    public String getTileType(){
+        return tileType;
+    }
+
     public void setTileIndex(int i){
         index = i;
     }
+
+
+    public void setTileType(String s){ tileType = s; }
 
     public String getName(){
         return "temp";

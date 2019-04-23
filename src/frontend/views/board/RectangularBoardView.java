@@ -1,6 +1,11 @@
 package frontend.views.board;
 
+
+import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.card.PropertyCard;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.Tile;
 import frontend.views.board.boardcomponents.*;
 import frontend.views.IconView;
 import javafx.application.Platform;
@@ -30,7 +35,12 @@ public class RectangularBoardView extends AbstractBoardView{
     private ImportPropertyFile details;
     private List<AbstractTileView> myTiles = new ArrayList<>();
     private int myIndex=0;
+
+    // TODO: myIcon will be replaced by List of Players from myBoard
     private IconView myIcon;
+    private List<AbstractPlayer> myPlayerList;
+    // TODO: myIcon will be replaced by List of Players from myBoard
+
     private int myNumMoves;
     private AbstractBoard myBoard;
 
@@ -40,6 +50,9 @@ public class RectangularBoardView extends AbstractBoardView{
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
+
+        myPlayerList = myBoard.getMyPlayerList();
+
         makeBoard();
         makeBackground();
     }
@@ -54,12 +67,13 @@ public class RectangularBoardView extends AbstractBoardView{
         myRoot.maxHeightProperty().bind(myRoot.heightProperty());
     }
 
-    public RectangularBoardView(double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
+    public RectangularBoardView(AbstractBoard board, double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
         super(screenWidth,screenHeight); //this constructor should probably be deleted
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
         myPropertyFile=propertyFile;
+        myBoard = board;
         //System.out.print(myPropertyFile);
 
         //System.out.print(myPropertyFile.getProp("TileOName"));
@@ -102,9 +116,8 @@ public class RectangularBoardView extends AbstractBoardView{
         }
     }
 
-
     private double calculateTileWidth(double sideLength, double totalTiles){
-        return (double) (sideLength-myTileHeight*2)/(totalTiles-2);
+        return (sideLength-myTileHeight*2)/(totalTiles-2);
     }
 
     @Override
@@ -134,55 +147,110 @@ public class RectangularBoardView extends AbstractBoardView{
     }
 
     private void makeBottomRow() {
-        //for(int i = 0; i<myHorizontals/4;i++){
-        //    if(myBoard.getTilesIndex(i))
-        //}
-        placePropertyTile(myPropertyFile.getProp("Tile1Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile1File")), "test", Color.BROWN,1,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile2Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile2File")), "",2,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile3Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile3File")), "test",Color.BROWN,3,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile4Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile4File")), "",4,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile5Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile5File")), "",Color.BLACK ,5,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile6Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile6File")), "test",Color.AZURE,6,1,myHorizontals,myScreenWidth,0);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile7Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile7File")), "",7,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile8Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile8File")), "test",Color.AZURE,8,1,myHorizontals,myScreenWidth,0);
-        placePropertyTile(myPropertyFile.getProp("Tile9Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile9File")), "test",Color.AZURE,9,1,myHorizontals,myScreenWidth,0);
+        for(int i = 1; i<10;i++){
+            Tile tile= myBoard.getTilesIndex(i);
+            String s = tile.getTileType();
+            //change TileType to make BuildingTile, RailroadTile, and UtilityTile all
+            if(s.equalsIgnoreCase("BuildingTile")){
+                PropertyCard card = ((AbstractPropertyTile) tile).getCard();
+                try {
+                    placePropertyTile(card.getTitleDeed(), "", (Color)Color.class.getField(card.getCategory().toUpperCase()).get(null), i, 1, myHorizontals, myScreenWidth, 0);
+                 } catch (IllegalAccessException e) {
+                    e.printStackTrace(); // change this !!!
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace(); // change this !!!
+                }
+            }
+            //else if(s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
+            //    placePropertyTile(tile.getTileType(), "", Color.GREEN, i, 1, myHorizontals, myScreenWidth,  0);
+            //}
+            else {
+                placeNonPropertyTile(tile.getTileType(), "", i, 1, myHorizontals, myScreenWidth, 0);
+                //this needs to be changed, might need to give names to non-property tiles
+                //AbstractCard card = tile;
+                //placeNonPropertyTile();
+            }
+        }
     }
 
     private void makeLeftRow(){
-        placePropertyTile(myPropertyFile.getProp("Tile11Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile11File")), "test",Color.DEEPPINK,9,1,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile12Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile12File")), "",Color.BEIGE,9,2,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile13Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile13File")), "test",Color.DEEPPINK,9,3 ,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile14Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile14File")), "test",Color.DEEPPINK,9,4,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile15Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile15File")), "",Color.BLACK,9,5,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile16Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile16File")), "",Color.ORANGE,9,6,myVerticals,myScreenHeight,90);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile17Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile17File")), "",9,7,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile18Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile18File")), "",Color.ORANGE,9,8,myVerticals,myScreenHeight,90);
-        placePropertyTile(myPropertyFile.getProp("Tile19Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile19File")), "",Color.ORANGE,9,9,myVerticals,myScreenHeight,90);
+        int x = 0;
+        for(int i = 11; i<20;i++) {
+            x++;
+            Tile tile = myBoard.getTilesIndex(i);
+            String s = tile.getTileType();
+            //change TileType to make BuildingTile, RailroadTile, and UtilityTile all
+            if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
+                PropertyCard card = ((AbstractPropertyTile) tile).getCard();
+                try {
+                    placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), 9, x, myHorizontals, myScreenWidth, 90);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace(); // change this !!!
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace(); // change this !!!
+                }
+            //} else if (s.equalsIgnoreCase("RailroadTile") || s.equalsIgnoreCase("UtilityTile")) {
+            //    placePropertyTile(tile.getTileType(), "", Color.GREEN, 9, i-10, myHorizontals, myScreenWidth, 90);
+            } else {
+                placeNonPropertyTile(tile.getTileType(), "", 9, i-10, myHorizontals, myScreenWidth, 90);
+                //this needs to be changed, might need to give names to non-property tiles
+                //AbstractCard card = tile;
+                //placeNonPropertyTile();
+            }
+        }
     }
 
     private void makeTopRow() {
-        placePropertyTile(myPropertyFile.getProp("Tile21Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile21File")),"test", Color.RED,1,1,myHorizontals,myScreenWidth,180);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile22Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile22File")), "",2,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile23Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile23File")), "test",Color.RED,3,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile24Name"),new ImportPropertyFile(myPropertyFile.getProp("Tile24File")),"test",Color.RED,4,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile25Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile25File")),"",Color.BLACK,5,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile26Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile26File")),"test",Color.YELLOW,6,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile27Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile27File")), "test",Color.YELLOW,7,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile28Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile28File")), "",Color.BEIGE,8,1,myHorizontals,myScreenWidth,180);
-        placePropertyTile(myPropertyFile.getProp("Tile29Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile29File")),"test",Color.YELLOW,9,1,myHorizontals,myScreenWidth,180);
-
+        int x = 0;
+        for(int i = 21; i<30;i++) {
+            x++;
+            Tile tile = myBoard.getTilesIndex(i);
+            String s = tile.getTileType();
+            //change TileType to make BuildingTile, RailroadTile, and UtilityTile all
+            if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
+                PropertyCard card = ((AbstractPropertyTile) tile).getCard();
+                try {
+                    placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, 1, myHorizontals, myScreenWidth, 180);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace(); // change this !!!
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace(); // change this !!!
+                }
+            }
+//            else if (s.equalsIgnoreCase("RailroadTile") || s.equalsIgnoreCase("UtilityTile")) {
+//                placePropertyTile(tile.getTileType(), "", Color.GREEN, x, 1, myHorizontals, myScreenWidth, 180);
+//            }
+            else {
+                placeNonPropertyTile(tile.getTileType(), "", x, 1, myHorizontals, myScreenWidth, 180);
+            }
+        }
     }
 
     private void makeRightRow(){
-        placePropertyTile(myPropertyFile.getProp("Tile31Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile31File")),"",Color.GREEN,1,1,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile32Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile32File")), "",Color.GREEN,2,2,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile33Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile33File")), "",3,3,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile34Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile34File")), "",Color.GREEN,4,4,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile35Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile35File")), "",Color.BLACK,5,5,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile36Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile36File")), "",6,6,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile37Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile37File")),"",Color.BLUE,7,7,myVerticals,myScreenHeight,270);
-        placeNonPropertyTile(myPropertyFile.getProp("Tile38Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile38File")), "",8,8,myVerticals,myScreenHeight,270);
-        placePropertyTile(myPropertyFile.getProp("Tile39Name"), new ImportPropertyFile(myPropertyFile.getProp("Tile39File")), "",Color.BLUE,9,9,myVerticals,myScreenHeight,270);
+        int x = 0;
+        for(int i = 31; i<40;i++) {
+            x++;
+            Tile tile = myBoard.getTilesIndex(i);
+            String s = tile.getTileType();
+            //change TileType to make BuildingTile, RailroadTile, and UtilityTile all
+            if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
+                PropertyCard card = ((AbstractPropertyTile) tile).getCard();
+                try {
+                    placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, x, myHorizontals, myScreenWidth, 270);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace(); // change this !!!
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace(); // change this !!!
+                }
+                //} else if (s.equalsIgnoreCase("RailroadTile") || s.equalsIgnoreCase("UtilityTile")) {
+                //    placePropertyTile(tile.getTileType(), "", Color.GREEN, 9, i-10, myHorizontals, myScreenWidth, 90);
+            } else {
+                placeNonPropertyTile(tile.getTileType(), "", x, x, myHorizontals, myScreenWidth, 270);
+                //this needs to be changed, might need to give names to non-property tiles
+                //AbstractCard card = tile;
+                //placeNonPropertyTile();
+            }
+        }
     }
 
 
@@ -199,14 +267,14 @@ public class RectangularBoardView extends AbstractBoardView{
         myRoot.getChildren().add(tileNode);
     }
 
-    public void placePropertyTile(String tileName, ImportPropertyFile details,
+    public void placePropertyTile(String tileName,
                                   String tileDescription,
                                   Paint tileColor,
                                   int xoffset,
                                   int yoffset,
                                   int totalTiles,
                                   double sideLength,double rotationAngle){
-        var tile = new PropertyTileView(tileName, details, tileDescription,tileColor);
+        var tile = new PropertyTileView(tileName, tileDescription,tileColor);
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
@@ -253,13 +321,13 @@ public class RectangularBoardView extends AbstractBoardView{
         alert.showAndWait();
     }
 
-    public void placeNonPropertyTile(String tileName, ImportPropertyFile details,
+    public void placeNonPropertyTile(String tileName, //ImportPropertyFile details,
                                      String tileDescription,
                                      int xoffset,
                                      int yoffset,
                                      int totalTiles,
                                      double sideLength,double rotationAngle){
-        var tile = new RectangularTileView(tileName, details, tileDescription,"");
+        var tile = new RectangularTileView(tileName, tileDescription,"");
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
@@ -300,10 +368,7 @@ public class RectangularBoardView extends AbstractBoardView{
         Node tileNode = tile.getNodeOfTileView();
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
-        //System.out.print(details);
         ImportPropertyFile deets = new ImportPropertyFile(details);
-        //System.out.print(deets);
-//        System.out.print("Corner tile Set");
 
         tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
@@ -312,11 +377,15 @@ public class RectangularBoardView extends AbstractBoardView{
     public void makeCorners(){
         //System.out.print(myPropertyFile.getProp("TileOName"));
         //System.out.print(myPropertyFile.getProp("TileOFile®"))
-        placeCornerTile(myPropertyFile.getProp("Tile0Name"), myPropertyFile.getProp("Tile0File"),"Go","clear",1,1);
-        placeCornerTile(myPropertyFile.getProp("Tile10Name"), myPropertyFile.getProp("Tile10File"),"Go","clear",0,1);
-        placeCornerTile(myPropertyFile.getProp("Tile20Name"), myPropertyFile.getProp("Tile20File"),"Go","clear",0,0);
-        placeCornerTile(myPropertyFile.getProp("Tile30Name"), myPropertyFile.getProp("Tile30File"),"Go","clear",1,0);
+        Tile tileZero = myBoard.getTilesIndex(0);
+        Tile tileTen = myBoard.getTilesIndex(10);
+        Tile tileTwenty = myBoard.getTilesIndex(20);
+        Tile tileThirty = myBoard.getTilesIndex(30);
 
+        placeCornerTile(tileZero.getTileType(), "", tileZero.getTileType(), "clear", 1, 1);
+        placeCornerTile(tileTen.getTileType(), "", tileTen.getTileType(), "clear", 0, 1);
+        placeCornerTile(tileTwenty.getTileType(), "", tileTwenty.getTileType(), "clear", 0, 0);
+        placeCornerTile(tileThirty.getTileType(), "", tileThirty.getTileType(), "clear", 1, 0);
     }
 
     public void move(int nMoves) {

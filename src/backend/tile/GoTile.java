@@ -1,7 +1,6 @@
 package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
-import controller.Actions;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class GoTile extends Tile {
         this.landedOnMoney = Integer.parseInt(getTagValue("LandedMoney", n));
         this.passedMoney = Integer.parseInt(getTagValue("PassedMoney", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
+        setTileType(getTagValue("TileType", n));
     }
 
     public double getLandedOnMoney() {
@@ -37,13 +37,13 @@ public class GoTile extends Tile {
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>( );
 //        player.setMoney(player.getMoney() + landedOnMoney);
-        possibleActions.add("collectMoney");
+        possibleActions.add("COLLECT MONEY");
         return possibleActions;
     }
 
     public List<String> applyPassedAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>();
-        possibleActions.add("collectMoney");
+        possibleActions.add("COLLECT MONEY");
         return possibleActions;
     }
 

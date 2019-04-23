@@ -1,10 +1,13 @@
 package configuration;
 
 
+import javafx.scene.paint.Color;
+
 public class ImportXMLFile {
 
-    public static void main(String args[]) {
-
+    public static void main(String args[]) throws IllegalAccessException, NoSuchFieldException {
+        Color red = (Color)Color.class.getField("RED").get(null);
+        System.out.println(Color.RED.equals(red));
         try{
             XMLData data = new XMLData("OriginalMonopoly.xml");
         }catch(Exception e){

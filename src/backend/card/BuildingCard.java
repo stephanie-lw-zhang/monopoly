@@ -5,7 +5,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BuildingCard extends PropertyCard {
@@ -13,16 +12,6 @@ public class BuildingCard extends PropertyCard {
     private Map<String,Double> priceNeededToUpgradeLookupTable;
     private Map<String,Double> sellToBankPriceLookupTable;
     private Map<String, String> specificToBase;
-
-
-    public BuildingCard(Map<String, Double> buildingPriceLookupTable, double propertyMortgageValue, List<String> upgradeOrder,
-                        Map<String,Double> buySingleBuildingPrice, Map<String,Double> sellToBankPriceLookupTable, Map<String,
-            String> specificToBase, String titleDeed, String category, Map<String, Integer> specificToNumeric, double tilePrice){
-        super(propertyMortgageValue, buildingPriceLookupTable, upgradeOrder, titleDeed, category, specificToNumeric,tilePrice);
-        this.priceNeededToUpgradeLookupTable = buySingleBuildingPrice;
-        this.sellToBankPriceLookupTable = sellToBankPriceLookupTable;
-        this.specificToBase = specificToBase;
-    }
 
     public BuildingCard(Node node){
         super(node);
