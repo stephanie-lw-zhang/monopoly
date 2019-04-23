@@ -2,7 +2,6 @@ package backend.assetholder;
 
 import backend.card.AbstractCard;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.BuildingTile;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,16 +14,14 @@ import java.util.Objects;
 public abstract class AbstractPlayer extends AbstractAssetHolder{
     private String icon;
     private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
-    private Boolean bankrupt;
+    private Boolean bankrupt = false;
     private List<AbstractCard> cards;
-    private Bank bank;
     // private int roll;
 
     private String myPlayerName;
 
-    public AbstractPlayer(String name, Double money, Bank bank) {
+    public AbstractPlayer(String name, Double money) {
         super( money );
-        this.bank = bank;
         myPlayerName = name;
     }
 
@@ -70,7 +67,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //        this.setMoney( 0 );
 //    }
 
-    public void declareBankruptcy(){
+    public void declareBankruptcy(Bank bank){
         this.bankrupt = true;
         bank.addAllProperties( this.getProperties() );
         this.getProperties().clear();
@@ -141,23 +138,18 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         if (!super.equals(o)) return false;
         AbstractPlayer that = (AbstractPlayer) o;
 //         TODO: UNCOMMENT WHEN ICONS ARE DONE
-        return getIcon().equals(that.getIcon()) &&
-                getMyPlayerName().equals(that.getMyPlayerName());
-//        return getMyPlayerName().equals(that.getMyPlayerName());
+//        return getIcon().equals(that.getIcon()) &&
+//                getMyPlayerName().equals(that.getMyPlayerName());
+        return getMyPlayerName().equals(that.getMyPlayerName());
     }
 
     @Override
     public int hashCode() {
         // TODO: UNCOMMENT WHEN ICONS ARE DONE
-        return Objects.hash(getIcon(), getMyPlayerName());
-//        return Objects.hash(getMyPlayerName());
+//        return Objects.hash(getIcon(), getMyPlayerName());
+        return Objects.hash(getMyPlayerName());
     }
 
     public String getMyPlayerName() { return myPlayerName; }
 
-
-
-    public Bank getBank() {
-        return bank;
-    }
 }

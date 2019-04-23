@@ -29,6 +29,11 @@ public abstract class Tile {
         index = i;
     }
 
+    public String getName(){
+        return "temp";
+        //ONLY FOR TESTING PURPOSES
+    }
+
     public boolean individualUpdateEvenCheck(boolean upgrade, int thresholdForUpdate, BuildingTile tile){
         return true;
     };

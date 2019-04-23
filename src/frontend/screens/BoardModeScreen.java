@@ -1,5 +1,7 @@
 package frontend.screens;
 
+import backend.deck.NormalDeck;
+import backend.dice.SixDice;
 import configuration.ImportPropertyFile;
 import controller.GameController;
 import controller.GameSetUpController;
@@ -66,8 +68,8 @@ public class BoardModeScreen extends AbstractScreen{
         //bPane.setCenter(titleText);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
-
         myScene = new Scene(bPane, getScreenWidth(), getScreenHeight());
+
     }
 
     @Override

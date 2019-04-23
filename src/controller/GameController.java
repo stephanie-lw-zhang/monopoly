@@ -9,10 +9,8 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
-import frontend.screens.BoardModeScreen;
 import frontend.screens.TestingScreen;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
@@ -20,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -32,8 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static controller.Actions.GO_TO_JAIL;
 
 public class GameController {
 
@@ -55,7 +50,7 @@ public class GameController {
         myDice = dice;
         chanceDeck = chanceDeck;
         chestDeck = chestDeck;
-//        myBoard = board;
+        myBoard = board;
 
         //TODO: need money and totalPropertiesLeft read in from Data File
         XMLData myData = null;
@@ -68,7 +63,6 @@ public class GameController {
 
         myTestScreen = view;
 
-        // make first param list of players
         myPlayers = new ArrayList<>();
         //TODO: need money read in from data file
         for (TextField player: playerToIcon.keySet()){
@@ -77,6 +71,7 @@ public class GameController {
             }
         }
 
+//        System.out.println(myPlayers.size());
 
         //should game create board? and who creates game?
         myBoard = new StandardBoard(
@@ -234,8 +229,7 @@ public class GameController {
     }
 
     private void handleForfeit(AbstractPlayer player){
-        player.declareBankruptcy();
-
+        player.declareBankruptcy(getBoard().getBank());
         //Grey out all player info, remove them from board (something getChildren.remove)
     }
 
