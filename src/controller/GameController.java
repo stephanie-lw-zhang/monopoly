@@ -9,6 +9,7 @@ import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.TileNotFoundException;
 import backend.tile.AbstractTaxTile;
 import backend.tile.IncomeTaxTile;
 import backend.tile.AbstractPropertyTile;
@@ -216,9 +217,14 @@ public class GameController {
     }
 
     private void handlePayBail(){
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBank, myBoard.getJailTile().getBailAmount() );
-        myBoard.getJailTile().removeCriminal( myTurn.getMyCurrPlayer() );
-        myGameView.displayActionInfo( "You've successfully paid bail. You're free now!" );
+        try {
+            myTurn.getMyCurrPlayer().payFullAmountTo(myBank, myBoard.getJailTile().getBailAmount());
+            myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
+            myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
+        } catch (TileNotFoundException e) {
+            e.printStackTrace();
+
+        }
     }
 
     private void handleMortgage(AbstractPropertyTile property){

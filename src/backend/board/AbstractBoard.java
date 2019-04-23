@@ -12,6 +12,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
+import backend.exceptions.TileNotFoundException;
 import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
@@ -80,14 +81,26 @@ public abstract class AbstractBoard {
         return adjacencyMap.get(tile);
     }
 
-    public JailTile getJailTile(){
-        for (Tile key: adjacencyMap.keySet()) {
-            if(key.isJailTile()){
+    public JailTile getJailTile() throws TileNotFoundException {
+        String methodName = String.valueOf(new Object() {
+        }
+                .getClass()
+                .getEnclosingMethod()
+                .getReturnType());
+
+        for (Tile key : adjacencyMap.keySet()) {
+            try {
+                if (key.isJailTile()) {
+                    return (JailTile) key;
+                } else {
+                    throw new TileNotFoundException("Could not find Tile of type " + methodName);
+                }
+            } catch (TileNotFoundException e) {
+                e.printStackTrace();
                 return (JailTile) key;
             }
         }
         return null;
-        //EXCEPTION: THERE IS NO JAIL TILE
     }
 
     public GoTile getGoTile(){

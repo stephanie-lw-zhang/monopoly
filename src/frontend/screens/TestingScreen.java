@@ -8,6 +8,7 @@ import backend.board.StandardBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.TileNotFoundException;
 import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -202,9 +203,13 @@ public class TestingScreen extends AbstractScreen {
         MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles( myGame.getBoard().getJailTile() ).get( 0 );
+                try {
+                    AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles(myGame.getBoard().getJailTile()).get(0);
+                    property.mortgageProperty();
+                } catch(TileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 //HARDCODED
-                property.mortgageProperty();
 
             }
         });
@@ -285,13 +290,17 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
+                try {
 //                System.out.println("initial: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
 //                System.out.println("initial: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-                myGame.getMyTurn().getMyCurrPlayer().payFullAmountTo( myGame.getBoard().getBank(), myGame.getBoard().getJailTile().getBailAmount() );
-                myGame.getBoard().getJailTile().removeCriminal( myGame.getMyTurn().getMyCurrPlayer() );
-                displayActionInfo( "You've successfully paid bail. You're free now!" );
+                    myGame.getMyTurn().getMyCurrPlayer().payFullAmountTo(myGame.getBoard().getBank(), myGame.getBoard().getJailTile().getBailAmount());
+                    myGame.getBoard().getJailTile().removeCriminal(myGame.getMyTurn().getMyCurrPlayer());
+                    displayActionInfo("You've successfully paid bail. You're free now!");
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+                } catch(TileNotFoundException e) {
+                e.printStackTrace();
+            }
             }
         });
 
