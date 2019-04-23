@@ -1,6 +1,7 @@
 package backend.card;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ public class RailroadCard extends backend.card.PropertyCard {
         super(propertyMortgageValue, priceLookupTable, upgradeOrder, titleDeed,category, specificToNumeric, tilePrice);
     }
 
-    public RailroadCard(Element n){
+    public RailroadCard(Node n){
         super(n);
     }
 

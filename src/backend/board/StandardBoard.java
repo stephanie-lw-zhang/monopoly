@@ -25,7 +25,6 @@ public class StandardBoard extends AbstractBoard {
     }
 
     public void movePlayer(AbstractPlayer p, int numMoves) {
-        if(!p.inJail()){
             Tile tile = getPlayerTile(p);
             Tile next;
             for(int i = 0; i < numMoves; i++){
@@ -36,7 +35,6 @@ public class StandardBoard extends AbstractBoard {
             }
             if(tile.isGoToJailTile()) tile = getJailTile();
             getPlayerTileMap().put(p, tile);
-        }
 
     }
 

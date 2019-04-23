@@ -35,6 +35,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public AbstractPropertyTile(Bank bank, Element n){
         this.owner = bank;
         this.bank = bank;
+//        card = getCard();
         card = new PropertyCard(n.getElementsByTagName("Card").item(0));
         tiletype = getTagValue("TileType", n);
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
@@ -182,6 +183,10 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public double getTilePrice() {
         return card.getTilePrice();
+    }
+
+    public void setCard(PropertyCard c) {
+        card = c;
     }
 
     // maybe make an abstractTile class instead of an tile

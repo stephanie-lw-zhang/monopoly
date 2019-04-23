@@ -9,11 +9,8 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.GoTile;
-import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
-import frontend.screens.BoardModeScreen;
 import frontend.screens.TestingScreen;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
@@ -21,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -35,8 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static controller.Actions.GO_TO_JAIL;
 
 public class GameController {
 
@@ -95,8 +89,6 @@ public class GameController {
 //            }
 //        }
 
-//        System.out.println(myBoard.getAdjacentTiles();
-
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
@@ -121,8 +113,9 @@ public class GameController {
             String name = pName.getText();
             if (! name.equals(""))
                 playerList.add(new HumanPlayer(
-                        name, makeIcon(playerToIcon.get(pName)),
-                        1500.0, bank));
+                        name,
+                        makeIcon(playerToIcon.get(pName)),
+                        1500.00));
             //should be from data file
             //throw exception
         }
@@ -282,8 +275,7 @@ public class GameController {
     }
 
     private void handleForfeit(AbstractPlayer player){
-        player.declareBankruptcy();
-
+        player.declareBankruptcy(getBoard().getBank());
         //Grey out all player info, remove them from board (something getChildren.remove)
     }
 
