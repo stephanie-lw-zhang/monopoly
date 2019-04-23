@@ -87,7 +87,6 @@ public abstract class AbstractPropertyTile extends Tile {
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
         assetHolder.addProperty(this);
         assetHolder.payFullAmountTo( owner, price );
-
         owner.getProperties().remove(this);
         switchOwner(assetHolder);
     }
@@ -111,8 +110,9 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
-                owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
-                this.mortgaged = false;
+            //TODO: NEED CONFIG
+            owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
+            this.mortgaged = false;
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -124,8 +124,8 @@ public abstract class AbstractPropertyTile extends Tile {
     // later you must pay the Bank an additional 10% interest as well as the amount of the mortgage.
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
-            owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
-
+            //TODO: NEED CONFIG
+            owner.payFullAmountTo(bank, getCard().getMortgageValue() * 0.1);
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -227,6 +227,12 @@ public abstract class AbstractPropertyTile extends Tile {
 //        }
 //    }
 
+    /**
+     * FOR TESTING
+     */
+    public void setMortgaged(boolean b) {
+        mortgaged = b;
+    }
 
 
 }
