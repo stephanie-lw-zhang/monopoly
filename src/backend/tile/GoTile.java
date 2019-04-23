@@ -23,6 +23,7 @@ public class GoTile extends Tile {
         this.landedOnMoney = Integer.parseInt(getTagValue("LandedMoney", n));
         this.passedMoney = Integer.parseInt(getTagValue("PassedMoney", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
+        setTileType(getTagValue("TileType", n));
     }
 
     public double getLandedOnMoney() {

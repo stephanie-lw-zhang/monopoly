@@ -13,7 +13,7 @@ import java.util.Map;
 
 public abstract class AbstractPropertyTile extends Tile {
 
-    private String tiletype;
+    private String tileType;
     private boolean mortgaged;
     private Bank bank;
     private AbstractAssetHolder owner;
@@ -21,12 +21,12 @@ public abstract class AbstractPropertyTile extends Tile {
     private String currentInUpgradeOrder;
     private int index;
 
-    public AbstractPropertyTile(Bank bank, PropertyCard card, String tiletype, int index) {
+    public AbstractPropertyTile(Bank bank, PropertyCard card, String tileType, int index) {
         this.owner = bank;
         this.bank = bank;
         //throw exception if card is not propertycard type
         this.card = card;
-        this.tiletype = tiletype;
+        this.tileType = tileType;
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);
         this.index =index;
@@ -36,7 +36,7 @@ public abstract class AbstractPropertyTile extends Tile {
         this.owner = bank;
         this.bank = bank;
         card = new PropertyCard(n.getElementsByTagName("Card").item(0));
-        tiletype = getTagValue("TileType", n);
+        setTileType(getTagValue("TileType", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         this.mortgaged = false;
         currentInUpgradeOrder = this.card.getUpgradeOrderAtIndex(0);

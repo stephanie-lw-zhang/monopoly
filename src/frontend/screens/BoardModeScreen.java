@@ -1,6 +1,8 @@
 package frontend.screens;
 
+import backend.board.StandardBoard;
 import configuration.ImportPropertyFile;
+import configuration.XMLData;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.game.AbstractGameView;
@@ -22,6 +24,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 /**
  * For BOARD testing purposes
  *
@@ -36,11 +40,16 @@ public class BoardModeScreen extends AbstractScreen{
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
         myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight);
-        myBoardView = new SquareBoardView(0.9*sWidth, 0.9*sHeight,90,11,11,myPropertyFile);
+        try {
+            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), new XMLData("OriginalMonopoly.xml")), 0.9*sWidth, 0.9*sHeight,90,11,11,myPropertyFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         myGameView.addBoardView(myBoardView);
     }
 
 
+    //why do we override this method, it is exactly the same?
     @Override
     public void makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");

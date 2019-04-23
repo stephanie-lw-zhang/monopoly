@@ -9,6 +9,7 @@ import java.util.List;
 
 public abstract class Tile {
 
+    private String tileType;
     private int index;
 
     public abstract List<String> applyLandedOnAction(AbstractPlayer p);
@@ -25,9 +26,15 @@ public abstract class Tile {
         return index;
     }
 
+    public String getTileType(){
+        return tileType;
+    }
+
     public void setTileIndex(int i){
         index = i;
     }
+
+    public void setTileType(String s){ tileType = s; }
 
     public boolean individualUpdateEvenCheck(boolean upgrade, int thresholdForUpdate, BuildingTile tile){
         return true;

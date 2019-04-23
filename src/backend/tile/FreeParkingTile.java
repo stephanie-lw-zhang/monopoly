@@ -11,14 +11,17 @@ public class FreeParkingTile extends Tile {
 
     //private double landedOnMoney;
     private int index;
+    private String tileType;
     //might need to calculate money?
-    public FreeParkingTile(double landedOnMoney, int index){
+    public FreeParkingTile(double landedOnMoney, String tileType, int index){
         //this.landedOnMoney = landedOnMoney;
+        this.tileType = tileType;
         this.index = index;
     }
 
     public FreeParkingTile(Element n){
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
+        setTileType(getTagValue("TileType", n));
     }
 
 

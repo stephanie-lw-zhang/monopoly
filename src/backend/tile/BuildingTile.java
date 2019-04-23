@@ -13,19 +13,6 @@ import java.util.Map;
 public class BuildingTile extends backend.tile.AbstractPropertyTile {
     private String tilecolor;
     private BuildingCard card;
-    private int tileprice;
-    private int tilenumber;
-    private String tilename;
-    private int tilerent;
-    private int tilerentwithcolorset;
-    private int tilerent1house;
-    private int tilerent2house;
-    private int tilerent3house;
-    private int tilerent4house;
-    private int tilerenthotel;
-    private int tilemortgagevalue;
-    private int tilehouseprice;
-    private int tilehotelprice;
 
     public BuildingTile(Bank bank, PropertyCard card, String tiletype, String tilecolor, int index) {
         super(bank, card, tiletype, index);

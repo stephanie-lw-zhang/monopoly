@@ -10,6 +10,7 @@ import backend.assetholder.Bank;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.GoToJailTile;
 import backend.tile.Tile;
+import configuration.XMLData;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,10 @@ public class StandardBoard extends AbstractBoard {
                          Tile go,
                          Bank bank) {
         super(playerList, adjacencyMap, colorListMap, go, 2, bank);
+    }
+
+    public StandardBoard(List<AbstractPlayer> playerList, XMLData data){
+        super(playerList, data);
     }
 
     public void movePlayer(AbstractPlayer p, int numMoves) {

@@ -12,6 +12,7 @@ import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.ImportPropertyFile;
+import configuration.XMLData;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -88,8 +89,13 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setCache(true);
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
-
-        myBoardView = new SquareBoardView(screenWidth*0.5, screenHeight*0.9,90,11,11, myPropertyFile);
+        XMLData data = null;
+        try {
+            data = new XMLData("OriginalMonopoly.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), data), screenWidth*0.5, screenHeight*0.9,90,11,11, myPropertyFile);
         myFormView = new FormView(this);
 
         ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));

@@ -9,8 +9,8 @@ import java.util.List;
 
 public class IncomeTaxTile extends AbstractTaxTile {
 
-    public IncomeTaxTile(int money, Bank bank, int index) {
-        super(money, bank, index);
+    public IncomeTaxTile(int money, Bank bank, String tileType, int index) {
+        super(money, bank, tileType, index);
     }
 
     public IncomeTaxTile(Bank bank, Element n){
