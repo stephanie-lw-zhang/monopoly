@@ -75,10 +75,12 @@ public class TestingScreen extends AbstractScreen {
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
 
+
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
+
 //        END_TURN_BUTTON.setId("endTurn");
 //        BUY_BUTTON.setId("buy");
 //        AUCTION_BUTTON.setId("auction");
@@ -98,6 +100,7 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setCache(true);
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
+
         XMLData data = null;
         try {
             data = new XMLData("OriginalMonopoly.xml");
@@ -105,6 +108,7 @@ public class TestingScreen extends AbstractScreen {
             e.printStackTrace();
         }
         myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
+
         myFormView = new FormView(this);
 
         ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));
@@ -137,9 +141,6 @@ public class TestingScreen extends AbstractScreen {
         myGame = new GameController(
                 this,
                 new SixDice(),
-                new NormalDeck(),
-                new NormalDeck(),
-//                makeBoard( playerToIcon )
                 playerToIcon
         );
 
