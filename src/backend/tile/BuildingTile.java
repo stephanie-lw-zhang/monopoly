@@ -17,7 +17,6 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     private String tilecolor;
     private BuildingCard card;
 
-
     public BuildingTile(Bank bank, Element n){
         super(bank, n);
         setCard( new BuildingCard(n.getElementsByTagName("Card").item(0)) );

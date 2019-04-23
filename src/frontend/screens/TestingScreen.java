@@ -67,7 +67,6 @@ public class TestingScreen extends AbstractScreen {
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
     private final Button MOVE_BUTTON = new Button("MOVE");
     private final Button BUY_BUTTON = new Button("BUY");
-
     private final Button COLLECT_BUTTON = new Button("COLLECT");
     private final Button GO_TO_JAIL_BUTTON = new Button("Go To Jail");
     private final Button PAY_RENT_BUTTON = new Button("Pay Rent");
@@ -75,25 +74,20 @@ public class TestingScreen extends AbstractScreen {
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
 
-
-
-
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-        END_TURN_BUTTON.setId("endTurn");
-        BUY_BUTTON.setId("buy");
-        AUCTION_BUTTON.setId("auction");
-        MORTGAGE_BUTTON.setId("mortgage");
-        COLLECT_BUTTON.setId( "collect" );
-        PAY_RENT_BUTTON.setId( "payRent" );
-        PAY_BAIL_BUTTON.setId( "payBail" );
-        FORFEIT_BUTTON.setId("forfeit");
-        MOVE_BUTTON.setId( "move handler" );
-
-    }
-
+//        END_TURN_BUTTON.setId("endTurn");
+//        BUY_BUTTON.setId("buy");
+//        AUCTION_BUTTON.setId("auction");
+//        MORTGAGE_BUTTON.setId("mortgage");
+//        COLLECT_BUTTON.setId( "collect" );
+//        PAY_RENT_BUTTON.setId( "payRent" );
+//        PAY_BAIL_BUTTON.setId( "payBail" );
+//        FORFEIT_BUTTON.setId("forfeit");
+//        MOVE_BUTTON.setId( "move handler" );
+ }
 
     @Override
     public void makeScreen() {
@@ -241,6 +235,14 @@ public class TestingScreen extends AbstractScreen {
                 displayActionInfo(info);
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
                 myGame.getMyTurn().onAction("buy", playerValue);
+            }
+
+        });
+
+        MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.handlePayTaxPercentage();
             }
         });
 
@@ -405,15 +407,6 @@ public class TestingScreen extends AbstractScreen {
                 box.getChildren().addAll( player, icon, nextLine );
             }
         }
-    }
-
-    private ImageView makeIcon(ComboBox iconSelection) {
-        Image image = new Image(iconSelection.getValue() + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-
-        return imageView;
     }
 
     public void updateCurrentPlayer(AbstractPlayer currPlayer) {

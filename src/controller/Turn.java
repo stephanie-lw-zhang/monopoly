@@ -27,7 +27,7 @@ public class Turn {
     private AbstractPlayer myCurrPlayer;
     private AbstractBoard  myBoard;
     private AbstractDice   myDice;
-    private List<String>  myActions;
+    private List<String>  myActions = new ArrayList<>();
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;
@@ -147,13 +147,13 @@ public class Turn {
     }
 
     public void move() {
-        if (myRolls == null){
-            //throw exception that dice must be rolled first
-        }
+//        if (myRolls == null){
+//            //throw exception that dice must be rolled first
+//        }
 //        if(myCurrPlayer.isBankrupt()){
 //            return;
 //        }
-        else if (myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 1){
+        if (myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 1){
             //
         }
         else if (myCurrPlayer.getTurnsInJail() == 3) {
@@ -244,7 +244,7 @@ public class Turn {
 
     public Map.Entry<AbstractPlayer, Double> payBail() {
 
-        myCurrPlayer.payFullAmountTo(myCurrPlayer.getBank(), 1500.00);
+        myCurrPlayer.payFullAmountTo(myBoard.getBank(), 1500.00);
 
         // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
         // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
@@ -289,21 +289,21 @@ public class Turn {
         return null;
     }
 
-    public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
-
-        myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
-
-//      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
-
-        myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
-
-//      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-        return null;
-    }
+//    public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
+//
+//        myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
+//
+////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+//        return null;
+//    }
+//
+//    public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
+//
+//        myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
+//
+////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+//        return null;
+//    }
 
 
     //in a turn a player can roll/move, trade, mortgage
@@ -314,7 +314,6 @@ public class Turn {
     public boolean isDoubleRoll(int[] rolls) {
         return new HashSet<Integer>((Collection) Arrays.asList(rolls)).size() == 1;
     }
-
 
     public boolean isTurnOver(){
         return isTurnOver;

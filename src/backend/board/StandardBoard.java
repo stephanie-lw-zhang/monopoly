@@ -8,7 +8,6 @@ package backend.board;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.GoToJailTile;
 import backend.tile.Tile;
 
 import java.util.List;
@@ -35,12 +34,11 @@ public class StandardBoard extends AbstractBoard {
             }
             if(tile.isGoToJailTile()) tile = getJailTile();
             getPlayerTileMap().put(p, tile);
-
     }
 
     @Override
     public void movePlayer(AbstractPlayer p, Tile tile) {
-
+        getPlayerTileMap().put(p, tile);
     }
 }
 

@@ -8,6 +8,8 @@ import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
+import backend.tile.AbstractTaxTile;
+import backend.tile.IncomeTaxTile;
 import backend.tile.AbstractPropertyTile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
@@ -42,9 +44,9 @@ public class GameController {
     private AbstractBoard        myBoard;
     private AbstractDice         myDice;
     private TestingScreen        myTestScreen;
+    private Bank myBank;
     private Turn                 myTurn;
     private ImportPropertyFile   myPropertyFile;
-    private Bank                 myBank;
     private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
     //Strings are all actions
     private AbstractGameView myGameView;
@@ -133,7 +135,6 @@ public class GameController {
     }
 
     public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {
-
         //TODO: need money and totalPropertiesLeft read in from Data File
         XMLData myData = null;
         try {
@@ -142,11 +143,17 @@ public class GameController {
             e.printStackTrace();
         }
         myGameView = new SplitScreenGameView(width, height, propertyFile);
+//        myBoard = new StandardBoard(
+//                myPlayers,
+//                myData.getAdjacencyList(),
+//                myData.getPropertyCategoryMap(),
+//                myData.getFirstTile(),
+//                myData.getBank(),
+//                myFormView.getDice(),
+//                myFormView.getPlayerToIcon());
         addHandlers();
         //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
-
-
 
     public void startGameLoop() {
         BorderPane bPane = (BorderPane) myTestScreen.getMyScene().getRoot();
@@ -170,8 +177,6 @@ public class GameController {
     private void handleEndTurnButton() {
         myTurn.skipTurn();
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
-        myTestScreen.getMyScene().lookup("#endTurn");
-
     }
 
     private void handleRollButton() {
@@ -202,23 +207,27 @@ public class GameController {
     }
 
     private void addHandlers(){
-        handlerMap.put("auction",event->this.handleAuction());
-        handlerMap.put("buy",event->this.handleBuy());
-        handlerMap.put("sell to bank",event->this.handleSellToBank());
-        handlerMap.put("sell to player",event->this.handleSellToPlayer());
-        handlerMap.put("draw card",event->this.handleDrawCard());
-        handlerMap.put("go to jail",event->this.handleGoToJail());
-        handlerMap.put("pay tax fixed",event->this.handlePayTaxFixed());
-        handlerMap.put("pay tax percentage",event->this.handlePayTaxPercentage());
-//        handlerMap.put("pay rent",event->this.handlePayRent());
-        handlerMap.put("pay bail",event->this.handlePayBail());
-        handlerMap.put("collect money",event->this.handleCollectMoney());
-        handlerMap.put("trade",event->this.handleTrade());
+        handlerMap.put("AUCTION",event->this.handleAuction());
+        handlerMap.put("BUY",event->this.handleBuy());
+        handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
+        handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
+        handlerMap.put("DRAW CARD",event->this.handleDrawCard());
+        handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
+        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
+        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
+//        handlerMap.put("PAY RENT",event->this.handlePayRent());
+        handlerMap.put("PAY BAIL",event->this.handlePayBail());
+        handlerMap.put("COLLECT MONEY",event->this.handleCollectMoney());
+        handlerMap.put("UPGRADE", event->this.upgradeProperty());
+        handlerMap.put("TRADE",event->this.handleTrade());
 //        handlerMap.put("mortgage", event->this.handleMortgage());
 //        handlerMap.put("forfeit",event->this.handleForfeit());
 
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
+    }
+
+    private void upgradeProperty() {
     }
 
     private void handleCollectMoney() {
@@ -246,7 +255,17 @@ public class GameController {
     private void handleTrade() {
     }
 
-    private void handlePayTaxPercentage() {
+    public void handlePayTaxPercentage() {
+//        System.out.println("initial money: " + myTurn.getMyCurrPlayer().getMoney());
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier() );
+//        System.out.println("after money: " + myTurn.getMyCurrPlayer().getMoney());
+    }
+
+    private void handleTileLanding() {
+        List<String> actions = new ArrayList<>();
+        actions.add("PAY TAX PERCENTAGE");
+        actions.add("PAY TAX FIXED");
+        String action = myGameView.showOnTileLandingActions(actions, "Options", "Tile Actions", "Choose One");
     }
 
     private void handlePayRent(AbstractPropertyTile property) {
@@ -255,6 +274,7 @@ public class GameController {
     }
 
     private void handlePayTaxFixed() {
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct() );
     }
 
     private void handleGoToJail() {
@@ -272,6 +292,9 @@ public class GameController {
     }
 
     private void handleBuy() {
+        Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
+        String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
+        myGameView.displayActionInfo(info);
     }
 
     private void handleForfeit(AbstractPlayer player){
@@ -293,7 +316,7 @@ public class GameController {
                 i--;
             }
         }
-        Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)getMyTurn().onAction("auction", auctionAmount);
+        Map.Entry<AbstractPlayer, Double> winner = getMyTurn().auction(auctionAmount);
         String info = winner.getKey().getMyPlayerName() + " wins " + this.getMyTurn().getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
         myGameView.displayActionInfo(info);
         Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
