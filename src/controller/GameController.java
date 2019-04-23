@@ -9,6 +9,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
 import backend.tile.AbstractPropertyTile;
+import backend.tile.GoTile;
 import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
@@ -24,6 +25,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -38,27 +41,27 @@ import static controller.Actions.GO_TO_JAIL;
 public class GameController {
 
     //TODO: make all the back-end stuff be managed by a MonopolyModel/board class
+    private XMLData              myData;
     private List<AbstractPlayer> myPlayers;
-    private DeckInterface        chanceDeck;
-    private DeckInterface        chestDeck;
+    private DeckInterface        myChanceDeck;
+    private DeckInterface        myChestDeck;
     private AbstractBoard        myBoard;
     private AbstractDice         myDice;
     private TestingScreen        myTestScreen;
     private Turn                 myTurn;
-    private ImportPropertyFile  myPropertyFile;
-    private Bank                myBank;
+    private ImportPropertyFile   myPropertyFile;
+    private Bank                 myBank;
     private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
     //Strings are all actions
     private AbstractGameView myGameView;
 
-    public GameController(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, AbstractBoard board, Map<TextField, ComboBox> playerToIcon) {
+    public GameController(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, Map<TextField, ComboBox> playerToIcon) {
         myDice = dice;
-        chanceDeck = chanceDeck;
-        chestDeck = chestDeck;
-//        myBoard = board;
+        myChanceDeck = chanceDeck;
+        myChestDeck = chestDeck;
 
         //TODO: need money and totalPropertiesLeft read in from Data File
-        XMLData myData = null;
+        myData = null;
         try {
             myData = new XMLData("OriginalMonopoly.xml");
         } catch (Exception e) {
@@ -68,27 +71,72 @@ public class GameController {
 
         myTestScreen = view;
 
-        // make first param list of players
-        myPlayers = new ArrayList<>();
-        //TODO: need money read in from data file
-        for (TextField player: playerToIcon.keySet()){
-            if (!player.getText().equals("")) {
-                myPlayers.add(new HumanPlayer(player.getText(), 1500.0, myBank));
-            }
-        }
-
-
         //should game create board? and who creates game?
-        myBoard = new StandardBoard(
-                myPlayers,
-                myData.getAdjacencyList(),
-                myData.getPropertyCategoryMap(),
-                myData.getFirstTile(),
-                myBank);
+//        myBoard = new StandardBoard(
+//                myPlayers,
+//                myData.getAdjacencyList(),
+//                myData.getPropertyCategoryMap(),
+//                myData.getFirstTile(),
+//                myBank
+//        );
+        myBoard = makeBoard(playerToIcon);
+
+        // make first param list of players
+//        myPlayers = new ArrayList<>();
+        myPlayers = myBoard.getMyPlayerList();
+
+        //TODO: need money read in from data file
+//        for (TextField player: playerToIcon.keySet()){
+//            if (!player.getText().equals("")) {
+//                myPlayers.add(new HumanPlayer(
+//                        player.getText(), makeIcon(playerToIcon.get(player)),
+//                        1500.0, myBank
+//                ));
+//            }
+//        }
 
 //        System.out.println(myBoard.getAdjacentTiles();
 
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+    }
+
+    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
+        AbstractBoard board = new StandardBoard(
+                makePlayerList(playerToIcon),
+                myData.getAdjacencyList(),
+                myData.getPropertyCategoryMap(),
+                myData.getFirstTile(),
+                myBank
+        );
+
+        return board;
+    }
+
+    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
+        Bank bank = new Bank(Double.MAX_VALUE, new HashMap<String, Integer>());
+
+        List<AbstractPlayer> playerList = new ArrayList<>();
+
+        for (TextField pName : playerToIcon.keySet()) {
+            String name = pName.getText();
+            if (! name.equals(""))
+                playerList.add(new HumanPlayer(
+                        name, makeIcon(playerToIcon.get(pName)),
+                        1500.0, bank));
+            //should be from data file
+            //throw exception
+        }
+
+        return playerList;
+    }
+
+    private ImageView makeIcon(ComboBox iconSelection) {
+        Image image = new Image(iconSelection.getValue() + ".png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+
+        return imageView;
     }
 
     public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {

@@ -3,6 +3,8 @@ package backend.assetholder;
 import backend.card.AbstractCard;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.BuildingTile;
+import frontend.views.IconView;
+import javafx.scene.image.ImageView;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +15,8 @@ import java.util.Objects;
  * @author Sam [constructor change]
  */
 public abstract class AbstractPlayer extends AbstractAssetHolder{
-    private String icon;
+    private String iconPath;
+    private ImageView myIcon;
     private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private Boolean bankrupt;
     private List<AbstractCard> cards;
@@ -22,15 +25,19 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 
     private String myPlayerName;
 
-    public AbstractPlayer(String name, Double money, Bank bank) {
+    public AbstractPlayer(String name, ImageView icon, Double money, Bank bank) {
         super( money );
         this.bank = bank;
         myPlayerName = name;
+        myIcon = icon;
     }
 
+    public ImageView getMyIcon() {
+        return myIcon;
+    }
 
     public String getIcon() {
-        return icon;
+        return iconPath;
     }
 
     public int getTurnsInJail() {
