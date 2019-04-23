@@ -4,6 +4,7 @@ import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.StandardBoard;
 import backend.deck.DeckInterface;
+import backend.deck.NormalDeck;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
@@ -49,64 +50,38 @@ public class GameController {
     //Strings are all actions
     private AbstractGameView myGameView;
 
-    public GameController(TestingScreen view, AbstractDice dice, DeckInterface chanceDeck, DeckInterface chestDeck, Map<TextField, ComboBox> playerToIcon) {
+    public GameController(TestingScreen view, AbstractDice dice, Map<TextField, ComboBox> playerToIcon) {
         myDice = dice;
-        myChanceDeck = chanceDeck;
-        myChestDeck = chestDeck;
+        // TODO: CHANGE THIS TO JUST BEING READ IN FROM DATA
+        // TODO: TO BE A PART OF BOARD NOT GAME CONTROLLER
+        myChanceDeck = new NormalDeck();
+        myChestDeck = new NormalDeck();
+        // TODO: CHANGE THIS TO JUST BEING READ IN FROM DATA
+        // TODO: TO BE A PART OF BOARD NOT GAME CONTROLLER
 
         //TODO: need money and totalPropertiesLeft read in from Data File
-        myData = null;
         try {
             myData = new XMLData("OriginalMonopoly.xml");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         myBank = myData.getBank();
-
         myTestScreen = view;
-
-        //should game create board? and who creates game?
-//        myBoard = new StandardBoard(
-//                myPlayers,
-//                myData.getAdjacencyList(),
-//                myData.getPropertyCategoryMap(),
-//                myData.getFirstTile(),
-//                myBank
-//        );
         myBoard = makeBoard(playerToIcon);
-
-        // make first param list of players
-//        myPlayers = new ArrayList<>();
         myPlayers = myBoard.getMyPlayerList();
-
-        //TODO: need money read in from data file
-//        for (TextField player: playerToIcon.keySet()){
-//            if (!player.getText().equals("")) {
-//                myPlayers.add(new HumanPlayer(
-//                        player.getText(), makeIcon(playerToIcon.get(player)),
-//                        1500.0, myBank
-//                ));
-//            }
-//        }
-
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
-        AbstractBoard board = new StandardBoard(
-                makePlayerList(playerToIcon),
-                myData.getAdjacencyList(),
-                myData.getPropertyCategoryMap(),
-                myData.getFirstTile(),
+        return new StandardBoard(
+                makePlayerList(playerToIcon), myData.getAdjacencyList(),
+                myData.getPropertyCategoryMap(), myData.getFirstTile(),
                 myBank
         );
-
-        return board;
     }
 
     private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
-        Bank bank = new Bank(Double.MAX_VALUE, new HashMap<String, Integer>());
-
         List<AbstractPlayer> playerList = new ArrayList<>();
 
         for (TextField pName : playerToIcon.keySet()) {
@@ -114,17 +89,15 @@ public class GameController {
             if (! name.equals(""))
                 playerList.add(new HumanPlayer(
                         name,
-                        makeIcon(playerToIcon.get(pName)),
+                        makeIcon((String) playerToIcon.get(pName).getValue()),
                         1500.00));
-            //should be from data file
-            //throw exception
         }
 
         return playerList;
     }
 
-    private ImageView makeIcon(ComboBox iconSelection) {
-        Image image = new Image(iconSelection.getValue() + ".png");
+    private ImageView makeIcon(String iconPath) {
+        Image image = new Image(iconPath + ".png");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(25);
         imageView.setFitWidth(25);
@@ -133,7 +106,6 @@ public class GameController {
     }
 
     public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {
-
         //TODO: need money and totalPropertiesLeft read in from Data File
         XMLData myData = null;
         try {
@@ -145,8 +117,6 @@ public class GameController {
         addHandlers();
         //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
-
-
 
     public void startGameLoop() {
         BorderPane bPane = (BorderPane) myTestScreen.getMyScene().getRoot();
@@ -171,7 +141,6 @@ public class GameController {
         myTurn.skipTurn();
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
         myTestScreen.getMyScene().lookup("#endTurn");
-
     }
 
     private void handleRollButton() {
@@ -183,7 +152,6 @@ public class GameController {
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
         List<String> possibleActions = myTurn.getMyActions();
         //TODO: front end display these two possible actions
-
     }
 
     public AbstractBoard getBoard() { return myBoard; }

@@ -89,7 +89,6 @@ public class TestingScreen extends AbstractScreen {
         PAY_BAIL_BUTTON.setId( "payBail" );
         FORFEIT_BUTTON.setId("forfeit");
         MOVE_BUTTON.setId( "move handler" );
-
     }
 
 
@@ -135,9 +134,6 @@ public class TestingScreen extends AbstractScreen {
         myGame = new GameController(
                 this,
                 new SixDice(),
-                new NormalDeck(),
-                new NormalDeck(),
-//                makeBoard( playerToIcon )
                 playerToIcon
         );
 
