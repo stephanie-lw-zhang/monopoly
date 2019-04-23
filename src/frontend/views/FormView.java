@@ -18,8 +18,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 public class FormView extends GridPane {
 
@@ -122,6 +122,12 @@ public class FormView extends GridPane {
             formAlert.showAndWait();
             return;
         }
+        if (this.hasDuplicatePlayers()) {
+            Alert formAlert = new Alert(Alert.AlertType.ERROR);
+            formAlert.setContentText("Duplicate player names not allowed!");
+            formAlert.showAndWait();
+            return;
+        }
         myScreen.handleStartGameButton(playerToIcon);
     }
 
@@ -130,12 +136,30 @@ public class FormView extends GridPane {
      * the form before the start of a game
      * @return boolean, whether or not enough players have been entered
      */
-    public boolean hasEnoughPlayers() {
+    private boolean hasEnoughPlayers() {
         int empties = 0;
         for (TextField p : playerToIcon.keySet())
             if (p.getText().equals(""))
                 empties++;
         return empties <= 2;
+    }
+
+    /**
+     * Checks if there exists duplicate player names
+     * in the form at start of the game
+     * @return boolean, whether duplicate names exist
+     */
+    private boolean hasDuplicatePlayers() {
+        Set<String> set = new HashSet<>();
+        List<String> list = new ArrayList<>();
+        for (TextField p : playerToIcon.keySet()) {
+            if (! p.getText().equals("")) {
+                set.add(p.getText());
+                list.add(p.getText());
+            }
+        }
+
+        return set.size() != list.size();
     }
 
     /**

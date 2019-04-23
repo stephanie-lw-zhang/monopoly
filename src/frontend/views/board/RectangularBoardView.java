@@ -1,5 +1,7 @@
 package frontend.views.board;
 
+
+import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.card.PropertyCard;
 import backend.tile.AbstractPropertyTile;
@@ -33,7 +35,12 @@ public class RectangularBoardView extends AbstractBoardView{
     private ImportPropertyFile details;
     private List<AbstractTileView> myTiles = new ArrayList<>();
     private int myIndex=0;
+
+    // TODO: myIcon will be replaced by List of Players from myBoard
     private IconView myIcon;
+    private List<AbstractPlayer> myPlayerList;
+    // TODO: myIcon will be replaced by List of Players from myBoard
+
     private int myNumMoves;
     private AbstractBoard myBoard;
 
@@ -43,6 +50,9 @@ public class RectangularBoardView extends AbstractBoardView{
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
+
+        myPlayerList = myBoard.getMyPlayerList();
+
         makeBoard();
         makeBackground();
     }
