@@ -1,15 +1,9 @@
 package backend.assetholder;
 
+import javafx.scene.image.ImageView;
+
 public class HumanPlayer extends AbstractPlayer {
-
-    public HumanPlayer(String name, Double money, Bank bank) {
-        super( name, money, bank );
+    public HumanPlayer(String name, ImageView icon, Double money) {
+        super( name, icon, money);
     }
-
-    // DEFAULT CONSTRUCTOR FOR STANDARD GAME PLAYER
-    public HumanPlayer(Bank bank) {
-        this("GiddyGiraffe", 1500.00, bank);
-    }
-
-
 }

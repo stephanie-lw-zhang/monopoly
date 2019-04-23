@@ -19,16 +19,16 @@ public class FreeParkingTile extends Tile {
         this.index = index;
     }
 
+    //might need to calculate money?
     public FreeParkingTile(Element n){
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         setTileType(getTagValue("TileType", n));
     }
 
-
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         //player.setMoney(player.getMoney() + landedOnMoney);
         List<String> possibleActions = new ArrayList<>(  );
-        possibleActions.add("collectMoney");
+        possibleActions.add("COLLECT MONEY");
         return possibleActions;
     }
 

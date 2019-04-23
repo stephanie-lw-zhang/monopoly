@@ -13,9 +13,7 @@ public abstract class Tile {
     private int index;
 
     public abstract List<String> applyLandedOnAction(AbstractPlayer p);
-    //public void applyLandedOnAction(AbstractPlayer p) {
-    //    System.out.println("Player " + p.getMyPlayerName() + " landed on ");
-    //}
+
     public String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
@@ -34,10 +32,28 @@ public abstract class Tile {
         index = i;
     }
 
+
     public void setTileType(String s){ tileType = s; }
+
+    public String getName(){
+        return "temp";
+        //ONLY FOR TESTING PURPOSES
+    }
 
     public boolean individualUpdateEvenCheck(boolean upgrade, int thresholdForUpdate, BuildingTile tile){
         return true;
     };
+
+    public boolean isJailTile(){
+        return false;
+    }
+
+    public boolean isGoToJailTile(){
+        return false;
+    }
+
+    public boolean isGoTile(){
+        return false;
+    }
 
 }

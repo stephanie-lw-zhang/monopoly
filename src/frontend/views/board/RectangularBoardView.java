@@ -275,7 +275,7 @@ public class RectangularBoardView extends AbstractBoardView{
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
 
-        System.out.print("Prop tile Set");
+        //System.out.print("Prop tile Set");
         tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         tileNode.setRotate(rotationAngle);
         if(rotationAngle==0) {
@@ -297,7 +297,7 @@ public class RectangularBoardView extends AbstractBoardView{
     }
 
     private void showTileClickedAlert(ImportPropertyFile details) {
-        System.out.print("BANG!");
+        //System.out.print("BANG!");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(details.getProp("TileName"));
         alert.setHeaderText("tile Info:");
@@ -327,7 +327,8 @@ public class RectangularBoardView extends AbstractBoardView{
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
-        System.out.print("Nonprop tile Set");
+//        System.out.print("Nonprop tile Set");
+
         tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         tileNode.setRotate(rotationAngle);
 
@@ -365,7 +366,8 @@ public class RectangularBoardView extends AbstractBoardView{
         //System.out.print(details);
         ImportPropertyFile deets = new ImportPropertyFile(details);
         //System.out.print(deets);
-        System.out.print("Corner tile Set");
+//        System.out.print("Corner tile Set");
+
         tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
     }
@@ -373,10 +375,20 @@ public class RectangularBoardView extends AbstractBoardView{
     public void makeCorners(){
         //System.out.print(myPropertyFile.getProp("TileOName"));
         //System.out.print(myPropertyFile.getProp("TileOFile®"))
-        placeCornerTile(myPropertyFile.getProp("Tile0Name"), myPropertyFile.getProp("Tile0File"),"Go","clear",1,1);
-        placeCornerTile(myPropertyFile.getProp("Tile10Name"), myPropertyFile.getProp("Tile10File"),"Go","clear",0,1);
-        placeCornerTile(myPropertyFile.getProp("Tile20Name"), myPropertyFile.getProp("Tile20File"),"Go","clear",0,0);
-        placeCornerTile(myPropertyFile.getProp("Tile30Name"), myPropertyFile.getProp("Tile30File"),"Go","clear",1,0);
+        Tile tileZero = myBoard.getTilesIndex(0);
+        Tile tileTen = myBoard.getTilesIndex(10);
+        Tile tileTwenty = myBoard.getTilesIndex(20);
+        Tile tileThirty = myBoard.getTilesIndex(30);
+
+        placeCornerTile(tileZero.getTileType(), "", tileZero.getTileType(), "clear", 1, 1);
+        placeCornerTile(tileTen.getTileType(), "", tileTen.getTileType(), "clear", 0, 1);
+        placeCornerTile(tileTwenty.getTileType(), "", tileTwenty.getTileType(), "clear", 0, 0);
+        placeCornerTile(tileThirty.getTileType(), "", tileThirty.getTileType(), "clear", 1, 0);
+
+//        placeCornerTile(myPropertyFile.getProp("Tile0Name"), myPropertyFile.getProp("Tile0File"),"Go","clear",1,1);
+//        placeCornerTile(myPropertyFile.getProp("Tile10Name"), myPropertyFile.getProp("Tile10File"),"Go","clear",0,1);
+//        placeCornerTile(myPropertyFile.getProp("Tile20Name"), myPropertyFile.getProp("Tile20File"),"Go","clear",0,0);
+//        placeCornerTile(myPropertyFile.getProp("Tile30Name"), myPropertyFile.getProp("Tile30File"),"Go","clear",1,0);
 
     }
 

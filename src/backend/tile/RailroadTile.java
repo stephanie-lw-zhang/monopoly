@@ -1,23 +1,18 @@
 package backend.tile;
 
 import backend.assetholder.Bank;
+import backend.card.BuildingCard;
 import backend.card.PropertyCard;
+import backend.card.RailroadCard;
 import org.w3c.dom.Element;
 
 public class RailroadTile extends AbstractNonBuildingPropertyTile {
 
-
-    public RailroadTile(Bank bank, PropertyCard card, String tiletype, int index) {
-        super( bank, card, tiletype, index);
-    }
-
     public RailroadTile(Bank bank, Element n){
         super(bank, n);
-    }
+        setCard( new RailroadCard(n.getElementsByTagName("Card").item(0) ));
 
-    //public RailroadTile(Element n) {
-    //    super( n );
-    //}
+    }
 
     public double calculateRentPrice(int roll) {
         if (isMortgaged()) {

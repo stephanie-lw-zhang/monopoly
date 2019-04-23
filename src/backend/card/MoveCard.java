@@ -4,7 +4,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.tile.Tile;
 
-public class MoveCard extends ApplicationCard {
+public class MoveCard extends ActionCard {
     private Tile tile;
 
     public MoveCard(AbstractBoard board, Tile tile) {

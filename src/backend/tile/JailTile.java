@@ -12,14 +12,11 @@ public class JailTile extends Tile {
 
     private Set<AbstractPlayer> criminals;
     private int index;
-
-    public JailTile(int index) {
-        criminals = new HashSet<>();
-        this.index = index;
-    }
+    private double bailAmount = 50;
 
     public JailTile(Element n){
         criminals = new HashSet<>();
+        setTileType(getTagValue("TileType", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
     }
 
@@ -36,5 +33,19 @@ public class JailTile extends Tile {
         //throw exception?? if player is not in the hashset
         criminals.remove(player);
         player.getOutOfJail();
+    }
+
+    @Override
+    public boolean isJailTile(){
+        return true;
+    }
+
+    public double getBailAmount(){
+        return bailAmount;
+    }
+
+    @Override
+    public String getName(){
+        return "Jail Tile";
     }
 }

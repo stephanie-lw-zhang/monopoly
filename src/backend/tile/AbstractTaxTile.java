@@ -2,8 +2,6 @@ package backend.tile;
 
 import backend.assetholder.Bank;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public abstract class AbstractTaxTile extends Tile {
 
@@ -11,6 +9,7 @@ public abstract class AbstractTaxTile extends Tile {
     private Bank bank;
     private String tileType;
     private int index;
+
 
     public AbstractTaxTile(int money, Bank bank, String tileType, int index) {
         this.amountToDeduct = money;

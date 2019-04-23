@@ -2,17 +2,11 @@ package backend.tile;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.Bank;
-import backend.card.PropertyCard;
 import org.w3c.dom.Element;
 
 import java.util.List;
 
 public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTile {
-
-
-    public AbstractNonBuildingPropertyTile(Bank bank, PropertyCard card, String tiletype, int index) {
-        super(bank, card, tiletype, index);
-    }
 
     public AbstractNonBuildingPropertyTile(Bank bank, Element n){
         super(bank, n);
@@ -37,16 +31,5 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
             each.setCurrentInUpgradeOrder( newInUpgradeOrder );
         }
     }
-
-//    private List<AbstractNonBuildingPropertyTile> sublistOfPropertiesOwnedBy(AbstractAssetHolder owner, List<AbstractPropertyTile> properties) {
-//        List<AbstractNonBuildingPropertyTile> propertiesOwnedBy = new ArrayList<>();
-//        for (AbstractPropertyTile tile : properties) {
-//            if (tile instanceof RailroadTile && (tile.getOwner().equals(owner))) {
-//                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
-//                propertiesOwnedBy.add( (RailroadTile) tile );
-//            }
-//        }
-//        return propertiesOwnedBy;
-//    }
 
 }

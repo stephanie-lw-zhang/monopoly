@@ -3,6 +3,11 @@ package frontend.screens;
 import backend.board.StandardBoard;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
+import backend.deck.NormalDeck;
+import backend.dice.SixDice;
+import configuration.ImportPropertyFile;
+import controller.GameController;
+import controller.GameSetUpController;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.game.AbstractGameView;
@@ -33,23 +38,25 @@ import java.util.ArrayList;
  */
 public class BoardModeScreen extends AbstractScreen{
 
+
     private Scene myScene;
-    private AbstractGameView myGameView;
-    private AbstractBoardView myBoardView;
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
+
+    private GameSetUpController myController;
+
+
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
-        myGameView = new SplitScreenGameView(0.9*sWidth, 0.9*sHeight);
-        try {
-            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), new XMLData("OriginalMonopoly.xml")), 0.9*sWidth, 0.9*sHeight,90,11,11,myPropertyFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        myGameView.addBoardView(myBoardView);
+        myController = new GameSetUpController(sWidth, sHeight);
+//        try {
+//            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), new XMLData("OriginalMonopoly.xml")), 0.9*sWidth, 0.9*sHeight,90,11,11);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        //myGameView.addBoardView(myBoardView);
     }
+        //myController = new GameSetUpController(sWidth,sHeight);
+    //}
 
-
-    //why do we override this method, it is exactly the same?
     @Override
     public void makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
@@ -75,8 +82,8 @@ public class BoardModeScreen extends AbstractScreen{
         //bPane.setCenter(titleText);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
-
         myScene = new Scene(bPane, getScreenWidth(), getScreenHeight());
+
     }
 
     @Override
@@ -87,7 +94,7 @@ public class BoardModeScreen extends AbstractScreen{
         backgroundImg.setFitWidth(sWidth);
         backgroundImg.setFitHeight(sHeight);
         bPane.getChildren().add(backgroundImg);
-        bPane.setCenter(myGameView.getPane());
+        bPane.setCenter(myController.getNode());
         bPane.setBottom(gPane);
 
         bPane.setMargin(gPane, new Insets(0,0, 75, 0));
@@ -95,10 +102,6 @@ public class BoardModeScreen extends AbstractScreen{
         return bPane;
     }
 
-    private Node makeBoard() {
-        return myGameView.getPane();
-    }
-
     @Override
-    public Scene  getMyScene()      { return myScene; }
+    public Scene  getMyScene(){ return myScene; }
 }

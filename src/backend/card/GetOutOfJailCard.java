@@ -2,9 +2,8 @@ package backend.card;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import javafx.application.Application;
 
-public class GetOutOfJailCard extends ApplicationCard {
+public class GetOutOfJailCard extends ActionCard {
     public GetOutOfJailCard(AbstractBoard board) {
         super( board );
     }

@@ -110,6 +110,7 @@
         <TileType>IncomeTaxTile</TileType>
         <TileName>Income Tax</TileName>
         <TileRent>200</TileRent>
+        <TaxMultiplier>0.1</TaxMultiplier>
         <NextTiles>5</NextTiles>
     </Tile>
 

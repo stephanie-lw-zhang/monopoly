@@ -20,17 +20,6 @@ public class PropertyCard extends AbstractCard {
     private String category;
     private double tilePrice;
 
-    public PropertyCard(double propertyMortgageValue, Map<String, Double> priceLookupTable, List<String> upgradeOrder,
-                        String titleDeed, String category, Map<String, Integer> specificToNumeric, Double tilePrice) {
-        this.propertyMortgageValue = propertyMortgageValue;
-        this.rentPriceLookupTable = priceLookupTable;
-        this.upgradeOrder = upgradeOrder;
-        this.titleDeed = titleDeed;
-        this.category = category;
-        this.specificToNumeric = specificToNumeric;
-
-    }
-
     public PropertyCard(Node node){
         Element element = (Element) node;
         tilePrice = Double.parseDouble(getTagValue("TilePrice", element));
@@ -61,6 +50,10 @@ public class PropertyCard extends AbstractCard {
 
     public double lookupPrice (String key){
         return rentPriceLookupTable.get(key);
+    }
+
+    public Map<String, Double> getRentPriceLookupTable(){
+        return rentPriceLookupTable;
     }
 
     public String nextInUpgradeOrder(String current) {

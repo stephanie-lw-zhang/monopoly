@@ -10,6 +10,9 @@ package backend.board;
  */
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
+import backend.deck.DeckInterface;
+import backend.dice.AbstractDice;
+import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -27,6 +30,8 @@ public abstract class AbstractBoard {
     private List<AbstractPlayer>                    myPlayerList;
     private int                                     numDie;
     private Bank                                    bank;
+    private List<DeckInterface> myDecks;
+    private AbstractDice myDice;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
@@ -76,14 +81,22 @@ public abstract class AbstractBoard {
     }
 
     public JailTile getJailTile(){
-        JailTile tile = null;
         for (Tile key: adjacencyMap.keySet()) {
-            if(key instanceof JailTile){
-                tile = (JailTile) key;
+            if(key.isJailTile()){
+                return (JailTile) key;
             }
         }
-        return tile;
+        return null;
         //EXCEPTION: THERE IS NO JAIL TILE
+    }
+
+    public GoTile getGoTile(){
+        for (Tile key: adjacencyMap.keySet()) {
+            if(key.isGoTile()){
+                return (GoTile) key;
+            }
+        }
+        return null;
     }
 
     public List<AbstractPlayer> getMyPlayerList() { return myPlayerList; }

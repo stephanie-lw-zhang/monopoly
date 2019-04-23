@@ -6,7 +6,7 @@ import backend.assetholder.AbstractAssetHolder;
 
 import java.util.List;
 
-public class PayCard extends ApplicationCard {
+public class PayCard extends ActionCard {
     private List<AbstractAssetHolder> payers;
     private List<AbstractAssetHolder> payees;
     private double amount;

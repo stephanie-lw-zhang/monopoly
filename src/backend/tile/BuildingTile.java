@@ -3,8 +3,11 @@ package backend.tile;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
+import backend.card.AbstractCard;
+import backend.card.BuildingCard;
 import backend.card.BuildingCard;
 import backend.card.PropertyCard;
+import javafx.beans.property.Property;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -14,6 +17,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     private String tilecolor;
     private BuildingCard card;
 
+
     public BuildingTile(Bank bank, PropertyCard card, String tiletype, String tilecolor, int index) {
         super(bank, card, tiletype, index);
         this.card = (BuildingCard) this.getCard();
@@ -22,14 +26,18 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 
     public BuildingTile(Bank bank, Element n){
         super(bank, n);
+        setCard( new BuildingCard(n.getElementsByTagName("Card").item(0)) );
+        card = (BuildingCard)this.getCard();
     }
 
     //store these as strings and make a hashmap of price lookup
     public double calculateRentPrice(int roll) {
+
         if (isMortgaged()) {
-            return 0;
+            return 0.0;
         }
         else {
+            //might need to debug, why must card be cast to property to use this method
             return card.lookupPrice(getCurrentInUpgradeOrder());
             //REMIND LUIS ABOUT THIS?
 //            else {
@@ -55,6 +63,8 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
      * evenly, in reverse of the manner in which they were erected.
      */
     public void sellAllBuildingsOnTile() {
+//        BuildingCard card = (BuildingCard) this.getCard();
+
         getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
         setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
         getBank().payFullAmountTo(getOwner(), sellBuildingToBankPrice());
@@ -66,6 +76,8 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
      * evenly, in reverse of the manner in which they were erected.
      */
     public void sellOneBuilding(List<AbstractPropertyTile> properties) {
+//        BuildingCard card = (BuildingCard) this.getCard();
+
         if(checkIfUpdatingEvenly(properties,false));
         getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
         getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
@@ -75,6 +87,8 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     @Override
     public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) {
         super.sellTo(assetHolder,price, sameColorProperties);
+//        BuildingCard card = (BuildingCard) this.getCard();
+
         if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
             //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
                 upgrade((AbstractPlayer) assetHolder, sameColorProperties);
@@ -85,6 +99,8 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         //this will be throwing an exception (see property card class)
         //this can only happen if owner is player -- controller must call checkIfOwnerIsCurrentPlayer
 //        List<AbstractPropertyTile> properties = board.getColorListMap().get(this.getTilecolor());
+        BuildingCard card = (BuildingCard) this.getCard();
+
         String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
             //throw exception if not caught in nextInUpgradeOrder
@@ -109,15 +125,15 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     @Override
     public boolean individualUpdateEvenCheck(boolean upgrade, int thresholdForUpdate, BuildingTile tile) {
         BuildingTile currentTile = tile;
-        BuildingCard currentCard = (BuildingCard) currentTile.getCard();
+        BuildingCard currentcard = (BuildingCard) currentTile.getCard();
         if (upgrade) {
-            if (currentCard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) < thresholdForUpdate) {
+            if (currentcard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) < thresholdForUpdate) {
                 //throw exception: YOU CANNOT UPGRADE UNEVENLY
                 return true;
             }
         }
         else {
-            if (currentCard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) > thresholdForUpdate) {
+            if (currentcard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) > thresholdForUpdate) {
                 //throw exception: YOU CANNOT DOWNGRADE UNEVENLY
                 return true;
             }
@@ -181,9 +197,13 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 
     @Override
     public void recalculateTotalPropertiesLeftAfterWholeSale(Map<String,Integer> totalPropertiesLeft){
+//        BuildingCard card = (BuildingCard) this.getCard();
+
+        System.out.println("card: " + this.getCard());
+
         String current = this.getCurrentInUpgradeOrder();
-        String baseKey = card.getBasePropertyType(current);
-        Integer baseValue = card.getNumericValueOfPropertyType(current);
-        totalPropertiesLeft.put(baseKey, totalPropertiesLeft.get(baseKey) + baseValue);
+//        String baseKey = card.getBasePropertyType(current);
+//        Integer baseValue = card.getNumericValueOfPropertyType(current);
+//        totalPropertiesLeft.put(baseKey, totalPropertiesLeft.get(baseKey) + baseValue);
     }
 }

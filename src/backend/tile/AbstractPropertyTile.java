@@ -35,6 +35,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public AbstractPropertyTile(Bank bank, Element n){
         this.owner = bank;
         this.bank = bank;
+//        card = getCard();
         card = new PropertyCard(n.getElementsByTagName("Card").item(0));
         setTileType(getTagValue("TileType", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
@@ -49,28 +50,17 @@ public abstract class AbstractPropertyTile extends Tile {
 
 //        //controller will send player option to buy property? interact with front-end
         if (isBuyableFromBank()) {
-            possibleActions.add("buy");
-            possibleActions.add("auction");
+            possibleActions.add("BUY");
+            possibleActions.add("AUCTION");
         }
         else if (!player.equals(getOwner())) {
-            possibleActions.add("payRent");
+            possibleActions.add("PAY RENT");
+
 
 //      player.payFullAmountTo(getOwner(), calculateRentPrice());
         }
         return possibleActions;
     }
-
-    //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
-//    public abstract double sellBuildingToBankPrice();
-//        if (!isMortgaged()) {
-////            return tileprice/2;
-//            getCard().
-//        }
-//        else {
-//            //throw exception: CANNOT SELL_TO_BANK MORTGAGED PROPERTY BACK TO BANK
-//        }
-//        return 0;
-//    }
 
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;
@@ -111,7 +101,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void mortgageProperty() {
         //need to turn over card on front end
         if (!isMortgaged()) {
-                bank.payFullAmountTo(owner, ((PropertyCard) card).getMortgageValue() );
+                bank.payFullAmountTo(owner, card.getMortgageValue() );
                 this.mortgaged = true;
         }
         else {
@@ -121,7 +111,7 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void unmortgageProperty() {
         if (isMortgaged()) {
-                owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 1.1);
+                owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
                 this.mortgaged = false;
         }
         else {
@@ -135,6 +125,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public void soldMortgagedPropertyLaterUnmortgages() {
         if (isMortgaged()) {
             owner.payFullAmountTo(bank, ((PropertyCard) card).getMortgageValue() * 0.1);
+
         }
         else {
             //throw exception: HOUSE IS NOT MORTGAGED
@@ -194,6 +185,10 @@ public abstract class AbstractPropertyTile extends Tile {
         return card.getTilePrice();
     }
 
+    public void setCard(PropertyCard c) {
+        card = c;
+    }
+
     // maybe make an abstractTile class instead of an tile
     //private String getTagValue(String tag, Element element) {
     //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -231,5 +226,7 @@ public abstract class AbstractPropertyTile extends Tile {
 //            //throw exception: CAN'T BUY BECAUSE BANK DOESN'T OWN
 //        }
 //    }
+
+
 
 }
