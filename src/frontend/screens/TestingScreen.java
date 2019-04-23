@@ -8,7 +8,6 @@ import backend.board.StandardBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
-import backend.tile.BuildingTile;
 import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -20,7 +19,6 @@ import frontend.views.player_options.DiceView;
 
 import frontend.views.FormView;
 
-import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -75,6 +73,8 @@ public class TestingScreen extends AbstractScreen {
     private final Button PAY_RENT_BUTTON = new Button("Pay Rent");
     private final Button PAY_BAIL_BUTTON = new Button("Pay Bail");
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
+    private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
+
 
 
 
@@ -90,6 +90,7 @@ public class TestingScreen extends AbstractScreen {
         PAY_RENT_BUTTON.setId( "payRent" );
         PAY_BAIL_BUTTON.setId( "payBail" );
         FORFEIT_BUTTON.setId("forfeit");
+        MOVE_BUTTON.setId( "move handler" );
 
     }
 
@@ -301,7 +302,7 @@ public class TestingScreen extends AbstractScreen {
 //                System.out.println("initial money:" + player.getMoney());
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
-                player.declareBankruptcy();
+                player.declareBankruptcy(myGame.getBoard().getBank());
                 myGame.getBoard().getMyPlayerList().remove( player );
                 myGame.getBoard().getPlayerTileMap().remove( player );
                 //MUST REMOVE FROM FRONT END
@@ -310,6 +311,16 @@ public class TestingScreen extends AbstractScreen {
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
 
+//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
+            }
+        });
+
+        MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.getMyTurn().goToJail();
+                displayActionInfo( "Arrested! You're going to Jail." );
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
             }
         });

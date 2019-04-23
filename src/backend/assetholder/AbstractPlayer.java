@@ -2,7 +2,6 @@ package backend.assetholder;
 
 import backend.card.AbstractCard;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.BuildingTile;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,14 +16,12 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
     private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private Boolean bankrupt = false;
     private List<AbstractCard> cards;
-    private Bank bank;
     // private int roll;
 
     private String myPlayerName;
 
-    public AbstractPlayer(String name, Double money, Bank bank) {
+    public AbstractPlayer(String name, Double money) {
         super( money );
-        this.bank = bank;
         myPlayerName = name;
     }
 
@@ -70,7 +67,7 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //        this.setMoney( 0 );
 //    }
 
-    public void declareBankruptcy(){
+    public void declareBankruptcy(Bank bank){
         this.bankrupt = true;
         bank.addAllProperties( this.getProperties() );
         this.getProperties().clear();
@@ -155,9 +152,4 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 
     public String getMyPlayerName() { return myPlayerName; }
 
-
-
-    public Bank getBank() {
-        return bank;
-    }
 }
