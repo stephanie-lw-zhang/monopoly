@@ -284,13 +284,13 @@ public class GameController {
 
     }
 
-    public void handleSellToPlayer(AbstractPlayer buyer, AbstractPropertyTile tile) {
-        System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties() + " " + tile.isMortgaged());
-        System.out.println("initial money for buyer: " + buyer.getMoney() + " " + buyer.getProperties());
+    private void handleSellToPlayer(AbstractPlayer buyer, AbstractPropertyTile tile) {
+//        System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties() + " " + tile.isMortgaged());
+//        System.out.println("initial money for buyer: " + buyer.getMoney() + " " + buyer.getProperties());
         double amount = 0;
         boolean sellAmountDetermined = false;
         while (!sellAmountDetermined) {
-            String value = myTestScreen.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
+            String value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
                     "Enter your proposed amount:",
                     "Amount:");
             try {
@@ -298,17 +298,15 @@ public class GameController {
             } catch (NumberFormatException n) {
                 new IllegalInputTypeException("Input must be a number!");
             }
-            List<String> options = new ArrayList<>();
-            options.add("Yes");
-            options.add("No");
-            String result = myTestScreen.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
+            List<String> options = listYesNoOptionsOnly();
+            String result = myGameView.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
             if (result.equals("Yes")) {
                 sellAmountDetermined = true;
                 tile.sellTo(buyer,amount,getSameSetProperties(tile));
-                System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-                System.out.println("after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
+//                System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+//                System.out.println("after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
                 if (tile.isMortgaged()) {
-                    result = myTestScreen.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
+                    result = myGameView.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
                     if (result.equals("Yes")) {
                         tile.unmortgageProperty();
                     }
@@ -318,8 +316,15 @@ public class GameController {
                 }
             }
         }
-        System.out.println("after after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-        System.out.println("after after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
+//        System.out.println("after after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+//        System.out.println("after after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
+    }
+
+    public List<String> listYesNoOptionsOnly() {
+        List<String> options = new ArrayList<>();
+        options.add("Yes");
+        options.add("No");
+        return options;
     }
 
     private void handleSellToBank() {
