@@ -52,6 +52,10 @@ public class PropertyCard extends AbstractCard {
         return rentPriceLookupTable.get(key);
     }
 
+    public Map<String, Double> getRentPriceLookupTable(){
+        return rentPriceLookupTable;
+    }
+
     public String nextInUpgradeOrder(String current) {
         try {
             return upgradeOrder.get(getUpgradeOrderIndexOf(current)+1);

@@ -10,9 +10,9 @@ import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
 import backend.tile.AbstractTaxTile;
 import backend.tile.IncomeTaxTile;
+import backend.tile.AbstractPropertyTile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
-import frontend.screens.BoardModeScreen;
 import frontend.screens.TestingScreen;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
@@ -20,7 +20,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -32,8 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static controller.Actions.GO_TO_JAIL;
 
 public class GameController {
 
@@ -55,6 +52,7 @@ public class GameController {
         myDice = dice;
         chanceDeck = chanceDeck;
         chestDeck = chestDeck;
+//        myBoard = board;
 
         //TODO: need money and totalPropertiesLeft read in from Data File
         XMLData myData = null;
@@ -67,7 +65,6 @@ public class GameController {
 
         myTestScreen = view;
 
-        // make first param list of players
         myPlayers = new ArrayList<>();
         //TODO: need money read in from data file
         for (TextField player: playerToIcon.keySet()){
@@ -76,6 +73,7 @@ public class GameController {
             }
         }
 
+        //should game create board? and who creates game?
         myBoard = new StandardBoard(
                 myPlayers,
                 myData.getAdjacencyList(),
@@ -167,11 +165,14 @@ public class GameController {
         handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
         handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
         handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
-        handlerMap.put("PAY RENT",event->this.handlePayRent());
+//        handlerMap.put("PAY RENT",event->this.handlePayRent());
         handlerMap.put("PAY BAIL",event->this.handlePayBail());
         handlerMap.put("COLLECT MONEY",event->this.handleCollectMoney());
         handlerMap.put("UPGRADE", event->this.upgradeProperty());
         handlerMap.put("TRADE",event->this.handleTrade());
+//        handlerMap.put("mortgage", event->this.handleMortgage());
+//        handlerMap.put("forfeit",event->this.handleForfeit());
+
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
     }
@@ -180,29 +181,46 @@ public class GameController {
     }
 
     private void handleCollectMoney() {
+        Boolean passed = true; //temp variable
+        if(passed){
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
+        } else {
+            //means you landed directly on it
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
+        }
     }
 
     private void handlePayBail(){
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBank, myBoard.getJailTile().getBailAmount() );
+        myBoard.getJailTile().removeCriminal( myTurn.getMyCurrPlayer() );
+        myGameView.displayActionInfo( "You've successfully paid bail. You're free now!" );
+    }
+
+    private void handleMortgage(AbstractPropertyTile property){
+        property.mortgageProperty();
     }
 
     private void handleTrade() {
     }
 
     public void handlePayTaxPercentage() {
-        System.out.println("initial money: " + myTurn.getMyCurrPlayer().getMoney());
+//        System.out.println("initial money: " + myTurn.getMyCurrPlayer().getMoney());
         myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier() );
-        System.out.println("after money: " + myTurn.getMyCurrPlayer().getMoney());
-    }
-
-    private void handlePayRent() {
-
+//        System.out.println("after money: " + myTurn.getMyCurrPlayer().getMoney());
     }
 
     private void handleTileLanding() {
         List<String> actions = new ArrayList<>();
         actions.add("PAY TAX PERCENTAGE");
         actions.add("PAY TAX FIXED");
-        String action = myGameView.showOnTileLandingActions(actions,"Options", "Tile Actions", "Choose One");
+        String action = myGameView.showOnTileLandingActions(actions, "Options", "Tile Actions", "Choose One");
+    }
+
+    private void handlePayRent(AbstractPropertyTile property) {
+        myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
+    //all methods with payment involved have to update front end display of money as well
     }
 
     private void handlePayTaxFixed() {
@@ -210,6 +228,8 @@ public class GameController {
     }
 
     private void handleGoToJail() {
+       myTurn.goToJail();
+       myGameView.displayActionInfo( "Arrested! You're going to Jail." );
     }
 
     private void handleDrawCard() {
@@ -225,6 +245,11 @@ public class GameController {
         Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
         String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
         myGameView.displayActionInfo(info);
+    }
+
+    private void handleForfeit(AbstractPlayer player){
+        player.declareBankruptcy(getBoard().getBank());
+        //Grey out all player info, remove them from board (something getChildren.remove)
     }
 
     private void handleAuction() {

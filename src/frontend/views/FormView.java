@@ -23,8 +23,6 @@ import java.util.Map;
 
 public class FormView extends GridPane {
 
-//    private List<TextField> playerFields;
-//    private List<ComboBox> iconList;
     private Button submitFormButton;
     private TestingScreen myScreen;
     private final int POSSIBLE_PLAYERS = 4; //TODO: READ IN FROM DATA FILE
@@ -60,7 +58,6 @@ public class FormView extends GridPane {
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll( "icon1", "icon2", "icon3", "icon4" );
 
-//        playerFields = new ArrayList<>();
         playerToIcon = new HashMap<>(  );
 
         for(int i = 1; i<= POSSIBLE_PLAYERS; i++){
@@ -74,16 +71,11 @@ public class FormView extends GridPane {
         submitFormButton.setPrefHeight(20);
         submitFormButton.setPrefWidth(150);
         submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                handleSubmitFormButton(getPlayerFields());
-//            }
             public void handle(ActionEvent actionEvent) {
                 handleSubmitFormButton(getPlayerToIcon());
             }
         });
         this.setConstraints( submitFormButton, 1, 6);
-
         this.getChildren().add( submitFormButton );
 
     }
@@ -142,9 +134,7 @@ public class FormView extends GridPane {
         });
     }
 
-//    private List<TextField> getPlayerFields() {
-//        return playerFields;
-//    }
+
 
     public Map<TextField, ComboBox> getPlayerToIcon(){
         return playerToIcon;

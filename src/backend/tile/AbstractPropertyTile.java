@@ -24,6 +24,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public AbstractPropertyTile(Bank bank, Element n){
         this.owner = bank;
         this.bank = bank;
+//        card = getCard();
         card = new PropertyCard(n.getElementsByTagName("Card").item(0));
         tiletype = getTagValue("TileType", n);
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
@@ -49,18 +50,6 @@ public abstract class AbstractPropertyTile extends Tile {
         }
         return possibleActions;
     }
-
-    //ONLY SOME PROPERTIES CAN BE SOLD BACK TO BANK
-//    public abstract double sellBuildingToBankPrice();
-//        if (!isMortgaged()) {
-////            return tileprice/2;
-//            getCard().
-//        }
-//        else {
-//            //throw exception: CANNOT SELL_TO_BANK MORTGAGED PROPERTY BACK TO BANK
-//        }
-//        return 0;
-//    }
 
     public void switchOwner(AbstractAssetHolder player) {
         this.owner = player;
@@ -183,6 +172,10 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public double getTilePrice() {
         return card.getTilePrice();
+    }
+
+    public void setCard(PropertyCard c) {
+        card = c;
     }
 
     // maybe make an abstractTile class instead of an tile

@@ -54,7 +54,7 @@ public class Game {
         for(AbstractPlayer p: players){
             if(p.isBankrupt()) sum++;
         }
-        return sum==players.size()-1;
+        return sum==players.size()-2;
     }
 
 }

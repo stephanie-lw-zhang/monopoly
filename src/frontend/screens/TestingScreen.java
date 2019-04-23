@@ -8,7 +8,6 @@ import backend.board.StandardBoard;
 import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
-import backend.tile.AbstractTaxTile;
 import backend.tile.GoTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -55,7 +54,7 @@ public class TestingScreen extends AbstractScreen {
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
-    private GameController myGame;
+    private GameController       myGame;
     private double               screenWidth;
     private double               screenHeight;
 
@@ -68,12 +67,27 @@ public class TestingScreen extends AbstractScreen {
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
     private final Button MOVE_BUTTON = new Button("MOVE");
     private final Button BUY_BUTTON = new Button("BUY");
+    private final Button COLLECT_BUTTON = new Button("COLLECT");
+    private final Button GO_TO_JAIL_BUTTON = new Button("Go To Jail");
+    private final Button PAY_RENT_BUTTON = new Button("Pay Rent");
+    private final Button PAY_BAIL_BUTTON = new Button("Pay Bail");
+    private final Button FORFEIT_BUTTON = new Button("Forfeit");
+    private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
 
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-    }
+//        END_TURN_BUTTON.setId("endTurn");
+//        BUY_BUTTON.setId("buy");
+//        AUCTION_BUTTON.setId("auction");
+//        MORTGAGE_BUTTON.setId("mortgage");
+//        COLLECT_BUTTON.setId( "collect" );
+//        PAY_RENT_BUTTON.setId( "payRent" );
+//        PAY_BAIL_BUTTON.setId( "payBail" );
+//        FORFEIT_BUTTON.setId("forfeit");
+//        MOVE_BUTTON.setId( "move handler" );
+ }
 
     @Override
     public void makeScreen() {
@@ -168,11 +182,39 @@ public class TestingScreen extends AbstractScreen {
         BUY_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+//                System.out.println("initial money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
                 Map.Entry<AbstractPlayer, Double> playerValue = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
                 String info = playerValue.getKey().getMyPlayerName() + " bought " + myGame.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
                 displayActionInfo(info);
+//                System.out.println("after buy money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+//                System.out.println("after buy properties: " + myGame.getMyTurn().getMyCurrPlayer().getProperties());
+
             }
         });
+
+        MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles( myGame.getBoard().getJailTile() ).get( 0 );
+                //HARDCODED
+                property.mortgageProperty();
+
+            }
+        });
+
+        PAY_RENT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getPlayerTile( myGame.getMyTurn().getMyCurrPlayer());
+//                System.out.println("initial owner:" + property.getOwner().getMoney());
+//                System.out.println("intial payee: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+                myGame.getMyTurn().getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myGame.getMyTurn().getNumMoves()));
+//                System.out.println("After owner:" + property.getOwner().getMoney());
+//                System.out.println("After payee: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+            }
+        });
+
 
         AUCTION_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -204,14 +246,95 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
+        COLLECT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Boolean passed = true; //temp variable
+                if(passed){
+//                    System.out.println("initial money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+                    myGame.getBoard().getBank().payFullAmountTo( myGame.getMyTurn().getMyCurrPlayer(), myGame.getBoard().getGoTile().getPassedMoney() );
+                    displayActionInfo( "You collected " + myGame.getBoard().getGoTile().getPassedMoney() + " for passing go." );
+//                    System.out.println("After money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
 
+                } else {
+                    //means you landed directly on it
+//                    System.out.println("initial money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+//                    System.out.println("landing on go money: " + myGame.getBoard().getGoTile().getLandedOnMoney());
+
+                    myGame.getBoard().getBank().payFullAmountTo( myGame.getMyTurn().getMyCurrPlayer(), myGame.getBoard().getGoTile().getLandedOnMoney() );
+                    displayActionInfo( "You collected " + myGame.getBoard().getGoTile().getLandedOnMoney() + " for landing on go." );
+
+//                    System.out.println("After money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+
+                }
+            }
+        });
+
+        GO_TO_JAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.getMyTurn().goToJail();
+                displayActionInfo( "Arrested! You're going to Jail." );
+//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
+            }
+        });
+
+        PAY_BAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+//                System.out.println("initial: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
+//                System.out.println("initial: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+                myGame.getMyTurn().getMyCurrPlayer().payFullAmountTo( myGame.getBoard().getBank(), myGame.getBoard().getJailTile().getBailAmount() );
+                myGame.getBoard().getJailTile().removeCriminal( myGame.getMyTurn().getMyCurrPlayer() );
+                displayActionInfo( "You've successfully paid bail. You're free now!" );
+//                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
+//                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+            }
+        });
+
+        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                AbstractPlayer player = myGame.getMyTurn().getMyCurrPlayer();
+                //TEMPORARY FIX
+//                System.out.println("initial money:" + player.getMoney());
+//                System.out.println("initial properties:" + player.getProperties());
+//                System.out.println("initial bankruptcy: "+ player.isBankrupt());
+                player.declareBankruptcy(myGame.getBoard().getBank());
+                myGame.getBoard().getMyPlayerList().remove( player );
+                myGame.getBoard().getPlayerTileMap().remove( player );
+                //MUST REMOVE FROM FRONT END
+
+//                System.out.println("After money:" + player.getMoney());
+//                System.out.println("initial properties:" + player.getProperties());
+//                System.out.println("initial bankruptcy: "+ player.isBankrupt());
+
+//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
+            }
+        });
+
+        MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.getMyTurn().goToJail();
+                displayActionInfo( "Arrested! You're going to Jail." );
+//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
+            }
+        });
+
+
+        moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
         playerOptionsModal.getChildren().addAll(
                 myDiceView, ROLL_BUTTON,
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON,
                 AUCTION_BUTTON, MORTGAGE_BUTTON,
-                moveCheatKey, BUY_BUTTON
+                moveCheatKey, BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON, FORFEIT_BUTTON
         );
 
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
@@ -298,7 +421,6 @@ public class TestingScreen extends AbstractScreen {
         );
         return board;
     }
-
 
     private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
         Bank bank = new Bank(20000.0, new HashMap<String, Integer>());

@@ -1,10 +1,11 @@
 package backend.card;
 
-import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class RailroadCard extends backend.card.PropertyCard {
 
-    public RailroadCard(Element n){
+
+    public RailroadCard(Node n){
         super(n);
     }
 

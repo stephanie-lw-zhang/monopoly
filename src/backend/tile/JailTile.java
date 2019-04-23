@@ -12,6 +12,7 @@ public class JailTile extends Tile {
 
     private Set<AbstractPlayer> criminals;
     private int index;
+    private double bailAmount = 50;
 
     public JailTile(Element n){
         criminals = new HashSet<>();
@@ -36,5 +37,14 @@ public class JailTile extends Tile {
     @Override
     public boolean isJailTile(){
         return true;
+    }
+
+    public double getBailAmount(){
+        return bailAmount;
+    }
+
+    @Override
+    public String getName(){
+        return "Jail Tile";
     }
 }
