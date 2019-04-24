@@ -66,7 +66,6 @@ public class DiceView extends HBox {
 
             list.add(icon);
         }
-
         return list;
     }
 
@@ -93,22 +92,21 @@ public class DiceView extends HBox {
         );
     }
 
-    // TODO: MAKE REFLECTION TO MAKE ROTATETRANSITIONS GIVEN DICEVIEWS/ROLLS
+    /**
+     * Plays all rotate transition dice animations along with
+     * the sound of rolling dice
+     * @param diceIcons
+     */
     public void playDiceAnimation(List<ImageView> diceIcons) {
         playDiceSound();
-//        RotateTransition rt1 = new RotateTransition(Duration.seconds(1.5), diceIcons.get(0));
-//        RotateTransition rt2 = new RotateTransition(Duration.seconds(1.5), diceIcons.get(1));
-//        rt1.setFromAngle(0);
-//        rt1.setToAngle(720);
-//        rt2.setFromAngle(0);
-//        rt2.setToAngle(720);
-//        rt1.setOnFinished(e -> setDice(diceIcons.get(0), rolls[0]));
-//        rt2.setOnFinished(e -> setDice(diceIcons.get(1), rolls[1]));
-        for (RotateTransition rt : myRTList) {
+        for (RotateTransition rt : myRTList)
             rt.play();
-        }
     }
 
+    /**
+     * Displays roll results on the screen
+     * @param turn
+     */
     public void displayRollsPopup(final Turn turn) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("DICE ROLL");
@@ -116,7 +114,6 @@ public class DiceView extends HBox {
         alert.setContentText(myPopupText);
         alert.showAndWait();
     }
-
 
     /**
      * Specifies what actions occur on update (i.e. after a roll)
