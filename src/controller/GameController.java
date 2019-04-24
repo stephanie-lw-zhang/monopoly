@@ -142,11 +142,11 @@ public class GameController {
 
         // TODO: SIMILAR AS TODO ABOVE, SHOULDN'T HARDCODE FOR 0th ELEMENT
         // TODO: In VBOX FOR INNER HBOX
-        Button rollButton = (Button) playerOptionsModal.getChildren().get(1);
+        Button rollButton = (Button) playerOptionsModal.getChildren().get(2);
         rollButton.setOnAction(f -> handleRollButton());
 
         // TODO: REFLECTION FOR ALL OF THIS
-        Button endTurnButton = (Button) playerOptionsModal.getChildren().get(4);
+        Button endTurnButton = (Button) playerOptionsModal.getChildren().get(5);
         endTurnButton.setOnAction(f -> handleEndTurnButton());
     }
 
