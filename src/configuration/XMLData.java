@@ -28,6 +28,7 @@ public class XMLData {
     private Bank bank;
     private int numDie;
     private Tile firstTile;
+    private String monopolyType;
 
     public XMLData(String fileName) throws Exception {
         File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
@@ -40,6 +41,7 @@ public class XMLData {
 //            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
+            monopolyType = getTagValue(("MonopolyType"), (Element) doc.getElementsByTagName("Type").item(0));
             NodeList tileList = doc.getElementsByTagName("Tile");
             NodeList banks = doc.getElementsByTagName("Bank");
             getBank(banks.item(0));
@@ -94,6 +96,7 @@ public class XMLData {
         }
     }
 
+
     private void updateCategoryList(Element element, Tile tile){
         String color;
         try{
@@ -124,6 +127,7 @@ public class XMLData {
         }
     }
 
+
     public Map<Tile, List<Tile>> getAdjacencyList(){
         return adjacencyList;
     }
@@ -138,6 +142,10 @@ public class XMLData {
 
     public int getNumDie(){
         return numDie;
+    }
+
+    public String getMonopolyType() {
+        return monopolyType;
     }
 
     private static String getTagValue(String tag, Element element) {

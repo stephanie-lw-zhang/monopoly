@@ -2,6 +2,7 @@ package backend.card;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.exceptions.TileNotFoundException;
 
 public class GetOutOfJailCard extends ActionCard {
     public GetOutOfJailCard(AbstractBoard board) {
@@ -10,6 +11,10 @@ public class GetOutOfJailCard extends ActionCard {
 
     @Override
     public void applyTo(AbstractPlayer player) {
-        getBoard().getJailTile().removeCriminal(player);
+        try {
+            getBoard().getJailTile().removeCriminal(player);
+        }catch (TileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

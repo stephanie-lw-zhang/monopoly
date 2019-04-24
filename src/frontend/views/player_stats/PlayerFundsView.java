@@ -8,7 +8,7 @@ import java.util.List;
 public class PlayerFundsView {
     TextArea fundsDisplay;
 
-    private TextArea createPlayerFundsDisplay(List<AbstractPlayer> playerList){
+    public TextArea createPlayerFundsDisplay(List<AbstractPlayer> playerList){
         fundsDisplay = new TextArea( );
         updatePlayerFundsDisplay(playerList);
         fundsDisplay.setMaxHeight( 150 );
@@ -17,7 +17,7 @@ public class PlayerFundsView {
         return fundsDisplay;
     }
 
-    private void updatePlayerFundsDisplay(List<AbstractPlayer> playerList){
+    public void updatePlayerFundsDisplay(List<AbstractPlayer> playerList){
         String text = "Player Funds \n";
         for(AbstractPlayer p: playerList ){
             text = text + p.getMyPlayerName() + ": " + p.getMoney() + "\n";
