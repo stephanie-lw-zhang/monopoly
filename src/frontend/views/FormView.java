@@ -142,12 +142,12 @@ public class FormView extends GridPane {
 //            formAlert.showAndWait();
 //            return;
 //        }
-//        if (this.hasDuplicateIcons(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("Duplicate icons not allowed!");
-//            formAlert.showAndWait();
-//            return;
-//        }
+        if (this.hasDuplicateIcons(playerToIcon)) {
+            Alert formAlert = new Alert(Alert.AlertType.ERROR);
+            formAlert.setContentText("Duplicate icons not allowed!");
+            formAlert.showAndWait();
+            return;
+        }
         // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
     }

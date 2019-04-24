@@ -1,6 +1,7 @@
 package frontend.views.board;
 
 import frontend.views.IconView;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 abstract public class AbstractBoardView {
@@ -14,5 +15,5 @@ abstract public class AbstractBoardView {
     abstract public void setRoot();
     abstract public void setScreenLimits(double screenWidth,double screenHeight);
     abstract public void makeBoard();
-    abstract public Pane getPane();
+    abstract public Node getBoardViewNode();
 }

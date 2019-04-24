@@ -1,35 +1,23 @@
 package frontend.screens;
 
-import backend.board.StandardBoard;
-import configuration.ImportPropertyFile;
-import configuration.XMLData;
-import backend.deck.NormalDeck;
-import backend.dice.SixDice;
-import configuration.ImportPropertyFile;
-import controller.GameController;
 import controller.GameSetUpController;
-import frontend.views.board.AbstractBoardView;
-import frontend.views.board.SquareBoardView;
-import frontend.views.game.AbstractGameView;
-import frontend.views.game.SplitScreenGameView;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.scene.layout.GridPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.FontWeight;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
+import javafx.geometry.Insets;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 
 /**
  * For BOARD testing purposes
@@ -38,27 +26,23 @@ import java.util.ArrayList;
  */
 public class BoardModeScreen extends AbstractScreen{
 
-
+    private GameSetUpController myController;
     private Scene myScene;
 
-    private GameSetUpController myController;
-
-
+    /**
+     * Default constructor
+     * @param sWidth
+     * @param sHeight
+     * @param stage
+     */
     public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
         myController = new GameSetUpController(sWidth, sHeight);
-//        try {
-//            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), new XMLData("OriginalMonopoly.xml")), 0.9*sWidth, 0.9*sHeight,90,11,11);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        //myGameView.addBoardView(myBoardView);
+        myScene = makeScreen();
     }
-        //myController = new GameSetUpController(sWidth,sHeight);
-    //}
 
     @Override
-    public void makeScreen() {
+    public Scene makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
         titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
         titleText.setFill(Color.DARKGREEN);
@@ -82,8 +66,7 @@ public class BoardModeScreen extends AbstractScreen{
         //bPane.setCenter(titleText);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
-        myScene = new Scene(bPane, getScreenWidth(), getScreenHeight());
-
+        return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
     @Override
