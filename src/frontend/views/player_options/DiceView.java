@@ -2,8 +2,6 @@ package frontend.views.player_options;
 
 import controller.Turn;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.io.File;
 
 import javafx.animation.RotateTransition;
-import javafx.geometry.Pos;
 
 /**
  * This class represents the View of a Dice or Die in the game
@@ -50,46 +47,6 @@ public class DiceView extends HBox {
         myRTList = makeRTList();
 
         this.getChildren().addAll(myDiceIcons);
-    }
-
-    private List<ImageView> makeDiceIcons() {
-        List<ImageView> list = new ArrayList<>();
-
-        for (int i = 0; i < myNumDie; i++) { // specifies how many dice icons are made
-            ImageView icon = new ImageView(
-                    new Image(this.getClass().getClassLoader().getResourceAsStream(
-                            "dice" + (new Random().nextInt(myNumDieStates) + 1) + ".png"
-                    ))
-            );
-            icon.setFitWidth(55);
-            icon.setFitHeight(55);
-
-            list.add(icon);
-        }
-        return list;
-    }
-
-    private List<RotateTransition> makeRTList() {
-        List<RotateTransition> list = new ArrayList<>();
-
-        for (int i = 0; i < myDiceIcons.size(); i++) {
-            int currIndex = i;
-            RotateTransition rt = new RotateTransition(Duration.seconds(1.5), myDiceIcons.get(i));
-            rt.setFromAngle(0);
-            rt.setToAngle(720);
-            rt.setOnFinished(e -> setDice(myDiceIcons.get(currIndex), myRolls[currIndex]));
-
-            list.add(rt);
-        }
-        return list;
-    }
-
-    private void setDice(ImageView diceIcon, final int roll) {
-        diceIcon.setImage(new Image(
-                this.getClass().getClassLoader().getResourceAsStream(
-                        "dice" + roll + ".png"
-                ))
-        );
     }
 
     /**
@@ -129,11 +86,51 @@ public class DiceView extends HBox {
         diceRollSound.play();
     }
 
+    private List<ImageView> makeDiceIcons() {
+        List<ImageView> list = new ArrayList<>();
+
+        for (int i = 0; i < myNumDie; i++) { // specifies how many dice icons are made
+            ImageView icon = new ImageView(
+                    new Image(this.getClass().getClassLoader().getResourceAsStream(
+                            "dice" + (new Random().nextInt(myNumDieStates) + 1) + ".png"
+                    ))
+            );
+            icon.setFitWidth(55);
+            icon.setFitHeight(55);
+
+            list.add(icon);
+        }
+        return list;
+    }
+
+    private List<RotateTransition> makeRTList() {
+        List<RotateTransition> list = new ArrayList<>();
+
+        for (int i = 0; i < myDiceIcons.size(); i++) {
+            int currIndex = i;
+            RotateTransition rt = new RotateTransition(Duration.seconds(1.5), myDiceIcons.get(i));
+            rt.setFromAngle(0);
+            rt.setToAngle(720);
+            rt.setOnFinished(e -> setDice(myDiceIcons.get(currIndex), myRolls[currIndex]));
+
+            list.add(rt);
+        }
+        return list;
+    }
+
     /**
      * Getter for the text to be displayed post-roll
      * @return String       text for the roll
      */
     public String getMyPopupText() {
         return myPopupText;
+    }
+
+    private void setDice(ImageView diceIcon, final int roll) {
+        diceIcon.setImage(new Image(
+                this.getClass().getClassLoader().getResourceAsStream(
+                        "dice" + roll + ".png"
+                ))
+        );
     }
 }
