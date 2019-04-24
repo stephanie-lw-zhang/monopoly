@@ -365,6 +365,7 @@ public class TestingScreen extends AbstractScreen {
                     String player = displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
                     AbstractPlayer forfeiter = myGame.getBoard().getPlayerFromName( player );
 
+
 //                System.out.println("initial money:" + player.getMoney());
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
