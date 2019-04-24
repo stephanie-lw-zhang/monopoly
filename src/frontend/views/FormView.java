@@ -218,7 +218,7 @@ public class FormView extends GridPane {
     }
 
     /**
-     * Limits size of user input
+     * Limits size of user input to given length of characters
      * @param tf
      * @param maxLength
      */
@@ -237,5 +237,4 @@ public class FormView extends GridPane {
     public Map<TextField, ComboBox> getPlayerToIconMap(){
         return playerToIcon;
     }
-
 }
