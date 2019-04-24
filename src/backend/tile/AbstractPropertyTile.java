@@ -5,7 +5,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.card.PropertyCard;
 
-import backend.exceptions.ImprovedPropertyException;
+import backend.exceptions.IllegalActionOnImprovedPropertyException;
 import backend.exceptions.MortgagePropertyException;
 import org.w3c.dom.Element;
 
@@ -81,7 +81,7 @@ public abstract class AbstractPropertyTile extends Tile {
      * --> then need to check if (want to lift mortgage immediately), then call unmortgageProperty()
      * --> else, call soldMortgagedPropertyLaterUnmortgages()
      */
-    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) {
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException {
         assetHolder.addProperty(this);
         assetHolder.payFullAmountTo( owner, price );
         owner.getProperties().remove(this);
@@ -94,19 +94,13 @@ public abstract class AbstractPropertyTile extends Tile {
         return bank;
     }
 
-    public void mortgageProperty() throws MortgagePropertyException, ImprovedPropertyException {
-        //MAGIC VALUE
-        if (!isMortgaged() && getCard().getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) < 2) {
+    public void mortgageProperty() throws MortgagePropertyException, IllegalActionOnImprovedPropertyException {
+        if (!isMortgaged()) {
                 bank.payFullAmountTo(owner, card.getMortgageValue() );
                 this.mortgaged = true;
         }
         else {
-            if (isMortgaged()) {
-                throw new MortgagePropertyException("Property is already mortgaged!");
-            }
-            else {
-                throw new ImprovedPropertyException("You can only mortgage properties without structures on them!");
-            }
+            throw new MortgagePropertyException("Property is already mortgaged!");
         }
     }
 
@@ -189,6 +183,15 @@ public abstract class AbstractPropertyTile extends Tile {
 
     public void setCard(PropertyCard c) {
         card = c;
+    }
+
+    public void setMortgaged(boolean b) {
+        this.mortgaged = b;
+    }
+
+    @Override
+    public boolean isPropertyTile() {
+        return true;
     }
 
     //    public boolean isRentNeeded(AbstractPlayer player) {
