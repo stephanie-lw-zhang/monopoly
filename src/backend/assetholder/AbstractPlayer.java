@@ -94,16 +94,20 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
         return ownsSublistOfPropertiesIn( properties ).size() == properties.size();
     }
 
+    /**
+     * Custom equals method for an AbstractPlayer
+     * @param o
+     * @return boolean      whether player equals another
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractPlayer)) return false;
         if (!super.equals(o)) return false;
         AbstractPlayer that = (AbstractPlayer) o;
-//         TODO: UNCOMMENT WHEN ICONS ARE DONE
-//        return getIcon().equals(that.getIcon()) &&
-//                getMyPlayerName().equals(that.getMyPlayerName());
-        return getMyPlayerName().equals(that.getMyPlayerName());
+
+        return getMyIcon().equals(that.getMyIcon()) &&
+                getMyPlayerName().equals(that.getMyPlayerName());
     }
 
     /**
