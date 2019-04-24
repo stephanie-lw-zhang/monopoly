@@ -480,7 +480,6 @@ public class TestingScreen extends AbstractScreen {
             tab.setId( p.getMyPlayerName() );
             writeInPlayerProperties( p, tab );
             allPlayerProperties.getTabs().add( tab );
-
         }
         allPlayerProperties.setMaxHeight( 200 );
         allPlayerProperties.setMaxWidth( 200 );
@@ -500,7 +499,6 @@ public class TestingScreen extends AbstractScreen {
         }
 
     }
-
 
     private void writeInPlayerProperties(AbstractPlayer player, Tab tab){
         TextArea properties = new TextArea();
