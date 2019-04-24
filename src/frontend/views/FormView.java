@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.util.*;
@@ -38,8 +39,8 @@ public class FormView extends GridPane {
         this.setPadding(new Insets(20, 20, 20, 20));
         this.maxWidthProperty().bind(this.widthProperty());
 
-         this.getColumnConstraints().add(new ColumnConstraints( 200 ) );
-         this.getColumnConstraints().add(new ColumnConstraints(200));
+        this.getColumnConstraints().add(new ColumnConstraints( 200 ) );
+        this.getColumnConstraints().add(new ColumnConstraints(200));
 
 //        Label headerLabel = new Label("ENTER GAME INFORMATION: ");
 //        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
@@ -129,37 +130,60 @@ public class FormView extends GridPane {
             formAlert.showAndWait();
             return;
         }
-//        if (this.hasDuplicateIcons(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("Duplicate icons not allowed!");
-//            formAlert.showAndWait();
-//            return;
-//        }
+        if (this.hasUnassignedIcon(playerToIcon)) {
+            Alert formAlert = new Alert(Alert.AlertType.ERROR);
+            formAlert.setContentText("A player has not selected an icon!");
+            formAlert.showAndWait();
+            return;
+        }
+        if (this.hasUnassignedName(playerToIcon)) {
+            Alert formAlert = new Alert(Alert.AlertType.ERROR);
+            formAlert.setContentText("An icon has no player name (or remove icon)!");
+            formAlert.showAndWait();
+            return;
+        }
+        if (this.hasDuplicateIcons(playerToIcon)) {
+            Alert formAlert = new Alert(Alert.AlertType.ERROR);
+            formAlert.setContentText("Duplicate icons not allowed!");
+            formAlert.showAndWait();
+            return;
+        }
         // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
     }
 
-    /**
-     * Clears playerIconMap of empty entries
-     * so that duplication errors can be
-     * accurately detected
-     */
-    private void cleanPlayerIconMap() {
+    private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {
         for (TextField t : playerToIcon.keySet()) {
-            if (t.getText().equals("")) {
-                playerToIcon.remove(t);
+            if (! t.getText().equals("") && playerToIcon.get(t).getValue().equals("")) {
+                return true;
             }
         }
+        return false;
+    }
+    private boolean hasUnassignedName(Map<TextField, ComboBox> playerToIcon) {
+        for (TextField t : playerToIcon.keySet()) {
+            if (t.getText().equals("") && ! playerToIcon.get(t).getValue().equals("")) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * Checks for duplicate icons
+     * @param playerToIcon
+     * @return
+     */
     private boolean hasDuplicateIcons(Map<TextField, ComboBox> playerToIcon) {
-        Set<String> set = new HashSet<>();
-        for (TextField t : playerToIcon.keySet()) {
-            set.add((String) playerToIcon.get(t).getValue());
-        }
-        System.out.println(playerToIcon.keySet().size());
-        System.out.println(set.size());
-        return playerToIcon.keySet().size() != set.size();
+        Map<TextField, String> convertedMap = new HashMap<>();
+        for (TextField key : playerToIcon.keySet())
+            if (! key.getText().equals(""))
+                convertedMap.put(key, (String) playerToIcon.get(key).getValue());
+
+        Collection<String> valuesList = convertedMap.values();
+        Set<String> set = new HashSet<>(convertedMap.values());
+
+        return valuesList.size() != set.size();
     }
 
     /**

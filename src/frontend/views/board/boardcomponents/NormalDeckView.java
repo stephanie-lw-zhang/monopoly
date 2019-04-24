@@ -1,30 +1,51 @@
 package frontend.views.board.boardcomponents;
 
-import javafx.geometry.Pos;
-import javafx.scene.Node;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.Node;
 
+import javafx.geometry.Pos;
+
+/**
+ * This class extends AbstractTileView and represents the
+ * View of the card deck of an AbstractBoardView
+ *
+ * @author Edward
+ */
 public class NormalDeckView extends AbstractTileView {
-    private double myWidth;
-    private double myHeight;
-    private StackPane myRoot;
 
-    public NormalDeckView(String name, String description, String color) {
+    private StackPane myRoot;
+    private double    myWidth;
+    private double    myHeight;
+
+    /**
+     * NormalDeckView main constructor
+     * @param name
+     * @param description
+     */
+    public NormalDeckView(String name, String description) {
         super(name, description);
         myRoot = new StackPane();
     }
 
+    /**
+     * Adds a given node to myRoot
+     * @param n     the node to be added
+     */
     public void moveTo(Node n){
         myRoot.setAlignment(n,Pos.CENTER);
         myRoot.getChildren().add(n);
     }
 
+    /**
+     * Removes a given node from myRoot
+     * @param n     the node to be removed
+     */
     public void moveFrom(Node n){
         myRoot.getChildren().remove(n);
     }
@@ -43,13 +64,21 @@ public class NormalDeckView extends AbstractTileView {
         myRoot.getChildren().add(makeBorder());
     }
 
+    /**
+     * Returns the X coordinate of the StackPane
+     * @return double
+     */
     @Override
-    public double getmyX() {
+    public double getMyX() {
         return myRoot.getLayoutX();
     }
 
+    /**
+     * Returns the Y coordinate of the StackPane
+     * @return double
+     */
     @Override
-    public double getmyY() {
+    public double getMyY() {
         return myRoot.getLayoutY();
     }
 
@@ -71,8 +100,5 @@ public class NormalDeckView extends AbstractTileView {
         myRoot.setAlignment(tileText,Pos.CENTER);
         return tileText;
     }
-
-
-
 }
 
