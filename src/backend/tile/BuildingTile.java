@@ -61,26 +61,38 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
      * or they may be sold one house at a time (one hotel equals five houses),
      * evenly, in reverse of the manner in which they were erected.
      */
-    public void sellAllBuildingsOnTile() {
-//        BuildingCard card = (BuildingCard) this.getCard();
-
-        getBank().recalculateTotalPropertiesLeftAfterWholeSale(this);
-        setCurrentInUpgradeOrder(card.getUpgradeOrderAtIndex(0));
-        getBank().payFullAmountTo(getOwner(), sellBuildingToBankPrice());
-
+    public void sellAllBuildingsOnTile(List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException {
+        if (checkIfImprovedProperty()) {
+            for (AbstractPropertyTile p : sameSetProperties) {
+                BuildingTile b = (BuildingTile) p;
+                getBank().recalculateTotalPropertiesLeftAfterWholeSale(b);
+                getBank().payFullAmountTo(b.getOwner(), b.sellBuildingToBankPrice());
+                b.setCurrentInUpgradeOrder(b.getCard().getUpgradeOrderAtIndex(0));
+            }
+        }
+        else {
+            throw new IllegalActionOnImprovedPropertyException("This property does not have any structures on it!");
+        }
     }
 
     /**
      * or they may be sold one house at a time (one hotel equals five houses),
      * evenly, in reverse of the manner in which they were erected.
      */
-    public void sellOneBuilding(List<AbstractPropertyTile> properties) {
-//        BuildingCard card = (BuildingCard) this.getCard();
-
-        if(checkIfUpdatingEvenly(properties,false));
-        getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
-        getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
-        setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
+    public void sellOneBuilding(List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException {
+        if(checkIfImprovedProperty() && checkIfUpdatingEvenly(sameSetProperties,false)) {
+            getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
+            getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
+            setCurrentInUpgradeOrder(card.previousInUpgradeOrder(getCurrentInUpgradeOrder()));
+        }
+        else {
+            if (!checkIfImprovedProperty()) {
+                throw new IllegalActionOnImprovedPropertyException("This property does not have any structures on it!");
+            }
+            else {
+                throw new IllegalActionOnImprovedPropertyException("You are not downgrading evenly!");
+            }
+        }
     }
 
     @Override
@@ -141,17 +153,10 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         return false;
     }
 
-    //    @Override
     public double sellBuildingToBankPrice() {
-        if (!isMortgaged()) {
+        return card.getOneBuildingSellToBankPrice(getCurrentInUpgradeOrder());
 //  REMIND LUIS: DIVIDE BY 2 for selling back to bank
 //            return (numberOfHouses * card.lookupPrice(currentInUpgradeOrder) + numberOfHotels * card.getPropertyHotelPrice()) / 2;
-            return card.getOneBuildingSellToBankPrice(getCurrentInUpgradeOrder());
-        }
-        else {
-            //throw exception: CANNOT SELL_TO_BANK WHEN MORTGAGED
-        }
-        return 0;
     }
 
     // Before an improved property can be mortgaged, all the Houses and Hotels on all the properties of its color-group must be sold back to the Bank at half price.
@@ -219,5 +224,10 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //        String baseKey = card.getBasePropertyType(current);
 //        Integer baseValue = card.getNumericValueOfPropertyType(current);
 //        totalPropertiesLeft.put(baseKey, totalPropertiesLeft.get(baseKey) + baseValue);
+    }
+
+    @Override
+    public boolean isBuildingTile() {
+        return true;
     }
 }

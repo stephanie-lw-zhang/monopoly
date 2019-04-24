@@ -12,12 +12,8 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
-import backend.exceptions.PlayerDoesNotExistException;
 import backend.exceptions.TileNotFoundException;
-import backend.tile.GoTile;
-import backend.tile.JailTile;
-import backend.tile.AbstractPropertyTile;
-import backend.tile.Tile;
+import backend.tile.*;
 import configuration.XMLData;
 
 import java.util.*;
@@ -150,7 +146,7 @@ public abstract class AbstractBoard {
         return playerStrings;
     }
 
-    public List<String> getPropertyNamesAsStrings(AbstractPlayer owner) {
+    public List<String> getPropertyTileNamesAsStrings(AbstractPlayer owner) {
         List<String> tileStrings = new ArrayList<>();
         for (AbstractPropertyTile t : owner.getProperties()) {
             tileStrings.add(t.getTitleDeed());
@@ -158,7 +154,17 @@ public abstract class AbstractBoard {
         return tileStrings;
     }
 
-    public Tile getTileFromName(String name) {
+    public List<String> getBuildingTileNamesAsStrings(AbstractPlayer owner) {
+        List<String> tileStrings = new ArrayList<>();
+        for (AbstractPropertyTile t : owner.getProperties()) {
+            if (t.isBuildingTile()) {
+                tileStrings.add(t.getTitleDeed());
+            }
+        }
+        return tileStrings;
+    }
+
+    public Tile getPropertyTileFromName(String name) {
         for (Tile t : adjacencyMap.keySet()) {
             if (t.isPropertyTile()) {
                 AbstractPropertyTile property = (AbstractPropertyTile)t;
