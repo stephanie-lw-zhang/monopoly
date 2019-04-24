@@ -349,7 +349,7 @@ public class TestingScreen extends AbstractScreen {
         playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
         myDiceView.setAlignment(Pos.CENTER_RIGHT);
 
-        Pane boardViewPane = myBoardView.getPane();
+        Pane boardViewPane = (Pane) myBoardView.getBoardViewNode();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
 

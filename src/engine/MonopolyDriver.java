@@ -22,11 +22,13 @@ import javafx.stage.Stage;
 public class MonopolyDriver extends Application {
 
     private final static String TITLE = "Monopoly";
+    private Stage               myStage;
+    private Scene               myIntroScene;
 
-    private Stage myStage;
-    private Scene myIntroScene;
-    private GameController myGameController;
-
+    /**
+     * Occurs at start of application
+     * @param stage
+     */
     @Override
     public void start(Stage stage) {
         myStage = stage;
@@ -38,28 +40,8 @@ public class MonopolyDriver extends Application {
         myStage.show();
     }
 
-    private void step() {
-
-    }
-
-    private void showPopUp(){
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(myStage);
-        VBox dialogVBox = new VBox(20);
-        Button button = new Button("Test!!!");
-        dialogVBox.getChildren().add(new Text("This is a Dialog"));
-        dialogVBox.getChildren().add(button);
-        //button.setOnAction(e -> execute());
-        Scene dialogScene = new Scene(dialogVBox, 300, 300);
-        dialog.setScene(dialogScene);
-        dialog.show();
-    }
-
     private void handleKeyInput(KeyCode code) {
-        if(code==KeyCode.K){
-            showPopUp();
-        }
+
     }
 
     public static void main(String[] args) { launch(args); }
