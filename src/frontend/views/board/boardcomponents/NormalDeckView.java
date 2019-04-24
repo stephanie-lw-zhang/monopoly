@@ -22,7 +22,7 @@ public class NormalDeckView extends AbstractTileView {
     private double myHeight;
     private StackPane myRoot;
 
-    public NormalDeckView(String name, String description, String color) {
+    public NormalDeckView(String name, String description) {
         super(name, description);
         myRoot = new StackPane();
     }
