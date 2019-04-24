@@ -31,7 +31,6 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 
     //store these as strings and make a hashmap of price lookup
     public double calculateRentPrice(int roll) {
-
         if (isMortgaged()) {
             return 0.0;
         }
@@ -50,10 +49,12 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         }
     }
 
-    public boolean checkIfOwnerIsCurrentPlayer(AbstractPlayer player) {
-        return (!this.getOwner().equals(player));
-            //throw exception: YOU DO NOT OWN THIS PROPERTY
-    }
+    /** might not need this method
+     */
+//    public boolean checkIfOwnerIsCurrentPlayer(AbstractPlayer player) {
+//        return (!this.getOwner().equals(player));
+//            //throw exception: YOU DO NOT OWN THIS PROPERTY
+//    }
 
     /**
      * Houses and Hotels may be sold back to the Bank at any time for one-half the price paid for them.

@@ -47,5 +47,9 @@ public class Bank extends AbstractAssetHolder {
         //therefore should exclude bank
     }
 
+    public int getNumberOfBuildingsLeft(String s) {
+        return totalPropertiesLeft.get(s);
+    }
+
 
 }

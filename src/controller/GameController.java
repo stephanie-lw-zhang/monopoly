@@ -277,7 +277,7 @@ public class GameController {
 
     }
 
-    public void handleSellToPlayer() {
+    private void handleSellToPlayer() {
         try {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
             AbstractPlayer owner = getSelectedPlayer("Sell Property", "Choose who is selling their property ", players);
@@ -288,13 +288,10 @@ public class GameController {
             ObservableList<String> tiles = getAllOptionNames(myBoard.getPropertyTileNamesAsStrings(owner));
             AbstractPropertyTile tile = getSelectedPropertyTile("Sell Property", "Choose which property to sell ", tiles);
 
-//            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties() + " " + tile.isMortgaged());
-//            System.out.println("initial money for buyer: " + buyer.getMoney() + " " + buyer.getProperties());
-
             double amount = 0;
             boolean sellAmountDetermined = false;
             while (!sellAmountDetermined) {
-                String value = myTestScreen.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
+                String value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
                         "Enter your proposed amount:",
                         "Amount:");
                 try {
@@ -302,26 +299,18 @@ public class GameController {
                 } catch (NumberFormatException n) {
                     new IllegalInputTypeException("Input must be a number!").popUp();
                 }
-                List<String> options = listYesNoOptionsOnly();
-                String result = myTestScreen.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
-                if (result.equals("Yes")) {
+                List<String> options = createListOf2OptionsAsStrings("Yes", "No");
+                String result = myGameView.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
+                if (result.equalsIgnoreCase(options.get(0))) {
                     sellAmountDetermined = true;
                     tile.sellTo(buyer,amount,myBoard.getSameSetProperties(tile));
-//                    System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-//                    System.out.println("after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
                     if (tile.isMortgaged()) {
-                        result = myTestScreen.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
-                        if (result.equals("Yes")) {
-                            tile.unmortgageProperty();
-                        }
-                        else {
-                            tile.soldMortgagedPropertyLaterUnmortgages();
-                        }
+                        result = myGameView.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
+                        if (result.equals("Yes")) { tile.unmortgageProperty(); }
+                        else { tile.soldMortgagedPropertyLaterUnmortgages(); }
                     }
                 }
             }
-//            System.out.println("after after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-//            System.out.println("after after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
         } catch (MortgagePropertyException m) {
              m.popUp();
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -333,29 +322,29 @@ public class GameController {
         }
     }
 
-    private void handleSellToBank() {
+    public void handleSellToBank() {
+        //EXCEPTION: YOU DO NOT HAVE ANY BUILDINGS TO SELL
         try {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
-            AbstractPlayer owner = getSelectedPlayer("Sell Buildings", "Choose who is selling a structure", players);
+            AbstractPlayer owner = getSelectedPlayer("Sell Buildings", "Choose who is selling a building", players);
 
             ObservableList<String> tiles = getAllOptionNames(myBoard.getBuildingTileNamesAsStrings(owner));
-            BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Sell Buildings", "Choose which property to sell ", tiles);
+            BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Sell Buildings", "Choose which property to sell buidlings from ", tiles);
 
-//            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties() + " " + tile.isMortgaged());
-//            System.out.println("initial money for buyer: " + buyer.getMoney() + " " + buyer.getProperties());
+            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+            System.out.println("initial money for bank: " + myBank.getMoney() + " " + myBank.getNumberOfBuildingsLeft("House"));
 
-            List<String> options = new ArrayList<>();
-            options.add("SELL ALL BUILDINGS ON ALL PROPERTIES OF SAME GROUP");
-            options.add("SELL ONE BUILDING ON ONE PROPERTY");
+            List<String> options = createListOf2OptionsAsStrings("SELL ALL BUILDINGS ON ALL PROPERTIES OF SAME GROUP",
+                    "SELL ONE BUILDING ON SELECTED PROPERTY");
             String str = myTestScreen.displayOptionsPopup(options, "Sell Buildings", "Sell buildings options ", "Choose one ");
-            if (str.equalsIgnoreCase("SELL ALL BUILDINGS ON PROPERTY")) {
+            if (str.equalsIgnoreCase(options.get(0))) {
                 tile.sellAllBuildingsOnTile(myBoard.getSameSetProperties(tile));
 
             } else {
                 tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
             }
-//            System.out.println("after after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-//            System.out.println("after after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
+            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+            System.out.println("after money for bank: " + myBank.getMoney() + " " + myBank.getNumberOfBuildingsLeft("HOUSE"));
         } catch (IllegalInputTypeException e) {
             e.doNothing();
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -413,10 +402,10 @@ public class GameController {
         return options;
     }
 
-    private List<String> listYesNoOptionsOnly() {
+    private List<String> createListOf2OptionsAsStrings(String option1, String option2) {
         List<String> options = new ArrayList<>();
-        options.add("Yes");
-        options.add("No");
+        options.add(option1);
+        options.add(option2);
         return options;
     }
 

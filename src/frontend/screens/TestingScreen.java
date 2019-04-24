@@ -78,7 +78,7 @@ public class TestingScreen extends AbstractScreen {
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
     private final Button UNMORTGAGE_BUTTON = new Button("Unmortgage");
-    private final Button SELL_TO_PLAYER = new Button("SELL TO PLAYER");
+    private final Button SELL_TO_BANK = new Button("SELL TO BANK");
 
 
 
@@ -429,10 +429,10 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        SELL_TO_PLAYER.setOnAction(new EventHandler<ActionEvent>() {
+        SELL_TO_BANK.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handleSellToPlayer();
+                myGame.handleSellToBank();
             }
         });
 
@@ -446,7 +446,7 @@ public class TestingScreen extends AbstractScreen {
                 moveCheatKey, createPlayerPropertiesDisplay(),
 //                BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON,
                 FORFEIT_BUTTON,
-                MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, SELL_TO_PLAYER, createPlayerFundsDisplay()
+                MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, SELL_TO_BANK, createPlayerFundsDisplay()
         );
 
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
