@@ -1,28 +1,40 @@
 package frontend.views.board.boardcomponents;
 
-import configuration.ImportPropertyFile;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.Node;
 
+import javafx.geometry.Pos;
+
+/**
+ * This class extends AbstractTileView and represents the
+ * View component of a PropertyTile of an AbstractBoardView
+ *
+ * @author Edward
+ */
 public class PropertyTileView extends AbstractTileView {
-    private double myWidth;
-    private double myHeight;
-    private StackPane myRoot;
-    private Paint myColor;
 
+    private StackPane myRoot;
+    private Paint     myColor;
+    private double    myWidth;
+    private double    myHeight;
+
+    /**
+     * PropertyTileView main constructor
+     * @param name
+     * @param description
+     * @param paint
+     */
     public PropertyTileView(String name, String description, Paint paint) {
         super(name, description);
         myColor = paint;
         myRoot = new StackPane();
-
     }
 
     /**
@@ -76,8 +88,6 @@ public class PropertyTileView extends AbstractTileView {
 
     }
 
-
-
     private Node makeBorder() {
         Rectangle border = new Rectangle(myWidth/2, myHeight/2, myWidth, myHeight );
         border.setFill(Color.rgb(197,225,164));
@@ -106,7 +116,6 @@ public class PropertyTileView extends AbstractTileView {
         myRoot.setAlignment(labelShape,Pos.TOP_CENTER);
         return labelShape;
     }
-
 }
 
 
