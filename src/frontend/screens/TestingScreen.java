@@ -608,6 +608,7 @@ public class TestingScreen extends AbstractScreen {
 
     public void updateDice(final Turn turn) {
         myDiceView.onUpdate(turn);
+        myLogView.gameLog.setText(myDiceView.getMyPopupText());
     }
 
     public void updatePlayerPosition(int roll) {

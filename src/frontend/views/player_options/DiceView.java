@@ -27,6 +27,7 @@ public class DiceView extends HBox {
                                                 .toURI().toString()
                                               ));
     private int numDieStates;
+    private String myPopupText;
 
     public DiceView(int nDie, int nDieStates) {
         this.setSpacing(20);
@@ -94,13 +95,17 @@ public class DiceView extends HBox {
     public void displayRollsPopup(final Turn turn) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("DICE ROLL");
-        alert.setContentText("Player " + turn.getMyCurrPlayer().getMyPlayerName()
-                + " gets to move " + turn.getNumMoves() + " spots...");
+        myPopupText = "Player " + turn.getMyCurrPlayer().getMyPlayerName() + " gets to move " + turn.getNumMoves() + " spots...";
+        alert.setContentText(myPopupText);
         alert.showAndWait();
     }
 
     private void playSound() {
         diceRollSound.play();
+    }
+
+    public String getMyPopupText() {
+        return myPopupText;
     }
 
 }
