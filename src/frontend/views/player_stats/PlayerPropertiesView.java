@@ -1,19 +1,17 @@
 package frontend.views.player_stats;
 
 import backend.assetholder.AbstractPlayer;
-import backend.exceptions.PlayerDoesNotExistException;
 import backend.tile.AbstractPropertyTile;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerPropertiesView {
     private TabPane allPlayerProperties;
 
-    private TabPane createPlayerPropertiesDisplay(List<AbstractPlayer> playerList){
+    public TabPane createPlayerPropertiesDisplay(List<AbstractPlayer> playerList){
         allPlayerProperties = new TabPane( );
         for(AbstractPlayer p: playerList){
             Tab tab = new Tab(p.getMyPlayerName());
@@ -36,14 +34,14 @@ public class PlayerPropertiesView {
         return null;
     }
 
-    private void updatePlayerPropertiesDisplay(List<AbstractPlayer> playerList) {
+    public void updatePlayerPropertiesDisplay(List<AbstractPlayer> playerList) {
             for(Tab tab: allPlayerProperties.getTabs()){
                 AbstractPlayer player = getPlayerFromName( playerList, tab.getText() );
                 writeInPlayerProperties(player, tab);
             }
     }
 
-    private void writeInPlayerProperties(AbstractPlayer player, Tab tab){
+    public void writeInPlayerProperties(AbstractPlayer player, Tab tab){
         TextArea properties = new TextArea();
         String text = "";
         for(AbstractPropertyTile prop: player.getProperties()){
@@ -51,5 +49,9 @@ public class PlayerPropertiesView {
         }
         properties.setText( text );
         tab.setContent( properties );
+    }
+
+    public List<Tab> getTabs(){
+        return allPlayerProperties.getTabs();
     }
 }
