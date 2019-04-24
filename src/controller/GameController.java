@@ -285,7 +285,6 @@ public class GameController {
             players.remove(owner.getMyPlayerName());
             AbstractPlayer buyer = getSelectedPlayer("Sell Property", "Choose who to sell property to ", players);
 
-            owner.getProperties().add((AbstractPropertyTile)myBoard.getTilesIndex(1));
             ObservableList<String> tiles = getAllOptionNames(myBoard.getPropertyNamesAsStrings(owner));
             AbstractPropertyTile tile = getSelectedProperty("Sell Property", "Choose which property to sell ", tiles);
 
