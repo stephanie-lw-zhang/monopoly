@@ -2,9 +2,8 @@ package backend.exceptions;
 
 import javafx.scene.control.Alert;
 
-public class IllegalInputTypeException extends Exception {
-
-    public IllegalInputTypeException(String message) {
+public class PlayerDoesNotExistException extends Exception{
+    public PlayerDoesNotExistException(String message) {
         super(message);
     }
 
@@ -12,9 +11,5 @@ public class IllegalInputTypeException extends Exception {
         Alert formAlert = new Alert(Alert.AlertType.ERROR);
         formAlert.setContentText(this.getMessage());
         formAlert.showAndWait();
-    }
-
-    public void doNothing() {
-        return;
     }
 }

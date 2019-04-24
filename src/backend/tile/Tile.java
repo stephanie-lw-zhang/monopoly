@@ -56,4 +56,7 @@ public abstract class Tile {
         return false;
     }
 
+    public boolean isPropertyTile() {
+        return false;
+    }
 }

@@ -2,6 +2,12 @@ package frontend.views.board.boardcomponents;
 
 import javafx.scene.Node;
 
+/**
+ * This class represents the abstract View class
+ * for all Deck views
+ *
+ * @author Edward
+ */
 public abstract class AbstractDeckView {
     private String myTileName;
     private String myDescription;
@@ -26,6 +32,5 @@ public abstract class AbstractDeckView {
     public String getMyTileName(){ return myTileName; }
 
     public String getMyDescription(){ return myDescription; }
-
 
 }
