@@ -60,4 +60,6 @@ public class VBoxOptionsView extends AbstractOptionsView {
     public Node getOptionsViewNode() {
         return myOptionsViewNode;
     }
+
+
 }

@@ -85,7 +85,8 @@ public class RectangularBoardView extends AbstractBoardView{
 //                return o1.getMyTileName().compareTo(o2.getMyTileName());
 //            }
 //        });
-        myIcon = new IconView(new Image(this.getClass().getClassLoader().getResourceAsStream("boot.png")));
+        myIcon = new IconView(new Image("boot.png"));
+        System.out.println("icon:" + myIcon);
         myIcon.setHeight(myTileHeight/2);
         myIcon.setWidth(myTileHeight/2);
 

@@ -7,6 +7,7 @@ import backend.exceptions.IllegalInputTypeException;
 import backend.exceptions.TileNotFoundException;
 import backend.exceptions.ImprovedPropertyException;
 import backend.exceptions.MortgagePropertyException;
+import backend.exceptions.PlayerDoesNotExistException;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.BuildingTile;
 import configuration.ImportPropertyFile;
@@ -380,13 +381,16 @@ public class TestingScreen extends AbstractScreen {
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
 
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
-                updatePlayerFundsDisplay();
-                for(Tab tab: allPlayerProperties.getTabs()){
-                    if(tab.getText().equalsIgnoreCase( player )){
-                        allPlayerProperties.getTabs().remove(tab);
+                    updatePlayerFundsDisplay();
+                    for(Tab tab: allPlayerProperties.getTabs()){
+                        if(tab.getText().equalsIgnoreCase( player )){
+                            allPlayerProperties.getTabs().remove(tab);
+                        }
                     }
+                    updatePlayerPropertiesDisplay();
+                } catch (PlayerDoesNotExistException e) {
+                    e.popUp();
                 }
-                updatePlayerPropertiesDisplay();
 
             }
         });
@@ -507,23 +511,25 @@ public class TestingScreen extends AbstractScreen {
             tab.setId( p.getMyPlayerName() );
             writeInPlayerProperties( p, tab );
             allPlayerProperties.getTabs().add( tab );
-
         }
         allPlayerProperties.setMaxHeight( 200 );
         allPlayerProperties.setMaxWidth( 200 );
+        allPlayerProperties.setTabClosingPolicy( TabPane.TabClosingPolicy.UNAVAILABLE);
         return allPlayerProperties;
 
     }
 
     private void updatePlayerPropertiesDisplay() {
-        System.out.println(allPlayerProperties.getTabs());
-        for(Tab tab: allPlayerProperties.getTabs()){
-            AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
-            writeInPlayerProperties(player, tab);
+        try {
+            for(Tab tab: allPlayerProperties.getTabs()){
+                AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
+                writeInPlayerProperties(player, tab);
+            }
+        } catch (PlayerDoesNotExistException e) {
+            e.popUp();
         }
 
     }
-
 
     private void writeInPlayerProperties(AbstractPlayer player, Tab tab){
         TextArea properties = new TextArea();

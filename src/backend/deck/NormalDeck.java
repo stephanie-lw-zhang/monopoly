@@ -9,6 +9,11 @@ import java.util.Queue;
 public class NormalDeck implements DeckInterface {
     private Queue<AbstractCard> myDeck = new PriorityQueue<>();
 
+    public int getMyDeckSize() {
+        //for Testing
+        return myDeck.size();
+    }
+
     @Override
     public AbstractCard drawCard() {
         if(myDeck != null){
@@ -21,7 +26,7 @@ public class NormalDeck implements DeckInterface {
     }
 
     @Override
-    public void returnCard(AbstractCard card) {
+    public void putBack(AbstractCard card) {
         myDeck.add(card);
         //adds card to "bottom"
     }

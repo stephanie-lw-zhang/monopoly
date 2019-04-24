@@ -131,13 +131,14 @@ public abstract class AbstractBoard {
         return null; //change this !!!
     }
 
-    public AbstractPlayer getPlayerFromName(String name){
+    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException{
         for(AbstractPlayer p: myPlayerList){
             if (p.getMyPlayerName().equalsIgnoreCase( name )){
                 return p;
             }
         }
-        return null;
+
+        throw new PlayerDoesNotExistException( "Player does not exist" );
         //THROW EXCEPTION "THIS PLAYER DOES NOT EXIST"
     }
 
