@@ -12,13 +12,13 @@ public class LogView {
     private StackPane myRoot;
 
     public LogView(XMLData data) {
-        myData=data;
+        myData = data;
         myRoot = new StackPane();
         gameLog = new TextArea("Welcome to " + myData.getMonopolyType() + ".");
         gameLog.setText("Welcome to " + myData.getMonopolyType() + ".");
         gameLog.setEditable(false);
         gameLog.setStyle("-fx-max-width: 400; -fx-max-height: 100");
-        }
+    }
 
     public Pane getPane() {
         return myRoot;

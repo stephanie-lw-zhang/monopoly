@@ -12,6 +12,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
+import backend.exceptions.PlayerDoesNotExistException;
 import backend.exceptions.TileNotFoundException;
 import backend.tile.GoTile;
 import backend.tile.JailTile;
@@ -131,7 +132,7 @@ public abstract class AbstractBoard {
         return null; //change this !!!
     }
 
-    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException{
+    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException {
         for(AbstractPlayer p: myPlayerList){
             if (p.getMyPlayerName().equalsIgnoreCase( name )){
                 return p;

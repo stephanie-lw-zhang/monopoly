@@ -60,7 +60,7 @@ public class TestingScreen extends AbstractScreen {
     private double               screenWidth;
     private double               screenHeight;
     private LogView              myLogView;
-    private XMLData              data;
+    private XMLData              myData;
 
     private TextArea             fundsDisplay;
     private TabPane allPlayerProperties;
@@ -88,6 +88,11 @@ public class TestingScreen extends AbstractScreen {
         screenWidth = width;
         screenHeight = height;
 
+        try {
+            myData = new XMLData("OriginalMonopoly.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        END_TURN_BUTTON.setId("endTurn");
 //        BUY_BUTTON.setId("buy");
 //        AUCTION_BUTTON.setId("auction");
@@ -97,7 +102,7 @@ public class TestingScreen extends AbstractScreen {
 //        PAY_BAIL_BUTTON.setId( "payBail" );
 //        FORFEIT_BUTTON.setId("forfeit");
 //        MOVE_BUTTON.setId( "move handler" );
- }
+    }
 
     @Override
     public void makeScreen() {
@@ -107,16 +112,10 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setCache(true);
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
-        try {
-            data = new XMLData("OriginalMonopoly.xml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
 
         myFormView = new FormView(this);
 
-        myLogView = new LogView(data);
+        myLogView = new LogView(myData);
 
         ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));
         backButton.setOnMouseClicked(f -> handleBackToMainButton(getMyStage()));
@@ -150,6 +149,14 @@ public class TestingScreen extends AbstractScreen {
                 new SixDice(),
                 playerToIcon
         );
+
+        XMLData data = null;
+        try {
+            data = new XMLData("OriginalMonopoly.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myBoardView = new SquareBoardView(new StandardBoard(myGame.getBoard().getMyPlayerList(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
 
         BorderPane bPane = (BorderPane) myScene.getRoot();
 
@@ -189,7 +196,7 @@ public class TestingScreen extends AbstractScreen {
             @Override
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
-                myBoardView.move(numMoves);
+                myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
                 myGame.getMyTurn().moveCheat(numMoves);
             }
         });
@@ -217,21 +224,21 @@ public class TestingScreen extends AbstractScreen {
                     AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles(myGame.getBoard().getJailTile()).get(0);
 
                     ObservableList<String> players = getAllPlayerNames();
-                    String mortgagerName = displayDropDownAndReturnResult( "Mortgage", "Select the player who wants to mortgage: ", players );
-                    AbstractPlayer mortgager = myGame.getBoard().getPlayerFromName( mortgagerName );
+                    String mortgagerName = displayDropDownAndReturnResult("Mortgage", "Select the player who wants to mortgage: ", players);
+                    AbstractPlayer mortgager = myGame.getBoard().getPlayerFromName(mortgagerName);
 
                     ObservableList<String> possibleProperties = FXCollections.observableArrayList();
-                    for(AbstractPropertyTile p: mortgager.getProperties()){
-                        possibleProperties.add( p.getName() );
+                    for (AbstractPropertyTile p : mortgager.getProperties()) {
+                        possibleProperties.add(p.getName());
                     }
 
 //                    AbstractPropertyTile property = null;
-                    if (possibleProperties.size()==0){
-                        displayActionInfo( "You have no properties to mortgage at this time." );
-                    } else{
-                        String propertyToMortgage = displayDropDownAndReturnResult( "Mortgage", "Select the property to be mortgaged", possibleProperties );
-                        for(AbstractPropertyTile p: mortgager.getProperties()){
-                            if(p.getName().equalsIgnoreCase( propertyToMortgage )){
+                    if (possibleProperties.size() == 0) {
+                        displayActionInfo("You have no properties to mortgage at this time.");
+                    } else {
+                        String propertyToMortgage = displayDropDownAndReturnResult("Mortgage", "Select the property to be mortgaged", possibleProperties);
+                        for (AbstractPropertyTile p : mortgager.getProperties()) {
+                            if (p.getName().equalsIgnoreCase(propertyToMortgage)) {
                                 property = p;
                             }
                         }
@@ -244,6 +251,8 @@ public class TestingScreen extends AbstractScreen {
 //                    System.out.println("mortgaged: " + property.isMortgaged());
 
                     updatePlayerFundsDisplay();
+                } catch (PlayerDoesNotExistException e) {
+                    e.popUp();
                 } catch (MortgagePropertyException e) {
                     e.popUp();
                 } catch (ImprovedPropertyException e) {
@@ -365,8 +374,12 @@ public class TestingScreen extends AbstractScreen {
                 ObservableList<String> players = getAllPlayerNames();
                 String player = displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
 
-                AbstractPlayer forfeiter = myGame.getBoard().getPlayerFromName( player );
-
+                AbstractPlayer forfeiter = null;
+                try {
+                    forfeiter = myGame.getBoard().getPlayerFromName(player);
+                } catch (PlayerDoesNotExistException e) {
+                    e.popUp();
+                }
 //                System.out.println("initial money:" + player.getMoney());
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
@@ -381,6 +394,7 @@ public class TestingScreen extends AbstractScreen {
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
 
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
+                // try {
                     updatePlayerFundsDisplay();
                     for(Tab tab: allPlayerProperties.getTabs()){
                         if(tab.getText().equalsIgnoreCase( player )){
@@ -388,9 +402,9 @@ public class TestingScreen extends AbstractScreen {
                         }
                     }
                     updatePlayerPropertiesDisplay();
-                } catch (PlayerDoesNotExistException e) {
-                    e.popUp();
-                }
+//                } catch (PlayerDoesNotExistException e) {
+//                    e.popUp();
+//                }
 
             }
         });
@@ -622,7 +636,7 @@ public class TestingScreen extends AbstractScreen {
         // TODO: Maybe use "setUserData" for the VBox and retrieve that way
         VBox playerOptionsModal = (VBox) vList.get(1);
 
-        TextArea currPlayerText = (TextArea) playerOptionsModal.getChildren().get(3);
+        TextArea currPlayerText = (TextArea) playerOptionsModal.getChildren().get(4);
         currPlayerText.setText(currPlayer.getMyPlayerName());
     }
 
@@ -632,7 +646,7 @@ public class TestingScreen extends AbstractScreen {
     }
 
     public void updatePlayerPosition(int roll) {
-        myBoardView.move(roll);
+        myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), roll);
     }
 
     private void handleKeyInput(KeyCode code) {
