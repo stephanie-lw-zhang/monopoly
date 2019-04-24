@@ -1,22 +1,23 @@
 package frontend.views.board;
 
-
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.card.PropertyCard;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+
 import frontend.views.board.boardcomponents.*;
 import frontend.views.IconView;
+
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.layout.*;
+
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,25 +98,6 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     /**
-     * Setter of the RectangularBoardView object's AnchorPane
-     */
-    @Override
-    public void setRoot() {
-        myRoot = new AnchorPane();
-    }
-
-    /**
-     * Defines the given Screen dimensions
-     * @param screenWidth
-     * @param screenHeight
-     */
-    @Override
-    public void setScreenLimits(double screenWidth, double screenHeight) {
-        myScreenHeight = screenHeight;
-        myScreenWidth = screenWidth;
-    }
-
-    /**
      * Lays out the RectangularBoardView TileViews
      */
     public void makeBoard() {
@@ -126,15 +108,6 @@ public class RectangularBoardView extends AbstractBoardView {
         makeRightRow();
         placeDeck("Community Chest","",100,50,0.6);
         placeDeck("Chance","",100,50,0.25);
-    }
-
-    /**
-     * Returns the AnchorPane of the RectangularBoardView
-     * @return Pane, the AnchorPane
-     */
-    @Override
-    public Pane getPane() {
-        return myRoot;
     }
 
     /**
@@ -168,6 +141,34 @@ public class RectangularBoardView extends AbstractBoardView {
             iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
             myNumMoves--;
         }
+    }
+
+    /**
+     * Setter of the RectangularBoardView object's AnchorPane
+     */
+    @Override
+    public void setRoot() {
+        myRoot = new AnchorPane();
+    }
+
+    /**
+     * Defines the given Screen dimensions
+     * @param screenWidth
+     * @param screenHeight
+     */
+    @Override
+    public void setScreenLimits(double screenWidth, double screenHeight) {
+        myScreenHeight = screenHeight;
+        myScreenWidth = screenWidth;
+    }
+
+    /**
+     * Returns the AnchorPane of the RectangularBoardView
+     * @return Pane, the AnchorPane
+     */
+    @Override
+    public Pane getPane() {
+        return myRoot;
     }
 
 
