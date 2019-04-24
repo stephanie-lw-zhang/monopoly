@@ -1,97 +1,69 @@
 package frontend.views.player_options;
 
 import controller.Turn;
-import javafx.animation.RotateTransition;
-import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.media.Media;
+
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+
 import javafx.util.Duration;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.List;
+import java.io.File;
 
+import javafx.animation.RotateTransition;
+
+/**
+ * This class represents the View of a Dice or Die in the game
+ *
+ * @author Sam
+ */
 public class DiceView extends HBox {
 
-    List<ImageView>           diceImages;
-    List<RotateTransition>    rTList;
-    private final MediaPlayer diceRollSound = new MediaPlayer(
-                                              new Media(
-                                                new File("./data/diceRoll.mp3")
-                                                .toURI().toString()
-                                              ));
-    private int numDieStates;
-    private String myPopupText;
+    private final MediaPlayer         diceRollSound = new MediaPlayer(
+                                                      new Media(new File("./data/diceRoll.mp3")
+                                                                                    .toURI().toString()));
+    private List<RotateTransition>    myRTList;
+    private List<ImageView>           myDiceIcons;
+    private String                    myPopupText;
+    private int[]                     myRolls;
+    private int                       myNumDieStates;
+    private int                       myNumDie;
 
+    /**
+     * DiceView main constructor
+     * @param nDie
+     * @param nDieStates
+     */
     public DiceView(int nDie, int nDieStates) {
         this.setSpacing(20);
-        numDieStates = nDieStates;
-        diceImages = new ArrayList<>();
-        rTList = new ArrayList<>();
+        myNumDieStates = nDieStates;
+        myNumDie = nDie;
+        myDiceIcons = makeDiceIcons();
+        myRTList = makeRTList();
 
-        ImageView dice1 = new ImageView();
-        dice1.setImage(new Image(this
-                .getClass()
-                .getClassLoader()
-                .getResourceAsStream(
-                        "dice" + (new Random().nextInt(numDieStates) + 1) + ".png"
-                )
-        ));
-        dice1.setFitHeight(55);
-        dice1.setFitWidth(55);
-
-        ImageView dice2 = new ImageView();
-        dice2.setImage(new Image(this
-                .getClass()
-                .getClassLoader()
-                .getResourceAsStream(
-                        "dice" + (new Random().nextInt(numDieStates) + 1) + ".png"
-                )
-        ));
-        dice2.setFitHeight(55);
-        dice2.setFitWidth(55);
-
-        this.getChildren().addAll(dice1, dice2);
-        this.setAlignment(Pos.CENTER_LEFT);
-
+        this.getChildren().addAll(myDiceIcons);
     }
 
-    public void onUpdate(final Turn turn) {
-        playDiceAnimation((ObservableList) this.getChildren(), turn.getRolls());
-        displayRollsPopup(turn);
+    /**
+     * Plays all rotate transition dice animations along with
+     * the sound of rolling dice
+     * @param diceIcons
+     */
+    public void playDiceAnimation(List<ImageView> diceIcons) {
+        playDiceSound();
+        for (RotateTransition rt : myRTList)
+            rt.play();
     }
 
-    // TODO: MAKE REFLECTION TO MAKE ROTATETRANSITIONS GIVEN DICEVIEWS/ROLLS
-    public void playDiceAnimation(List<ImageView> diceImageViews, int[] rolls) {
-        playSound();
-        RotateTransition rt1 = new RotateTransition(Duration.seconds(1.5), diceImageViews.get(0));
-        RotateTransition rt2 = new RotateTransition(Duration.seconds(1.5), diceImageViews.get(1));
-        rt1.setFromAngle(0);
-        rt1.setToAngle(720);
-        rt2.setFromAngle(0);
-        rt2.setToAngle(720);
-        rt1.setOnFinished(e -> setDice(diceImageViews.get(0), rolls[0]));
-        rt2.setOnFinished(e -> setDice(diceImageViews.get(1), rolls[1]));
-        rt1.play();
-        rt2.play();
-    }
-
-    private void setDice(ImageView diceView, final int roll) {
-        diceView.setImage(new Image(
-                this.getClass()
-                        .getClassLoader()
-                        .getResourceAsStream(
-                                "dice" + roll + ".png"
-                        )
-        ));
-    }
-
+    /**
+     * Displays roll results on the screen
+     * @param turn
+     */
     public void displayRollsPopup(final Turn turn) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("DICE ROLL");
@@ -100,12 +72,65 @@ public class DiceView extends HBox {
         alert.showAndWait();
     }
 
-    private void playSound() {
+    /**
+     * Specifies what actions occur on update (i.e. after a roll)
+     * @param turn
+     */
+    public void onUpdate(final Turn turn) {
+        myRolls = turn.getRolls();
+        playDiceAnimation(myDiceIcons);
+        displayRollsPopup(turn);
+    }
+
+    private void playDiceSound() {
         diceRollSound.play();
     }
 
+    private List<ImageView> makeDiceIcons() {
+        List<ImageView> list = new ArrayList<>();
+
+        for (int i = 0; i < myNumDie; i++) { // specifies how many dice icons are made
+            ImageView icon = new ImageView(
+                    new Image(this.getClass().getClassLoader().getResourceAsStream(
+                            "dice" + (new Random().nextInt(myNumDieStates) + 1) + ".png"
+                    ))
+            );
+            icon.setFitWidth(55);
+            icon.setFitHeight(55);
+
+            list.add(icon);
+        }
+        return list;
+    }
+
+    private List<RotateTransition> makeRTList() {
+        List<RotateTransition> list = new ArrayList<>();
+
+        for (int i = 0; i < myDiceIcons.size(); i++) {
+            int currIndex = i;
+            RotateTransition rt = new RotateTransition(Duration.seconds(1.5), myDiceIcons.get(i));
+            rt.setFromAngle(0);
+            rt.setToAngle(720);
+            rt.setOnFinished(e -> setDice(myDiceIcons.get(currIndex), myRolls[currIndex]));
+
+            list.add(rt);
+        }
+        return list;
+    }
+
+    /**
+     * Getter for the text to be displayed post-roll
+     * @return String       text for the roll
+     */
     public String getMyPopupText() {
         return myPopupText;
     }
 
+    private void setDice(ImageView diceIcon, final int roll) {
+        diceIcon.setImage(new Image(
+                this.getClass().getClassLoader().getResourceAsStream(
+                        "dice" + roll + ".png"
+                ))
+        );
+    }
 }

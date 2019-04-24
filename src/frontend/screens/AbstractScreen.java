@@ -1,24 +1,27 @@
 package frontend.screens;
 
 import frontend.Handlers;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.scene.layout.GridPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.FontWeight;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import javafx.geometry.Insets;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 
 /**
  * Represents an abstraction of any screen menu within the game app
+ * i.e. the medium on which View components will lie
  *
  * @author Sam
  */
@@ -30,13 +33,20 @@ public class AbstractScreen extends Handlers {
     private Scene     myScene;
     private String    myScreenTitle;
 
+    /**
+     * AbstractScreen main constructor
+     * @param sWidth
+     * @param sHeight
+     * @param stage
+     */
     public AbstractScreen(double sWidth, double sHeight, Stage stage) {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myStage = stage;
+        // myScene = makeScreen();
     }
 
-    public void makeScreen() {
+    public Scene makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
         titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
         titleText.setFill(Color.DARKGREEN);
@@ -61,8 +71,7 @@ public class AbstractScreen extends Handlers {
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 
-        myScene = new Scene(bPane, getScreenWidth(), getScreenHeight());
-        // myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
+        return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
     public BorderPane setBorderPane(double sWidth, double sHeight, GridPane gPane) {
@@ -81,16 +90,8 @@ public class AbstractScreen extends Handlers {
         return bPane;
     }
 
-//    private void handleKeyInput(KeyCode code) {
-//        if (code == KeyCode.Q) {
-//            System.out.println("Q");
-//            myScene = new MainMenuScreen(screenWidth, screenHeight, myStage).getMyScene();
-//        }
-//    }
-
-    public double    getScreenWidth()  { return screenWidth; }
-    public double    getScreenHeight() { return screenHeight; }
-    public Stage  getMyStage()         { return myStage; }
-    public Scene  getMyScene()         { return myScene; }
-    public String getScreenTitle()     { return myScreenTitle; }
+    public double getScreenWidth()  { return screenWidth; }
+    public double getScreenHeight() { return screenHeight; }
+    public Stage  getMyStage()      { return myStage; }
+    public Scene  getMyScene()      { return myScene; }
 }

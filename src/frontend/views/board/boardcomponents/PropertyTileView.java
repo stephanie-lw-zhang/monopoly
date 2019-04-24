@@ -1,54 +1,92 @@
 package frontend.views.board.boardcomponents;
 
-import configuration.ImportPropertyFile;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.Node;
 
+import javafx.geometry.Pos;
+
+/**
+ * This class extends AbstractTileView and represents the
+ * View component of a PropertyTile of an AbstractBoardView
+ *
+ * @author Edward
+ */
 public class PropertyTileView extends AbstractTileView {
-    private double myWidth;
-    private double myHeight;
-    private StackPane myRoot;
-    private Paint myColor;
 
+    private StackPane myRoot;
+    private Paint     myColor;
+    private double    myWidth;
+    private double    myHeight;
+
+    /**
+     * PropertyTileView main constructor
+     * @param name
+     * @param description
+     * @param paint
+     */
     public PropertyTileView(String name, String description, Paint paint) {
         super(name, description);
         myColor = paint;
         myRoot = new StackPane();
-
     }
 
+    /**
+     * Returns the X coordinate of the StackPane
+     * @return double
+     */
     @Override
-    public double getmyX() {
+    public double getMyX() {
         return myRoot.getLayoutX();
     }
 
+    /**
+     * Returns the Y coordinate of the StackPane
+     * @return double
+     */
     @Override
-    public double getmyY() {
+    public double getMyY() {
         return myRoot.getLayoutY();
     }
 
+    /**
+     * Adds a given node to myRoot
+     * @param n     the node to be added
+     */
     public void moveTo(Node n){
         myRoot.setAlignment(n,Pos.CENTER);
         myRoot.getChildren().add(n);
     }
 
+    /**
+     * Removes a given node from myRoot
+     * @param n     the node to be removed
+     */
     public void moveFrom(Node n){
         myRoot.getChildren().remove(n);
     }
 
+    /**
+     * Returns the StackPane of the PropertyTileView
+     * @return Node         a StackPane
+     */
     @Override
     public Node getNodeOfTileView() {
         return myRoot;
     }
 
+    /**
+     * Creates a TileView by adding all the elements of
+     * the TileView to the StackPane root including the
+     * border of the tile, the label & text of tile
+     * @param dimensions
+     */
     @Override
     public void makeTileViewNode(double[] dimensions) {
         myWidth = dimensions[0];
@@ -57,10 +95,7 @@ public class PropertyTileView extends AbstractTileView {
         myRoot.getChildren().add(makeBorder());
         myRoot.getChildren().add(makeLabel());
         myRoot.getChildren().add(makeText());
-
     }
-
-
 
     private Node makeBorder() {
         Rectangle border = new Rectangle(myWidth/2, myHeight/2, myWidth, myHeight );
@@ -90,7 +125,6 @@ public class PropertyTileView extends AbstractTileView {
         myRoot.setAlignment(labelShape,Pos.TOP_CENTER);
         return labelShape;
     }
-
 }
 
 

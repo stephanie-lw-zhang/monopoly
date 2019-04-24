@@ -135,7 +135,6 @@ public abstract class AbstractBoard {
             }
         }
         return null;
-        //THROW EXCEPTION "THIS PLAYER DOES NOT EXIST"
     }
 
     public List<String> getPlayerNamesAsStrings() {
