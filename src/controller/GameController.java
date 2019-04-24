@@ -156,7 +156,7 @@ public class GameController {
     private void handleRollButton() {
         myTurn.start();
         myTestScreen.updateDice(myTurn);
-        myTestScreen.getMyBoardView().move(myTurn.getNumMoves());
+        myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
 
         myTurn.move();
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());

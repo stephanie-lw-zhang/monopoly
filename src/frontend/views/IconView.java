@@ -9,8 +9,8 @@ public class IconView {
 
     private ImageView myImageView;
 
-    public IconView(Image img){
-        myImageView = new ImageView(img);
+    public IconView(ImageView icon){
+        myImageView = icon;
     }
 
     public Node getMyNode(){

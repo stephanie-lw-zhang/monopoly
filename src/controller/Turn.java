@@ -27,7 +27,7 @@ public class Turn {
     private AbstractPlayer myCurrPlayer;
     private AbstractBoard  myBoard;
     private AbstractDice   myDice;
-    private List<String>  myActions = new ArrayList<>();
+    private List<String>  myActions;
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;
@@ -50,8 +50,8 @@ public class Turn {
     }
 
     public void start() {
-        System.out.println(myActions);
-        myActions.clear();
+        myActions = new ArrayList<>();
+
         isTurnOver = false;
 
         myRolls = rollDice(myBoard.getNumDie());

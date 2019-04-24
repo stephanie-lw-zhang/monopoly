@@ -101,14 +101,6 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
 
-        XMLData data = null;
-        try {
-            data = new XMLData("OriginalMonopoly.xml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
-
         myFormView = new FormView(this);
 
         ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));
@@ -143,6 +135,14 @@ public class TestingScreen extends AbstractScreen {
                 new SixDice(),
                 playerToIcon
         );
+
+        XMLData data = null;
+        try {
+            data = new XMLData("OriginalMonopoly.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myBoardView = new SquareBoardView(new StandardBoard(myGame.getBoard().getMyPlayerList(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
 
         BorderPane bPane = (BorderPane) myScene.getRoot();
 
@@ -181,7 +181,7 @@ public class TestingScreen extends AbstractScreen {
             @Override
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
-                myBoardView.move(numMoves);
+                myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
                 myGame.getMyTurn().moveCheat(numMoves);
             }
         });
@@ -456,7 +456,7 @@ public class TestingScreen extends AbstractScreen {
     }
 
     public void updatePlayerPosition(int roll) {
-        myBoardView.move(roll);
+        myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), roll);
     }
 
     private void handleKeyInput(KeyCode code) {
