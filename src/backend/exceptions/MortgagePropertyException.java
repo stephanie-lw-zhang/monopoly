@@ -2,13 +2,12 @@ package backend.exceptions;
 
 import javafx.scene.control.Alert;
 
-public class IllegalInputTypeException extends NumberFormatException {
-
-    public IllegalInputTypeException(String message) {
+public class MortgagePropertyException extends Exception {
+    public MortgagePropertyException(String message) {
         super(message);
     }
 
-    private void popUp() {
+    public void popUp() {
         Alert formAlert = new Alert(Alert.AlertType.ERROR);
         formAlert.setContentText(this.getMessage());
         formAlert.showAndWait();

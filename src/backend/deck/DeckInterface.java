@@ -8,7 +8,7 @@ public interface DeckInterface {
 
     AbstractCard drawCard();
 
-    void returnCard(AbstractCard card);
+    void putBack(AbstractCard card);
 
     void addCards(List<AbstractCard> cardList);
 

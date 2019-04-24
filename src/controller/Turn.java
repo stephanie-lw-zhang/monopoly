@@ -3,6 +3,7 @@ package controller;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
+import backend.exceptions.TileNotFoundException;
 import backend.tile.*;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.JailTile;
@@ -197,10 +198,15 @@ public class Turn {
     }
 
     public Map.Entry<AbstractPlayer, Double> goToJail() {
+        try {
         JailTile jail = (JailTile) myBoard.getJailTile();
         myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
         jail.addCriminal( myCurrPlayer );
         myCurrPlayer.addTurnInJail();
+
+        } catch (TileNotFoundException e){
+            e.printStackTrace();
+        }
         return null;
     }
 

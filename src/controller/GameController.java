@@ -9,6 +9,9 @@ import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.TileNotFoundException;
+import backend.exceptions.ImprovedPropertyException;
+import backend.exceptions.MortgagePropertyException;
 import backend.tile.AbstractTaxTile;
 import backend.tile.IncomeTaxTile;
 import backend.tile.AbstractPropertyTile;
@@ -139,11 +142,11 @@ public class GameController {
 
         // TODO: SIMILAR AS TODO ABOVE, SHOULDN'T HARDCODE FOR 0th ELEMENT
         // TODO: In VBOX FOR INNER HBOX
-        Button rollButton = (Button) playerOptionsModal.getChildren().get(1);
+        Button rollButton = (Button) playerOptionsModal.getChildren().get(2);
         rollButton.setOnAction(f -> handleRollButton());
 
         // TODO: REFLECTION FOR ALL OF THIS
-        Button endTurnButton = (Button) playerOptionsModal.getChildren().get(4);
+        Button endTurnButton = (Button) playerOptionsModal.getChildren().get(5);
         endTurnButton.setOnAction(f -> handleEndTurnButton());
     }
 
@@ -216,13 +219,25 @@ public class GameController {
     }
 
     private void handlePayBail(){
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBank, myBoard.getJailTile().getBailAmount() );
-        myBoard.getJailTile().removeCriminal( myTurn.getMyCurrPlayer() );
-        myGameView.displayActionInfo( "You've successfully paid bail. You're free now!" );
+        try {
+            myTurn.getMyCurrPlayer().payFullAmountTo(myBank, myBoard.getJailTile().getBailAmount());
+            myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
+            myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
+        } catch (TileNotFoundException e) {
+            e.printStackTrace();
+
+        }
     }
 
     private void handleMortgage(AbstractPropertyTile property){
-        property.mortgageProperty();
+        try {
+            property.mortgageProperty();
+        } catch (MortgagePropertyException m) {
+            m.popUp();
+        }
+        catch (ImprovedPropertyException i) {
+            i.popUp();
+        }
     }
 
     private void handleTrade() {
@@ -251,6 +266,7 @@ public class GameController {
     private void handleGoToJail() {
        myTurn.goToJail();
        myGameView.displayActionInfo( "Arrested! You're going to Jail." );
+       //DO NOT COLLECT MONEY PASSING GO
     }
 
     private void handleDrawCard() {
@@ -260,34 +276,39 @@ public class GameController {
     private void handleSellToPlayer(AbstractPlayer buyer, AbstractPropertyTile tile) {
 //        System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties() + " " + tile.isMortgaged());
 //        System.out.println("initial money for buyer: " + buyer.getMoney() + " " + buyer.getProperties());
-        double amount = 0;
-        boolean sellAmountDetermined = false;
-        while (!sellAmountDetermined) {
-            String value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
-                    "Enter your proposed amount:",
-                    "Amount:");
-            try {
-                amount = Double.parseDouble(value);
-            } catch (NumberFormatException n) {
-                new IllegalInputTypeException("Input must be a number!");
-            }
-            List<String> options = listYesNoOptionsOnly();
-            String result = myGameView.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
-            if (result.equals("Yes")) {
-                sellAmountDetermined = true;
-                tile.sellTo(buyer,amount,getSameSetProperties(tile));
+        //TODO: check if property is improved
+        try {
+            double amount = 0;
+            boolean sellAmountDetermined = false;
+            while (!sellAmountDetermined) {
+                String value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
+                        "Enter your proposed amount:",
+                        "Amount:");
+                try {
+                    amount = Double.parseDouble(value);
+                } catch (NumberFormatException n) {
+                    new IllegalInputTypeException("Input must be a number!");
+                }
+                List<String> options = listYesNoOptionsOnly();
+                String result = myGameView.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
+                if (result.equals("Yes")) {
+                    sellAmountDetermined = true;
+                    tile.sellTo(buyer,amount,getSameSetProperties(tile));
 //                System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
 //                System.out.println("after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
-                if (tile.isMortgaged()) {
-                    result = myGameView.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
-                    if (result.equals("Yes")) {
-                        tile.unmortgageProperty();
-                    }
-                    else {
-                        tile.soldMortgagedPropertyLaterUnmortgages();
+                    if (tile.isMortgaged()) {
+                        result = myGameView.displayOptionsPopup(options, "Property is mortgaged", "Would you like to lift the mortgage? ", "Choose an option");
+                        if (result.equals("Yes")) {
+                            tile.unmortgageProperty();
+                        }
+                        else {
+                            tile.soldMortgagedPropertyLaterUnmortgages();
+                        }
                     }
                 }
             }
+        } catch (MortgagePropertyException m) {
+             m.popUp();
         }
 //        System.out.println("after after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
 //        System.out.println("after after money for buyer: " + buyer.getMoney() + " " + buyer.getProperties() + " " + tile.isMortgaged());
