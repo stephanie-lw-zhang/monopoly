@@ -1,34 +1,52 @@
 package frontend.views;
 
 import frontend.screens.TestingScreen;
-import javafx.beans.value.ChangeListener;
+
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.control.*;
+
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
+import javafx.beans.value.ChangeListener;
+
 import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Represents the View component of the pre-game Form
+ * for user input
+ *
+ * @author Sam
+ */
 public class FormView extends GridPane {
 
-    private Button submitFormButton;
-    private TestingScreen myScreen;
-    private final int POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
+    private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
+    private TestingScreen            myScreen;
+    private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
 
+    /**
+     * FormView main constructor
+     *
+     * TODO: REFACTOR OUT
+     * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
+     * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
+     * @param screen
+     */
     public FormView(TestingScreen screen) {
         myScreen = screen;
         this.setHgap(5);
@@ -84,7 +102,7 @@ public class FormView extends GridPane {
     /**
      * Creates a player field for player name entry
      * @param row
-     * @return TextField,
+     * @return TextField
      */
     private TextField createPlayerTextField(int row) {
         TextField pField = new TextField();
@@ -130,12 +148,12 @@ public class FormView extends GridPane {
             formAlert.showAndWait();
             return;
         }
-        if (this.hasUnassignedIcon(playerToIcon)) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("A player has not selected an icon!");
-            formAlert.showAndWait();
-            return;
-        }
+//        if (this.hasUnassignedIcon(playerToIcon)) {
+//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
+//            formAlert.setContentText("A player has not selected an icon!");
+//            formAlert.showAndWait();
+//            return;
+//        }
 //        if (this.hasUnassignedName(playerToIcon)) {
 //            Alert formAlert = new Alert(Alert.AlertType.ERROR);
 //            formAlert.setContentText("An icon has no player name (or remove icon)!");
@@ -234,7 +252,11 @@ public class FormView extends GridPane {
         });
     }
 
-    public Map<TextField, ComboBox> getPlayerToIconMap(){
+    /**
+     * Getter for the player to icon mapping
+     * @return
+     */
+    public Map<TextField, ComboBox> getPlayerToIconMap() {
         return playerToIcon;
     }
 }
