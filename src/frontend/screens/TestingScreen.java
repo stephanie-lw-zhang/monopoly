@@ -536,15 +536,13 @@ public class TestingScreen extends AbstractScreen {
             AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
             writeInPlayerProperties(player, tab);
         }
-
-
     }
 
     private void writeInPlayerProperties(AbstractPlayer player, Tab tab){
         TextArea properties = new TextArea();
         String text = "";
         for(AbstractPropertyTile prop: player.getProperties()){
-            text = text + prop.getName() + "\n";
+            text = text + prop.getTitleDeed() + "\n";
         }
         properties.setText( text );
         tab.setContent( properties );

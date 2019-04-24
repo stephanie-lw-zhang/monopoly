@@ -329,6 +329,8 @@ public class GameController {
             e.popUp();
         } catch (IllegalInputTypeException e) {
             e.doNothing();
+        } catch (NullPointerException e) {
+            new IllegalInputTypeException("").doNothing();
         }
     }
 
