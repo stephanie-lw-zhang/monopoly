@@ -17,9 +17,14 @@ import javafx.geometry.Pos;
  */
 public class CornerTileView extends AbstractTileView {
 
-    private double mySideLength;
     private StackPane myRoot;
+    private double    mySideLength;
 
+    /**
+     * CornerTileView main constructor
+     * @param name
+     * @param description
+     */
     public CornerTileView(String name, String description) {
         super(name, description);
         myRoot = new StackPane();

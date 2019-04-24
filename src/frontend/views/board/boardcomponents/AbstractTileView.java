@@ -3,6 +3,7 @@ package frontend.views.board.boardcomponents;
 import javafx.scene.Node;
 
 public abstract class AbstractTileView {
+
     private String myTileName;
     private String myDescription;
 

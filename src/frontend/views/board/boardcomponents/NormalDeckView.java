@@ -18,10 +18,16 @@ import javafx.geometry.Pos;
  * @author Edward
  */
 public class NormalDeckView extends AbstractTileView {
-    private double myWidth;
-    private double myHeight;
-    private StackPane myRoot;
 
+    private StackPane myRoot;
+    private double    myWidth;
+    private double    myHeight;
+
+    /**
+     * NormalDeckView main constructor
+     * @param name
+     * @param description
+     */
     public NormalDeckView(String name, String description) {
         super(name, description);
         myRoot = new StackPane();

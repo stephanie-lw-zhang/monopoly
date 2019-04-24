@@ -18,17 +18,17 @@ import javafx.geometry.Pos;
  * @author Edward
  */
 public class RectangularTileView extends AbstractTileView {
-    private double myWidth;
-    private double myHeight;
+
     private StackPane myRoot;
+    private double    myWidth;
+    private double    myHeight;
 
     /**
      * RectangularTileView main constructor
      * @param name
      * @param description
-     * @param color
      */
-    public RectangularTileView(String name,String description, String color) {
+    public RectangularTileView(String name,String description) {
         super(name, description);
         myRoot = new StackPane();
     }
