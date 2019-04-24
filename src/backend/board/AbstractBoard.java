@@ -132,15 +132,46 @@ public abstract class AbstractBoard {
         return null; //change this !!!
     }
 
-    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException {
+    public AbstractPlayer getPlayerFromName(String name) {
         for(AbstractPlayer p: myPlayerList){
             if (p.getMyPlayerName().equalsIgnoreCase( name )){
                 return p;
             }
         }
-
-        throw new PlayerDoesNotExistException( "Player does not exist" );
+        return null;
         //THROW EXCEPTION "THIS PLAYER DOES NOT EXIST"
+    }
+
+    public List<String> getPlayerNamesAsStrings() {
+        List<String> playerStrings = new ArrayList<>();
+        for (AbstractPlayer p : myPlayerList) {
+            playerStrings.add(p.getMyPlayerName());
+        }
+        return playerStrings;
+    }
+
+    public List<String> getPropertyNamesAsStrings(AbstractPlayer owner) {
+        List<String> tileStrings = new ArrayList<>();
+        for (AbstractPropertyTile t : owner.getProperties()) {
+            tileStrings.add(t.getTitleDeed());
+        }
+        return tileStrings;
+    }
+
+    public Tile getTileFromName(String name) {
+        for (Tile t : adjacencyMap.keySet()) {
+            if (t.isPropertyTile()) {
+                AbstractPropertyTile property = (AbstractPropertyTile)t;
+                if (property.getTitleDeed().equalsIgnoreCase(name)) {
+                    return property;
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {
+        return getColorListMap().get( property.getCard().getCategory());
     }
 
 //    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){

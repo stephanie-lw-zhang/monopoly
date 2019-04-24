@@ -2,6 +2,7 @@ package backend.tile;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.Bank;
+import backend.exceptions.IllegalActionOnImprovedPropertyException;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -14,13 +15,13 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
 
     public abstract double calculateRentPrice(int roll);
 
+    //try to avoid throwing exception here?
     @Override
-    public void sellTo(AbstractAssetHolder buyer, double price, List<AbstractPropertyTile> sameSetProperties) {
+    public void sellTo(AbstractAssetHolder buyer, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException {
         AbstractAssetHolder seller = this.getOwner();
         super.sellTo(buyer, price, sameSetProperties);
         updateUpgradeOrder( buyer, sameSetProperties );
         updateUpgradeOrder( seller, sameSetProperties );
-
     }
 
     private void updateUpgradeOrder(AbstractAssetHolder owner, List<AbstractPropertyTile> sameSetProperties) {

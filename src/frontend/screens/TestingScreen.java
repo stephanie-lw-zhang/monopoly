@@ -5,11 +5,9 @@ import backend.board.StandardBoard;
 import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
 import backend.exceptions.TileNotFoundException;
-import backend.exceptions.ImprovedPropertyException;
+import backend.exceptions.IllegalActionOnImprovedPropertyException;
 import backend.exceptions.MortgagePropertyException;
-import backend.exceptions.PlayerDoesNotExistException;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.BuildingTile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import controller.Turn;
@@ -80,6 +78,7 @@ public class TestingScreen extends AbstractScreen {
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
     private final Button UNMORTGAGE_BUTTON = new Button("Unmortgage");
+    private final Button SELL_TO_PLAYER = new Button("SELL TO PLAYER");
 
 
 
@@ -87,21 +86,11 @@ public class TestingScreen extends AbstractScreen {
         super(width, height, stage);
         screenWidth = width;
         screenHeight = height;
-
         try {
             myData = new XMLData("OriginalMonopoly.xml");
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        END_TURN_BUTTON.setId("endTurn");
-//        BUY_BUTTON.setId("buy");
-//        AUCTION_BUTTON.setId("auction");
-//        MORTGAGE_BUTTON.setId("mortgage");
-//        COLLECT_BUTTON.setId( "collect" );
-//        PAY_RENT_BUTTON.setId( "payRent" );
-//        PAY_BAIL_BUTTON.setId( "payBail" );
-//        FORFEIT_BUTTON.setId("forfeit");
-//        MOVE_BUTTON.setId( "move handler" );
     }
 
     @Override
@@ -220,11 +209,15 @@ public class TestingScreen extends AbstractScreen {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-
                     AbstractPropertyTile property = (AbstractPropertyTile) myGame.getBoard().getAdjacentTiles(myGame.getBoard().getJailTile()).get(0);
 
                     ObservableList<String> players = getAllPlayerNames();
-                    String mortgagerName = displayDropDownAndReturnResult("Mortgage", "Select the player who wants to mortgage: ", players);
+                    String mortgagerName = null;
+                    try {
+                        mortgagerName = displayDropDownAndReturnResult("Mortgage", "Select the player who wants to mortgage: ", players);
+                    } catch (IllegalInputTypeException e) {
+                        e.popUp();
+                    }
                     AbstractPlayer mortgager = myGame.getBoard().getPlayerFromName(mortgagerName);
 
                     ObservableList<String> possibleProperties = FXCollections.observableArrayList();
@@ -236,7 +229,12 @@ public class TestingScreen extends AbstractScreen {
                     if (possibleProperties.size() == 0) {
                         displayActionInfo("You have no properties to mortgage at this time.");
                     } else {
-                        String propertyToMortgage = displayDropDownAndReturnResult("Mortgage", "Select the property to be mortgaged", possibleProperties);
+                        String propertyToMortgage = null;
+                        try {
+                            propertyToMortgage = displayDropDownAndReturnResult("Mortgage", "Select the property to be mortgaged", possibleProperties);
+                        } catch (IllegalInputTypeException e) {
+                            e.popUp();
+                        }
                         for (AbstractPropertyTile p : mortgager.getProperties()) {
                             if (p.getName().equalsIgnoreCase(propertyToMortgage)) {
                                 property = p;
@@ -251,11 +249,9 @@ public class TestingScreen extends AbstractScreen {
 //                    System.out.println("mortgaged: " + property.isMortgaged());
 
                     updatePlayerFundsDisplay();
-                } catch (PlayerDoesNotExistException e) {
-                    e.popUp();
                 } catch (MortgagePropertyException e) {
                     e.popUp();
-                } catch (ImprovedPropertyException e) {
+                } catch (IllegalActionOnImprovedPropertyException e) {
                     e.popUp();
                 } catch (TileNotFoundException e) {
                     e.popUp();
@@ -302,7 +298,6 @@ public class TestingScreen extends AbstractScreen {
                 updatePlayerFundsDisplay();
                 updatePlayerPropertiesDisplay();
             }
-
         });
 
         COLLECT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
@@ -360,9 +355,9 @@ public class TestingScreen extends AbstractScreen {
                     myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " has posted bail and can roll to leave Jail!");
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-                } catch(TileNotFoundException e) {
-                e.printStackTrace();
-            }
+                } catch (TileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 updatePlayerFundsDisplay();
             }
         });
@@ -372,20 +367,21 @@ public class TestingScreen extends AbstractScreen {
             @Override
             public void handle(ActionEvent actionEvent) {
                 ObservableList<String> players = getAllPlayerNames();
-                String player = displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
-
-                AbstractPlayer forfeiter = null;
+                String player = null;
                 try {
-                    forfeiter = myGame.getBoard().getPlayerFromName(player);
-                } catch (PlayerDoesNotExistException e) {
+                    player = displayDropDownAndReturnResult("Forfeit", "Select the player who wants to forfeit: ", players);
+                } catch (IllegalInputTypeException e) {
                     e.popUp();
                 }
+
+                AbstractPlayer forfeiter = null;
+                forfeiter = myGame.getBoard().getPlayerFromName(player);
 //                System.out.println("initial money:" + player.getMoney());
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
                 forfeiter.declareBankruptcy(myGame.getBoard().getBank());
-                myGame.getBoard().getMyPlayerList().remove( forfeiter );
-                myGame.getBoard().getPlayerTileMap().remove( forfeiter );
+                myGame.getBoard().getMyPlayerList().remove(forfeiter);
+                myGame.getBoard().getPlayerTileMap().remove(forfeiter);
                 myLogView.gameLog.setText(forfeiter + " has forfeited.");
                 //MUST REMOVE FROM FRONT END
 
@@ -395,17 +391,13 @@ public class TestingScreen extends AbstractScreen {
 
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
                 // try {
-                    updatePlayerFundsDisplay();
-                    for(Tab tab: allPlayerProperties.getTabs()){
-                        if(tab.getText().equalsIgnoreCase( player )){
-                            allPlayerProperties.getTabs().remove(tab);
-                        }
+                updatePlayerFundsDisplay();
+                for (Tab tab : allPlayerProperties.getTabs()) {
+                    if (tab.getText().equalsIgnoreCase(player)) {
+                        allPlayerProperties.getTabs().remove(tab);
                     }
-                    updatePlayerPropertiesDisplay();
-//                } catch (PlayerDoesNotExistException e) {
-//                    e.popUp();
-//                }
-
+                }
+                updatePlayerPropertiesDisplay();
             }
         });
 
@@ -437,17 +429,24 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
+        SELL_TO_PLAYER.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.handleSellToPlayer();
+            }
+        });
+
         moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
         playerOptionsModal.getChildren().addAll(
                 myLogView.gameLog,
                 myDiceView, ROLL_BUTTON,
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON,
-                AUCTION_BUTTON, MORTGAGE_BUTTON,
+                AUCTION_BUTTON, MORTGAGE_BUTTON, BUY_BUTTON,
                 moveCheatKey, createPlayerPropertiesDisplay(),
 //                BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON,
                 FORFEIT_BUTTON,
-                MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, createPlayerFundsDisplay()
+                MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, SELL_TO_PLAYER, createPlayerFundsDisplay()
         );
 
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
@@ -459,7 +458,6 @@ public class TestingScreen extends AbstractScreen {
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
 
         Pane logViewPane = myLogView.getPane();
-
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
@@ -477,34 +475,34 @@ public class TestingScreen extends AbstractScreen {
     }
 
     //TODO: delete these (FOR TESTING rn)
-//    public String showInputTextDialog(String title, String header, String content) {
-//        TextInputDialog dialog = new TextInputDialog("0");
-//        dialog.setTitle(title);
-//        dialog.setHeaderText(header);
-//        dialog.setContentText(content);
-//        Optional<String> result = dialog.showAndWait();
-//        if (result.isPresent()) {
-//            return result.get();
-//        }
-//        else {
-//            //TODO: throw exception
-//            return null;
-//        }
-//    }
-//
-//    public String displayOptionsPopup(List<String> options, String title, String header, String content) {
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle(title);
-//        alert.setHeaderText(header);
-//        alert.setContentText(content);
-//        List<ButtonType> buttonOptions = new ArrayList<>();
-//        for (String option : options) {
-//            buttonOptions.add(new ButtonType(option));
-//        }
-//        alert.getButtonTypes().setAll(buttonOptions);
-//        Optional<ButtonType> result = alert.showAndWait();
-//        return result.get().getText();
-//    }
+    public String showInputTextDialog(String title, String header, String content) {
+        TextInputDialog dialog = new TextInputDialog("0");
+        dialog.setTitle(title);
+        dialog.setHeaderText(header);
+        dialog.setContentText(content);
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            return result.get();
+        }
+        else {
+            //TODO: throw exception
+            return null;
+        }
+    }
+
+    public String displayOptionsPopup(List<String> options, String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        List<ButtonType> buttonOptions = new ArrayList<>();
+        for (String option : options) {
+            buttonOptions.add(new ButtonType(option));
+        }
+        alert.getButtonTypes().setAll(buttonOptions);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.get().getText();
+    }
 
     private TextFlow createPlayersText() {
         TextFlow playersText = new TextFlow();
@@ -534,22 +532,17 @@ public class TestingScreen extends AbstractScreen {
     }
 
     private void updatePlayerPropertiesDisplay() {
-        try {
-            for(Tab tab: allPlayerProperties.getTabs()){
-                AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
-                writeInPlayerProperties(player, tab);
-            }
-        } catch (PlayerDoesNotExistException e) {
-            e.popUp();
+        for(Tab tab: allPlayerProperties.getTabs()){
+            AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
+            writeInPlayerProperties(player, tab);
         }
-
     }
 
     private void writeInPlayerProperties(AbstractPlayer player, Tab tab){
         TextArea properties = new TextArea();
         String text = "";
         for(AbstractPropertyTile prop: player.getProperties()){
-            text = text + prop.getName() + "\n";
+            text = text + prop.getTitleDeed() + "\n";
         }
         properties.setText( text );
         tab.setContent( properties );
@@ -585,13 +578,17 @@ public class TestingScreen extends AbstractScreen {
         formAlert.showAndWait();
     }
 
-    private String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options){
-        ChoiceDialog players = new ChoiceDialog( options.get( 0 ), options );
-        players.setHeaderText( title );
-        players.setContentText(prompt);
+    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options) throws IllegalInputTypeException {
+        ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
+        choices.setHeaderText( title );
+        choices.setContentText(prompt);
         //"Select the player who wants to mortgage a property: "
-        players.showAndWait();
-        return (String) players.getSelectedItem();
+        Optional<String> result = choices.showAndWait();
+//        choices.showAndWait();
+        if (result.isPresent()) {
+            return (String) choices.getSelectedItem();
+        }
+        throw new IllegalInputTypeException("Action has been cancelled");
     }
 
     private String showAuctionInputTextDialog(String name) {
