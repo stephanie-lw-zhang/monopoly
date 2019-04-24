@@ -10,87 +10,39 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * Abstract class representing a Player in the game
  *
  * @author Sam [constructor change]
  */
-public abstract class AbstractPlayer extends AbstractAssetHolder{
-    private String iconPath;
-    private IconView myIcon;
-    private int turnsInJail = -1;//-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
-    private Boolean bankrupt = false;
+abstract public class AbstractPlayer extends AbstractAssetHolder {
+
     private List<AbstractCard> cards;
-    // private int roll;
+    private String             myPlayerName;
+    private IconView           myIcon;
+    private Boolean            isBankrupt;
+    private int                turnsInJail; //-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
 
-    private String myPlayerName;
-
+    /**
+     * AbstractPlayer main constructor
+     * @param name
+     * @param icon
+     * @param money
+     */
     public AbstractPlayer(String name, ImageView icon, Double money) {
         super( money );
         myPlayerName = name;
         myIcon = new IconView(icon);
-    }
-
-    public IconView getMyIcon() {
-        return myIcon;
-    }
-
-    public String getIcon() {
-        return iconPath;
-    }
-
-    public int getTurnsInJail() {
-        return turnsInJail;
-    }
-
-    public void addTurnInJail() {
-        turnsInJail += 1;
-        //must call this when going to jail to set value to 0
-    }
-
-    public boolean inJail(){
-        return turnsInJail != -1;
-    }
-
-    public void getOutOfJail(){
+        isBankrupt = false;
         turnsInJail = -1;
     }
 
-    public Boolean isBankrupt(){
-        return bankrupt;
-    }
-
-    public void addCard(AbstractCard card){
-        cards.add( card );
-    }
-
-    public List<AbstractCard> getCards(){
-        return cards;
-    }
-    //is this exposing guts??
-
-//    public void declareBankruptcyTo(AbstractAssetHolder receiver){
-//        this.bankrupt = true;
-//        receiver.addAllProperties( this.getProperties() );
-//        this.getProperties().clear();
-//        this.setMoney( 0 );
-//    }
-
     public void declareBankruptcy(Bank bank){
-        this.bankrupt = true;
+        this.isBankrupt = true;
         bank.addAllProperties( this.getProperties() );
         this.getProperties().clear();
         this.setMoney( 0 );
     }
 
-//    public int getRoll(){
-//        return roll;
-//    }
-//
-//    public void setRoll(int roll){
-//        this.roll = roll;
-//    }
-
-    //assumption, can only pay if you have full amount
     @Override
     public void payFullAmountTo (AbstractAssetHolder receiver, Double debt){
 //        if(this.getMoney() > debt){
@@ -133,11 +85,14 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
 //        return totalAssetValue;
 //    }
 
+    /**
+     * Checks if the player owns all of the properties given
+     * @param properties
+     * @return boolean      whether player owns all Tiles
+     */
     public boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties) {
         return ownsSublistOfPropertiesIn( properties ).size() == properties.size();
     }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -151,13 +106,76 @@ public abstract class AbstractPlayer extends AbstractAssetHolder{
         return getMyPlayerName().equals(that.getMyPlayerName());
     }
 
+    /**
+     * Custom hashCoding for an AbstractPlayer based on
+     * its unique icon and name
+     * @return int      hashcode of AbstractPlayer
+     */
     @Override
     public int hashCode() {
-        // TODO: UNCOMMENT WHEN ICONS ARE DONE
-//        return Objects.hash(getIcon(), getMyPlayerName());
-        return Objects.hash(getMyPlayerName());
+        return Objects.hash(getMyIcon(), getMyPlayerName());
     }
 
+    /**
+     * Getter for the AbstractPlayer object's name
+     * @return String       player name
+     */
     public String getMyPlayerName() { return myPlayerName; }
+
+    /**
+     * Getter for the AbstractPlayer icon
+     * @return IconView     the icon of the Player
+     */
+    public IconView getMyIcon() { return myIcon; }
+
+    /**
+     * Getter for the number of turns in jail
+     * @return int      turns in jail
+     */
+    public int getTurnsInJail() { return turnsInJail; }
+
+    /**
+     * Called when going to jail to set value to 0
+     */
+    public void addTurnInJail() { turnsInJail += 1; }
+
+    /**
+     * Returns whether or not player is in jail
+     * @return boolean      whether player in jail
+     */
+    public boolean isInJail(){
+        return turnsInJail != -1;
+    }
+
+    /**
+     * Changes turnsInJail invariant for player not in jail
+     */
+    public void getOutOfJail(){
+        turnsInJail = -1;
+    }
+
+    /**
+     * Returns whether player is bankrupt or not
+     * @return boolean      whether player bankrupt
+     */
+    public Boolean isBankrupt(){
+        return isBankrupt;
+    }
+
+    /**
+     * Adds card to player's list of cards
+     * @param card
+     */
+    public void addCard(AbstractCard card){
+        cards.add( card );
+    }
+
+    /**
+     * Gets player's list of cards
+     * @return
+     */
+    public List<AbstractCard> getCards(){
+        return cards;
+    }
 
 }
