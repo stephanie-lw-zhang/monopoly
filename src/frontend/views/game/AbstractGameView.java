@@ -1,38 +1,55 @@
 package frontend.views.game;
 
-import configuration.ImportPropertyFile;
 import frontend.views.board.AbstractBoardView;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Alert;
+import javafx.scene.Scene;
+import javafx.scene.Node;
+
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Represents the abstract class of the View component
+ * of a Game
+ */
 abstract public class AbstractGameView {
-    private Scene myScene;
-    private AbstractBoardView myBoardView;
-    private BorderPane myPane;
 
+    private Scene             myScene;
+    private AbstractBoardView myBoardView;
+    private BorderPane        myPane;
+
+    /**
+     * AbstractGameView main constructor
+     * @param screenWidth
+     * @param screenHeight
+     */
     public AbstractGameView(double screenWidth, double screenHeight){
         setBoundsForEntireGame(screenWidth,screenHeight);
         divideScreen();
     }
+
     abstract public Node getGameViewNode();
     abstract public void setBoundsForEntireGame(double screenWidth, double screenHeight);
     abstract public void divideScreen();
+    abstract public void addBoardView();
     abstract public void addPlayerOptionsView();
     abstract public void setTurnActions(List<String> turnActions);
     abstract public String showInputTextDialog(String title, String header, String content);
 
+    /**
+     * Displays popup of actions
+     * @param info
+     */
     public void displayActionInfo(String info) {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
         formAlert.setContentText(info);
@@ -63,6 +80,4 @@ abstract public class AbstractGameView {
     }
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
-
-    public abstract Node getPane();
 }

@@ -175,7 +175,7 @@ public class RectangularBoardView extends AbstractBoardView {
      * @return Pane, the AnchorPane
      */
     @Override
-    public Pane getPane() {
+    public Node getBoardViewNode() {
         return myRoot;
     }
 

@@ -465,7 +465,7 @@ public class GameController {
     }
 
     public Node getGameNode() {
-        return myGameView.getPane();
+        return myGameView.getGameViewNode();
     }
 
     public ObservableList<String> getAllOptionNames(List<String> names) {
