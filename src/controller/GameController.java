@@ -157,7 +157,7 @@ public class GameController {
     private void handleRollButton() {
         myTurn.start();
         myTestScreen.updateDice(myTurn);
-        myTestScreen.getMyBoardView().move(myTurn.getNumMoves());
+        myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
 
         myTurn.move();
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
@@ -182,9 +182,15 @@ public class GameController {
 
     private void addHandlers(){
         handlerMap.put("AUCTION",event->this.handleAuction());
-//        handlerMap.put("BUY",event->this.handleBuy());
+        handlerMap.put("BUY",event-> {
+            try {
+                this.handleBuy();
+            } catch (IllegalActionOnImprovedPropertyException e) {
+                e.popUp();
+            }
+        });
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
-//        handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
+        handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("DRAW CARD",event->this.handleDrawCard());
         handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
         handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
@@ -295,7 +301,7 @@ public class GameController {
                 try {
                     amount = Double.parseDouble(value);
                 } catch (NumberFormatException n) {
-                    new IllegalInputTypeException("Input must be a number!");
+                    new IllegalInputTypeException("Input must be a number!").popUp();
                 }
                 List<String> options = listYesNoOptionsOnly();
                 String result = myTestScreen.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
@@ -320,9 +326,11 @@ public class GameController {
         } catch (MortgagePropertyException m) {
              m.popUp();
         } catch (IllegalActionOnImprovedPropertyException e) {
-            e.printStackTrace();
+            e.popUp();
+        } catch (IllegalInputTypeException e) {
+            e.doNothing();
         }
-   }
+    }
 
     private void handleSellToBank() {
 
@@ -385,27 +393,19 @@ public class GameController {
         return options;
     }
 
-    private AbstractPlayer getSelectedPlayer (String title, String prompt, ObservableList<String> players) {
+    private AbstractPlayer getSelectedPlayer (String title, String prompt, ObservableList<String> players) throws IllegalInputTypeException {
         String person = myTestScreen.displayDropDownAndReturnResult( title, prompt, players );
 
         AbstractPlayer player = null;
-        try {
-            player = getBoard().getPlayerFromName( person );
-        } catch (PlayerDoesNotExistException e) {
-            e.popUp();
-        }
+        player = getBoard().getPlayerFromName( person );
         return player;
     }
 
-    private AbstractPropertyTile getSelectedProperty (String title, String prompt, ObservableList<String> properties) {
+    private AbstractPropertyTile getSelectedProperty (String title, String prompt, ObservableList<String> properties) throws IllegalInputTypeException {
         String tile = myTestScreen.displayDropDownAndReturnResult( title, prompt, properties );
 
         AbstractPropertyTile property = null;
-        try {
-            property = (AbstractPropertyTile)getBoard().getTileFromName( tile );
-        } catch (TileNotFoundException e) {
-            e.popUp();
-        }
+        property = (AbstractPropertyTile)getBoard().getTileFromName( tile );
         return property;
     }
 }

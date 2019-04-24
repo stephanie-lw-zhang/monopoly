@@ -116,6 +116,7 @@ public class FormView extends GridPane {
      * @param playerToIcon
      */
     private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) {
+        // cleanPlayerIconMap();
         if (! this.hasEnoughPlayers()) {
             Alert formAlert = new Alert(Alert.AlertType.ERROR);
             formAlert.setContentText("Not enough players signed up! (need >= 2)");
@@ -128,7 +129,37 @@ public class FormView extends GridPane {
             formAlert.showAndWait();
             return;
         }
+//        if (this.hasDuplicateIcons(playerToIcon)) {
+//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
+//            formAlert.setContentText("Duplicate icons not allowed!");
+//            formAlert.showAndWait();
+//            return;
+//        }
+        // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
+    }
+
+    /**
+     * Clears playerIconMap of empty entries
+     * so that duplication errors can be
+     * accurately detected
+     */
+    private void cleanPlayerIconMap() {
+        for (TextField t : playerToIcon.keySet()) {
+            if (t.getText().equals("")) {
+                playerToIcon.remove(t);
+            }
+        }
+    }
+
+    private boolean hasDuplicateIcons(Map<TextField, ComboBox> playerToIcon) {
+        Set<String> set = new HashSet<>();
+        for (TextField t : playerToIcon.keySet()) {
+            set.add((String) playerToIcon.get(t).getValue());
+        }
+        System.out.println(playerToIcon.keySet().size());
+        System.out.println(set.size());
+        return playerToIcon.keySet().size() != set.size();
     }
 
     /**

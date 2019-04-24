@@ -10,11 +10,8 @@ import frontend.views.board.boardcomponents.*;
 import frontend.views.IconView;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import configuration.ImportPropertyFile;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -22,23 +19,25 @@ import javafx.scene.paint.Paint;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-
-public class RectangularBoardView extends AbstractBoardView{
-    private AbstractBoard myModel;
+public class RectangularBoardView extends AbstractBoardView {
     private AnchorPane myRoot;
     private double myScreenWidth, myScreenHeight;
     private int myHorizontals, myVerticals;
     private double myTileHeight;
-    private ImportPropertyFile myPropertyFile;
-    private ImportPropertyFile details;
-    private List<AbstractTileView> myTiles = new ArrayList<>();
+    private Map<IconView, Integer> iconToIndexMap;
+
+    // private ImportPropertyFile details;
+    private List<AbstractTileView> myTiles;
     private int myIndex=0;
 
     // TODO: myIcon will be replaced by List of Players from myBoard
-    private IconView myIcon;
+    // private IconView myIcon;
     private List<AbstractPlayer> myPlayerList;
+    private List<IconView> myIconList;
     // TODO: myIcon will be replaced by List of Players from myBoard
 
     private int myNumMoves;
@@ -47,14 +46,43 @@ public class RectangularBoardView extends AbstractBoardView{
     public RectangularBoardView(AbstractBoard board, double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
         super(screenWidth,screenHeight);
         myBoard = board;
+        myTiles = new ArrayList<>();
         myTileHeight = tileHeight;
         myHorizontals = horizontalTiles;
         myVerticals = verticalTiles;
 
-        myPlayerList = myBoard.getMyPlayerList();
-
         makeBoard();
         makeBackground();
+
+        myPlayerList = myBoard.getMyPlayerList();
+
+        setIconList();
+        setIconToIndexMap();
+        // initializePlayerIcons();
+
+    }
+
+    // TODO: NEED TO CATCH DUPLICATE ICON ERRORS
+    private void setIconToIndexMap() {
+        iconToIndexMap = new HashMap<>();
+        for (IconView i : myIconList) {
+            iconToIndexMap.put(i, 0); // assumes no duplicate icons for now
+        }
+    }
+
+    private void setIconList() {
+        myIconList = new ArrayList<>();
+        for (AbstractPlayer p : myPlayerList) {
+            p.getMyIcon().setHeight(myTileHeight / 2);
+            p.getMyIcon().setWidth( myTileHeight / 2);
+
+            myIconList.add(p.getMyIcon());
+        }
+    }
+
+    private void initializePlayerIcons() {
+         for (IconView icon : myIconList)
+            myTiles.get(0).moveTo(icon.getMyNode());
     }
 
     private void makeBackground() {
@@ -65,56 +93,6 @@ public class RectangularBoardView extends AbstractBoardView{
         // keeps board background color in line with boardview itself
         myRoot.maxWidthProperty().bind(myRoot.widthProperty());
         myRoot.maxHeightProperty().bind(myRoot.heightProperty());
-    }
-
-    public RectangularBoardView(AbstractBoard board, double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
-        super(screenWidth,screenHeight); //this constructor should probably be deleted
-        myTileHeight = tileHeight;
-        myHorizontals = horizontalTiles;
-        myVerticals = verticalTiles;
-        myPropertyFile=propertyFile;
-        myBoard = board;
-        //System.out.print(myPropertyFile);
-
-        //System.out.print(myPropertyFile.getProp("TileOName"));
-        makeBoard();
-        makeBackground();
-//        myTiles.sort(new Comparator<AbstractTileView>() {
-//            @Override
-//            public int compare(AbstractTileView o1, AbstractTileView o2) {
-//                return o1.getMyTileName().compareTo(o2.getMyTileName());
-//            }
-//        });
-        myIcon = new IconView(new Image("boot.png"));
-        System.out.println("icon:" + myIcon);
-        myIcon.setHeight(myTileHeight/2);
-        myIcon.setWidth(myTileHeight/2);
-
-//        Thread updateThread = new Thread(() -> {
-//            while (true) {
-//                try {
-//                    Thread.sleep(1000);
-//                    Platform.runLater(() -> this.movePieceDemo(test));
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-//        updateThread.setDaemon(true);
-//        updateThread.start();
-        //myModel = board;
-
-    }
-
-    private void movePieceDemo(IconView test) {
-        if(myNumMoves>0) {
-            if (myIndex >= myTiles.size()) {
-                myIndex = 0;
-            }
-            myTiles.get(myIndex).moveTo(test.getMyNode());
-            myIndex++;
-            myNumMoves--;
-        }
     }
 
     private double calculateTileWidth(double sideLength, double totalTiles){
@@ -146,6 +124,46 @@ public class RectangularBoardView extends AbstractBoardView{
     public Pane getPane() {
         return myRoot;
     }
+
+    public void move(IconView icon, int nMoves) {
+        myNumMoves = nMoves; // update invariant myNumMoves
+        Thread updateThread = new Thread(() -> {
+            while(myNumMoves>0) {
+                try {
+                    Thread.sleep(300);
+                    Platform.runLater(() -> this.movePieceDemo(icon));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        updateThread.setDaemon(true);
+        updateThread.start();
+    }
+
+    private void movePieceDemo(IconView icon) {
+        if(myNumMoves>0) {
+            if (iconToIndexMap.get(icon) >= myTiles.size()) {
+                iconToIndexMap.put(icon, 0);
+            }
+            myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
+            // myTiles.get(myIndex).moveTo(icon.getMyNode());
+//            myIndex++;
+            iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
+            myNumMoves--;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     private void makeBottomRow() {
         for(int i = 1; i<10;i++){
@@ -282,7 +300,7 @@ public class RectangularBoardView extends AbstractBoardView{
         Node tileNode = tile.getNodeOfTileView();
 
         //System.out.print("Prop tile Set");
-        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
+        // tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         tileNode.setRotate(rotationAngle);
         if(rotationAngle==0) {
             myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
@@ -302,26 +320,6 @@ public class RectangularBoardView extends AbstractBoardView{
         myTiles.add(tile);
     }
 
-    private void showTileClickedAlert(ImportPropertyFile details) {
-        //System.out.print("BANG!");
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(details.getProp("TileName"));
-        alert.setHeaderText("tile Info:");
-        alert.setContentText(
-                "tile Price = " + details.getProp("TilePrice")+"\n"+
-                        "tile Rent = " + details.getProp("TileRent") +"\n" +
-                        "tile Rent with Color Set = " + details.getProp("TileRentWithColorSet") +"\n" +
-                        "tile Rent with 1 House = " + details.getProp("TileRent1House") +"\n" +
-                        "tile Rent with 2 Houses = " + details.getProp("TileRent2House") +"\n" +
-                        "tile Rent with 3 Houses = " + details.getProp("TileRent3House") +"\n" +
-                        "tile Rent with 4 Houses = " + details.getProp("TileRent4House") +"\n" +
-                        "tile Rent with Hotel = " + details.getProp("TileRentHotel") +"\n" +
-                        "tile Mortgage Value = " + details.getProp("TileMortgageValue") +"\n" +
-                        "tile House Price = " + details.getProp("TileHousePrice") +"\n" +
-                        "tile Hotel Price = " + details.getProp("TileHotelPrice") +"\n");
-        alert.showAndWait();
-    }
-
     public void placeNonPropertyTile(String tileName, //ImportPropertyFile details,
                                      String tileDescription,
                                      int xoffset,
@@ -335,7 +333,7 @@ public class RectangularBoardView extends AbstractBoardView{
         Node tileNode = tile.getNodeOfTileView();
 //        System.out.print("Nonprop tile Set");
 
-        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
+        // tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
         tileNode.setRotate(rotationAngle);
 
         if(rotationAngle==0) {
@@ -357,21 +355,20 @@ public class RectangularBoardView extends AbstractBoardView{
     }
 
     public void placeCornerTile(String tileName,
-                                String details,
                                 String tileDescription,
                                 String tileColor,
                                 double xDiff,
                                 double yDiff){
         var width = myTileHeight;
         var height = myTileHeight;
-        var tile = new CornerTileView(tileName, details, tileDescription, tileColor);
+        var tile = new CornerTileView(tileName, tileDescription, tileColor);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
         myRoot.setTopAnchor(tileNode, (myScreenHeight-height)*yDiff);
         myRoot.setLeftAnchor(tileNode, (myScreenWidth-width)*xDiff);
-        ImportPropertyFile deets = new ImportPropertyFile(details);
+//        ImportPropertyFile deets = new ImportPropertyFile(details);
 
-        tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
+        // tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
     }
 
@@ -383,29 +380,61 @@ public class RectangularBoardView extends AbstractBoardView{
         Tile tileTwenty = myBoard.getTilesIndex(20);
         Tile tileThirty = myBoard.getTilesIndex(30);
 
-        placeCornerTile(tileZero.getTileType(), "", tileZero.getTileType(), "clear", 1, 1);
-        placeCornerTile(tileTen.getTileType(), "", tileTen.getTileType(), "clear", 0, 1);
-        placeCornerTile(tileTwenty.getTileType(), "", tileTwenty.getTileType(), "clear", 0, 0);
-        placeCornerTile(tileThirty.getTileType(), "", tileThirty.getTileType(), "clear", 1, 0);
-    }
-
-    public void move(int nMoves) {
-        myNumMoves = nMoves; // update invariant myNumMoves
-        Thread updateThread = new Thread(() -> {
-            while(myNumMoves>0) {
-                try {
-                    Thread.sleep(300);
-                    Platform.runLater(() -> this.movePieceDemo(myIcon));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        updateThread.setDaemon(true);
-        updateThread.start();
+        placeCornerTile(tileZero.getTileType(), tileZero.getTileType(), "clear", 1, 1);
+        placeCornerTile(tileTen.getTileType(), tileTen.getTileType(), "clear", 0, 1);
+        placeCornerTile(tileTwenty.getTileType(), tileTwenty.getTileType(), "clear", 0, 0);
+        placeCornerTile(tileThirty.getTileType(), tileThirty.getTileType(), "clear", 1, 0);
     }
 
     private void moveHelper(int i) {
 
     }
+
+    //    public RectangularBoardView(AbstractBoard board, double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
+//        super(screenWidth,screenHeight); //this constructor should probably be deleted
+//        myTileHeight = tileHeight;
+//        myHorizontals = horizontalTiles;
+//        myVerticals = verticalTiles;
+//        myPropertyFile=propertyFile;
+//        myBoard = board;
+//
+//        makeBoard();
+//        makeBackground();
+//        myTiles.sort(new Comparator<AbstractTileView>() {
+//            @Override
+//            public int compare(AbstractTileView o1, AbstractTileView o2) {
+//                return o1.getMyTileName().compareTo(o2.getMyTileName());
+//            }
+//        });
+//        myIcon = new IconView(new Image(this.getClass().getClassLoader().getResourceAsStream("boot.png")));
+//        myIcon.setHeight(myTileHeight/2);
+//        myIcon.setWidth(myTileHeight/2);
+//    }
+
+
+    //TODO: FOR MATT
+/**
+ * TO DiSPLAY TILE POPUPS ON CLICK OF TILE
+ *
+ * FIND THIS LINE OF CODE IN PLACEPROP and PLACENONPROP methods
+ */
+//    private void showTileClickedAlert(ImportPropertyFile details) {
+//        //System.out.print("BANG!");
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle(details.getProp("TileName"));
+//        alert.setHeaderText("tile Info:");
+//        alert.setContentText(
+//                "tile Price = " + details.getProp("TilePrice")+"\n"+
+//                        "tile Rent = " + details.getProp("TileRent") +"\n" +
+//                        "tile Rent with Color Set = " + details.getProp("TileRentWithColorSet") +"\n" +
+//                        "tile Rent with 1 House = " + details.getProp("TileRent1House") +"\n" +
+//                        "tile Rent with 2 Houses = " + details.getProp("TileRent2House") +"\n" +
+//                        "tile Rent with 3 Houses = " + details.getProp("TileRent3House") +"\n" +
+//                        "tile Rent with 4 Houses = " + details.getProp("TileRent4House") +"\n" +
+//                        "tile Rent with Hotel = " + details.getProp("TileRentHotel") +"\n" +
+//                        "tile Mortgage Value = " + details.getProp("TileMortgageValue") +"\n" +
+//                        "tile House Price = " + details.getProp("TileHousePrice") +"\n" +
+//                        "tile Hotel Price = " + details.getProp("TileHotelPrice") +"\n");
+//        alert.showAndWait();
+//    }
 }

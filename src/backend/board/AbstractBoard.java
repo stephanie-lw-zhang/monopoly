@@ -132,14 +132,13 @@ public abstract class AbstractBoard {
         return null; //change this !!!
     }
 
-    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException {
+    public AbstractPlayer getPlayerFromName(String name) {
         for(AbstractPlayer p: myPlayerList){
             if (p.getMyPlayerName().equalsIgnoreCase( name )){
                 return p;
             }
         }
-
-        throw new PlayerDoesNotExistException( "Player does not exist" );
+        return null;
         //THROW EXCEPTION "THIS PLAYER DOES NOT EXIST"
     }
 
@@ -159,7 +158,7 @@ public abstract class AbstractBoard {
         return tileStrings;
     }
 
-    public Tile getTileFromName(String name) throws TileNotFoundException {
+    public Tile getTileFromName(String name) {
         for (Tile t : adjacencyMap.keySet()) {
             if (t.isPropertyTile()) {
                 AbstractPropertyTile property = (AbstractPropertyTile)t;
@@ -168,7 +167,7 @@ public abstract class AbstractBoard {
                 }
             }
         }
-        throw new TileNotFoundException("Tile does not exist!");
+        return null;
     }
 
     public List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {

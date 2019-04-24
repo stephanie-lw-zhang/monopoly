@@ -12,12 +12,10 @@ public class CornerTileView extends AbstractTileView {
 
     private double mySideLength;
     private StackPane myRoot;
-    String myDetails;
 
-    public CornerTileView(String name, String details, String description, String color) {
+    public CornerTileView(String name, String description, String color) {
         super(name, description);
         myRoot = new StackPane();
-        myDetails = details;
     }
 
     @Override
