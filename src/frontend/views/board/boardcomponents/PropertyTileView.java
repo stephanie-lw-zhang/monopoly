@@ -72,11 +72,21 @@ public class PropertyTileView extends AbstractTileView {
         myRoot.getChildren().remove(n);
     }
 
+    /**
+     * Returns the StackPane of the PropertyTileView
+     * @return Node         a StackPane
+     */
     @Override
     public Node getNodeOfTileView() {
         return myRoot;
     }
 
+    /**
+     * Creates a TileView by adding all the elements of
+     * the TileView to the StackPane root including the
+     * border of the tile, the label & text of tile
+     * @param dimensions
+     */
     @Override
     public void makeTileViewNode(double[] dimensions) {
         myWidth = dimensions[0];
@@ -85,7 +95,6 @@ public class PropertyTileView extends AbstractTileView {
         myRoot.getChildren().add(makeBorder());
         myRoot.getChildren().add(makeLabel());
         myRoot.getChildren().add(makeText());
-
     }
 
     private Node makeBorder() {

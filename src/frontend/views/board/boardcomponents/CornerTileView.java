@@ -24,8 +24,9 @@ public class CornerTileView extends AbstractTileView {
      * CornerTileView main constructor
      * @param name
      * @param description
+     * @param color
      */
-    public CornerTileView(String name, String description) {
+    public CornerTileView(String name, String description, String color) {
         super(name, description);
         myRoot = new StackPane();
     }

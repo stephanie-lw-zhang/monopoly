@@ -32,20 +32,28 @@ import java.util.Map;
  * @author Sam
  */
 public class RectangularBoardView extends AbstractBoardView {
-    private AnchorPane myRoot;
-    private double myScreenWidth, myScreenHeight;
-    private int myHorizontals, myVerticals;
-    private double myTileHeight;
+
+    private AnchorPane             myRoot;
+    private double                 myTileHeight;
+    private double                 myScreenWidth, myScreenHeight;
+    private int                    myHorizontals, myVerticals;
+
     private Map<IconView, Integer> iconToIndexMap;
-
+    private List<AbstractPlayer>   myPlayerList;
     private List<AbstractTileView> myTiles;
+    private List<IconView>         myIconList;
+    private AbstractBoard          myBoard;
+    private int                    myNumMoves;
 
-    private List<AbstractPlayer> myPlayerList;
-    private List<IconView> myIconList;
-
-    private int myNumMoves;
-    private AbstractBoard myBoard;
-
+    /**
+     * RectangularBoardView main constructor
+     * @param board
+     * @param screenWidth
+     * @param screenHeight
+     * @param tileHeight
+     * @param horizontalTiles
+     * @param verticalTiles
+     */
     public RectangularBoardView(AbstractBoard board, double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles){
         super(screenWidth,screenHeight);
         myBoard = board;
@@ -293,7 +301,7 @@ public class RectangularBoardView extends AbstractBoardView {
     public void placeDeck(String tileName,
                           String tileDescription,
                           double width, double length, double prop){
-        var tile = new NormalDeckView(tileName,tileDescription,"");
+        var tile = new NormalDeckView(tileName,tileDescription);
         var height = length;
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
@@ -343,7 +351,7 @@ public class RectangularBoardView extends AbstractBoardView {
                                      int yoffset,
                                      int totalTiles,
                                      double sideLength,double rotationAngle){
-        var tile = new RectangularTileView(tileName, tileDescription,"");
+        var tile = new RectangularTileView(tileName, tileDescription);
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
