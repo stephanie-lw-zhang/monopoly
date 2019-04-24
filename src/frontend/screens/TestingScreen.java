@@ -45,21 +45,17 @@ import java.util.*;
  */
 public class TestingScreen extends AbstractScreen {
 
-    private ImportPropertyFile   myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
     private SquareBoardView      myBoardView;
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
     private GameController       myGame;
-    private double               screenWidth;
-    private double               screenHeight;
     private LogView              myLogView;
     private XMLData              myData;
 
     private TextArea             fundsDisplay;
-    private TabPane allPlayerProperties;
-    private ObservableList<ImageView> myIconsList;
+    private TabPane              allPlayerProperties;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
@@ -77,27 +73,38 @@ public class TestingScreen extends AbstractScreen {
     private final Button UNMORTGAGE_BUTTON = new Button("Unmortgage");
     private final Button SELL_TO_PLAYER = new Button("SELL TO PLAYER");
 
-
-
+    /**
+     * TestingScreen main constructor
+     * @param width
+     * @param height
+     * @param stage
+     */
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
-        screenWidth = width;
-        screenHeight = height;
         try {
             myData = new XMLData("OriginalMonopoly.xml");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        myScene = makeScreen();
+        myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
+        // Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
+        // myScene.setCursor(new ImageCursor(myCursor));
     }
 
+    /**
+     * Overridden makeScreen method to generate the scene of the
+     * TestingScreen
+     * @return Scene        the Scene node of the Screen
+     */
     @Override
-    public void makeScreen() {
+    public Scene makeScreen() {
         BorderPane bPane = new BorderPane();
-        // myScene.getStylesheets().add("../../../resources/stylesheet.css");
         backgroundImg.setSmooth(true);
         backgroundImg.setCache(true);
-        backgroundImg.setFitWidth(screenWidth);
-        backgroundImg.setFitHeight(screenHeight);
+        backgroundImg.setFitWidth(getScreenWidth());
+        backgroundImg.setFitHeight(getScreenHeight());
 
         myFormView = new FormView(this);
 
@@ -123,10 +130,7 @@ public class TestingScreen extends AbstractScreen {
         bPane.setMargin(backButton, new Insets(35,0,-30,0));
         bPane.setCenter(myFormView);
 
-        myScene = new Scene(bPane, screenWidth, screenHeight);
-//        Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
-//        myScene.setCursor(new ImageCursor(myCursor));
-        myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
+        return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
     public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
@@ -136,13 +140,11 @@ public class TestingScreen extends AbstractScreen {
                 playerToIcon
         );
 
-        XMLData data = null;
-        try {
-            data = new XMLData("OriginalMonopoly.xml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        myBoardView = new SquareBoardView(new StandardBoard(myGame.getBoard().getMyPlayerList(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
+        myBoardView = new SquareBoardView(
+                new StandardBoard(myGame.getBoard().getMyPlayerList(), myData),
+                getScreenWidth()*0.5, getScreenHeight()*0.9,
+                90,11,11
+        );
 
         BorderPane bPane = (BorderPane) myScene.getRoot();
 
@@ -554,8 +556,4 @@ public class TestingScreen extends AbstractScreen {
         return myScene;
     }
     public AbstractBoardView getMyBoardView() { return myBoardView; }
-
-    public FormView getMyFormView() {
-        return myFormView;
-    }
 }
