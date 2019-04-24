@@ -54,7 +54,7 @@ public class DiceView extends HBox {
     private List<ImageView> makeDiceIcons() {
         List<ImageView> list = new ArrayList<>();
 
-        for (int i = 0; i < myNumDie; i++) {
+        for (int i = 0; i < myNumDie; i++) { // specifies how many dice icons are made
             ImageView icon = new ImageView(
                     new Image(this.getClass().getClassLoader().getResourceAsStream(
                             "dice" + (new Random().nextInt(myNumDieStates) + 1) + ".png"
