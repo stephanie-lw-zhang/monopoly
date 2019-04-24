@@ -2,6 +2,8 @@ package frontend.views.player_options;
 
 import controller.Turn;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
@@ -9,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
-import javafx.collections.ObservableList;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,9 +30,10 @@ public class DiceView extends HBox {
     private final MediaPlayer         diceRollSound = new MediaPlayer(
                                                       new Media(new File("./data/diceRoll.mp3")
                                                                                     .toURI().toString()));
-    private List<RotateTransition>    rTList;
+    private List<RotateTransition>    myRTList;
     private List<ImageView>           myDiceIcons;
     private String                    myPopupText;
+    private int[]                     myRolls;
     private int                       myNumDieStates;
     private int                       myNumDie;
 
@@ -45,10 +47,9 @@ public class DiceView extends HBox {
         myNumDieStates = nDieStates;
         myNumDie = nDie;
         myDiceIcons = makeDiceIcons();
-        rTList = new ArrayList<>();
+        myRTList = makeRTList();
 
         this.getChildren().addAll(myDiceIcons);
-        this.setAlignment(Pos.CENTER_LEFT);
     }
 
     private List<ImageView> makeDiceIcons() {
@@ -69,38 +70,43 @@ public class DiceView extends HBox {
         return list;
     }
 
-    /**
-     * Specifies what actions occur on update (i.e. after a roll)
-     * @param turn
-     */
-    public void onUpdate(final Turn turn) {
-        playDiceAnimation((List) this.getChildren(), turn.getRolls());
-        displayRollsPopup(turn);
+    private List<RotateTransition> makeRTList() {
+        List<RotateTransition> list = new ArrayList<>();
+
+        for (int i = 0; i < myDiceIcons.size(); i++) {
+            int currIndex = i;
+            RotateTransition rt = new RotateTransition(Duration.seconds(1.5), myDiceIcons.get(i));
+            rt.setFromAngle(0);
+            rt.setToAngle(720);
+            rt.setOnFinished(e -> setDice(myDiceIcons.get(currIndex), myRolls[currIndex]));
+
+            list.add(rt);
+        }
+        return list;
+    }
+
+    private void setDice(ImageView diceIcon, final int roll) {
+        diceIcon.setImage(new Image(
+                this.getClass().getClassLoader().getResourceAsStream(
+                        "dice" + roll + ".png"
+                ))
+        );
     }
 
     // TODO: MAKE REFLECTION TO MAKE ROTATETRANSITIONS GIVEN DICEVIEWS/ROLLS
-    public void playDiceAnimation(List<ImageView> diceImageViews, int[] rolls) {
-        playSound();
-        RotateTransition rt1 = new RotateTransition(Duration.seconds(1.5), diceImageViews.get(0));
-        RotateTransition rt2 = new RotateTransition(Duration.seconds(1.5), diceImageViews.get(1));
-        rt1.setFromAngle(0);
-        rt1.setToAngle(720);
-        rt2.setFromAngle(0);
-        rt2.setToAngle(720);
-        rt1.setOnFinished(e -> setDice(diceImageViews.get(0), rolls[0]));
-        rt2.setOnFinished(e -> setDice(diceImageViews.get(1), rolls[1]));
-        rt1.play();
-        rt2.play();
-    }
-
-    private void setDice(ImageView diceView, final int roll) {
-        diceView.setImage(new Image(
-                this.getClass()
-                        .getClassLoader()
-                        .getResourceAsStream(
-                                "dice" + roll + ".png"
-                        )
-        ));
+    public void playDiceAnimation(List<ImageView> diceIcons) {
+        playDiceSound();
+//        RotateTransition rt1 = new RotateTransition(Duration.seconds(1.5), diceIcons.get(0));
+//        RotateTransition rt2 = new RotateTransition(Duration.seconds(1.5), diceIcons.get(1));
+//        rt1.setFromAngle(0);
+//        rt1.setToAngle(720);
+//        rt2.setFromAngle(0);
+//        rt2.setToAngle(720);
+//        rt1.setOnFinished(e -> setDice(diceIcons.get(0), rolls[0]));
+//        rt2.setOnFinished(e -> setDice(diceIcons.get(1), rolls[1]));
+        for (RotateTransition rt : myRTList) {
+            rt.play();
+        }
     }
 
     public void displayRollsPopup(final Turn turn) {
@@ -111,10 +117,25 @@ public class DiceView extends HBox {
         alert.showAndWait();
     }
 
-    private void playSound() {
+
+    /**
+     * Specifies what actions occur on update (i.e. after a roll)
+     * @param turn
+     */
+    public void onUpdate(final Turn turn) {
+        myRolls = turn.getRolls();
+        playDiceAnimation(myDiceIcons);
+        displayRollsPopup(turn);
+    }
+
+    private void playDiceSound() {
         diceRollSound.play();
     }
 
+    /**
+     * Getter for the text to be displayed post-roll
+     * @return String       text for the roll
+     */
     public String getMyPopupText() {
         return myPopupText;
     }
