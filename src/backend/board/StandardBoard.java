@@ -7,6 +7,7 @@ package backend.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
+import backend.exceptions.TileNotFoundException;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.XMLData;
@@ -37,8 +38,12 @@ public class StandardBoard extends AbstractBoard {
                 tile = next;
                 //tile.applyPassedAction(p);
             }
-            if(tile.isGoToJailTile()) tile = getJailTile();
-            getPlayerTileMap().put(p, tile);
+            try {
+                if(tile.isGoToJailTile()) tile = getJailTile();
+                getPlayerTileMap().put(p, tile);
+            } catch (TileNotFoundException e) {
+                e.printStackTrace();
+            }
     }
 
     @Override

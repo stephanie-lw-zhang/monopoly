@@ -9,6 +9,7 @@ import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.TileNotFoundException;
 import backend.exceptions.ImprovedPropertyException;
 import backend.exceptions.MortgagePropertyException;
 import backend.tile.AbstractTaxTile;
@@ -141,11 +142,11 @@ public class GameController {
 
         // TODO: SIMILAR AS TODO ABOVE, SHOULDN'T HARDCODE FOR 0th ELEMENT
         // TODO: In VBOX FOR INNER HBOX
-        Button rollButton = (Button) playerOptionsModal.getChildren().get(1);
+        Button rollButton = (Button) playerOptionsModal.getChildren().get(2);
         rollButton.setOnAction(f -> handleRollButton());
 
         // TODO: REFLECTION FOR ALL OF THIS
-        Button endTurnButton = (Button) playerOptionsModal.getChildren().get(4);
+        Button endTurnButton = (Button) playerOptionsModal.getChildren().get(5);
         endTurnButton.setOnAction(f -> handleEndTurnButton());
     }
 
@@ -218,9 +219,14 @@ public class GameController {
     }
 
     private void handlePayBail(){
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBank, myBoard.getJailTile().getBailAmount() );
-        myBoard.getJailTile().removeCriminal( myTurn.getMyCurrPlayer() );
-        myGameView.displayActionInfo( "You've successfully paid bail. You're free now!" );
+        try {
+            myTurn.getMyCurrPlayer().payFullAmountTo(myBank, myBoard.getJailTile().getBailAmount());
+            myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
+            myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
+        } catch (TileNotFoundException e) {
+            e.printStackTrace();
+
+        }
     }
 
     private void handleMortgage(AbstractPropertyTile property){
