@@ -121,11 +121,14 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void completeStage(Stage stage, AbstractScreen menu) {
-        menu.makeScreen();
         stage.close();
         stage.setScene((menu.getMyScene()));
         stage.show();
     }
 
+    /**
+     * Getter of the Scene
+     * @return
+     */
     public Scene getMyIntroScene() { return myScene; }
 }

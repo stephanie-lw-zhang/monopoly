@@ -43,7 +43,7 @@ public class AbstractScreen extends Handlers {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myStage = stage;
-        myScene = makeScreen();
+        // myScene = makeScreen();
     }
 
     public Scene makeScreen() {

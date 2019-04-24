@@ -45,7 +45,7 @@ import java.util.*;
  */
 public class TestingScreen extends AbstractScreen {
 
-    private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
+    private final ImageView      backgroundImg;
     private SquareBoardView      myBoardView;
     private DiceView             myDiceView;
     private FormView             myFormView;
@@ -87,16 +87,16 @@ public class TestingScreen extends AbstractScreen {
             e.printStackTrace();
         }
 
+        backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
         myScene = makeScreen();
         myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
-        // Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
-        // myScene.setCursor(new ImageCursor(myCursor));
+        //        Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
+//        myScene.setCursor(new ImageCursor(myCursor));
     }
 
     /**
-     * Overridden makeScreen method to generate the scene of the
-     * TestingScreen
-     * @return Scene        the Scene node of the Screen
+     * Overridden makeScreen method for TestingScreen
+     * @return
      */
     @Override
     public Scene makeScreen() {
@@ -133,6 +133,13 @@ public class TestingScreen extends AbstractScreen {
         return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
+    /**
+     * Handles start of game
+     *
+     * TODO: REFACATOR TO GAMESETUPCONTROLLER
+     *
+     * @param playerToIcon
+     */
     public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
         myGame = new GameController(
                 this,
@@ -353,14 +360,6 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
-    }
-
-    private ObservableList<String> getAllPlayerNames() {
-        ObservableList<String> players = FXCollections.observableArrayList();
-        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList()) {
-            players.add( p.getMyPlayerName() );
-        }
-        return players;
     }
 
     //TODO: delete these (FOR TESTING rn)
