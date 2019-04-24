@@ -23,6 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the generalized View of a rectangular Monopoly Board
+ * consisting of TileViews and Icons.
+ *
+ * @author Edward
+ * @author Sam
+ */
 public class RectangularBoardView extends AbstractBoardView {
     private AnchorPane myRoot;
     private double myScreenWidth, myScreenHeight;
@@ -30,15 +37,10 @@ public class RectangularBoardView extends AbstractBoardView {
     private double myTileHeight;
     private Map<IconView, Integer> iconToIndexMap;
 
-    // private ImportPropertyFile details;
     private List<AbstractTileView> myTiles;
-    private int myIndex=0;
 
-    // TODO: myIcon will be replaced by List of Players from myBoard
-    // private IconView myIcon;
     private List<AbstractPlayer> myPlayerList;
     private List<IconView> myIconList;
-    // TODO: myIcon will be replaced by List of Players from myBoard
 
     private int myNumMoves;
     private AbstractBoard myBoard;
@@ -53,21 +55,16 @@ public class RectangularBoardView extends AbstractBoardView {
 
         makeBoard();
         makeBackground();
-
         myPlayerList = myBoard.getMyPlayerList();
-
         setIconList();
         setIconToIndexMap();
         // initializePlayerIcons();
-
     }
 
-    // TODO: NEED TO CATCH DUPLICATE ICON ERRORS
     private void setIconToIndexMap() {
         iconToIndexMap = new HashMap<>();
-        for (IconView i : myIconList) {
-            iconToIndexMap.put(i, 0); // assumes no duplicate icons for now
-        }
+        for (IconView i : myIconList)
+            iconToIndexMap.put(i, 0);
     }
 
     private void setIconList() {
@@ -90,7 +87,7 @@ public class RectangularBoardView extends AbstractBoardView {
         Background boardBackGround = new Background(boardBackgroundFill);
         myRoot.setBackground(boardBackGround);
 
-        // keeps board background color in line with boardview itself
+        /* keeps board background color in line with view itself */
         myRoot.maxWidthProperty().bind(myRoot.widthProperty());
         myRoot.maxHeightProperty().bind(myRoot.heightProperty());
     }
@@ -99,18 +96,29 @@ public class RectangularBoardView extends AbstractBoardView {
         return (sideLength-myTileHeight*2)/(totalTiles-2);
     }
 
+    /**
+     * Setter of the RectangularBoardView object's AnchorPane
+     */
     @Override
     public void setRoot() {
         myRoot = new AnchorPane();
     }
 
+    /**
+     * Defines the given Screen dimensions
+     * @param screenWidth
+     * @param screenHeight
+     */
     @Override
     public void setScreenLimits(double screenWidth, double screenHeight) {
         myScreenHeight = screenHeight;
         myScreenWidth = screenWidth;
     }
 
-    public void makeBoard(){
+    /**
+     * Lays out the RectangularBoardView TileViews
+     */
+    public void makeBoard() {
         makeCorners();
         makeBottomRow();
         makeLeftRow();
@@ -120,11 +128,21 @@ public class RectangularBoardView extends AbstractBoardView {
         placeDeck("Chance","",100,50,0.25);
     }
 
+    /**
+     * Returns the AnchorPane of the RectangularBoardView
+     * @return Pane, the AnchorPane
+     */
     @Override
     public Pane getPane() {
         return myRoot;
     }
 
+    /**
+     * This method dictates the movement of a particular
+     * player icon on the board for the given number of moves
+     * @param icon      the IconView of the player to move
+     * @param nMoves    the number of moves the icon moves
+     */
     public void move(IconView icon, int nMoves) {
         myNumMoves = nMoves; // update invariant myNumMoves
         Thread updateThread = new Thread(() -> {
@@ -147,8 +165,6 @@ public class RectangularBoardView extends AbstractBoardView {
                 iconToIndexMap.put(icon, 0);
             }
             myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
-            // myTiles.get(myIndex).moveTo(icon.getMyNode());
-//            myIndex++;
             iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
             myNumMoves--;
         }
@@ -385,32 +401,6 @@ public class RectangularBoardView extends AbstractBoardView {
         placeCornerTile(tileTwenty.getTileType(), tileTwenty.getTileType(), "clear", 0, 0);
         placeCornerTile(tileThirty.getTileType(), tileThirty.getTileType(), "clear", 1, 0);
     }
-
-    private void moveHelper(int i) {
-
-    }
-
-    //    public RectangularBoardView(AbstractBoard board, double screenWidth, double screenHeight, double tileHeight, int horizontalTiles, int verticalTiles, ImportPropertyFile propertyFile){
-//        super(screenWidth,screenHeight); //this constructor should probably be deleted
-//        myTileHeight = tileHeight;
-//        myHorizontals = horizontalTiles;
-//        myVerticals = verticalTiles;
-//        myPropertyFile=propertyFile;
-//        myBoard = board;
-//
-//        makeBoard();
-//        makeBackground();
-//        myTiles.sort(new Comparator<AbstractTileView>() {
-//            @Override
-//            public int compare(AbstractTileView o1, AbstractTileView o2) {
-//                return o1.getMyTileName().compareTo(o2.getMyTileName());
-//            }
-//        });
-//        myIcon = new IconView(new Image(this.getClass().getClassLoader().getResourceAsStream("boot.png")));
-//        myIcon.setHeight(myTileHeight/2);
-//        myIcon.setWidth(myTileHeight/2);
-//    }
-
 
     //TODO: FOR MATT
 /**
