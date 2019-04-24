@@ -209,6 +209,7 @@ public class GameController {
     }
 
     private void upgradeProperty() {
+        
     }
 
     private void handleCollectMoney() {
