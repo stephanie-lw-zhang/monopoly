@@ -1,14 +1,16 @@
 package engine;
 
+import javafx.application.Application;
+
 import controller.GameController;
 import frontend.ViewMaker;
-import javafx.application.Application;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
