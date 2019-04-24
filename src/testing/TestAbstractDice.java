@@ -6,6 +6,10 @@ import backend.dice.SixDice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
 class TestAbstractDice {
 
     AbstractDice sixDice;
@@ -18,7 +22,15 @@ class TestAbstractDice {
     }
 
     @Test
-    void testRoll() {
+    void testSixDiceRoll() {
+        int actual = sixDice.roll();
+        assertTrue(actual > 0 && actual <=6 );
 
+    }
+
+    @Test
+    void testTwelveDiceRoll(){
+        int actual = nDice.roll();
+        assertTrue(actual > 0 && actual <=12 );
     }
 }

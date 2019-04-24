@@ -6,6 +6,7 @@ import backend.dice.SixDice;
 import backend.exceptions.IllegalInputTypeException;
 import backend.exceptions.ImprovedPropertyException;
 import backend.exceptions.MortgagePropertyException;
+import backend.exceptions.PlayerDoesNotExistException;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.BuildingTile;
 import configuration.ImportPropertyFile;
@@ -235,6 +236,8 @@ public class TestingScreen extends AbstractScreen {
                     e.popUp();
                 } catch (ImprovedPropertyException e) {
                     e.popUp();
+                } catch (PlayerDoesNotExistException e){
+                    e.popUp();
                 }
 
             }
@@ -335,30 +338,34 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
-                ObservableList<String> players = getAllPlayerNames();
-                String player = displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
-                AbstractPlayer forfeiter = myGame.getBoard().getPlayerFromName( player );
+                try {
+                    ObservableList<String> players = getAllPlayerNames();
+                    String player = displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
+                    AbstractPlayer forfeiter = myGame.getBoard().getPlayerFromName( player );
 
 //                System.out.println("initial money:" + player.getMoney());
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
-                forfeiter.declareBankruptcy(myGame.getBoard().getBank());
-                myGame.getBoard().getMyPlayerList().remove( forfeiter );
-                myGame.getBoard().getPlayerTileMap().remove( forfeiter );
-                //MUST REMOVE FROM FRONT END
+                    forfeiter.declareBankruptcy(myGame.getBoard().getBank());
+                    myGame.getBoard().getMyPlayerList().remove( forfeiter );
+                    myGame.getBoard().getPlayerTileMap().remove( forfeiter );
+                    //MUST REMOVE FROM FRONT END
 
 //                System.out.println("After money:" + player.getMoney());
 //                System.out.println("initial properties:" + player.getProperties());
 //                System.out.println("initial bankruptcy: "+ player.isBankrupt());
 
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
-                updatePlayerFundsDisplay();
-                for(Tab tab: allPlayerProperties.getTabs()){
-                    if(tab.getText().equalsIgnoreCase( player )){
-                        allPlayerProperties.getTabs().remove(tab);
+                    updatePlayerFundsDisplay();
+                    for(Tab tab: allPlayerProperties.getTabs()){
+                        if(tab.getText().equalsIgnoreCase( player )){
+                            allPlayerProperties.getTabs().remove(tab);
+                        }
                     }
+                    updatePlayerPropertiesDisplay();
+                } catch (PlayerDoesNotExistException e) {
+                    e.popUp();
                 }
-                updatePlayerPropertiesDisplay();
 
             }
         });
@@ -477,15 +484,19 @@ public class TestingScreen extends AbstractScreen {
         }
         allPlayerProperties.setMaxHeight( 200 );
         allPlayerProperties.setMaxWidth( 200 );
+        allPlayerProperties.setTabClosingPolicy( TabPane.TabClosingPolicy.UNAVAILABLE);
         return allPlayerProperties;
 
     }
 
     private void updatePlayerPropertiesDisplay() {
-        System.out.println(allPlayerProperties.getTabs());
-        for(Tab tab: allPlayerProperties.getTabs()){
-            AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
-            writeInPlayerProperties(player, tab);
+        try {
+            for(Tab tab: allPlayerProperties.getTabs()){
+                AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
+                writeInPlayerProperties(player, tab);
+            }
+        } catch (PlayerDoesNotExistException e) {
+            e.popUp();
         }
 
     }
