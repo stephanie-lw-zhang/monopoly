@@ -12,6 +12,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
+import backend.exceptions.PlayerDoesNotExistException;
 import backend.exceptions.TileNotFoundException;
 import backend.tile.GoTile;
 import backend.tile.JailTile;
@@ -131,7 +132,7 @@ public abstract class AbstractBoard {
         return null; //change this !!!
     }
 
-    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException{
+    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException {
         for(AbstractPlayer p: myPlayerList){
             if (p.getMyPlayerName().equalsIgnoreCase( name )){
                 return p;
@@ -140,6 +141,38 @@ public abstract class AbstractBoard {
 
         throw new PlayerDoesNotExistException( "Player does not exist" );
         //THROW EXCEPTION "THIS PLAYER DOES NOT EXIST"
+    }
+
+    public List<String> getPlayerNamesAsStrings() {
+        List<String> playerStrings = new ArrayList<>();
+        for (AbstractPlayer p : myPlayerList) {
+            playerStrings.add(p.getMyPlayerName());
+        }
+        return playerStrings;
+    }
+
+    public List<String> getPropertyNamesAsStrings(AbstractPlayer owner) {
+        List<String> tileStrings = new ArrayList<>();
+        for (AbstractPropertyTile t : owner.getProperties()) {
+            tileStrings.add(t.getTitleDeed());
+        }
+        return tileStrings;
+    }
+
+    public Tile getTileFromName(String name) throws TileNotFoundException {
+        for (Tile t : adjacencyMap.keySet()) {
+            if (t.isPropertyTile()) {
+                AbstractPropertyTile property = (AbstractPropertyTile)t;
+                if (property.getTitleDeed().equalsIgnoreCase(name)) {
+                    return property;
+                }
+            }
+        }
+        throw new TileNotFoundException("Tile does not exist!");
+    }
+
+    public List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {
+        return getColorListMap().get( property.getCard().getCategory());
     }
 
 //    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){

@@ -2,8 +2,8 @@ package backend.exceptions;
 
 import javafx.scene.control.Alert;
 
-public class ImprovedPropertyException extends Exception {
-    public ImprovedPropertyException(String message) {
+public class IllegalActionOnImprovedPropertyException extends Exception {
+    public IllegalActionOnImprovedPropertyException(String message) {
         super(message);
     }
 

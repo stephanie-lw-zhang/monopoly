@@ -3,11 +3,10 @@ package backend.tile;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-import backend.card.AbstractCard;
-import backend.card.BuildingCard;
 import backend.card.BuildingCard;
 import backend.card.PropertyCard;
-import javafx.beans.property.Property;
+import backend.exceptions.IllegalActionOnImprovedPropertyException;
+import backend.exceptions.MortgagePropertyException;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -85,13 +84,16 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     @Override
-    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) {
-        super.sellTo(assetHolder,price, sameColorProperties);
-//        BuildingCard card = (BuildingCard) this.getCard();
-
-        if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
-            //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) throws IllegalActionOnImprovedPropertyException {
+        if (!checkIfImprovedProperty()) {
+            super.sellTo(assetHolder,price, sameColorProperties);
+            if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
+                //assume upgrade order is as so: no house not all of same color properties, no house all of same color properties, etc.
                 upgrade((AbstractPlayer) assetHolder, sameColorProperties);
+            }
+        }
+        else {
+            throw new IllegalActionOnImprovedPropertyException("You cannot sell properties with structures on them!");
         }
     }
 
@@ -110,8 +112,6 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this);
         }
     }
-
-
 
     //UPGRADE OR DOWNGRADE
     private boolean checkIfUpdatingEvenly(List<AbstractPropertyTile> properties, boolean upgrade) {
@@ -166,8 +166,25 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //        super.mortgageProperty();
 //    }
 
-    public boolean checkIfMortgagingImprovedProperty() {
-        return (card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) > 0);
+    public boolean checkIfImprovedProperty() {
+        //TODO: read from xml
+        return (card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) > 1);
+    }
+
+    @Override
+    public void mortgageProperty() throws MortgagePropertyException, IllegalActionOnImprovedPropertyException {
+        if (!isMortgaged() && checkIfImprovedProperty()) {
+            getBank().payFullAmountTo(getOwner(), card.getMortgageValue() );
+            setMortgaged(true);
+        }
+        else {
+            if (isMortgaged()) {
+                throw new MortgagePropertyException("Property is already mortgaged!");
+            }
+            else {
+                throw new IllegalActionOnImprovedPropertyException("You can not mortgage properties that have structures on them!");
+            }
+        }
     }
 
     //private static String getTagValue(String tag, Element element) {
@@ -198,9 +215,6 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     @Override
     public void recalculateTotalPropertiesLeftAfterWholeSale(Map<String,Integer> totalPropertiesLeft){
 //        BuildingCard card = (BuildingCard) this.getCard();
-
-        System.out.println("card: " + this.getCard());
-
         String current = this.getCurrentInUpgradeOrder();
 //        String baseKey = card.getBasePropertyType(current);
 //        Integer baseValue = card.getNumericValueOfPropertyType(current);
