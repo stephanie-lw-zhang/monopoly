@@ -200,6 +200,7 @@ public class TestingScreen extends AbstractScreen {
                 Map.Entry<AbstractPlayer, Double> playerValue = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
                 String info = playerValue.getKey().getMyPlayerName() + " bought " + myGame.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
                 displayActionInfo(info);
+                myLogView.gameLog.setText(info);
 //                System.out.println("after buy money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
 //                System.out.println("after buy properties: " + myGame.getMyTurn().getMyCurrPlayer().getProperties());
                 updatePlayerFundsDisplay();
@@ -238,6 +239,7 @@ public class TestingScreen extends AbstractScreen {
 //                    System.out.println("mortgaged: " + property.isMortgaged());
 
                     property.mortgageProperty();
+                    myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " has mortgaged " + property + ".");
 //                    System.out.println("mortgaged: " + property.isMortgaged());
 
                     updatePlayerFundsDisplay();
@@ -259,6 +261,7 @@ public class TestingScreen extends AbstractScreen {
 //                System.out.println("initial owner:" + property.getOwner().getMoney());
 //                System.out.println("intial payee: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
                 myGame.getMyTurn().getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myGame.getMyTurn().getNumMoves()));
+                myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " has paid " + property.calculateRentPrice( myGame.getMyTurn().getNumMoves()) + " of rent to " +property.getOwner()+ ".");
 //                System.out.println("After owner:" + property.getOwner().getMoney());
 //                System.out.println("After payee: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
                 updatePlayerFundsDisplay();
@@ -283,6 +286,7 @@ public class TestingScreen extends AbstractScreen {
                 Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
                 String info = winner.getKey().getMyPlayerName() + " wins " + myGame.getMyTurn().getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
                 displayActionInfo(info);
+                myLogView.gameLog.setText(info);
                 Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
                 myGame.getMyTurn().onAction("buy", playerValue);
                 updatePlayerFundsDisplay();
@@ -300,6 +304,8 @@ public class TestingScreen extends AbstractScreen {
 //                    System.out.println("initial money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
                     myGame.getBoard().getBank().payFullAmountTo( myGame.getMyTurn().getMyCurrPlayer(), myGame.getBoard().getGoTile().getPassedMoney() );
                     displayActionInfo( "You collected " + myGame.getBoard().getGoTile().getPassedMoney() + " for passing go." );
+                    myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " collected " + myGame.getBoard().getGoTile().getLandedOnMoney() + " for passing go.");
+
 //                    System.out.println("After money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
 
                 } else {
@@ -309,6 +315,8 @@ public class TestingScreen extends AbstractScreen {
 
                     myGame.getBoard().getBank().payFullAmountTo( myGame.getMyTurn().getMyCurrPlayer(), myGame.getBoard().getGoTile().getLandedOnMoney() );
                     displayActionInfo( "You collected " + myGame.getBoard().getGoTile().getLandedOnMoney() + " for landing on go." );
+                    myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " collected " + myGame.getBoard().getGoTile().getLandedOnMoney() + " for landing on go.");
+
 
 //                    System.out.println("After money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
 
@@ -323,6 +331,8 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 myGame.getMyTurn().goToJail();
                 displayActionInfo( "Arrested! You're going to Jail." );
+                myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " has been sent to Jail!");
+
 //                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
             }
         });
@@ -337,6 +347,7 @@ public class TestingScreen extends AbstractScreen {
                     myGame.getMyTurn().getMyCurrPlayer().payFullAmountTo(myGame.getBoard().getBank(), myGame.getBoard().getJailTile().getBailAmount());
                     myGame.getBoard().getJailTile().removeCriminal(myGame.getMyTurn().getMyCurrPlayer());
                     displayActionInfo("You've successfully paid bail. You're free now!");
+                    myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " has posted bail and can roll to leave Jail!");
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
 //                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
                 } catch(TileNotFoundException e) {
@@ -352,6 +363,7 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 ObservableList<String> players = getAllPlayerNames();
                 String player = displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
+
                 AbstractPlayer forfeiter = myGame.getBoard().getPlayerFromName( player );
 
 //                System.out.println("initial money:" + player.getMoney());
@@ -360,6 +372,7 @@ public class TestingScreen extends AbstractScreen {
                 forfeiter.declareBankruptcy(myGame.getBoard().getBank());
                 myGame.getBoard().getMyPlayerList().remove( forfeiter );
                 myGame.getBoard().getPlayerTileMap().remove( forfeiter );
+                myLogView.gameLog.setText(forfeiter + " has forfeited.");
                 //MUST REMOVE FROM FRONT END
 
 //                System.out.println("After money:" + player.getMoney());
@@ -548,6 +561,7 @@ public class TestingScreen extends AbstractScreen {
     private void displayActionInfo(String info) {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
         formAlert.setContentText(info);
+        myLogView.gameLog.setText(info);
         formAlert.showAndWait();
     }
 
