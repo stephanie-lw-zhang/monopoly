@@ -100,8 +100,5 @@ public class NormalDeckView extends AbstractTileView {
         myRoot.setAlignment(tileText,Pos.CENTER);
         return tileText;
     }
-
-
-
 }
 
