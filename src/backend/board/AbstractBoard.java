@@ -131,6 +131,16 @@ public abstract class AbstractBoard {
         return null; //change this !!!
     }
 
+    public AbstractPlayer getPlayerFromName(String name){
+        for(AbstractPlayer p: myPlayerList){
+            if (p.getMyPlayerName().equalsIgnoreCase( name )){
+                return p;
+            }
+        }
+        return null;
+        //THROW EXCEPTION "THIS PLAYER DOES NOT EXIST"
+    }
+
 //    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){
 //        List<AbstractPropertyTile> allOfCategory = new ArrayList<AbstractPropertyTile>(  );
 //        String targetCategory = property.getCard().getCategory();
