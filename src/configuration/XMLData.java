@@ -41,6 +41,7 @@ public class XMLData {
 //            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
+            monopolyType = getTagValue(("MonopolyType"), (Element) doc.getElementsByTagName("Type").item(0));
             NodeList tileList = doc.getElementsByTagName("Tile");
             NodeList banks = doc.getElementsByTagName("Bank");
             getBank(banks.item(0));
@@ -95,14 +96,6 @@ public class XMLData {
         }
     }
 
-    private void getMonopolyType(Element element) {
-        String monopolyType;
-        try{
-            monopolyType = getTagValue("MonopolyType", element);
-        } catch (NullPointerException e){
-            return;
-        }
-    }
 
     private void updateCategoryList(Element element, Tile tile){
         String color;
@@ -151,7 +144,10 @@ public class XMLData {
         return numDie;
     }
 
-    public String getMonopolyType() { return monopolyType; }
+    public String getMonopolyType() {
+        return monopolyType;
+    }
+
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);

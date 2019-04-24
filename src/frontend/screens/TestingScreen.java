@@ -17,6 +17,7 @@ import backend.tile.Tile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import controller.Turn;
+import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.player_options.DiceView;
@@ -61,6 +62,8 @@ public class TestingScreen extends AbstractScreen {
     private GameController       myGame;
     private double               screenWidth;
     private double               screenHeight;
+    private LogView              myLogView;
+    private XMLData              data;
 
     private ObservableList<ImageView> myIconsList;
 
@@ -103,8 +106,6 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setCache(true);
         backgroundImg.setFitWidth(screenWidth);
         backgroundImg.setFitHeight(screenHeight);
-
-        XMLData data = null;
         try {
             data = new XMLData("OriginalMonopoly.xml");
         } catch (Exception e) {
@@ -113,6 +114,8 @@ public class TestingScreen extends AbstractScreen {
         myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
 
         myFormView = new FormView(this);
+
+        myLogView = new LogView(data);
 
         ImageView backButton = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("back.png")));
         backButton.setOnMouseClicked(f -> handleBackToMainButton(getMyStage()));
@@ -165,6 +168,7 @@ public class TestingScreen extends AbstractScreen {
         currPlayerText.setText(myGame.getMyTurn().getMyCurrPlayer().getMyPlayerName());
         currPlayerText.setEditable(false);
         currPlayerText.setStyle("-fx-max-width: 150; -fx-max-height: 50");
+
 
         HBox moveCheatKey = new HBox();
         moveCheatKey.setSpacing(10);
@@ -342,6 +346,7 @@ public class TestingScreen extends AbstractScreen {
 
         moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
         playerOptionsModal.getChildren().addAll(
+                myLogView.gameLog,
                 myDiceView, ROLL_BUTTON,
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON,
@@ -356,6 +361,9 @@ public class TestingScreen extends AbstractScreen {
         Pane boardViewPane = myBoardView.getPane();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
+
+        Pane logViewPane = myLogView.getPane();
+
 
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);

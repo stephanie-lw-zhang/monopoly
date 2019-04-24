@@ -2,6 +2,10 @@
 
     <BoardLayout>OriginalMonopoly.csv</BoardLayout>
 
+    <Type>
+        <MonopolyType>Original Monopoly</MonopolyType>
+    </Type>
+
     <Dice>
         <NumDie>2</NumDie>
     </Dice>
