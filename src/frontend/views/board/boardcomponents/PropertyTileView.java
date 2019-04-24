@@ -25,21 +25,37 @@ public class PropertyTileView extends AbstractTileView {
 
     }
 
+    /**
+     * Returns the X coordinate of the StackPane
+     * @return double
+     */
     @Override
-    public double getmyX() {
+    public double getMyX() {
         return myRoot.getLayoutX();
     }
 
+    /**
+     * Returns the Y coordinate of the StackPane
+     * @return double
+     */
     @Override
-    public double getmyY() {
+    public double getMyY() {
         return myRoot.getLayoutY();
     }
 
+    /**
+     * Adds a given node to myRoot
+     * @param n     the node to be added
+     */
     public void moveTo(Node n){
         myRoot.setAlignment(n,Pos.CENTER);
         myRoot.getChildren().add(n);
     }
 
+    /**
+     * Removes a given node from myRoot
+     * @param n     the node to be removed
+     */
     public void moveFrom(Node n){
         myRoot.getChildren().remove(n);
     }
