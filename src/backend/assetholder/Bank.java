@@ -25,8 +25,8 @@ public class Bank extends AbstractAssetHolder {
         property.recalculateTotalPropertiesLeftAfterWholeSale( totalPropertiesLeft );
     }
 
-    public void recalculateTotalPropertiesLeftOneBuildingUpdate(AbstractPropertyTile property) {
-        property.recalculateTotalPropertiesLeftOneBuildingUpdate(totalPropertiesLeft );
+    public void recalculateTotalPropertiesLeftOneBuildingUpdate(AbstractPropertyTile property, boolean upgrade) {
+        property.recalculateTotalPropertiesLeftOneBuildingUpdate(totalPropertiesLeft, upgrade );
     }
 
     public Boolean buildingsRemain(String building){
@@ -38,6 +38,8 @@ public class Bank extends AbstractAssetHolder {
     @Override
     public void payFullAmountTo(AbstractAssetHolder receiver, Double debt) {
         receiver.setMoney( receiver.getMoney() + debt );
+        //TODO: limited money?
+        //this.setMoney(this.getMoney()-debt);
     }
 
     @Override
@@ -45,6 +47,10 @@ public class Bank extends AbstractAssetHolder {
         return false;
         //return false because this function is used to check if player owns all of the same category for upgrade purposes
         //therefore should exclude bank
+    }
+
+    public int getNumberOfBuildingsLeft(String s) {
+        return totalPropertiesLeft.get(s);
     }
 
 

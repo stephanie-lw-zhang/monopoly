@@ -4,6 +4,8 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import backend.exceptions.IllegalActionOnImprovedPropertyException;
+import backend.exceptions.IllegalInputTypeException;
+import backend.exceptions.OutOfBuildingStructureException;
 import backend.exceptions.TileNotFoundException;
 import backend.tile.*;
 import backend.tile.AbstractPropertyTile;
@@ -218,7 +220,7 @@ public class Turn {
         return null;
     }
 
-    public Map.Entry<AbstractPlayer, Double> buy(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException {
+    public Map.Entry<AbstractPlayer, Double> buy(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
         AbstractPlayer player = null;
         double value = 0;
         if (paramMap != null) {
@@ -239,7 +241,7 @@ public class Turn {
         return ret;
     }
 
-    public void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException {
+    public void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
 //        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
