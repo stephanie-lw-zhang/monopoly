@@ -1,13 +1,15 @@
 package backend.deck;
 
 import backend.card.AbstractCard;
+import backend.card.ActionCard;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class NormalDeck implements DeckInterface {
-    private Queue<AbstractCard> myDeck = new PriorityQueue<>();
+    private Queue<ActionCard> myDeck = new PriorityQueue<>();
 
     public int getMyDeckSize() {
         //for Testing
@@ -15,7 +17,7 @@ public class NormalDeck implements DeckInterface {
     }
 
     @Override
-    public AbstractCard drawCard() {
+    public ActionCard drawCard() {
         if(myDeck != null){
             return myDeck.remove();
         } else{
@@ -26,14 +28,14 @@ public class NormalDeck implements DeckInterface {
     }
 
     @Override
-    public void putBack(AbstractCard card) {
+    public void putBack(ActionCard card) {
         myDeck.add(card);
         //adds card to "bottom"
     }
 
     @Override
-    public void addCards(List<AbstractCard> cardList) {
-        for(AbstractCard card: cardList){
+    public void addCards(List<ActionCard> cardList) {
+        for(ActionCard card: cardList){
             myDeck.add( card );
         }
     }

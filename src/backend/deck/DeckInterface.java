@@ -1,15 +1,15 @@
 package backend.deck;
 
-import backend.card.AbstractCard;
+import backend.card.ActionCard;
 
 import java.util.List;
 
 public interface DeckInterface {
 
-    AbstractCard drawCard();
+    ActionCard drawCard();
 
-    void putBack(AbstractCard card);
+    void putBack(ActionCard card);
 
-    void addCards(List<AbstractCard> cardList);
+    void addCards(List<ActionCard> cardList);
 
 }

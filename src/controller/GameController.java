@@ -3,16 +3,15 @@ package controller;
 import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.StandardBoard;
+import backend.card.AbstractCard;
+import backend.card.ActionCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.exceptions.*;
-import backend.tile.AbstractTaxTile;
-import backend.tile.BuildingTile;
-import backend.tile.IncomeTaxTile;
-import backend.tile.AbstractPropertyTile;
+import backend.tile.*;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import frontend.screens.TestingScreen;
@@ -32,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -308,7 +308,6 @@ public class GameController {
         }
     }
 
-
     private void handleTrade() {
     }
 
@@ -347,7 +346,8 @@ public class GameController {
     }
 
     private void handleDrawCard() {
-
+        ActionCard drawCardTile = ((AbstractDrawCardTile) getBoard().getPlayerTile(getMyTurn().getMyCurrPlayer())).drawCard();
+        drawCardTile.applyTo(getMyTurn().getMyCurrPlayer());
     }
 
     private void handleSellToPlayer() {
