@@ -3,7 +3,7 @@ package controller;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.tile.Tile;
-import exception.TileNotFoundException;
+import exceptions.TileNotFoundException;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
 import frontend.views.player_stats.PlayerFundsView;

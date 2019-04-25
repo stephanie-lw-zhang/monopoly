@@ -7,12 +7,8 @@ package backend.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-<<<<<<< HEAD
-import exception.MultiplePathException;
-import exception.TileNotFoundException;
-=======
+import exceptions.MultiplePathException;
 import exceptions.TileNotFoundException;
->>>>>>> 0ccef995599921b0e02cddc7237f090a0c731a1f
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.XMLData;

@@ -3,10 +3,7 @@ package controller;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
-import exceptions.IllegalActionOnImprovedPropertyException;
-import exceptions.IllegalInputTypeException;
-import exceptions.TileNotFoundException;
-import exceptions.OutOfBuildingStructureException;
+import exceptions.*;
 import backend.tile.*;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.JailTile;
@@ -152,43 +149,15 @@ public class Turn {
     }
 
     public void move() {
-//        if (myRolls == null){
-//            //throw exceptions that dice must be rolled first
-//        }
-//        if(myCurrPlayer.isBankrupt()){
-//            return;
-//        }
-        if (myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 1){
-            //
+        if(myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 2){
+            new IllegalMoveException( "Cannot move because you are in jail." );
         }
-        else if (myCurrPlayer.getTurnsInJail() == 3) {
-            //player must either pay 50 and move or skip one turn
-            //series of states OR dialogue boxes
-            //try to get out of jail() {
-            //prompt user
-            //get boolean
-            //}
-            //button.setOnAction -> eventHandler
-            //states: waiting for user to answer question
-            //controller calls a method in the UI to present a choice
-            //model initiates question of roll or pay
-            //model tells controller
-            //controller tells view to show the choice
-            //show popup or modal dialogue box
-            //button prompts event handler
-        }
-        //assuming player chose to either pay $50 or skip one turn
-        //else if(player.getTurnsInJail()!=-1 && ){}
-
-        //assuming player chose to roll in jail
-        else if(myCurrPlayer.getTurnsInJail()!=-1 && myRolls[0] != myRolls[1]){
-            return;
-        }
-        //player is not in jail and moves normally
-        //
         else{
-            myBoard.movePlayer(myCurrPlayer, getNumMoves());
-            myActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+            try {
+                myBoard.movePlayer( myCurrPlayer, getNumMoves() );
+            } catch (MultiplePathException e) {
+                e.popUp();
+            }
         }
     }
 
@@ -196,7 +165,7 @@ public class Turn {
      * FOR TESTING
      * @param n number of moves
      */
-    public void moveCheat(int n) {
+    public void moveCheat(int n) throws MultiplePathException {
         myBoard.movePlayer(myCurrPlayer, n);
     }
 

@@ -146,19 +146,20 @@ public class FormView extends GridPane {
         if (! this.hasEnoughPlayers()) {
             throw new InsufficientPlayersException();
         }
+        if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
+            throw new InputMismatchException();
+        }
         if (this.hasDuplicatePlayers() || this.hasDuplicateIcons(playerToIcon)) {
             throw new DuplicatePlayerException();
         }
-//        if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
-//            throw new InputMismatchException();
-//        }
+
         // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {
         for (TextField t : playerToIcon.keySet()) {
-            if (! t.getText().equals("") && playerToIcon.get(t).getValue().equals("")) {
+            if (! t.getText().equals("") && playerToIcon.get(t).getValue() == null) {
                 return true;
             }
         }
@@ -166,7 +167,7 @@ public class FormView extends GridPane {
     }
     private boolean hasUnassignedName(Map<TextField, ComboBox> playerToIcon) {
         for (TextField t : playerToIcon.keySet()) {
-            if (t.getText().equals("") && ! playerToIcon.get(t).getValue().equals("")) {
+            if (t.getText().equals("") && playerToIcon.get(t).getValue() != null) {
                 return true;
             }
         }
