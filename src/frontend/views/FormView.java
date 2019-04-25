@@ -2,6 +2,7 @@ package frontend.views;
 
 import frontend.exceptions.DuplicatePlayerException;
 import frontend.exceptions.FormInputException;
+import frontend.exceptions.InputMismatchException;
 import frontend.exceptions.InsufficientPlayersException;
 import frontend.screens.TestingScreen;
 
@@ -148,18 +149,9 @@ public class FormView extends GridPane {
         if (this.hasDuplicatePlayers() || this.hasDuplicateIcons(playerToIcon)) {
             throw new DuplicatePlayerException();
         }
-//        if (this.hasUnassignedIcon(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("A player has not selected an icon!");
-//            formAlert.showAndWait();
-//            return;
-//        }
-//        if (this.hasUnassignedName(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("An icon has no player name (or remove icon)!");
-//            formAlert.showAndWait();
-//            return;
-//        }
+        if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
+            throw new InputMismatchException();
+        }
         // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
     }
