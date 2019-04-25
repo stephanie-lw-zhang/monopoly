@@ -1,5 +1,8 @@
 package frontend.views;
 
+import frontend.exceptions.DuplicatePlayerException;
+import frontend.exceptions.FormInputException;
+import frontend.exceptions.InsufficientPlayersException;
 import frontend.screens.TestingScreen;
 
 import javafx.scene.layout.ColumnConstraints;
@@ -92,7 +95,11 @@ public class FormView extends GridPane {
         submitFormButton.setPrefWidth(150);
         submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
-                handleSubmitFormButton(getPlayerToIconMap());
+                try {
+                    handleSubmitFormButton(getPlayerToIconMap());
+                } catch (FormInputException e) {
+                    e.popUp();
+                }
             }
         });
         this.setConstraints( submitFormButton, 0, 6);
@@ -134,19 +141,13 @@ public class FormView extends GridPane {
      * enough have signed up, calls for start of game
      * @param playerToIcon
      */
-    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) {
+    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
         // cleanPlayerIconMap();
         if (! this.hasEnoughPlayers()) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Not enough players signed up! (need >= 2)");
-            formAlert.showAndWait();
-            return;
+            throw new InsufficientPlayersException();
         }
-        if (this.hasDuplicatePlayers()) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Duplicate player names not allowed!");
-            formAlert.showAndWait();
-            return;
+        if (this.hasDuplicatePlayers() || this.hasDuplicateIcons(playerToIcon)) {
+            throw new DuplicatePlayerException();
         }
 //        if (this.hasUnassignedIcon(playerToIcon)) {
 //            Alert formAlert = new Alert(Alert.AlertType.ERROR);
@@ -160,12 +161,6 @@ public class FormView extends GridPane {
 //            formAlert.showAndWait();
 //            return;
 //        }
-        if (this.hasDuplicateIcons(playerToIcon)) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Duplicate icons not allowed!");
-            formAlert.showAndWait();
-            return;
-        }
         // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
     }

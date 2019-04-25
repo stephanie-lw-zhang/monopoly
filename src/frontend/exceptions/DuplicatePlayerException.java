@@ -1,16 +1,18 @@
 package frontend.exceptions;
 
-import javafx.scene.control.Alert;
+/**
+ * Custom exception
+ */
+public class DuplicatePlayerException extends FormInputException {
 
-public class DuplicatePlayerException extends Exception {
     public DuplicatePlayerException(String s) {
         super(s);
-        Alert formAlert = new Alert(Alert.AlertType.ERROR);
-        formAlert.setContentText("Duplicate player names not allowed!");
-        formAlert.showAndWait();
     }
 
+    /**
+     * Default chain constructor
+     */
     public DuplicatePlayerException() {
-        this("Illegal Duplicate Player Names Found!");
+        this("Players cannot have the same name and/or icon!");
     }
 }
