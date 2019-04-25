@@ -2,6 +2,7 @@ package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
 import backend.card.AbstractCard;
+import backend.card.ActionCard;
 import backend.deck.DeckInterface;
 import org.w3c.dom.Element;
 
@@ -35,7 +36,7 @@ public abstract class AbstractDrawCardTile extends Tile {
         return possibleActions;
     }
 
-    public AbstractCard drawCard(){
+    public ActionCard drawCard(){
         return myDeck.drawCard();
     }
 }

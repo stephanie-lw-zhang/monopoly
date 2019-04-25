@@ -2,9 +2,8 @@ package backend.exceptions;
 
 import javafx.scene.control.Alert;
 
-public class IllegalInputTypeException extends Exception {
-
-    public IllegalInputTypeException(String message) {
+public class OutOfBuildingStructureException extends Exception {
+    public OutOfBuildingStructureException(String message) {
         super(message);
     }
 
