@@ -21,7 +21,7 @@ public class ImportPropertyFile {
         try {
             prop.load(input);
         } catch (IOException e) {
-            e.printStackTrace();     //apparently not supposed to just print stack trace but return an exception or something
+            e.printStackTrace();     //apparently not supposed to just print stack trace but return an exceptions or something
         }
     }
 

@@ -30,7 +30,7 @@ public class JailTile extends Tile {
     }
 
     public void removeCriminal(AbstractPlayer player) {
-        //throw exception?? if player is not in the hashset
+        //throw exceptions?? if player is not in the hashset
         criminals.remove(player);
         player.getOutOfJail();
     }

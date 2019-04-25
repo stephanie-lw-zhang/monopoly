@@ -41,7 +41,7 @@ public abstract class AbstractAssetHolder{
         List<AbstractPropertyTile> propertiesOwnedBy = new ArrayList<>();
         for (AbstractPropertyTile tile : properties) {
             if (tile.getOwner().equals(this)) {
-                //throw exception: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
+                //throw exceptions: YOU CANNOT UPGRADE WITHOUT A MONOPOLY ON COLOR
                 propertiesOwnedBy.add( tile );
             }
         }

@@ -5,10 +5,10 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.card.PropertyCard;
 
-import exception.IllegalActionOnImprovedPropertyException;
-import exception.MortgagePropertyException;
-import exception.IllegalInputTypeException;
-import exception.OutOfBuildingStructureException;
+import exceptions.IllegalActionOnImprovedPropertyException;
+import exceptions.MortgagePropertyException;
+import exceptions.IllegalInputTypeException;
+import exceptions.OutOfBuildingStructureException;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public abstract class AbstractPropertyTile extends Tile {
     public AbstractPropertyTile(Bank bank, PropertyCard card, String tileType, int index) {
         this.owner = bank;
         this.bank = bank;
-        //throw exception if card is not propertycard type
+        //throw exceptions if card is not propertycard type
         this.card = card;
         this.tileType = tileType;
         this.mortgaged = false;
@@ -214,7 +214,7 @@ public abstract class AbstractPropertyTile extends Tile {
 //            switchOwner(player);
 //        }
 //        else {
-//            //throw exception: CAN'T BUY BECAUSE BANK DOESN'T OWN
+//            //throw exceptions: CAN'T BUY BECAUSE BANK DOESN'T OWN
 //        }
 //    }
 }

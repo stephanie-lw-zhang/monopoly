@@ -15,7 +15,7 @@ import backend.tile.AbstractPropertyTile;
 import backend.tile.*;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
-import exception.*;
+import exceptions.*;
 import frontend.screens.TestingScreen;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
@@ -73,6 +73,8 @@ public class GameController {
             e.printStackTrace();
         }
 
+        // myGameView = new SplitScreenGameView(width, height);
+//        addHandlers();
         myBank = myData.getBank();
         myTestScreen = view;
         myBoard = makeBoard(playerToIcon);

@@ -1,6 +1,4 @@
-package exception;
-
-import javafx.scene.control.Alert;
+package exceptions;
 
 public class MortgagePropertyException extends MonopolyException {
     public MortgagePropertyException(String message) {

@@ -1,5 +1,9 @@
 package frontend.views;
 
+import exceptions.DuplicatePlayerException;
+import exceptions.FormInputException;
+import exceptions.InputMismatchException;
+import exceptions.InsufficientPlayersException;
 import frontend.screens.TestingScreen;
 
 import javafx.scene.layout.ColumnConstraints;
@@ -92,7 +96,11 @@ public class FormView extends GridPane {
         submitFormButton.setPrefWidth(150);
         submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
-                handleSubmitFormButton(getPlayerToIconMap());
+                try {
+                    handleSubmitFormButton(getPlayerToIconMap());
+                } catch (FormInputException e) {
+                    e.popUp();
+                }
             }
         });
         this.setConstraints( submitFormButton, 0, 6);
@@ -134,38 +142,16 @@ public class FormView extends GridPane {
      * enough have signed up, calls for start of game
      * @param playerToIcon
      */
-    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) {
-        // cleanPlayerIconMap();
+    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
         if (! this.hasEnoughPlayers()) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Not enough players signed up! (need >= 2)");
-            formAlert.showAndWait();
-            return;
+            throw new InsufficientPlayersException();
         }
-        if (this.hasDuplicatePlayers()) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Duplicate player names not allowed!");
-            formAlert.showAndWait();
-            return;
+        if (this.hasDuplicatePlayers() || this.hasDuplicateIcons(playerToIcon)) {
+            throw new DuplicatePlayerException();
         }
-//        if (this.hasUnassignedIcon(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("A player has not selected an icon!");
-//            formAlert.showAndWait();
-//            return;
+//        if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
+//            throw new InputMismatchException();
 //        }
-//        if (this.hasUnassignedName(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("An icon has no player name (or remove icon)!");
-//            formAlert.showAndWait();
-//            return;
-//        }
-        if (this.hasDuplicateIcons(playerToIcon)) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Duplicate icons not allowed!");
-            formAlert.showAndWait();
-            return;
-        }
         // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
     }
@@ -198,10 +184,9 @@ public class FormView extends GridPane {
             if (! key.getText().equals(""))
                 convertedMap.put(key, (String) playerToIcon.get(key).getValue());
 
-        Collection<String> valuesList = convertedMap.values();
         Set<String> set = new HashSet<>(convertedMap.values());
 
-        return valuesList.size() != set.size();
+        return convertedMap.values().size() != set.size();
     }
 
     /**
