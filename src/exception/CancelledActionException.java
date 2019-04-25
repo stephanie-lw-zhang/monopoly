@@ -1,6 +1,6 @@
-package backend.exceptions;
+package exception;
 
-public class CancelledActionException extends Exception {
+public class CancelledActionException extends MonopolyException {
 
     public CancelledActionException(String message) {
         super(message);

@@ -1,10 +1,10 @@
-package backend.exceptions;
+package exception;
 
+import engine.MonopolyDriver;
 import javafx.scene.control.Alert;
 
-public class IllegalInputTypeException extends Exception {
-
-    public IllegalInputTypeException(String message) {
+public abstract class MonopolyException extends Exception {
+    public MonopolyException(String message) {
         super(message);
     }
 
@@ -13,4 +13,5 @@ public class IllegalInputTypeException extends Exception {
         formAlert.setContentText(this.getMessage());
         formAlert.showAndWait();
     }
+
 }
