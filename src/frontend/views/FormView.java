@@ -143,11 +143,11 @@ public class FormView extends GridPane {
      * @param playerToIcon
      */
     private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
-        if (! this.hasEnoughPlayers()) {
-            throw new InsufficientPlayersException();
-        }
         if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
             throw new InputMismatchException();
+        }
+        if (! this.hasEnoughPlayers()) {
+            throw new InsufficientPlayersException();
         }
         if (this.hasDuplicatePlayers() || this.hasDuplicateIcons(playerToIcon)) {
             throw new DuplicatePlayerException();
