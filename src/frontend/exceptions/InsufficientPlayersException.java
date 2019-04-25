@@ -11,6 +11,9 @@ public class InsufficientPlayersException extends FormInputException {
         super(s);
     }
 
+    /**
+     * Default chained constructor
+     */
     public InsufficientPlayersException() {
         this("Not enough players have signed up!");
     }

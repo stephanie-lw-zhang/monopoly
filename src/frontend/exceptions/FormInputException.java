@@ -1,5 +1,6 @@
 package frontend.exceptions;
 
+import exception.MonopolyException;
 import javafx.scene.control.Alert;
 
 /**
@@ -9,11 +10,10 @@ import javafx.scene.control.Alert;
  *
  * @author Sam
  */
-public class FormInputException extends Exception {
+public class FormInputException extends MonopolyException {
 
     public FormInputException(String s) {
         super(s);
-        popUp();
     }
 
     /**
@@ -21,11 +21,5 @@ public class FormInputException extends Exception {
      */
     public FormInputException() {
         this("Error occurred with user input. Re-check values!");
-    }
-
-    public void popUp() {
-        Alert formAlert = new Alert(Alert.AlertType.ERROR);
-        formAlert.setContentText(this.getMessage());
-        formAlert.showAndWait();
     }
 }
