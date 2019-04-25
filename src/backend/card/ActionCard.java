@@ -4,6 +4,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 
 public abstract class ActionCard {
+
         private AbstractBoard board;
 
         public ActionCard(AbstractBoard board) {

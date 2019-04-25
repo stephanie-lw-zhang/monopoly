@@ -10,6 +10,10 @@
         <NumDie>2</NumDie>
     </Dice>
 
+    <Decks>
+        <NumDecks>2</NumDecks>
+    </Decks>
+
     <Bank>
         <Money>100000</Money>
         <Properties>

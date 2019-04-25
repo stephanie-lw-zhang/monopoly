@@ -1,6 +1,8 @@
 package configuration;
 
 import backend.assetholder.Bank;
+import backend.card.ActionCard;
+import backend.deck.DeckInterface;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import org.w3c.dom.Document;
@@ -20,12 +22,16 @@ import java.util.Map;
 
 public class XMLData {
 
+    //ideally all the tags names would come from properties files
+
     private Map<Tile, List<Tile>> adjacencyList;
     private Map<Tile, List<Integer>> indexNeighborList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
     private Bank bank;
     private int numDie;
+    private int numDecks;
     private Tile firstTile;
+    private List<DeckInterface> decks;
     private String monopolyType;
 
     public XMLData(String fileName) throws Exception {
@@ -36,13 +42,11 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-//            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-
             numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
+            numDecks = Integer.parseInt(getTagValue("NumDecks", (Element) doc.getElementsByTagName("Decks").item(0)));
             monopolyType = getTagValue(("MonopolyType"), (Element) doc.getElementsByTagName("Type").item(0));
+            bank = getBank(doc.getElementsByTagName("Bank").item(0));
             NodeList tileList = doc.getElementsByTagName("Tile");
-            NodeList banks = doc.getElementsByTagName("Bank");
-            getBank(banks.item(0));
             List<Tile> tiles = new ArrayList<>();
             indexNeighborList = new HashMap<>();
             propertyCategoryToSpecificListMap = new HashMap<>();
@@ -51,12 +55,26 @@ public class XMLData {
             }
             firstTile = tiles.get(0);
             initializeAdjacencyList(tiles);
+
+            decks = new ArrayList<>();
+            NodeList deck = doc.getElementsByTagName("Deck");
+            for(int i = 0; i<numDecks; i++){
+                Element d = (Element) deck.item(i);
+                NodeList actionCards = d.getElementsByTagName("ActionCard");
+                for(int j = 0; j<actionCards.getLength(); j++){
+                    Element c = (Element) actionCards.item(j);
+                    String cardType = getTagValue("ActionCardType", c);
+                    ActionCard card = (ActionCard) Class.forName("backend.card." + cardType).getConstructor(Element.class).newInstance(c);
+                    decks.get(i).putBack(card);
+                }
+            }
+
         }catch(ParserConfigurationException | SAXException | IOException e){
             e.printStackTrace(); //change this !!!
         }
     }
 
-    private void getBank(Node node) {
+    private Bank getBank(Node node) {
         Element banks = (Element) node;
         Double money = Double.parseDouble(getTagValue("Money", banks));
         NodeList properties = banks.getElementsByTagName("Properties");
@@ -67,7 +85,7 @@ public class XMLData {
             String[] entry = property.split(",");
             totalPropertiesLeft.put(entry[0], Integer.parseInt(entry[1]));
         }
-        bank = new Bank(money, totalPropertiesLeft);
+        return new Bank(money, totalPropertiesLeft);
     }
 
     private Tile getTile(Node node) throws Exception {
@@ -91,6 +109,19 @@ public class XMLData {
         }
         else{
             return null; //change this!!
+        }
+    }
+
+    private ActionCard getActionCard(Node node) throws Exception{
+        Element element = (Element) node;
+        ActionCard card;
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            String cardType = getTagValue("CardType", element);
+            card = (ActionCard) Class.forName("backend.card." + cardType).getConstructor(Element.class).newInstance(element);
+            return card;
+        }
+        else{
+            return null; // change this !!!
         }
     }
 
@@ -155,4 +186,9 @@ public class XMLData {
     public Tile getFirstTile() {
         return firstTile;
     }
+
+    public List<DeckInterface> getDecks(){
+        return decks;
+    }
+
 }
