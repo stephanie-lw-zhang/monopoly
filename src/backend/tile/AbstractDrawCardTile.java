@@ -1,8 +1,7 @@
 package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
-import backend.card.AbstractCard;
-import backend.card.ActionCard;
+import backend.card.action_cards.ActionCard;
 import backend.deck.DeckInterface;
 import org.w3c.dom.Element;
 

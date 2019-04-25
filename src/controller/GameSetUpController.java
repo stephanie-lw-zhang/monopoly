@@ -2,22 +2,25 @@ package controller;
 
 import configuration.ImportPropertyFile;
 import frontend.views.FormView;
-import frontend.views.board.AbstractBoardView;
-import frontend.views.board.SquareBoardView;
-import frontend.views.game.AbstractGameView;
-import frontend.views.game.SplitScreenGameView;
+
 import javafx.scene.Node;
 
+/**
+ * This class is a controller that manages all "set-up" before
+ * the game starts (i.e. creation of board, etc.)
+ *
+ * @author Edward
+ * @author Sam
+ */
 public class GameSetUpController {
 
     private static final String CONFIG_FILE = "OriginalMonopoly.xml";
 
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-    private Node myNode;
-
-    private GameController myGameController;
-    private FormView myFormView;
-    private double screenWidth,screenHeight;
+    private GameController     myGameController;
+    private FormView           myFormView;
+    private double             screenWidth,screenHeight;
+    private Node               myNode;
 
     public GameSetUpController(double sWidth, double sHeight){
         screenWidth = sWidth;

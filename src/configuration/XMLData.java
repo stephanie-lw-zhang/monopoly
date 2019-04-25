@@ -1,7 +1,7 @@
 package configuration;
 
 import backend.assetholder.Bank;
-import backend.card.ActionCard;
+import backend.card.action_cards.ActionCard;
 import backend.deck.DeckInterface;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;

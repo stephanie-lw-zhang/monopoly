@@ -1,34 +1,25 @@
 package backend.board;
 
+import backend.assetholder.AbstractPlayer;
+import backend.assetholder.Bank;
+import backend.deck.DeckInterface;
+import backend.dice.AbstractDice;
+import exceptions.MultiplePathException;
+import exceptions.TileNotFoundException;
+import backend.tile.GoTile;
+import backend.tile.JailTile;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.Tile;
+import configuration.XMLData;
+import java.util.*;
 
 /**
  * This class is an abstraction of the game board which contains
  * fundamental pieces to the game itself
  *
- * @author Matt, Sam
+ * @author Matt
+ * @author Sam
  *             updated Constructor for PlayerList
- */
-import backend.assetholder.AbstractPlayer;
-import backend.assetholder.Bank;
-import backend.deck.DeckInterface;
-import backend.dice.AbstractDice;
-<<<<<<< HEAD
-import exception.PlayerDoesNotExistException;
-import exception.TileNotFoundException;
-import backend.tile.GoTile;
-import backend.tile.JailTile;
-import backend.tile.AbstractPropertyTile;
-import backend.tile.Tile;
-=======
-import backend.exceptions.TileNotFoundException;
-import backend.tile.*;
->>>>>>> b5a2a73d8c7669b1db7ce4be9fa21c304a9236b8
-import configuration.XMLData;
-
-import java.util.*;
-
-/**
- *
  */
 public abstract class AbstractBoard {
     private Map<AbstractPlayer, Tile>               playerPositionMap;
@@ -37,8 +28,8 @@ public abstract class AbstractBoard {
     private List<AbstractPlayer>                    myPlayerList;
     private int                                     numDie;
     private Bank                                    bank;
-    private List<DeckInterface> myDecks;
-    private AbstractDice myDice;
+    private List<DeckInterface>                     myDecks;
+    private AbstractDice                            myDice;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
@@ -73,7 +64,7 @@ public abstract class AbstractBoard {
     /**
      * Moves the player on the board by reassigning its tile mapping
      */
-    public abstract void movePlayer(AbstractPlayer p, int numMoves);
+    public abstract void movePlayer(AbstractPlayer p, int numMoves) throws MultiplePathException;
 
     public abstract void movePlayer(AbstractPlayer p, Tile tile);
 
