@@ -85,19 +85,13 @@ public abstract class AbstractBoard {
                 .getEnclosingMethod()
                 .getReturnType());
 
+        //TODO: should not catch exceptions that were just thrown!!! fix
         for (Tile key : adjacencyMap.keySet()) {
-            try {
-                if (key.isJailTile()) {
-                    return (JailTile) key;
-                } else {
-                    throw new TileNotFoundException("Could not find Tile of type " + methodName);
-                }
-            } catch (TileNotFoundException e) {
-                e.printStackTrace();
+            if (key.isJailTile()) {
                 return (JailTile) key;
             }
         }
-        return null;
+        throw new TileNotFoundException("Could not find Tile of type " + methodName);
     }
 
     public GoTile getGoTile(){

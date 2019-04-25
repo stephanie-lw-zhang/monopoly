@@ -37,9 +37,10 @@ public class BuildingCard extends PropertyCard {
     }
 
     public double getOneBuildingSellToBankPrice(String currentInUpgradeOrder) {
-        String base = getBasePropertyType(currentInUpgradeOrder);
+//        String base = getBasePropertyType(currentInUpgradeOrder);
         //in original multiplier would be 0.5
-        return (sellToBankPriceLookupTable.get(base));
+        //TODO: maybe change this so that it's based off of base keys?
+        return (sellToBankPriceLookupTable.get(currentInUpgradeOrder));
     }
 
     public double getPriceNeededToUpgradeLookupTable(String key) {

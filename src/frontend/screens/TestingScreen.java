@@ -72,6 +72,7 @@ public class TestingScreen extends AbstractScreen {
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
     private final Button UNMORTGAGE_BUTTON = new Button("Unmortgage");
     private final Button SELL_TO_BANK = new Button("SELL TO BANK");
+    private final Button UPGRADE = new Button("UPGRADE");
 
     /**
      * TestingScreen main constructor
@@ -297,13 +298,13 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleForfeit();
-            }
-        });
+//        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+//            //WORKS
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                myGame.handleForfeit();
+//            }
+//        });
 
         MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -317,13 +318,13 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleUnmortgage();
-            }
-        });
+//        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+//            //WORKS
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                myGame.handleUnmortgage();
+//            }
+//        });
 
         SELL_TO_BANK.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -332,12 +333,19 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
+        UPGRADE.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.handleUpgradeProperty();
+            }
+        });
+
         moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
         playerOptionsModal.getChildren().addAll(
                 myLogView.gameLog,
                 myDiceView, ROLL_BUTTON,
                 playersText, currPlayerText,
-                END_TURN_BUTTON, TRADE_BUTTON,
+                END_TURN_BUTTON, TRADE_BUTTON, UPGRADE,
                 AUCTION_BUTTON, MORTGAGE_BUTTON, BUY_BUTTON,
                 moveCheatKey, createPlayerPropertiesDisplay(),
 //                BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON,
@@ -466,17 +474,21 @@ public class TestingScreen extends AbstractScreen {
         formAlert.showAndWait();
     }
 
-    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options) throws IllegalInputTypeException {
-        ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
-        choices.setHeaderText( title );
-        choices.setContentText(prompt);
-        //"Select the player who wants to mortgage a property: "
-        Optional<String> result = choices.showAndWait();
+    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options) throws CancelledActionException, PropertyNotFoundException {
+        try {
+            ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
+            choices.setHeaderText( title );
+            choices.setContentText(prompt);
+            //"Select the player who wants to mortgage a property: "
+            Optional<String> result = choices.showAndWait();
 //        choices.showAndWait();
-        if (result.isPresent()) {
+            if (result.isEmpty()) {
+                throw new CancelledActionException("Action has been cancelled");
+            }
             return (String) choices.getSelectedItem();
+        } catch(IndexOutOfBoundsException n) {
+            throw new PropertyNotFoundException("You do not own any properties");
         }
-        throw new IllegalInputTypeException("Action has been cancelled");
     }
 
     private String showAuctionInputTextDialog(String name) {
@@ -537,13 +549,6 @@ public class TestingScreen extends AbstractScreen {
     private void handleKeyInput(KeyCode code) {
         if (code == KeyCode.Q) {
             handleBackToMainButton(getMyStage());
-        }
-    }
-
-    public void greyOutButtons(List<String> possibleActions) {
-        for (String str : possibleActions) {
-            Button myButton = (Button)myScene.lookup("#" + str);
-            myButton.setDisable(false);
         }
     }
 

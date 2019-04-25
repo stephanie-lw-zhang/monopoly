@@ -98,7 +98,6 @@ public class GameController {
                         makeIcon((String) playerToIcon.get(pName).getValue()),
                         1500.00));
         }
-
         return playerList;
     }
 
@@ -190,6 +189,10 @@ public class GameController {
                 this.handleBuy();
             } catch (IllegalActionOnImprovedPropertyException e) {
                 e.popUp();
+            } catch (OutOfBuildingStructureException e) {
+                e.popUp();
+            } catch (IllegalInputTypeException e) {
+                e.popUp();
             }
         });
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
@@ -201,7 +204,7 @@ public class GameController {
         handlerMap.put("PAY RENT",event->this.handlePayRent());
         handlerMap.put("PAY BAIL",event->this.handlePayBail());
         handlerMap.put("COLLECT MONEY",event->this.handleCollectMoney());
-        handlerMap.put("UPGRADE", event->this.upgradeProperty());
+        handlerMap.put("UPGRADE", event->this.handleUpgradeProperty());
         handlerMap.put("TRADE",event->this.handleTrade());
         handlerMap.put("mortgage", event->this.handleMortgage());
         handlerMap.put("forfeit",event->this.handleForfeit());
@@ -211,8 +214,32 @@ public class GameController {
         myGameView.addPlayerOptionsView();
     }
 
-    private void upgradeProperty() {
-        
+    //TODO: make sure players can't choose themselves to sell
+    public void handleUpgradeProperty() {
+        try {
+            ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
+            AbstractPlayer owner = getSelectedPlayer("Upgrade Property", "Choose who is upgrading their property ", players);
+
+            ObservableList<String> tiles = getAllOptionNames(myBoard.getBuildingTileNamesAsStrings(owner));
+            BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Upgrade Property", "Choose which property to upgrade ", tiles);
+
+//            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+//            System.out.println("initial money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
+
+            tile.upgrade(owner, myBoard.getSameSetProperties(tile));
+
+//            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+//            System.out.println("after money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
+
+        } catch (IllegalInputTypeException e) {
+            e.popUp();
+        } catch (OutOfBuildingStructureException e) {
+            e.popUp();
+        } catch (CancelledActionException e) {
+            e.doNothing();
+        } catch (PropertyNotFoundException e) {
+            e.popUp();
+        }
     }
 
     private void handleCollectMoney() {
@@ -258,13 +285,12 @@ public class GameController {
                 possibleProperties.add( p.getName() );
             }
 
-//                    AbstractPropertyTile property = null;
             if (possibleProperties.size()==0){
                 myGameView.displayActionInfo( "You have no properties to mortgage at this time." );
             } else{
                 String propertyToMortgage = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the property to be mortgaged", possibleProperties );
                 for(AbstractPropertyTile p: mortgager.getProperties()){
-                    if(p.getName().equalsIgnoreCase( propertyToMortgage )){
+                    if(p.getTitleDeed().equalsIgnoreCase( propertyToMortgage )){
                         property = p;
                     }
                 }
@@ -365,23 +391,28 @@ public class GameController {
         } catch (IllegalActionOnImprovedPropertyException e) {
             e.popUp();
         } catch (IllegalInputTypeException e) {
-            e.doNothing();
+            e.popUp();
         } catch (NullPointerException e) {
-            new IllegalInputTypeException("").doNothing();
+            new CancelledActionException("").doNothing();
+        } catch (OutOfBuildingStructureException e) {
+            e.popUp();
+        } catch (CancelledActionException e) {
+            e.doNothing();
+        } catch (PropertyNotFoundException e) {
+            e.popUp();
         }
     }
 
     public void handleSellToBank() {
-        //EXCEPTION: YOU DO NOT HAVE ANY BUILDINGS TO SELL
         try {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
             AbstractPlayer owner = getSelectedPlayer("Sell Buildings", "Choose who is selling a building", players);
 
             ObservableList<String> tiles = getAllOptionNames(myBoard.getBuildingTileNamesAsStrings(owner));
-            BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Sell Buildings", "Choose which property to sell buidlings from ", tiles);
+            BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Sell Buildings", "Choose which property to sell buildings from ", tiles);
 
-            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-            System.out.println("initial money for bank: " + myBank.getMoney() + " " + myBank.getNumberOfBuildingsLeft("House"));
+//            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+//            System.out.println("initial money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
 
             List<String> options = createListOf2OptionsAsStrings("SELL ALL BUILDINGS ON ALL PROPERTIES OF SAME GROUP",
                     "SELL ONE BUILDING ON SELECTED PROPERTY");
@@ -392,24 +423,24 @@ public class GameController {
             } else {
                 tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
             }
-            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-            System.out.println("after money for bank: " + myBank.getMoney() + " " + myBank.getNumberOfBuildingsLeft("HOUSE"));
-        } catch (IllegalInputTypeException e) {
-            e.doNothing();
+//            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
+//            System.out.println("after money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
         } catch (IllegalActionOnImprovedPropertyException e) {
             e.popUp();
-        } catch (NullPointerException n) {
-            new PropertyNotFoundException("You do not own any properties").popUp();
+        } catch (CancelledActionException e) {
+            e.doNothing();
+        } catch (PropertyNotFoundException e) {
+            e.popUp();
         }
     }
 
-    private void handleBuy() throws IllegalActionOnImprovedPropertyException {
+    private void handleBuy() throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
         Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
         String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
         myGameView.displayActionInfo(info);
     }
 
-    public void handleForfeit(){
+    private void handleForfeit(){
         ObservableList<String> players = getAllPlayerNames();
         String player = myGameView.displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
         AbstractPlayer forfeiter = getBoard().getPlayerFromName( player );
@@ -459,7 +490,7 @@ public class GameController {
         this.getMyTurn().onAction("buy", playerValue);
     }
 
-    public void handleUnmortgage(){
+    private void handleUnmortgage(){
         try {
             AbstractPropertyTile property = (AbstractPropertyTile) getBoard().getAdjacentTiles( getBoard().getJailTile() ).get( 0 );
             property.unmortgageProperty();
@@ -496,14 +527,14 @@ public class GameController {
         return options;
     }
 
-    private AbstractPlayer getSelectedPlayer (String title, String prompt, ObservableList<String> players) throws IllegalInputTypeException {
+    private AbstractPlayer getSelectedPlayer (String title, String prompt, ObservableList<String> players) throws CancelledActionException, PropertyNotFoundException {
         String person = myTestScreen.displayDropDownAndReturnResult( title, prompt, players );
         AbstractPlayer player = null;
         player = getBoard().getPlayerFromName( person );
         return player;
     }
 
-    private AbstractPropertyTile getSelectedPropertyTile(String title, String prompt, ObservableList<String> properties) throws IllegalInputTypeException {
+    private AbstractPropertyTile getSelectedPropertyTile(String title, String prompt, ObservableList<String> properties) throws CancelledActionException, PropertyNotFoundException {
         String tile = myTestScreen.displayDropDownAndReturnResult( title, prompt, properties );
 
         AbstractPropertyTile property = null;

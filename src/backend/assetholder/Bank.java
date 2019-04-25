@@ -25,8 +25,8 @@ public class Bank extends AbstractAssetHolder {
         property.recalculateTotalPropertiesLeftAfterWholeSale( totalPropertiesLeft );
     }
 
-    public void recalculateTotalPropertiesLeftOneBuildingUpdate(AbstractPropertyTile property) {
-        property.recalculateTotalPropertiesLeftOneBuildingUpdate(totalPropertiesLeft );
+    public void recalculateTotalPropertiesLeftOneBuildingUpdate(AbstractPropertyTile property, boolean upgrade) {
+        property.recalculateTotalPropertiesLeftOneBuildingUpdate(totalPropertiesLeft, upgrade );
     }
 
     public Boolean buildingsRemain(String building){
@@ -38,6 +38,8 @@ public class Bank extends AbstractAssetHolder {
     @Override
     public void payFullAmountTo(AbstractAssetHolder receiver, Double debt) {
         receiver.setMoney( receiver.getMoney() + debt );
+        //TODO: limited money?
+        //this.setMoney(this.getMoney()-debt);
     }
 
     @Override
