@@ -2,7 +2,7 @@ package backend.card;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import exception.TileNotFoundException;
+import exceptions.TileNotFoundException;
 
 public class GetOutOfJailCard extends ActionCard {
     public GetOutOfJailCard(AbstractBoard board) {

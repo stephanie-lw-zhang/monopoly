@@ -1,7 +1,7 @@
-package frontend.exceptions;
+package exceptions;
 
 /**
- * Custom exception for when not enough players are entered into
+ * Custom exceptions for when not enough players are entered into
  * the TextField of FormView
  *
  * @author Sam

@@ -7,7 +7,7 @@ package backend.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-import exception.TileNotFoundException;
+import exceptions.TileNotFoundException;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.XMLData;

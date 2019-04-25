@@ -1,9 +1,9 @@
 package frontend.views;
 
-import frontend.exceptions.DuplicatePlayerException;
-import frontend.exceptions.FormInputException;
-import frontend.exceptions.InputMismatchException;
-import frontend.exceptions.InsufficientPlayersException;
+import exceptions.DuplicatePlayerException;
+import exceptions.FormInputException;
+import exceptions.InputMismatchException;
+import exceptions.InsufficientPlayersException;
 import frontend.screens.TestingScreen;
 
 import javafx.scene.layout.ColumnConstraints;
@@ -149,9 +149,9 @@ public class FormView extends GridPane {
         if (this.hasDuplicatePlayers() || this.hasDuplicateIcons(playerToIcon)) {
             throw new DuplicatePlayerException();
         }
-        if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
-            throw new InputMismatchException();
-        }
+//        if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
+//            throw new InputMismatchException();
+//        }
         // TODO: delete myScreen to gamesetupcontorl
         myScreen.handleStartGameButton(playerToIcon);
     }
@@ -184,10 +184,9 @@ public class FormView extends GridPane {
             if (! key.getText().equals(""))
                 convertedMap.put(key, (String) playerToIcon.get(key).getValue());
 
-        Collection<String> valuesList = convertedMap.values();
         Set<String> set = new HashSet<>(convertedMap.values());
 
-        return valuesList.size() != set.size();
+        return convertedMap.values().size() != set.size();
     }
 
     /**

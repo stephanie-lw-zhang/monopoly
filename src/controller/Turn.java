@@ -3,10 +3,10 @@ package controller;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
-import exception.IllegalActionOnImprovedPropertyException;
-import exception.IllegalInputTypeException;
-import exception.TileNotFoundException;
-import exception.OutOfBuildingStructureException;
+import exceptions.IllegalActionOnImprovedPropertyException;
+import exceptions.IllegalInputTypeException;
+import exceptions.TileNotFoundException;
+import exceptions.OutOfBuildingStructureException;
 import backend.tile.*;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.JailTile;
@@ -153,7 +153,7 @@ public class Turn {
 
     public void move() {
 //        if (myRolls == null){
-//            //throw exception that dice must be rolled first
+//            //throw exceptions that dice must be rolled first
 //        }
 //        if(myCurrPlayer.isBankrupt()){
 //            return;
@@ -335,7 +335,7 @@ public class Turn {
     }
 
     public String getTileNameforPlayer(AbstractPlayer p) {
-        //TODO: exception if current tile is not abstract property tile
+        //TODO: exceptions if current tile is not abstract property tile
         return ((AbstractPropertyTile)myBoard.getPlayerTile(p)).getTitleDeed();
     }
 }

@@ -4,10 +4,12 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.StandardBoard;
 import backend.dice.SixDice;
 import backend.tile.AbstractPropertyTile;
-import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import controller.Turn;
-import exception.*;
+import exceptions.CancelledActionException;
+import exceptions.IllegalInputTypeException;
+import exceptions.IllegalMoveException;
+import exceptions.PropertyNotFoundException;
 import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -17,7 +19,6 @@ import frontend.views.FormView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -381,7 +382,7 @@ public class TestingScreen extends AbstractScreen {
             return result.get();
         }
         else {
-            //TODO: throw exception
+            //TODO: throw exceptions
             return null;
         }
     }
@@ -505,7 +506,7 @@ public class TestingScreen extends AbstractScreen {
             return result.get();
         }
         else {
-            //TODO: throw exception
+            //TODO: throw exceptions
             return null;
         }
     }

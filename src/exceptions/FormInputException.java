@@ -1,10 +1,9 @@
-package frontend.exceptions;
+package exceptions;
 
-import exception.MonopolyException;
-import javafx.scene.control.Alert;
+import exceptions.MonopolyException;
 
 /**
- * Custom exception that is a general representation
+ * Custom exceptions that is a general representation
  * of some error that occurs with player input during
  * the pre-game signup
  *

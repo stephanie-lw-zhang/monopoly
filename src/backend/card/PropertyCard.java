@@ -61,7 +61,7 @@ public class PropertyCard extends AbstractCard {
             return upgradeOrder.get(getUpgradeOrderIndexOf(current)+1);
         }
         catch (IndexOutOfBoundsException i) {
-            //throw exception
+            //throw exceptions
             return "";
         }
     }
@@ -71,7 +71,7 @@ public class PropertyCard extends AbstractCard {
             return upgradeOrder.get(getUpgradeOrderIndexOf(current)-1);
         }
         catch (IndexOutOfBoundsException i) {
-            //throw exception
+            //throw exceptions
             return "";
         }
     }

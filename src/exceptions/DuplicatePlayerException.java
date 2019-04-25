@@ -1,7 +1,9 @@
-package frontend.exceptions;
+package exceptions;
+
+import exceptions.FormInputException;
 
 /**
- * Custom exception
+ * Custom exceptions
  */
 public class DuplicatePlayerException extends FormInputException {
 
