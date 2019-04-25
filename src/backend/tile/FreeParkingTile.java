@@ -28,7 +28,7 @@ public class FreeParkingTile extends Tile {
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         //player.setMoney(player.getMoney() + landedOnMoney);
         List<String> possibleActions = new ArrayList<>(  );
-        possibleActions.add("COLLECT MONEY");
+//        possibleActions.add("collect"); ORIGINAL MONOPOLY U DON'T GET ANYTHING
         return possibleActions;
     }
 

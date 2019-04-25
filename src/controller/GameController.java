@@ -17,6 +17,7 @@ import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import exceptions.*;
 import frontend.screens.TestingScreen;
+import frontend.views.LogView;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
 import frontend.views.player_stats.PlayerFundsView;
@@ -57,6 +58,7 @@ public class GameController {
     private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
     private PlayerFundsView fundsView;
     private PlayerPropertiesView propertiesView;
+    private LogView myLogView;
     //Strings are all actions
     private AbstractGameView myGameView;
 
@@ -205,8 +207,8 @@ public class GameController {
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("DRAW CARD",event->this.handleDrawCard());
         handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
-        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
-        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
+        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxIncomeFixed());
+        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxIncomePercentage());
         handlerMap.put("PAY RENT",event->this.handlePayRent());
         handlerMap.put("PAY BAIL",event->this.handlePayBail());
         handlerMap.put("COLLECT MONEY",event->this.handleCollectMoney());
@@ -215,6 +217,25 @@ public class GameController {
         handlerMap.put("mortgage", event->this.handleMortgage());
         handlerMap.put("forfeit",event->this.handleForfeit());
         handlerMap.put( "unmortgage", event->this.handleUnmortgage() );
+        //Why do we have a handler map? can't we just use Reflection
+        /**
+         * Auction();
+         * Buy();
+         * SellToBank());
+         * SellToPlayer());
+         * DrawCard());
+         * GoToJail());
+         * PayTaxFixed());
+         * PayTaxPercentage());
+         * PayRent());
+         * PayBail());
+         * CollectMoney());
+         * UpgradeProperty());
+         * Trade());
+         * Mortgage());
+         *Forfeit());
+         * Unmortgage() );
+         */
 
 
         myGameView.createOptions(handlerMap);
@@ -242,6 +263,8 @@ public class GameController {
     }
 
     private void handleCollectMoney() {
+
+        //USE REFLECTION  CollectMoney + tile ("go") + "landed" OR "passed"
         Boolean passed = true; //temp variable
         if(passed){
             myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
@@ -259,8 +282,7 @@ public class GameController {
             getBoard().getJailTile().removeCriminal(getMyTurn().getMyCurrPlayer());
             myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
               fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-            //TODO: COMMENT LOG VIEW BACK IN
-//            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " has posted bail and can roll to leave Jail!");
+            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");
 
         } catch(TileNotFoundException e) {
             e.popUp();
@@ -291,8 +313,7 @@ public class GameController {
                 }
             }
             property.mortgageProperty();
-            //TODO: comment log view and updatePlayerFundsDisplay back in when refactored
-//            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " has mortgaged " + property + ".");
+            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has mortgaged " + property + ".");
             fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException e) {
             e.popUp();
@@ -306,34 +327,49 @@ public class GameController {
     private void handleTrade() {
     }
 
-    private void handlePayTaxPercentage() {
+    private void handlePayTaxIncomePercentage() {
         myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier() );
     }
 
-    private void handleTileLanding() {
-        List<String> actions = new ArrayList<>();
-        actions.add("PAY TAX PERCENTAGE");
-        actions.add("PAY TAX FIXED");
-        String action = myGameView.displayOptionsPopup(actions, "Options", "Tile Actions", "Choose One");
+    private void handleTileLanding(Tile tile) {
+        try {
+            List<String> actions = tile.applyLandedOnAction( getMyTurn().getMyCurrPlayer() );
+            String desiredAction = "";
+            if(actions.size() > 1){
+                desiredAction = myGameView.displayOptionsPopup(actions, "Options", "Tile Actions", "Choose One");
+            } else {
+                desiredAction = actions.get( 0 );
+            }
+            Method handle = GameController.class.getMethod("handle" + desiredAction);
+            handle.invoke(this);
+        } catch (NoSuchMethodException e) {
+            myGameView.displayActionInfo( "There is no such method" );
+        } catch (SecurityException e) {
+            myGameView.displayActionInfo( "Security exception" );
+        } catch (IllegalAccessException e) {
+            myGameView.displayActionInfo( "Illegal access exception" );
+        } catch (IllegalArgumentException e) {
+            myGameView.displayActionInfo( "Illegal argument" );
+        } catch (InvocationTargetException e) {
+            myGameView.displayActionInfo( "Invocation target exception" );
+        }
     }
 
     public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) getBoard().getPlayerTile( getMyTurn().getMyCurrPlayer());
         getMyTurn().getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( getMyTurn().getNumMoves()));
-//TODO: COMMENT LOG VIEW BACK IN
-        //        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " has paid " + property.calculateRentPrice( getMyTurn().getNumMoves()) + " of rent to " +property.getOwner()+ ".");
+        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( getMyTurn().getNumMoves()) + " of rent to " +property.getOwner()+ ".");
         fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
     }
 
-    private void handlePayTaxFixed() {
+    private void handlePayTaxIncomeFixed() {
         myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct() );
     }
 
     public void handleGoToJail() {
         getMyTurn().goToJail();
         myGameView.displayActionInfo( "Arrested! You're going to Jail." );
-        //TODO: COMMENT LOG VIEW BACK IN
-//        myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " has been sent to Jail!");
+        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
     }
 
     private void handleDrawCard(){
@@ -353,6 +389,10 @@ public class GameController {
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo( "Invocation target exception" );
         }
+
+    }
+
+    private void handlePayTaxLuxury(){
 
     }
 
@@ -448,8 +488,7 @@ public class GameController {
         forfeiter.declareBankruptcy(getBoard().getBank());
         getBoard().getMyPlayerList().remove( forfeiter );
         getBoard().getPlayerTileMap().remove( forfeiter );
-        //TODO: COMMENT LOG VIEW BACK IN
-//        myLogView.gameLog.setText(forfeiter + " has forfeited.");
+        myLogView.gameLog.setText(forfeiter.getMyPlayerName() + " has forfeited.");
 
         fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
         for(Tab tab: propertiesView.getTabs()){

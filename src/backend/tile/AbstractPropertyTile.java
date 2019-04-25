@@ -52,11 +52,11 @@ public abstract class AbstractPropertyTile extends Tile {
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>(  );
         if (isBuyableFromBank()) {
-            possibleActions.add("BUY");
-            possibleActions.add("AUCTION");
+            possibleActions.add("Buy");
+            possibleActions.add("Auction");
         }
         else if (!player.equals(getOwner())) {
-            possibleActions.add("PAY RENT");
+            possibleActions.add("PayRent");
         }
         return possibleActions;
     }

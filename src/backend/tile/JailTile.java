@@ -4,6 +4,7 @@ import backend.assetholder.AbstractPlayer;
 
 import org.w3c.dom.Element;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,9 @@ public class JailTile extends Tile {
 
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
-        return null;
+        List<String> possibleActions = new ArrayList<>(  );
+        return possibleActions;
+        //do nothing
     }
 
     public void addCriminal(AbstractPlayer player) {

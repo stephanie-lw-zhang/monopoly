@@ -152,7 +152,8 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     public void move(IconView icon, Tile tile){
-        //TODO: move to tile after creating tile To Tile View
+        AbstractTileView target = tileToTileView.get( tile );
+        icon.setOn(target);
     }
 
     /**

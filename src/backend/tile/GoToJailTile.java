@@ -16,7 +16,7 @@ public class GoToJailTile extends Tile {
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>(  );
-        possibleActions.add("GO TO JAIL");
+        possibleActions.add("GoToJail");
         return possibleActions;
     }
 
