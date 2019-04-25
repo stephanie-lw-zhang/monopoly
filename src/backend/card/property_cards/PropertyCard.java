@@ -1,6 +1,7 @@
-package backend.card;
+package backend.card.property_cards;
 
 import backend.assetholder.AbstractPlayer;
+import backend.card.AbstractCard;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

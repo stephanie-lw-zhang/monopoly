@@ -4,14 +4,22 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
+<<<<<<< HEAD
+import exception.MultiplePathException;
+import exception.TileNotFoundException;
+=======
 
 import exceptions.TileNotFoundException;
 
+>>>>>>> 0ccef995599921b0e02cddc7237f090a0c731a1f
 import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0ccef995599921b0e02cddc7237f090a0c731a1f
 import configuration.XMLData;
 
 import java.util.*;
@@ -67,7 +75,7 @@ public abstract class AbstractBoard {
     /**
      * Moves the player on the board by reassigning its tile mapping
      */
-    public abstract void movePlayer(AbstractPlayer p, int numMoves);
+    public abstract void movePlayer(AbstractPlayer p, int numMoves) throws MultiplePathException;
 
     public abstract void movePlayer(AbstractPlayer p, Tile tile);
 

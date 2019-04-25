@@ -68,8 +68,8 @@ class PlayerTest {
 
 //package backend.assetholder;
 //
-//import backend.card.BuildingCard;
-//import backend.card.PropertyCard;
+//import backend.card.property_cards.BuildingCard;
+//import backend.card.property_cards.PropertyCard;
 //import backend.tile.BuildingTile;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

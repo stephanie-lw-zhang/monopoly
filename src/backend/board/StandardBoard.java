@@ -7,7 +7,12 @@ package backend.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
+<<<<<<< HEAD
+import exception.MultiplePathException;
+import exception.TileNotFoundException;
+=======
 import exceptions.TileNotFoundException;
+>>>>>>> 0ccef995599921b0e02cddc7237f090a0c731a1f
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.XMLData;
@@ -29,21 +34,31 @@ public class StandardBoard extends AbstractBoard {
         super(playerList, data);
     }
 
-    public void movePlayer(AbstractPlayer p, int numMoves) {
-            Tile tile = getPlayerTile(p);
-            Tile next;
+    public void movePlayer(AbstractPlayer p, int numMoves) throws MultiplePathException{
             for(int i = 0; i < numMoves; i++){
-                //this needs to change for a non-standard board, could be informed by property file
-                next = getAdjacentTiles(tile).get(0);
-                tile = next;
-                //tile.applyPassedAction(p);
+                movePlayerByOne( p );
             }
+
+    }
+
+    public void movePlayerByOne (AbstractPlayer p) throws MultiplePathException{
+        Tile tile = getPlayerTile(p);
+        Tile next;
+        //this needs to change for a non-standard board, could be informed by property file
+        if(getAdjacentTiles(tile).size() == 1){
+            next = getAdjacentTiles(tile).get(0);
+            tile = next;
+            tile.applyPassedAction(p);
             try {
                 if(tile.isGoToJailTile()) tile = getJailTile();
                 getPlayerTileMap().put(p, tile);
             } catch (TileNotFoundException e) {
                 e.printStackTrace();
             }
+        } else {
+            throw new MultiplePathException( "There are multiple paths, please choose one" );
+        }
+
     }
 
     @Override
