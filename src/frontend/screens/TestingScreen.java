@@ -6,10 +6,7 @@ import backend.dice.SixDice;
 import backend.tile.AbstractPropertyTile;
 import configuration.XMLData;
 import controller.Turn;
-import exceptions.CancelledActionException;
-import exceptions.IllegalInputTypeException;
-import exceptions.IllegalMoveException;
-import exceptions.PropertyNotFoundException;
+import exceptions.*;
 import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -194,7 +191,11 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
                 myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
-                myGame.getMyTurn().moveCheat(numMoves);
+                try {
+                    myGame.getMyTurn().moveCheat(numMoves);
+                } catch (MultiplePathException e) {
+                    e.popUp();
+                }
             }
         });
 
@@ -314,7 +315,11 @@ public class TestingScreen extends AbstractScreen {
                     new IllegalMoveException( "Cannot move because you are in jail." );
                 }
                 else{
-                    myGame.getBoard().movePlayer( myGame.getMyTurn().getMyCurrPlayer(), myGame.getMyTurn().getNumMoves() );
+                    try {
+                        myGame.getBoard().movePlayer( myGame.getMyTurn().getMyCurrPlayer(), myGame.getMyTurn().getNumMoves() );
+                    } catch (MultiplePathException e) {
+                        e.popUp();
+                    }
                 }
             }
         });

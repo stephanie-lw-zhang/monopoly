@@ -1,7 +1,7 @@
 package frontend.views.player_options;
 
-import exception.CancelledActionException;
-import exception.PropertyNotFoundException;
+import exceptions.CancelledActionException;
+import exceptions.PropertyNotFoundException;
 import frontend.views.game.AbstractGameView;
 
 import javafx.collections.ObservableList;

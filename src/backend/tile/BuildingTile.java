@@ -3,21 +3,12 @@ package backend.tile;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-<<<<<<< HEAD
 import backend.card.property_cards.BuildingCard;
 import backend.card.property_cards.PropertyCard;
-import exception.IllegalActionOnImprovedPropertyException;
-import exception.MortgagePropertyException;
-import exception.IllegalInputTypeException;
-import exception.OutOfBuildingStructureException;
-=======
-import backend.card.BuildingCard;
-import backend.card.PropertyCard;
 import exceptions.IllegalActionOnImprovedPropertyException;
 import exceptions.MortgagePropertyException;
 import exceptions.IllegalInputTypeException;
 import exceptions.OutOfBuildingStructureException;
->>>>>>> 0ccef995599921b0e02cddc7237f090a0c731a1f
 import org.w3c.dom.Element;
 
 import java.util.List;

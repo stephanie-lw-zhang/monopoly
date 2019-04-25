@@ -8,7 +8,7 @@ import exceptions.OutOfBuildingStructureException;
 import exceptions.IllegalActionOnImprovedPropertyException;
 
 import org.w3c.dom.Element;
-import exception.IllegalInputTypeException;
+import exceptions.IllegalInputTypeException;
 
 import java.util.List;
 
