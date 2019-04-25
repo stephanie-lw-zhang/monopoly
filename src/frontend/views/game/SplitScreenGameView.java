@@ -108,7 +108,7 @@ public class SplitScreenGameView extends AbstractGameView {
             return result.get();
         }
         else {
-            //TODO: throw exception
+            //TODO: throw exceptions
             return null;
         }
     }

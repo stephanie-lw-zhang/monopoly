@@ -3,12 +3,21 @@ package backend.tile;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
+<<<<<<< HEAD
 import backend.card.property_cards.BuildingCard;
 import backend.card.property_cards.PropertyCard;
 import exception.IllegalActionOnImprovedPropertyException;
 import exception.MortgagePropertyException;
 import exception.IllegalInputTypeException;
 import exception.OutOfBuildingStructureException;
+=======
+import backend.card.BuildingCard;
+import backend.card.PropertyCard;
+import exceptions.IllegalActionOnImprovedPropertyException;
+import exceptions.MortgagePropertyException;
+import exceptions.IllegalInputTypeException;
+import exceptions.OutOfBuildingStructureException;
+>>>>>>> 0ccef995599921b0e02cddc7237f090a0c731a1f
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -46,7 +55,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
      */
 //    public boolean checkIfOwnerIsCurrentPlayer(AbstractPlayer player) {
 //        return (!this.getOwner().equals(player));
-//            //throw exception: YOU DO NOT OWN THIS PROPERTY
+//            //throw exceptions: YOU DO NOT OWN THIS PROPERTY
 //    }
 
     /**
@@ -111,7 +120,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         BuildingCard card = (BuildingCard) this.getCard();
         String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
-            //throw exception if not caught in nextInUpgradeOrder
+            //throw exceptions if not caught in nextInUpgradeOrder
             double payment = card.getPriceNeededToUpgradeLookupTable(getCurrentInUpgradeOrder());
             player.payFullAmountTo(getBank(), payment);
             setCurrentInUpgradeOrder(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
@@ -145,13 +154,13 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         BuildingCard currentcard = (BuildingCard) currentTile.getCard();
         if (upgrade) {
             if (currentcard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) < thresholdForUpdate) {
-                //throw exception: YOU CANNOT UPGRADE UNEVENLY
+                //throw exceptions: YOU CANNOT UPGRADE UNEVENLY
                 return true;
             }
         }
         else {
             if (currentcard.getUpgradeOrderIndexOf(currentTile.getCurrentInUpgradeOrder()) > thresholdForUpdate) {
-                //throw exception: YOU CANNOT DOWNGRADE UNEVENLY
+                //throw exceptions: YOU CANNOT DOWNGRADE UNEVENLY
                 return true;
             }
         }
@@ -167,7 +176,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     // Before an improved property can be mortgaged, all the Houses and Hotels on all the properties of its color-group must be sold back to the Bank at half price.
-/** need controller logic: throw exception for **/
+/** need controller logic: throw exceptions for **/
 //    public void mortgageImprovedProperty(AbstractPlayer player, AbstractBoard board) {
 //        List<BuildingTile> properties = board.getColorListMap().get(this.getTilecolor());
 //        for (BuildingTile building : properties) {
