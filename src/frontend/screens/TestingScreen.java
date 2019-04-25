@@ -7,9 +7,7 @@ import backend.tile.AbstractPropertyTile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import controller.Turn;
-import exception.IllegalInputTypeException;
-import exception.IllegalMoveException;
-import exception.PlayerDoesNotExistException;
+import exception.*;
 import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -47,21 +45,17 @@ import java.util.*;
  */
 public class TestingScreen extends AbstractScreen {
 
-    private ImportPropertyFile   myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-    private final ImageView      backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
+    private final ImageView      backgroundImg;
     private SquareBoardView      myBoardView;
     private DiceView             myDiceView;
     private FormView             myFormView;
     private Scene                myScene;
     private GameController       myGame;
-    private double               screenWidth;
-    private double               screenHeight;
     private LogView              myLogView;
     private XMLData              myData;
 
     private TextArea             fundsDisplay;
-    private TabPane allPlayerProperties;
-    private ObservableList<ImageView> myIconsList;
+    private TabPane              allPlayerProperties;
 
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
@@ -77,29 +71,41 @@ public class TestingScreen extends AbstractScreen {
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
     private final Button UNMORTGAGE_BUTTON = new Button("Unmortgage");
-    private final Button SELL_TO_PLAYER = new Button("SELL TO PLAYER");
+    private final Button SELL_TO_BANK = new Button("SELL TO BANK");
+    private final Button UPGRADE = new Button("UPGRADE");
 
-
-
+    /**
+     * TestingScreen main constructor
+     * @param width
+     * @param height
+     * @param stage
+     */
     public TestingScreen(double width, double height, Stage stage) {
         super(width, height, stage);
-        screenWidth = width;
-        screenHeight = height;
         try {
             myData = new XMLData("OriginalMonopoly.xml");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        backgroundImg = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg")));
+        myScene = makeScreen();
+        myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
+        //        Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
+//        myScene.setCursor(new ImageCursor(myCursor));
     }
 
+    /**
+     * Overridden makeScreen method for TestingScreen
+     * @return
+     */
     @Override
-    public void makeScreen() {
+    public Scene makeScreen() {
         BorderPane bPane = new BorderPane();
-        // myScene.getStylesheets().add("../../../resources/stylesheet.css");
         backgroundImg.setSmooth(true);
         backgroundImg.setCache(true);
-        backgroundImg.setFitWidth(screenWidth);
-        backgroundImg.setFitHeight(screenHeight);
+        backgroundImg.setFitWidth(getScreenWidth());
+        backgroundImg.setFitHeight(getScreenHeight());
 
         myFormView = new FormView(this);
 
@@ -125,12 +131,16 @@ public class TestingScreen extends AbstractScreen {
         bPane.setMargin(backButton, new Insets(35,0,-30,0));
         bPane.setCenter(myFormView);
 
-        myScene = new Scene(bPane, screenWidth, screenHeight);
-//        Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
-//        myScene.setCursor(new ImageCursor(myCursor));
-        myScene.setOnKeyPressed(f -> handleKeyInput(f.getCode()));
+        return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
+    /**
+     * Handles start of game
+     *
+     * TODO: REFACATOR TO GAMESETUPCONTROLLER
+     *
+     * @param playerToIcon
+     */
     public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
         myGame = new GameController(
                 this,
@@ -138,13 +148,11 @@ public class TestingScreen extends AbstractScreen {
                 playerToIcon
         );
 
-        XMLData data = null;
-        try {
-            data = new XMLData("OriginalMonopoly.xml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        myBoardView = new SquareBoardView(new StandardBoard(myGame.getBoard().getMyPlayerList(), data), screenWidth*0.5, screenHeight*0.9,90,11,11);
+        myBoardView = new SquareBoardView(
+                new StandardBoard(myGame.getBoard().getMyPlayerList(), myData),
+                getScreenWidth()*0.5, getScreenHeight()*0.9,
+                90,11,11
+        );
 
         BorderPane bPane = (BorderPane) myScene.getRoot();
 
@@ -290,13 +298,13 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleForfeit();
-            }
-        });
+//        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+//            //WORKS
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                myGame.handleForfeit();
+//            }
+//        });
 
         MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>(){
             @Override
@@ -310,18 +318,25 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
+//        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+//            //WORKS
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                myGame.handleUnmortgage();
+//            }
+//        });
+
+        SELL_TO_BANK.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handleUnmortgage();
+                myGame.handleSellToBank();
             }
         });
 
-        SELL_TO_PLAYER.setOnAction(new EventHandler<ActionEvent>() {
+        UPGRADE.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handleSellToPlayer();
+                myGame.handleUpgradeProperty();
             }
         });
 
@@ -330,19 +345,19 @@ public class TestingScreen extends AbstractScreen {
                 myLogView.gameLog,
                 myDiceView, ROLL_BUTTON,
                 playersText, currPlayerText,
-                END_TURN_BUTTON, TRADE_BUTTON,
+                END_TURN_BUTTON, TRADE_BUTTON, UPGRADE,
                 AUCTION_BUTTON, MORTGAGE_BUTTON, BUY_BUTTON,
                 moveCheatKey, createPlayerPropertiesDisplay(),
 //                BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON,
                 FORFEIT_BUTTON,
-                MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, SELL_TO_PLAYER, createPlayerFundsDisplay()
+                MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, SELL_TO_BANK, createPlayerFundsDisplay()
         );
 
         playerOptionsModal.setPadding(new Insets(15, 0, 0, 15));
         playerOptionsModal.setAlignment(Pos.CENTER_RIGHT);
         myDiceView.setAlignment(Pos.CENTER_RIGHT);
 
-        Pane boardViewPane = myBoardView.getPane();
+        Pane boardViewPane = (Pane) myBoardView.getBoardViewNode();
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
 
@@ -353,14 +368,6 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
-    }
-
-    private ObservableList<String> getAllPlayerNames() {
-        ObservableList<String> players = FXCollections.observableArrayList();
-        for (AbstractPlayer p : myGame.getBoard().getMyPlayerList()) {
-            players.add( p.getMyPlayerName() );
-        }
-        return players;
     }
 
     //TODO: delete these (FOR TESTING rn)
@@ -421,13 +428,9 @@ public class TestingScreen extends AbstractScreen {
     }
 
     private void updatePlayerPropertiesDisplay() {
-        try {
-            for(Tab tab: allPlayerProperties.getTabs()){
-                AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
-                writeInPlayerProperties(player, tab);
-            }
-        } catch (PlayerDoesNotExistException e) {
-            e.popUp();
+        for(Tab tab: allPlayerProperties.getTabs()){
+            AbstractPlayer player = myGame.getBoard().getPlayerFromName( tab.getText() );
+            writeInPlayerProperties(player, tab);
         }
     }
 
@@ -471,17 +474,21 @@ public class TestingScreen extends AbstractScreen {
         formAlert.showAndWait();
     }
 
-    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options) throws IllegalInputTypeException {
-        ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
-        choices.setHeaderText( title );
-        choices.setContentText(prompt);
-        //"Select the player who wants to mortgage a property: "
-        Optional<String> result = choices.showAndWait();
+    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options) throws CancelledActionException, PropertyNotFoundException {
+        try {
+            ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
+            choices.setHeaderText( title );
+            choices.setContentText(prompt);
+            //"Select the player who wants to mortgage a property: "
+            Optional<String> result = choices.showAndWait();
 //        choices.showAndWait();
-        if (result.isPresent()) {
+            if (result.isEmpty()) {
+                throw new CancelledActionException("Action has been cancelled");
+            }
             return (String) choices.getSelectedItem();
+        } catch(IndexOutOfBoundsException n) {
+            throw new PropertyNotFoundException("You do not own any properties");
         }
-        throw new IllegalInputTypeException("Action has been cancelled");
     }
 
     private String showAuctionInputTextDialog(String name) {
@@ -545,19 +552,8 @@ public class TestingScreen extends AbstractScreen {
         }
     }
 
-    public void greyOutButtons(List<String> possibleActions) {
-        for (String str : possibleActions) {
-            Button myButton = (Button)myScene.lookup("#" + str);
-            myButton.setDisable(false);
-        }
-    }
-
     public Scene getMyScene() {
         return myScene;
     }
     public AbstractBoardView getMyBoardView() { return myBoardView; }
-
-    public FormView getMyFormView() {
-        return myFormView;
-    }
 }

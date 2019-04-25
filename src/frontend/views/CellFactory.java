@@ -1,11 +1,16 @@
 package frontend.views;
 
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 
+/**
+ * Factory to create images in the icons
+ * dropdown in FormView
+ *
+ * @author Stephanie
+ */
 public class CellFactory extends ListCell<String> {
     @Override
     protected void updateItem(String item, boolean empty) {
@@ -21,5 +26,4 @@ public class CellFactory extends ListCell<String> {
         }
         setText("");
     }
-
 }

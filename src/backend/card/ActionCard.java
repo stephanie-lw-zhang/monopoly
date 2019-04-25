@@ -1,5 +1,6 @@
 package backend.card;
 
+import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 
 public abstract class ActionCard {
@@ -13,6 +14,6 @@ public abstract class ActionCard {
                 return board;
         }
 
-        public abstract void applyTo(backend.assetholder.AbstractPlayer player);
+        public abstract void applyTo(AbstractPlayer player);
 
 }

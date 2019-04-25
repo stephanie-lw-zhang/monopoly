@@ -17,14 +17,15 @@ import javafx.stage.Stage;
  */
 public class MainMenuScreen extends AbstractScreen {
     private static final String SCREEN_TITLE = "Monopoly";
-    private Scene myIntro;
+    private Scene myScene;
 
     public MainMenuScreen(double sWidth, double sHeight, Stage stage) {
         super(sWidth, sHeight, stage);
+        myScene = makeScreen();
     }
 
     @Override
-    public void makeScreen() {
+    public Scene makeScreen() {
 //        Text titleText = new Text("MONOPOLY");
 //        titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
 //        titleText.setFill(Color.DARKGREEN);
@@ -74,7 +75,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 
-        myIntro = new Scene(bPane, getScreenWidth(), getScreenHeight());
+        return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
 
     private void handleBoardButton(Stage myStage) {
@@ -120,11 +121,14 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void completeStage(Stage stage, AbstractScreen menu) {
-        menu.makeScreen();
         stage.close();
         stage.setScene((menu.getMyScene()));
         stage.show();
     }
 
-    public Scene getMyIntroScene() { return myIntro; }
+    /**
+     * Getter of the Scene
+     * @return
+     */
+    public Scene getMyIntroScene() { return myScene; }
 }

@@ -3,7 +3,8 @@ package frontend.screens;
 import javafx.stage.Stage;
 
 /**
- * Extends AbstractScreen. Represents the menu screen rendered for custom mode play
+ * Extends AbstractScreen. Represents the menu screen rendered
+ * for custom mode play
  *
  * @author Sam
  */

@@ -2,29 +2,45 @@ package frontend.views.game;
 
 import backend.board.StandardBoard;
 import configuration.XMLData;
+
+import frontend.views.player_options.AbstractOptionsView;
+import frontend.views.player_options.VBoxOptionsView;
+import frontend.views.player_options.DiceView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
-import frontend.views.player_options.AbstractOptionsView;
-import frontend.views.player_options.DiceView;
-import frontend.views.player_options.VBoxOptionsView;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
+
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.Node;
+
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+/**
+ * Extends AbstractGameView; Represents the Game View of
+ * a split screen layout (half and half)
+ *
+ * @author Edward
+ * @author Sam [docs + added BoardView]
+ */
 public class SplitScreenGameView extends AbstractGameView {
+
     private GridPane myPane;
     private AbstractBoardView myBoardView;
     private AbstractOptionsView myOptionsView;
     private DiceView myDiceView;
 
+    /**
+     * SplitScreenGameView main constructor
+     * @param screenWidth
+     * @param screenHeight
+     */
     public SplitScreenGameView(double screenWidth, double screenHeight){
         super(screenWidth,screenHeight);
         try {
@@ -33,14 +49,14 @@ public class SplitScreenGameView extends AbstractGameView {
             e.printStackTrace(); //change this !!!
         }
         myOptionsView = new VBoxOptionsView(this);
-        myPane.add(myBoardView.getPane(),0,0);
-//        frame = new JFrame("Frame");
-    }
-    @Override
-    public Node getGameViewNode() {
-        return myPane;
+        addBoardView();
     }
 
+    /**
+     * Sets layout dimensions of the View's internal GridPane node
+     * @param screenWidth
+     * @param screenHeight
+     */
     @Override
     public void setBoundsForEntireGame(double screenWidth, double screenHeight) {
         myPane = new GridPane();
@@ -48,6 +64,9 @@ public class SplitScreenGameView extends AbstractGameView {
         myPane.setMaxHeight(screenHeight);
     }
 
+    /**
+     * Splits the internal GridPane node evenly in two columns
+     */
     @Override
     public void divideScreen() {
         ColumnConstraints leftCol = new ColumnConstraints();
@@ -57,9 +76,20 @@ public class SplitScreenGameView extends AbstractGameView {
         myPane.getColumnConstraints().addAll(leftCol,rightCol);
     }
 
+    /**
+     * Adds the PlayerOptionsView on the right hand half of the internal node
+     */
     @Override
     public void addPlayerOptionsView() {
         myPane.add(myOptionsView.getOptionsViewNode(),1,0);
+    }
+
+    /**
+     * Adds the AbstractBoardView on the left hand half of internal node
+     */
+    @Override
+    public void addBoardView() {
+        myPane.add(myBoardView.getBoardViewNode(), 0, 0);
     }
 
     @Override
@@ -83,8 +113,12 @@ public class SplitScreenGameView extends AbstractGameView {
         }
     }
 
+    /**
+     * Gets the internal node of the SplitScreenGameView
+     * @return Node         a GridPane
+     */
     @Override
-    public Node getPane() {
+    public Node getGameViewNode() {
         return myPane;
     }
 
@@ -92,6 +126,11 @@ public class SplitScreenGameView extends AbstractGameView {
 
     }
 
+    /**
+     * Creates the buttons to be displayed on the playerOptionsView from
+     * a given mapping of handlers and calls the parent class createButtons method
+     * @param handlerMap
+     */
     public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap){
         myOptionsView.createButtons(handlerMap);
     }

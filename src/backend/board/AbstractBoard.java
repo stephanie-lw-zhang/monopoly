@@ -12,12 +12,17 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
+<<<<<<< HEAD
 import exception.PlayerDoesNotExistException;
 import exception.TileNotFoundException;
 import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+=======
+import backend.exceptions.TileNotFoundException;
+import backend.tile.*;
+>>>>>>> b5a2a73d8c7669b1db7ce4be9fa21c304a9236b8
 import configuration.XMLData;
 
 import java.util.*;
@@ -89,19 +94,13 @@ public abstract class AbstractBoard {
                 .getEnclosingMethod()
                 .getReturnType());
 
+        //TODO: should not catch exceptions that were just thrown!!! fix
         for (Tile key : adjacencyMap.keySet()) {
-            try {
-                if (key.isJailTile()) {
-                    return (JailTile) key;
-                } else {
-                    throw new TileNotFoundException("Could not find Tile of type " + methodName);
-                }
-            } catch (TileNotFoundException e) {
-                e.printStackTrace();
+            if (key.isJailTile()) {
                 return (JailTile) key;
             }
         }
-        return null;
+        throw new TileNotFoundException("Could not find Tile of type " + methodName);
     }
 
     public GoTile getGoTile(){
@@ -132,13 +131,13 @@ public abstract class AbstractBoard {
         return null; //change this !!!
     }
 
-    public AbstractPlayer getPlayerFromName(String name) throws PlayerDoesNotExistException{
+    public AbstractPlayer getPlayerFromName(String name) {
         for(AbstractPlayer p: myPlayerList){
             if (p.getMyPlayerName().equalsIgnoreCase( name )){
                 return p;
             }
         }
-        throw new PlayerDoesNotExistException("This player does not exist");
+        return null;
     }
 
     public List<String> getPlayerNamesAsStrings() {
@@ -149,7 +148,7 @@ public abstract class AbstractBoard {
         return playerStrings;
     }
 
-    public List<String> getPropertyNamesAsStrings(AbstractPlayer owner) {
+    public List<String> getPropertyTileNamesAsStrings(AbstractPlayer owner) {
         List<String> tileStrings = new ArrayList<>();
         for (AbstractPropertyTile t : owner.getProperties()) {
             tileStrings.add(t.getTitleDeed());
@@ -157,7 +156,17 @@ public abstract class AbstractBoard {
         return tileStrings;
     }
 
-    public Tile getTileFromName(String name) {
+    public List<String> getBuildingTileNamesAsStrings(AbstractPlayer owner) {
+        List<String> tileStrings = new ArrayList<>();
+        for (AbstractPropertyTile t : owner.getProperties()) {
+            if (t.isBuildingTile()) {
+                tileStrings.add(t.getTitleDeed());
+            }
+        }
+        return tileStrings;
+    }
+
+    public Tile getPropertyTileFromName(String name) {
         for (Tile t : adjacencyMap.keySet()) {
             if (t.isPropertyTile()) {
                 AbstractPropertyTile property = (AbstractPropertyTile)t;

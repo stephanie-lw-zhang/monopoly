@@ -11,9 +11,15 @@ import java.util.Map;
 /**
  * The Abstract class for a View consisting of
  * Player options in a game (i.e. buttons, sliders, etc.)
+ *
+ * @author Edward
  */
 abstract public class AbstractOptionsView {
 
+    /**
+     * Default constructo
+     * @param gameView
+     */
     public AbstractOptionsView(AbstractGameView gameView) {}
 
     /**
