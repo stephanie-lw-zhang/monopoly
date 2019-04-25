@@ -2,9 +2,11 @@ package backend.tile;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.Bank;
+
 import exceptions.IllegalInputTypeException;
 import exceptions.OutOfBuildingStructureException;
 import exceptions.IllegalActionOnImprovedPropertyException;
+
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -34,5 +36,4 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
             each.setCurrentInUpgradeOrder( newInUpgradeOrder );
         }
     }
-
 }

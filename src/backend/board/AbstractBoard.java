@@ -6,9 +6,10 @@ import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
 
 import exceptions.TileNotFoundException;
-import backend.tile.AbstractPropertyTile;
-import backend.tile.JailTile;
+
 import backend.tile.GoTile;
+import backend.tile.JailTile;
+import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 
 import configuration.XMLData;
