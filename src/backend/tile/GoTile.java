@@ -36,14 +36,14 @@ public class GoTile extends Tile {
 
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>( );
-        possibleActions.add("CollectMoneyGoLanded");
+        possibleActions.add("CollectMoneyLanded");
         return possibleActions;
     }
 
     @Override
     public List<String> applyPassedAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>();
-        possibleActions.add("CollectMoneyGoPassed");
+        possibleActions.add("CollectMoneyPassed");
         return possibleActions;
     }
 

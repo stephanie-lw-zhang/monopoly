@@ -207,11 +207,12 @@ public class GameController {
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("DRAW CARD",event->this.handleDrawCard());
         handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
-        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxIncomeFixed());
-        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxIncomePercentage());
+        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
+        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
         handlerMap.put("PAY RENT",event->this.handlePayRent());
         handlerMap.put("PAY BAIL",event->this.handlePayBail());
-        handlerMap.put("COLLECT MONEY",event->this.handleCollectMoney());
+        handlerMap.put("COLLECT passed MONEY",event->this.handleCollectMoneyPassed());
+        handlerMap.put("COLLECT landed MONEY",event->this.handleCollectMoneyLanded());
         handlerMap.put("UPGRADE", event->this.handleUpgradeProperty());
         handlerMap.put("TRADE",event->this.handleTrade());
         handlerMap.put("mortgage", event->this.handleMortgage());
@@ -262,18 +263,16 @@ public class GameController {
         }
     }
 
-    private void handleCollectMoney() {
-
-        //USE REFLECTION  CollectMoney + tile ("go") + "landed" OR "passed"
-        Boolean passed = true; //temp variable
-        if(passed){
-            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
-            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
-        } else {
+    private void handleCollectMoneyLanded() {
             //means you landed directly on it
             myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
             myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
-        }
+    }
+
+    private void handleCollectMoneyPassed() {
+        //USE REFLECTION  CollectMoney + "landed" OR "passed"
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
     }
 
     public void handlePayBail(){
@@ -327,16 +326,23 @@ public class GameController {
     private void handleTrade() {
     }
 
-    private void handlePayTaxIncomePercentage() {
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier() );
+    private void handlePayTaxPercentage() {
+        double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier();
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
+        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
     private void handleTileLanding(Tile tile) {
         try {
             List<String> actions = tile.applyLandedOnAction( getMyTurn().getMyCurrPlayer() );
-            String desiredAction = "";
+            String desiredAction;
             if(actions.size() > 1){
-                desiredAction = myGameView.displayOptionsPopup(actions, "Options", "Tile Actions", "Choose One");
+                List<String> readableActions = new ArrayList<>();
+                for(String each: actions){
+                    readableActions.add( makeReadable( each ) );
+                }
+                String pickedOption = myGameView.displayOptionsPopup(readableActions, "Options", "Tile Actions", "Choose One");
+                desiredAction = translateReadable( pickedOption );
             } else {
                 desiredAction = actions.get( 0 );
             }
@@ -362,8 +368,10 @@ public class GameController {
         fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
     }
 
-    private void handlePayTaxIncomeFixed() {
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct() );
+    private void handlePayTaxFixed() {
+        double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
+        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
     public void handleGoToJail() {
@@ -389,11 +397,6 @@ public class GameController {
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo( "Invocation target exception" );
         }
-
-    }
-
-    private void handlePayTaxLuxury(){
-
     }
 
     private void handleSellToPlayer() {
@@ -579,5 +582,24 @@ public class GameController {
         }
         return players;
     }
+
+    private String makeReadable(String s){
+        String label = "";
+        for(int i = 1; i <= s.length(); i++){
+            //start at 1 so doesn't add a space before the first letter
+            if(Character.isUpperCase( s. charAt( i ))){
+                label += " " + s.charAt( i );
+            } else{
+                label += s.charAt( i );
+            }
+        }
+        return label;
+    }
+
+    private String translateReadable(String s){
+        return s.replaceAll("\\s+","");
+    }
+
+
 
 }
