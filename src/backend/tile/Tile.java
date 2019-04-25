@@ -14,6 +14,10 @@ public abstract class Tile {
 
     public abstract List<String> applyLandedOnAction(AbstractPlayer p);
 
+    public List<String> applyPassedAction(AbstractPlayer p) {
+        return null;
+    };
+
     public String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);

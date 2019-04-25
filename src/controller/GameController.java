@@ -3,7 +3,6 @@ package controller;
 import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.StandardBoard;
-import backend.card.AbstractCard;
 import backend.card.ActionCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
@@ -31,7 +30,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -163,7 +161,7 @@ public class GameController {
 
         myTurn.move();
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
-        List<String> possibleActions = myTurn.getMyActions();
+        List<String> possibleActions = myTurn.getMyCurrentTileActions();
         //TODO: front end display these two possible actions
     }
 
@@ -227,6 +225,7 @@ public class GameController {
 //            System.out.println("initial money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
 
             tile.upgrade(owner, myBoard.getSameSetProperties(tile));
+            //TODO: add front-end implementation
 
 //            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
 //            System.out.println("after money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
@@ -419,9 +418,10 @@ public class GameController {
             String str = myTestScreen.displayOptionsPopup(options, "Sell Buildings", "Sell buildings options ", "Choose one ");
             if (str.equalsIgnoreCase(options.get(0))) {
                 tile.sellAllBuildingsOnTile(myBoard.getSameSetProperties(tile));
-
+                //TODO: add front-end implementation
             } else {
                 tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
+                //TODO: add front-end implementation
             }
 //            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
 //            System.out.println("after money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));

@@ -36,7 +36,9 @@ public class StandardBoard extends AbstractBoard {
                 //this needs to change for a non-standard board, could be informed by property file
                 next = getAdjacentTiles(tile).get(0);
                 tile = next;
-                //tile.applyPassedAction(p);
+                if (tile.applyPassedAction(p) != null) {
+                    //tile.applyPassedAction(p);
+                }
             }
             try {
                 if(tile.isGoToJailTile()) tile = getJailTile();

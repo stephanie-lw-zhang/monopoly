@@ -41,6 +41,7 @@ public class GoTile extends Tile {
         return possibleActions;
     }
 
+    @Override
     public List<String> applyPassedAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>();
         possibleActions.add("COLLECT MONEY");

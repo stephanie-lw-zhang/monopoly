@@ -31,7 +31,7 @@ public class Turn {
     private AbstractPlayer myCurrPlayer;
     private AbstractBoard  myBoard;
     private AbstractDice   myDice;
-    private List<String>  myActions;
+    private List<String>  myCurrentTileActions;
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;
@@ -49,12 +49,12 @@ public class Turn {
         myCurrPlayer = player;
         myBoard = board;
         myDice = dice;
-        myActions = new ArrayList<>();
+        myCurrentTileActions = new ArrayList<>();
         canRollDie = true;
     }
 
     public void start() {
-        myActions = new ArrayList<>();
+        myCurrentTileActions = new ArrayList<>();
 
         isTurnOver = false;
 
@@ -188,7 +188,7 @@ public class Turn {
         //
         else{
             myBoard.movePlayer(myCurrPlayer, getNumMoves());
-            myActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+            myCurrentTileActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
         }
     }
 
@@ -202,7 +202,7 @@ public class Turn {
 
     public Map.Entry<AbstractPlayer, Double> goToJail() {
         try {
-        JailTile jail = (JailTile) myBoard.getJailTile();
+        JailTile jail = myBoard.getJailTile();
         myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
         jail.addCriminal( myCurrPlayer );
         myCurrPlayer.addTurnInJail();
@@ -237,33 +237,30 @@ public class Turn {
         }
         buyProperty(player, value);
         Map.Entry<AbstractPlayer,Double> ret = new AbstractMap.SimpleEntry<>(player, value);
-        //endTurn();
         return ret;
     }
 
     public void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
-//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
         property.sellTo( player, value, sameSetProperties );
-//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
     }
 
-    public Map.Entry<AbstractPlayer, Double> payBail() {
-
-        myCurrPlayer.payFullAmountTo(myBoard.getBank(), 1500.00);
-
-        // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
-        // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> trade() {
-
-//      TODO: handle Receiver input and debt as instances
-        return null;
-    }
+//    public Map.Entry<AbstractPlayer, Double> payBail() {
+//
+//        myCurrPlayer.payFullAmountTo(myBoard.getBank(), 1500.00);
+//
+//        // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
+//        // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
+//        return null;
+//    }
+//
+//    public Map.Entry<AbstractPlayer, Double> trade() {
+//
+////      TODO: handle Receiver input and debt as instances
+//        return null;
+//    }
 
     public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
         AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
@@ -282,20 +279,20 @@ public class Turn {
 //            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
 //        }
 //    }
-
-    public Map.Entry<AbstractPlayer, Double> sellToPlayer() {
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> sellToBank(){
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> drawCard(){
-        ((AbstractDrawCardTile) currPlayerTile()).drawCard();
-//       assume draw card tile
-        return null;
-    }
+//
+//    public Map.Entry<AbstractPlayer, Double> sellToPlayer() {
+//        return null;
+//    }
+//
+//    public Map.Entry<AbstractPlayer, Double> sellToBank(){
+//        return null;
+//    }
+//
+//    public Map.Entry<AbstractPlayer, Double> drawCard(){
+//        ((AbstractDrawCardTile) currPlayerTile()).drawCard();
+////       assume draw card tile
+//        return null;
+//    }
 
 //    public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
 //
@@ -330,8 +327,8 @@ public class Turn {
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
 
-    public List<String> getMyActions() {
-        return myActions;
+    public List<String> getMyCurrentTileActions() {
+        return myCurrentTileActions;
     }
 
     public String getTileNameforPlayer(AbstractPlayer p) {
