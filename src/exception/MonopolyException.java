@@ -1,9 +1,9 @@
-package backend.exceptions;
+package exception;
 
 import javafx.scene.control.Alert;
 
-public class IllegalActionOnImprovedPropertyException extends Exception {
-    public IllegalActionOnImprovedPropertyException(String message) {
+public abstract class MonopolyException extends Exception{
+    public MonopolyException(String message) {
         super(message);
     }
 
@@ -12,4 +12,5 @@ public class IllegalActionOnImprovedPropertyException extends Exception {
         formAlert.setContentText(this.getMessage());
         formAlert.showAndWait();
     }
+
 }

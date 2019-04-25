@@ -2,7 +2,7 @@ package backend.tile;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.Bank;
-import backend.exceptions.IllegalActionOnImprovedPropertyException;
+import exception.IllegalActionOnImprovedPropertyException;
 import org.w3c.dom.Element;
 
 import java.util.List;

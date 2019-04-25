@@ -5,8 +5,8 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.card.BuildingCard;
 import backend.card.PropertyCard;
-import backend.exceptions.IllegalActionOnImprovedPropertyException;
-import backend.exceptions.MortgagePropertyException;
+import exception.IllegalActionOnImprovedPropertyException;
+import exception.MortgagePropertyException;
 import org.w3c.dom.Element;
 
 import java.util.List;

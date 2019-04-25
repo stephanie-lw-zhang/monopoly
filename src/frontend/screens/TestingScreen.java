@@ -3,11 +3,13 @@ package frontend.screens;
 import backend.assetholder.AbstractPlayer;
 import backend.board.StandardBoard;
 import backend.dice.SixDice;
-import backend.exceptions.*;
 import backend.tile.AbstractPropertyTile;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import controller.Turn;
+import exception.IllegalInputTypeException;
+import exception.IllegalMoveException;
+import exception.PlayerDoesNotExistException;
 import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -296,11 +298,11 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+        MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent actionEvent) {
                 if(myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
-                    //throw exception "you cannot move because you are in jail"
+                    new IllegalMoveException( "Cannot move because you are in jail." );
                 }
                 else{
                     myGame.getBoard().movePlayer( myGame.getMyTurn().getMyCurrPlayer(), myGame.getMyTurn().getNumMoves() );
