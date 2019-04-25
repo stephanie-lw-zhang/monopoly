@@ -3,7 +3,7 @@ package backend.tile;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-import backend.card.PropertyCard;
+import backend.card.property_cards.PropertyCard;
 
 import exception.IllegalActionOnImprovedPropertyException;
 import exception.MortgagePropertyException;

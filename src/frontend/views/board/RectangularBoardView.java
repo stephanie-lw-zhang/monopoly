@@ -2,7 +2,7 @@ package frontend.views.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import backend.card.PropertyCard;
+import backend.card.property_cards.PropertyCard;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 
@@ -15,7 +15,6 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
 import javafx.scene.Node;
 
@@ -44,6 +43,7 @@ public class RectangularBoardView extends AbstractBoardView {
     private List<IconView>         myIconList;
     private AbstractBoard          myBoard;
     private int                    myNumMoves;
+    private Map<Tile, AbstractTileView> tileToTileView;
 
     /**
      * RectangularBoardView main constructor
@@ -149,6 +149,10 @@ public class RectangularBoardView extends AbstractBoardView {
             iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
             myNumMoves--;
         }
+    }
+
+    public void move(IconView icon, Tile tile){
+        //TODO: move to tile after creating tile To Tile View
     }
 
     /**
