@@ -2,6 +2,7 @@ package configuration;
 
 import backend.assetholder.Bank;
 import backend.card.action_cards.ActionCard;
+import backend.card.action_cards.MoveCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
 import backend.tile.AbstractPropertyTile;
@@ -140,6 +141,7 @@ public class XMLData {
             String cardType = getTagValue("CardType", element);
             //System.out.println(cardType);
             card = (ActionCard) Class.forName("backend.card.action_cards." + cardType).getConstructor(Element.class).newInstance(element);
+            if(card.getActionType().equalsIgnoreCase("Move")) ((MoveCard)card).setTile(tiles.get(((MoveCard)card).getIndex()));
             return card;
         }
         else{

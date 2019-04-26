@@ -1,9 +1,15 @@
 package frontend.views.game;
 
+import backend.assetholder.AbstractPlayer;
+import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
+import backend.tile.Tile;
 import configuration.XMLData;
 
+import controller.Turn;
+import frontend.views.LogView;
 import frontend.views.player_options.AbstractOptionsView;
+import frontend.views.player_options.BPaneOptionsView;
 import frontend.views.player_options.VBoxOptionsView;
 import frontend.views.player_options.DiceView;
 import frontend.views.board.AbstractBoardView;
@@ -34,21 +40,24 @@ public class SplitScreenGameView extends AbstractGameView {
     private GridPane myPane;
     private AbstractBoardView myBoardView;
     private AbstractOptionsView myOptionsView;
+    private LogView myLogView;
     private DiceView myDiceView;
+    private XMLData myData;
 
     /**
      * SplitScreenGameView main constructor
      * @param screenWidth
      * @param screenHeight
      */
-    public SplitScreenGameView(double screenWidth, double screenHeight){
-        super(screenWidth,screenHeight);
+    public SplitScreenGameView(double screenWidth, double screenHeight, XMLData data, AbstractBoard board){
+        super(screenWidth,screenHeight, data, board);
+        myData = data;
         try {
-            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), new XMLData("OriginalMonopoly.xml")), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
+            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), myData), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
         } catch (Exception e) {
             e.printStackTrace(); //change this !!!
         }
-        myOptionsView = new VBoxOptionsView(this);
+        myOptionsView = new BPaneOptionsView(this,board,myData);
         addBoardView();
     }
 
@@ -134,4 +143,30 @@ public class SplitScreenGameView extends AbstractGameView {
     public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap){
         myOptionsView.createButtons(handlerMap);
     }
+
+    @Override
+    public void updateDice(Turn turn) {
+        myOptionsView.updateDice(turn);
+    }
+
+    @Override
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
+        myOptionsView.updateAssetDisplay(myPlayerList);
+    }
+
+    @Override
+    public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
+        myOptionsView.updateCurrPlayerDisplay(currPlayer);
+    }
+
+    @Override
+    public void updateIconDisplay(AbstractPlayer currPlayer, int nMoves) {
+        myBoardView.move(currPlayer, nMoves);
+    }
+
+    @Override
+    public void updateIconDisplay(AbstractPlayer currPlayer, Tile tile) {
+        myBoardView.move(currPlayer, tile);
+    }
+
 }

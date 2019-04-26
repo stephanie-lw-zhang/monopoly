@@ -1,12 +1,7 @@
 package backend.assetholder;
 
-import backend.card.AbstractCard;
-import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.HoldableCard;
 import backend.tile.AbstractPropertyTile;
-
-import frontend.views.IconView;
-import javafx.scene.image.ImageView;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,20 +15,20 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
 
     private List<HoldableCard> cards;
     private String             myPlayerName;
-    private IconView           myIcon;
+    private String             myIconPath;
     private Boolean            isBankrupt;
     private int                turnsInJail; //-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private final static int FREE = -1;
     /**
      * AbstractPlayer main constructor
      * @param name
-     * @param icon
+     * @param iconPath
      * @param money
      */
-    public AbstractPlayer(String name, ImageView icon, Double money) {
+    public AbstractPlayer(String name, String iconPath, Double money) {
         super( money );
         myPlayerName = name;
-        myIcon = new IconView(icon);
+        myIconPath = iconPath;
         isBankrupt = false;
         turnsInJail = FREE;
     }
@@ -108,7 +103,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
         if (!super.equals(o)) return false;
         AbstractPlayer that = (AbstractPlayer) o;
 
-        return getMyIcon().equals(that.getMyIcon()) &&
+        return getMyIconPath().equals(that.getMyIconPath()) &&
                 getMyPlayerName().equals(that.getMyPlayerName());
     }
 
@@ -119,7 +114,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getMyIcon(), getMyPlayerName());
+        return Objects.hash(getMyIconPath(), getMyPlayerName());
     }
 
     /**
@@ -129,10 +124,10 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
     public String getMyPlayerName() { return myPlayerName; }
 
     /**
-     * Getter for the AbstractPlayer icon
-     * @return IconView     the icon of the Player
+     * Getter for the AbstractPlayer object's icon image path
+     * @return String       player's icon img path
      */
-    public IconView getMyIcon() { return myIcon; }
+    public String getMyIconPath() { return myIconPath; }
 
     /**
      * Getter for the number of turns in jail

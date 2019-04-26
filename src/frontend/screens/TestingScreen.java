@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -74,8 +75,8 @@ public class TestingScreen extends AbstractScreen {
      * @param height
      * @param stage
      */
-    public TestingScreen(double width, double height, Stage stage) {
-        super(width, height, stage);
+    public TestingScreen(double width, double height, Stage stage, AbstractScreen parent) {
+        super(width, height, stage, parent);
         try {
             myData = new XMLData("OriginalMonopoly.xml");
         } catch (Exception e) {
@@ -123,7 +124,7 @@ public class TestingScreen extends AbstractScreen {
         bPane.setAlignment(backButton, Pos.TOP_CENTER);
         bPane.setTop(backButton);
         bPane.setMargin(backButton, new Insets(35,0,-30,0));
-        bPane.setCenter(myFormView);
+        bPane.setCenter(myFormView.getNode());
 
         return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
@@ -136,11 +137,11 @@ public class TestingScreen extends AbstractScreen {
      * @param playerToIcon
      */
     public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
-        myGame = new GameController(
-                this,
-                new SixDice(),
-                playerToIcon
-        );
+//        myGame = new GameController(
+//                this,
+//                new SixDice(),
+//                playerToIcon
+//        );
 
         myBoardView = new SquareBoardView(
                 new StandardBoard(myGame.getBoard().getMyPlayerList(), myData),
@@ -186,7 +187,7 @@ public class TestingScreen extends AbstractScreen {
             @Override
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
-                myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
+                // myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
                 try {
                     myGame.getMyTurn().moveCheat(numMoves);
                 } catch (MultiplePathException e) {
@@ -232,13 +233,13 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        PAY_BAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                // myGame.handlePayBail();
-            }
-        });
+//        PAY_BAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+//            //WORKS
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                // myGame.handlePayBail();
+//            }
+//        });
 
         FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             //WORKS
@@ -307,13 +308,11 @@ public class TestingScreen extends AbstractScreen {
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
 
-        Pane logViewPane = myLogView.getPane();
-
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
 
         // TODO: CONDITION FOR GAME END LOGIC????
-        myGame.startGameLoop();
+        // myGame.startGameLoop();
     }
 
     //TODO: delete these (FOR TESTING rn)
@@ -483,17 +482,23 @@ public class TestingScreen extends AbstractScreen {
     }
 
     public void updatePlayerPosition(int roll) {
-        myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), roll);
+        myBoardView.move(myGame.getMyTurn().getMyCurrPlayer(), roll);
     }
 
     private void handleKeyInput(KeyCode code) {
         if (code == KeyCode.Q) {
-            handleBackToMainButton(getMyStage());
+            backToParent();
+            //handleBackToMainButton(getMyStage());
         }
     }
 
     public Scene getMyScene() {
         return myScene;
     }
+
+    @Override
+    public void changeDisplayNode(Node n) {
+    }
+
     public AbstractBoardView getMyBoardView() { return myBoardView; }
 }

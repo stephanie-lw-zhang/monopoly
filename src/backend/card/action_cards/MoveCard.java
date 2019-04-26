@@ -8,15 +8,26 @@ import java.util.List;
 
 public class MoveCard extends ActionCard {
     private Tile tile;
+    private int index;
 
     public MoveCard(Tile tile, String type, String text) {
         super(type, text);
         this.tile = tile;
+        index = tile.getTileIndex();
     }
 
     public MoveCard(Element n){
-        super("");
+        super("","");
         this.setType(getTagValue("Type", n));
+        index = Integer.parseInt(getTagValue("TileIndex", n));
+    }
+
+    public void setTile(Tile t){
+        tile = t;
+    }
+
+    public int getIndex(){
+        return index;
     }
 
     @Override

@@ -5,7 +5,6 @@ import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import exceptions.*;
 import backend.tile.AbstractPropertyTile;
-import backend.tile.JailTile;
 import backend.tile.Tile;
 
 import java.lang.reflect.InvocationTargetException;
@@ -32,7 +31,7 @@ public class Turn {
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;
-    private int[]          myRolls;
+    private Integer[]          myRolls;
     private int            numDoubleRolls;
 
     public enum TurnState {
@@ -51,15 +50,8 @@ public class Turn {
     }
 
     public void start() {
-        myCurrentTileActions = new ArrayList<>();
-
-        isTurnOver = false;
-
         myRolls = rollDice(myBoard.getNumDie());
         int numMoves = getNumMoves();
-
-        checkDoubleRolls();
-        canRollDie = false;
     }
 
     // TODO: Refactor such that Turn.start() can just
@@ -108,8 +100,8 @@ public class Turn {
     }
 
     // TODO: MAKE PRIVATE ONCE GAME.ROLLVALUE() IS DELETED
-    public int[] rollDice(int numDie) {
-        int[] rolls = new int[numDie];
+    public Integer[] rollDice(int numDie) {
+        Integer[] rolls = new Integer[numDie];
         for (int i = 0; i < rolls.length; i++) rolls[i] = myDice.roll();
         myRolls = rolls;
         return rolls;
@@ -143,13 +135,10 @@ public class Turn {
         return null;
     }
 
-    public void endTurn(){
-        isTurnOver = true;
-    }
-
     public void move() throws MultiplePathException {
         if(myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 2){
             new IllegalMoveException( "Cannot move because you are in jail." );
+            myBoard.movePlayer(myCurrPlayer,0);
         }
         else{
             myBoard.movePlayer( myCurrPlayer, getNumMoves() );
@@ -162,26 +151,6 @@ public class Turn {
      */
     public void moveCheat(int n) throws MultiplePathException {
         myBoard.movePlayer(myCurrPlayer, n);
-    }
-
-    public Map.Entry<AbstractPlayer, Double> goToJail() {
-        try {
-        JailTile jail = myBoard.getJailTile();
-        myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
-        jail.addCriminal( myCurrPlayer );
-        myCurrPlayer.addTurnInJail();
-
-        } catch (TileNotFoundException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> payRent() {
-        AbstractPropertyTile property;
-        property = (AbstractPropertyTile) currPlayerTile();
-        myCurrPlayer.payFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
-        return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> buy(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
@@ -212,15 +181,14 @@ public class Turn {
 //        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
     }
 
-
-
     //in a turn a player can roll/move, trade, mortgage
     public void setNextPlayer(AbstractPlayer nextPlayer) {
         myCurrPlayer = nextPlayer;
     }
 
-    public boolean isDoubleRoll(int[] rolls) {
-        return new HashSet<Integer>((Collection) Arrays.asList(rolls)).size() == 1;
+    public boolean isDoubleRoll(Integer[] rolls) {
+        HashSet<Integer> doubles = new HashSet(Arrays.asList(rolls));
+        return doubles.size() == 1;
     }
 
     public boolean isTurnOver(){
@@ -228,7 +196,7 @@ public class Turn {
     }
 
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
-    public int[] getRolls() { return myRolls; }
+    public Integer[] getRolls() { return myRolls; }
 
     public List<String> getMyCurrentTileActions() {
         return myCurrentTileActions;

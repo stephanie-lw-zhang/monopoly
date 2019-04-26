@@ -1,5 +1,6 @@
 package frontend.screens;
 
+import javafx.scene.Node;
 import javafx.stage.Stage;
 
 /**
@@ -9,7 +10,12 @@ import javafx.stage.Stage;
  * @author Sam
  */
 public class CustomModeScreen extends AbstractScreen {
-    public CustomModeScreen(double sWidth, double sHeight, Stage stage) {
-        super (sWidth, sHeight, stage);
+    public CustomModeScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
+        super (sWidth, sHeight, stage, parent);
+    }
+
+    @Override
+    public void changeDisplayNode(Node n) {
+
     }
 }

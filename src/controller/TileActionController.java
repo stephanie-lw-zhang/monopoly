@@ -28,16 +28,17 @@ public class TileActionController {
     AbstractGameView myGameView;
     LogView myLogView;
     Bank myBank;
-    AbstractBoardView myBoardView;
 
-    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView, PlayerFundsView fundsView, PlayerPropertiesView propertiesView, LogView logView, AbstractBoardView boardView) {
+    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView, PlayerFundsView fundsView, PlayerPropertiesView propertiesView, LogView logView) {
        this.myBoard = board;
        this.myTurn = turn;
        this.myGameView = gameView;
        this.fundsView = fundsView;
        this.propertiesView = propertiesView;
-       this.myBoardView = boardView;
+    }
 
+    public void handleStayInJail() {
+        myTurn.getMyCurrPlayer().addTurnInJail();
     }
 
     public void handleCollectMoneyLanded() {
@@ -56,7 +57,6 @@ public class TileActionController {
         try {
             JailTile jail = (JailTile) myBoard.getJailTile();
             myBoard.getPlayerTileMap().put( myTurn.getMyCurrPlayer(), jail);
-            jail.addCriminal( myTurn.getMyCurrPlayer() );
             myTurn.getMyCurrPlayer().addTurnInJail();
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
             myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
@@ -68,18 +68,16 @@ public class TileActionController {
     public void handlePayBail(){
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
-            myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
-            myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
+            myGameView.displayActionInfo("You've successfully paid the fine. You're free now!");
             fundsView.update(myBoard.getMyPlayerList());
-            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");
+            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
 
         } catch(TileNotFoundException e) {
             e.popUp();
         }
     }
 
-
-    public void handlePayRent() {
+        public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
         myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
         fundsView.update(myBoard.getMyPlayerList());
@@ -101,7 +99,7 @@ public class TileActionController {
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
             myGameView.displayActionInfo( actionCard.getText() );
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView, );
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myGameView);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {

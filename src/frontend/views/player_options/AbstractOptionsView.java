@@ -1,11 +1,15 @@
 package frontend.views.player_options;
 
+import backend.assetholder.AbstractPlayer;
+import backend.board.AbstractBoard;
+import controller.Turn;
 import frontend.views.game.AbstractGameView;
 
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +24,7 @@ abstract public class AbstractOptionsView {
      * Default constructo
      * @param gameView
      */
-    public AbstractOptionsView(AbstractGameView gameView) {}
+    public AbstractOptionsView(AbstractGameView gameView, AbstractBoard board) {}
 
     /**
      * Abstract method to create all buttons required from
@@ -36,10 +40,15 @@ abstract public class AbstractOptionsView {
      */
     abstract public void disableControl(String control);
     abstract public void enableControl(String control);
-
     /**
      * Getter for some AbstractOptionsView object's Node
      * @return
      */
     abstract public Node getOptionsViewNode();
+
+    public abstract void updateDice(Turn turn);
+
+    public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
+
+    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
 }

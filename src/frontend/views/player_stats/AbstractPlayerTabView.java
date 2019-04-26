@@ -1,6 +1,7 @@
 package frontend.views.player_stats;
 
 import backend.assetholder.AbstractPlayer;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -9,8 +10,8 @@ import java.util.List;
 public abstract class AbstractPlayerTabView implements StatsView {
     private TabPane tabPane;
 
-    public TabPane create(List<AbstractPlayer> playerList){
-        tabPane = new TabPane( );
+    public AbstractPlayerTabView(List<AbstractPlayer> playerList){
+        tabPane = new TabPane();
         for(AbstractPlayer p: playerList){
             Tab tab = new Tab(p.getMyPlayerName());
             tab.setId( p.getMyPlayerName() );
@@ -20,7 +21,6 @@ public abstract class AbstractPlayerTabView implements StatsView {
         tabPane.setMaxHeight( 200 );
         tabPane.setMaxWidth( 200 );
         tabPane.setTabClosingPolicy( TabPane.TabClosingPolicy.UNAVAILABLE);
-        return tabPane;
     }
 
     private AbstractPlayer getPlayerFromName(List<AbstractPlayer> playerList, String name){
@@ -45,7 +45,7 @@ public abstract class AbstractPlayerTabView implements StatsView {
         return tabPane.getTabs();
     }
 
-    public TabPane getTabPane(){
+    public Node getNode(){
         return tabPane;
     }
 }

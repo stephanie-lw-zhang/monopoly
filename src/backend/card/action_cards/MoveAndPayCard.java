@@ -2,6 +2,7 @@ package backend.card.action_cards;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.tile.Tile;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,14 @@ public class MoveAndPayCard extends ActionCard{
         this.amount = amount;
     }
 
+    public MoveAndPayCard(Element n){
+        super("","");
+        this.setType(getTagValue("Type", n));
+    }
+
+    public void setTile(Tile t){
+        tile = t;
+    }
 
     @Override
     public List<Object> getParameters() {

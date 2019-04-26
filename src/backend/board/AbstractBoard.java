@@ -4,12 +4,16 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
 import backend.dice.AbstractDice;
+import exceptions.PlayerDoesNotExistException;
+import exceptions.TileNotFoundException;
 import exceptions.MultiplePathException;
 import exceptions.TileNotFoundException;
 import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+import exceptions.TileNotFoundException;
+import backend.tile.*;
 import configuration.XMLData;
 
 import java.lang.reflect.Array;

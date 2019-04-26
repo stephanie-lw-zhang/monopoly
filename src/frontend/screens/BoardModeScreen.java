@@ -2,6 +2,8 @@ package frontend.screens;
 
 import controller.GameSetUpController;
 
+import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.FontPosture;
 import javafx.scene.layout.GridPane;
@@ -28,6 +30,7 @@ public class BoardModeScreen extends AbstractScreen{
 
     private GameSetUpController myController;
     private Scene myScene;
+    private BorderPane myPane;
 
     /**
      * Default constructor
@@ -35,10 +38,11 @@ public class BoardModeScreen extends AbstractScreen{
      * @param sHeight
      * @param stage
      */
-    public BoardModeScreen(double sWidth, double sHeight, Stage stage) {
-        super(sWidth, sHeight, stage);
-        myController = new GameSetUpController(sWidth, sHeight);
+    public BoardModeScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
+        super(sWidth, sHeight, stage, parent);
+        myController = new GameSetUpController(sWidth, sHeight, this);
         myScene = makeScreen();
+        myScene.setOnKeyPressed(keyEvent -> handleKeyInput(keyEvent.getCode()));
     }
 
     @Override
@@ -57,7 +61,7 @@ public class BoardModeScreen extends AbstractScreen{
         gridPane.addRow(0, backToMainButton);
         gridPane.setHalignment(backToMainButton, HPos.CENTER);
 
-        BorderPane bPane = setBorderPane(
+        myPane = setBorderPane(
                 getScreenWidth(),
                 getScreenHeight(),
                 gridPane
@@ -66,7 +70,7 @@ public class BoardModeScreen extends AbstractScreen{
         //bPane.setCenter(titleText);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
-        return new Scene(bPane, getScreenWidth(), getScreenHeight());
+        return new Scene(myPane, getScreenWidth(), getScreenHeight());
     }
 
     @Override
@@ -87,4 +91,16 @@ public class BoardModeScreen extends AbstractScreen{
 
     @Override
     public Scene  getMyScene(){ return myScene; }
+
+    @Override
+    public void changeDisplayNode(Node n) {
+        myPane.setCenter(n);
+    }
+
+    private void handleKeyInput(KeyCode code) {
+        if (code == KeyCode.Q) {
+            backToParent();
+            //handleBackToMainButton(getMyStage());
+        }
+    }
 }
