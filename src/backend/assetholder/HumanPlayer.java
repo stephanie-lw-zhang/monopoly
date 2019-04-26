@@ -1,9 +1,7 @@
 package backend.assetholder;
 
-import javafx.scene.image.ImageView;
-
 public class HumanPlayer extends AbstractPlayer {
-    public HumanPlayer(String name, ImageView icon, Double money) {
-        super( name, icon, money);
+    public HumanPlayer(String name, String iconPath, Double money) {
+        super( name, iconPath, money);
     }
 }

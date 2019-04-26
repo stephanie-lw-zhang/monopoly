@@ -51,7 +51,6 @@ public class Turn {
 
     public void start() {
         myRolls = rollDice(myBoard.getNumDie());
-        int numMoves = getNumMoves();
     }
 
     // TODO: Refactor such that Turn.start() can just

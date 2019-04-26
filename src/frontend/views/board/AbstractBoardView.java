@@ -1,5 +1,6 @@
 package frontend.views.board;
 
+import backend.assetholder.AbstractPlayer;
 import backend.tile.Tile;
 import frontend.views.IconView;
 import javafx.scene.Node;
@@ -12,8 +13,8 @@ abstract public class AbstractBoardView {
         setScreenLimits(screenWidth,screenHeight);
     }
 
-    abstract public void move(IconView icon, int numMoves);
-    abstract public void move(IconView icon, Tile tile);
+    abstract public void move(AbstractPlayer currPlayer, int numMoves);
+    abstract public void move(AbstractPlayer currPlayer, Tile tile);
 
     abstract public void setRoot();
     abstract public void setScreenLimits(double screenWidth,double screenHeight);

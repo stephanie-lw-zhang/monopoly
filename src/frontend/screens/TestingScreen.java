@@ -103,7 +103,7 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setFitWidth(getScreenWidth());
         backgroundImg.setFitHeight(getScreenHeight());
 
-        myFormView = new FormView(this);
+        myFormView = new FormView();
 
         myLogView = new LogView(myData);
 
@@ -138,11 +138,11 @@ public class TestingScreen extends AbstractScreen {
      * @param playerToIcon
      */
     public void handleStartGameButton(Map<TextField, ComboBox> playerToIcon) {
-        myGame = new GameController(
-                this,
-                new SixDice(),
-                playerToIcon
-        );
+//        myGame = new GameController(
+//                this,
+//                new SixDice(),
+//                playerToIcon
+//        );
 
         myBoardView = new SquareBoardView(
                 new StandardBoard(myGame.getBoard().getMyPlayerList(), myData),
@@ -188,7 +188,7 @@ public class TestingScreen extends AbstractScreen {
             @Override
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
-                myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
+                // myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
                 try {
                     myGame.getMyTurn().moveCheat(numMoves);
                 } catch (MultiplePathException e) {
@@ -200,7 +200,7 @@ public class TestingScreen extends AbstractScreen {
         MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handleMortgage();
+                // myGame.handleMortgage();
             }
         });
 
@@ -234,6 +234,14 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
+//        PAY_BAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+//            //WORKS
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                // myGame.handlePayBail();
+//            }
+//        });
+
         FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             //WORKS
             @Override
@@ -262,7 +270,7 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handleUnmortgage();
+                //myGame.handleUnmortgage();
             }
         });
 
@@ -305,7 +313,7 @@ public class TestingScreen extends AbstractScreen {
         bPane.setCenter(boardStackPane);
 
         // TODO: CONDITION FOR GAME END LOGIC????
-        myGame.startGameLoop();
+        // myGame.startGameLoop();
     }
 
     //TODO: delete these (FOR TESTING rn)
@@ -475,7 +483,7 @@ public class TestingScreen extends AbstractScreen {
     }
 
     public void updatePlayerPosition(int roll) {
-        myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), roll);
+        myBoardView.move(myGame.getMyTurn().getMyCurrPlayer(), roll);
     }
 
     private void handleKeyInput(KeyCode code) {
