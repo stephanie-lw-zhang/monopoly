@@ -54,6 +54,7 @@ public class FormView {
      * @param screen
      */
     private void initialize(){
+        myPane = new GridPane();
         myPane.setHgap(5);
         myPane.setVgap(10);
         myPane.setAlignment(Pos.CENTER);

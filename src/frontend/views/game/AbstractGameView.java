@@ -1,5 +1,9 @@
 package frontend.views.game;
 
+import backend.assetholder.AbstractPlayer;
+import backend.board.AbstractBoard;
+import configuration.XMLData;
+import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 
 import javafx.scene.control.ChoiceDialog;
@@ -33,7 +37,7 @@ abstract public class AbstractGameView {
      * @param screenWidth
      * @param screenHeight
      */
-    public AbstractGameView(double screenWidth, double screenHeight){
+    public AbstractGameView(double screenWidth, double screenHeight, XMLData data, AbstractBoard board){
         setBoundsForEntireGame(screenWidth,screenHeight);
         divideScreen();
     }
@@ -45,6 +49,7 @@ abstract public class AbstractGameView {
     abstract public void addPlayerOptionsView();
     abstract public void setTurnActions(List<String> turnActions);
     abstract public String showInputTextDialog(String title, String header, String content);
+    abstract public void updatePlayerPropertiesDisplay(List<AbstractPlayer> playerList);
 
     /**
      * Displays popup of actions
@@ -80,4 +85,5 @@ abstract public class AbstractGameView {
     }
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
+    abstract public void updateDice(Turn turn);
 }

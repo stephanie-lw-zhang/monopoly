@@ -2,6 +2,7 @@ package frontend.views.player_stats;
 
 import backend.assetholder.AbstractPlayer;
 import backend.tile.AbstractPropertyTile;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -11,6 +12,18 @@ import java.util.List;
 public class PlayerPropertiesView {
     private TabPane allPlayerProperties;
 
+    public PlayerPropertiesView(List<AbstractPlayer> playerList){
+        allPlayerProperties = new TabPane( );
+        for(AbstractPlayer p: playerList){
+            Tab tab = new Tab(p.getMyPlayerName());
+            tab.setId( p.getMyPlayerName() );
+            writeInPlayerProperties( p, tab );
+            allPlayerProperties.getTabs().add( tab );
+        }
+        allPlayerProperties.setMaxHeight( 200 );
+        allPlayerProperties.setMaxWidth( 200 );
+        allPlayerProperties.setTabClosingPolicy( TabPane.TabClosingPolicy.UNAVAILABLE);
+    }
     public TabPane createPlayerPropertiesDisplay(List<AbstractPlayer> playerList){
         allPlayerProperties = new TabPane( );
         for(AbstractPlayer p: playerList){
@@ -57,5 +70,17 @@ public class PlayerPropertiesView {
 
     public List<Tab> getTabs(){
         return allPlayerProperties.getTabs();
+    }
+
+    public void removePlayer(String player){
+        for (Tab tab : allPlayerProperties.getTabs()) {
+            if (tab.getText().equalsIgnoreCase(player)) {
+                allPlayerProperties.getTabs().remove(tab);
+            }
+        }
+    }
+
+    public Node getNode() {
+        return allPlayerProperties;
     }
 }

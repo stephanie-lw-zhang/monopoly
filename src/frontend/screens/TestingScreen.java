@@ -308,8 +308,6 @@ public class TestingScreen extends AbstractScreen {
         boardStackPane.setAlignment(boardViewPane,Pos.CENTER_LEFT);
         boardStackPane.getChildren().addAll(boardViewPane, playerOptionsModal);
 
-        Pane logViewPane = myLogView.getPane();
-
         bPane.setTop(null);
         bPane.setCenter(boardStackPane);
 

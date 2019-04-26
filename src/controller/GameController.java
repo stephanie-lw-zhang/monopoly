@@ -9,6 +9,7 @@ import backend.deck.NormalDeck;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.dice.SixDice;
 import backend.tile.AbstractTaxTile;
 import backend.tile.IncomeTaxTile;
 import backend.tile.AbstractPropertyTile;
@@ -93,16 +94,44 @@ public class GameController {
         myTestScreen = view;
     }
 
-    public GameController(GameSetUpController controller, AbstractDice dice, Map<TextField, ComboBox> playerToIcon){
-        this(dice, playerToIcon);
+    public GameController(double width, double height, GameSetUpController controller, AbstractBoard board, XMLData data){
+        myBoard = board;
+        myData = data;
+        myGameView = new SplitScreenGameView(width, height, data, myBoard);
         mySetUpController = controller;
+        addHandlers();
+        myDice = new SixDice();
+        myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+    }
+
+
+
+    public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {
+        //TODO: need money and totalPropertiesLeft read in from Data File
+        XMLData myData = null;
+        try {
+            myData = new XMLData(configFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myGameView = new SplitScreenGameView(width, height, myData,myBoard);
+//        myBoard = new StandardBoard(
+//                myPlayers,
+//                myData.getAdjacencyList(),
+//                myData.getPropertyCategoryMap(),
+//                myData.getFirstTile(),
+//                myData.getBank(),
+//                myFormView.getDice(),
+//                myFormView.getPlayerToIcon());
+        addHandlers();
+        //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
         return new StandardBoard(
                 makePlayerList(playerToIcon), myData.getAdjacencyList(),
                 myData.getPropertyCategoryMap(), myData.getFirstTile(),
-                myBank
+                myData.getBank()
         );
     }
 
@@ -127,27 +156,6 @@ public class GameController {
         imageView.setFitWidth(25);
 
         return imageView;
-    }
-
-    public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {
-        //TODO: need money and totalPropertiesLeft read in from Data File
-        XMLData myData = null;
-        try {
-            myData = new XMLData(configFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        myGameView = new SplitScreenGameView(width, height);
-//        myBoard = new StandardBoard(
-//                myPlayers,
-//                myData.getAdjacencyList(),
-//                myData.getPropertyCategoryMap(),
-//                myData.getFirstTile(),
-//                myData.getBank(),
-//                myFormView.getDice(),
-//                myFormView.getPlayerToIcon());
-        addHandlers();
-        //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
     public void startGameLoop() {
@@ -176,9 +184,12 @@ public class GameController {
 
     private void handleRollButton() {
         myTurn.start();
-        myTestScreen.updateDice(myTurn);
-        myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
-
+        if(myGameView!=null){
+            myGameView.updateDice(myTurn);
+        } else {
+            myTestScreen.updateDice(myTurn);
+            myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
+        }
         try {
             if(getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
                 new IllegalMoveException( "Cannot move because you are in jail." );
@@ -243,6 +254,7 @@ public class GameController {
     }
 
     private void addHandlers(){
+        handlerMap.put("roll",event->this.handleRollButton());
         handlerMap.put("AUCTION",event->this.handleAuction());
         handlerMap.put("BUY",event-> this.handleBuy());
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
@@ -260,6 +272,7 @@ public class GameController {
         handlerMap.put("mortgage", event->this.handleMortgage());
         handlerMap.put("forfeit",event->this.handleForfeit());
         handlerMap.put( "unmortgage", event->this.handleUnmortgage() );
+
         //Why do we have a handler map? can't we just use Reflection
         /**
          * Auction();
