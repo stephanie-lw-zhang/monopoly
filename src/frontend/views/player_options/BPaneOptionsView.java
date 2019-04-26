@@ -24,8 +24,7 @@ import javafx.scene.Node;
 
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +100,6 @@ public class BPaneOptionsView extends AbstractOptionsView {
         }
         playerOptionsModal.getChildren().add(makeMoveCheatKey());
         myOptionsViewNode.setCenter(playerOptionsModal);
-
     }
 
     private Node makeRollDisplay() {
@@ -123,6 +121,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
                     movesField.setText(newStr.replaceAll("[^\\d]", ""));
             }
         });
+//        getMoveCheatNumMoves(movesField);
         return movesField;
     }
 
@@ -141,7 +140,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void disableControl(String control) {
         Control selected = myControls.get(control);
-        selected.setDisable(false);
+        selected.setDisable(true);
     }
 
     /**
@@ -151,7 +150,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void enableControl(String control) {
         Control selected = myControls.get(control);
-        selected.setDisable(true);
+        selected.setDisable(false);
     }
 
     /**
