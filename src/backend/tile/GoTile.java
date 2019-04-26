@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoTile extends Tile {
+public class GoTile extends Tile{
 
     private double landedOnMoney;
     private double passedMoney;

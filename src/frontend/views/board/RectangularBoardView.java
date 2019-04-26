@@ -43,7 +43,7 @@ public class RectangularBoardView extends AbstractBoardView {
     private List<IconView>         myIconList;
     private AbstractBoard          myBoard;
     private int                    myNumMoves;
-    private Map<Tile, AbstractTileView> tileToTileView;
+    private Map<Tile, AbstractTileView> tileToTileView = new HashMap<>(  );
 
     /**
      * RectangularBoardView main constructor

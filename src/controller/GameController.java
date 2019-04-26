@@ -42,6 +42,7 @@ import java.util.Map;
 
 import java.lang.reflect.Method;
 
+
 public class GameController {
 
     //TODO: make all the back-end stuff be managed by a MonopolyModel/board class
@@ -171,7 +172,8 @@ public class GameController {
 
         myTurn.move();
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
-        List<String> possibleActions = myTurn.getMyActions();
+//        List<String> possibleActions = myTurn.getMyActions();
+        handleTileLanding( myBoard.getPlayerTile( myTurn.getMyCurrPlayer() ) );
         //TODO: front end display these two possible actions
     }
 
@@ -192,17 +194,8 @@ public class GameController {
 
     private void addHandlers(){
         handlerMap.put("AUCTION",event->this.handleAuction());
-        handlerMap.put("BUY",event-> {
-            try {
-                this.handleBuy();
-            } catch (IllegalActionOnImprovedPropertyException e) {
-                e.popUp();
-            } catch (OutOfBuildingStructureException e) {
-                e.popUp();
-            } catch (IllegalInputTypeException e) {
-                e.popUp();
-            }
-        });
+        handlerMap.put("BUY",event-> this.handleBuy());
+
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("DRAW CARD",event->this.handleDrawCard());
@@ -341,12 +334,13 @@ public class GameController {
                 for(String each: actions){
                     readableActions.add( makeReadable( each ) );
                 }
-                String pickedOption = myGameView.displayOptionsPopup(readableActions, "Options", "Tile Actions", "Choose One");
+                String pickedOption = myTestScreen.displayOptionsPopup(readableActions, "Options", "Tile Actions", "Choose One");
                 desiredAction = translateReadable( pickedOption );
             } else {
                 desiredAction = actions.get( 0 );
             }
-            Method handle = GameController.class.getMethod("handle" + desiredAction);
+//            System.out.println(desiredAction);
+            Method handle = this.getClass().getMethod("handle" + desiredAction);
             handle.invoke(this);
         } catch (NoSuchMethodException e) {
             myGameView.displayActionInfo( "There is no such method" );
@@ -477,10 +471,18 @@ public class GameController {
         }
     }
 
-    private void handleBuy() throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
-        Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
-        String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
-        myGameView.displayActionInfo(info);
+    public void handleBuy(){
+        try {
+            Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
+            String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
+            myTestScreen.displayActionInfo(info);
+        } catch (IllegalActionOnImprovedPropertyException e) {
+            e.popUp();
+        } catch (IllegalInputTypeException e) {
+            e.popUp();
+        } catch (OutOfBuildingStructureException e) {
+            e.popUp();
+        }
     }
 
     private void handleForfeit(){
@@ -502,7 +504,7 @@ public class GameController {
         propertiesView.updatePlayerPropertiesDisplay(getBoard().getMyPlayerList());
     }
 
-    private void handleAuction() {
+    public void handleAuction() {
         Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
         for (int i = 0; i < myPlayers.size(); i++) {
             AbstractPlayer key = getPlayerAtIndex(i);
@@ -584,8 +586,8 @@ public class GameController {
     }
 
     private String makeReadable(String s){
-        String label = "";
-        for(int i = 1; i <= s.length(); i++){
+        String label = s.substring( 0,1 );
+        for(int i = 1; i < s.length(); i++){
             //start at 1 so doesn't add a space before the first letter
             if(Character.isUpperCase( s. charAt( i ))){
                 label += " " + s.charAt( i );
