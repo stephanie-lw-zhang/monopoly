@@ -14,6 +14,10 @@
         <NumDecks>2</NumDecks>
     </Decks>
 
+    <InitialFunds>
+        <Player>1500</Player>
+    </InitialFunds>
+
     <Deck>
         <Name>Community Chest Deck</Name>
         <ActionCard>
@@ -525,7 +529,6 @@
         <NextTiles>11</NextTiles>
     </Tile>
 
-
     <Tile>
         <TileNumber>11</TileNumber>
         <TileType>BuildingTile</TileType>
@@ -579,7 +582,6 @@
             <NextTiles>13</NextTiles>
         </Card>
     </Tile>
-
 
 
     <Tile>
