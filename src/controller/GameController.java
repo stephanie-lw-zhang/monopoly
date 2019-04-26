@@ -1,6 +1,5 @@
 package controller;
 
-import backend.assetholder.HumanPlayer;
 import backend.card.action_cards.HoldableCard;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
@@ -20,7 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -325,7 +323,14 @@ public class GameController {
 
     public void handleForfeit() {
         ObservableList<String> players = getAllPlayerNames();
-        String player = myGameView.displayDropDownAndReturnResult("Forfeit", "Select the player who wants to forfeit: ", players);
+        String player = null;
+        try {
+            player = myGameView.displayDropDownAndReturnResult("Forfeit", "Select the player who wants to forfeit: ", players);
+        } catch (CancelledActionException e) {
+            e.doNothing();
+        } catch (PropertyNotFoundException e) {
+            e.popUp();
+        }
         AbstractPlayer forfeiter = myBoard.getPlayerFromName(player);
 
         forfeiter.declareBankruptcy(myBoard.getBank());
@@ -337,7 +342,14 @@ public class GameController {
     public void handleUseHoldable(List<Object> parameters) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         HoldableCard card = null;
         ObservableList<String> players = getAllPlayerNames();
-        String playerName = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the player who wants to use a card: ", players );
+        String playerName = null;
+        try {
+            playerName = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the player who wants to use a card: ", players );
+        } catch (CancelledActionException e) {
+            e.doNothing();
+        } catch (PropertyNotFoundException e) {
+            e.popUp();
+        }
         AbstractPlayer player = myBoard.getPlayerFromName( playerName );
 
         ObservableList<String> possibleCards = FXCollections.observableArrayList();
@@ -347,7 +359,14 @@ public class GameController {
         if (possibleCards.size()==0){
             myGameView.displayActionInfo( "You have no cards to use at this time." );
         } else{
-            String desiredCard = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card you want to use: ", possibleCards );
+            String desiredCard = null;
+            try {
+                desiredCard = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card you want to use: ", possibleCards );
+            } catch (CancelledActionException e) {
+                e.doNothing();
+            } catch (PropertyNotFoundException e) {
+                e.popUp();
+            }
             for(HoldableCard c: player.getCards()){
                 if(c.getName().equalsIgnoreCase( desiredCard )){
                     card = c;
@@ -390,6 +409,10 @@ public class GameController {
             e.popUp();
         }catch (IllegalActionOnImprovedPropertyException i) {
             i.popUp();
+        } catch (PropertyNotFoundException e) {
+            e.popUp();
+        } catch (CancelledActionException e) {
+            e.doNothing();
         }
     }
 
@@ -463,10 +486,6 @@ public class GameController {
         return s.replaceAll("\\s+","");
     }
 }
-
-
-
-
 
 //    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
 //        return new StandardBoard(
