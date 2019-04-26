@@ -4,7 +4,6 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import exceptions.*;
-import backend.tile.*;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.JailTile;
 import backend.tile.Tile;
@@ -28,7 +27,8 @@ public class Turn {
     private AbstractPlayer myCurrPlayer;
     private AbstractBoard  myBoard;
     private AbstractDice   myDice;
-    private List<String>  myActions;
+    private List<String>   myCurrentTileActions;
+    private Map<Tile,String> myPassedTileActions;
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;
@@ -46,12 +46,12 @@ public class Turn {
         myCurrPlayer = player;
         myBoard = board;
         myDice = dice;
-        myActions = new ArrayList<>();
+        myCurrentTileActions = new ArrayList<>();
         canRollDie = true;
     }
 
     public void start() {
-        myActions = new ArrayList<>();
+        myCurrentTileActions = new ArrayList<>();
 
         isTurnOver = false;
 
@@ -148,16 +148,12 @@ public class Turn {
         myCurrPlayer = getNextPlayer();
     }
 
-    public void move() {
+    public void move() throws MultiplePathException {
         if(myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 2){
             new IllegalMoveException( "Cannot move because you are in jail." );
         }
         else{
-            try {
-                myBoard.movePlayer( myCurrPlayer, getNumMoves() );
-            } catch (MultiplePathException e) {
-                e.popUp();
-            }
+            myBoard.movePlayer( myCurrPlayer, getNumMoves() );
         }
     }
 
@@ -171,7 +167,7 @@ public class Turn {
 
     public Map.Entry<AbstractPlayer, Double> goToJail() {
         try {
-        JailTile jail = (JailTile) myBoard.getJailTile();
+        JailTile jail = myBoard.getJailTile();
         myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
         jail.addCriminal( myCurrPlayer );
         myCurrPlayer.addTurnInJail();
@@ -206,32 +202,14 @@ public class Turn {
         }
         buyProperty(player, value);
         Map.Entry<AbstractPlayer,Double> ret = new AbstractMap.SimpleEntry<>(player, value);
-        //endTurn();
         return ret;
     }
 
     public void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
-//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
         property.sellTo( player, value, sameSetProperties );
-//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
-    }
-
-    public Map.Entry<AbstractPlayer, Double> payBail() {
-
-        myCurrPlayer.payFullAmountTo(myBoard.getBank(), 1500.00);
-
-        // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
-        // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> trade() {
-
-//      TODO: handle Receiver input and debt as instances
-        return null;
     }
 
     public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
@@ -252,37 +230,6 @@ public class Turn {
 //        }
 //    }
 
-    public Map.Entry<AbstractPlayer, Double> sellToPlayer() {
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> sellToBank(){
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> drawCard(){
-        ((AbstractDrawCardTile) currPlayerTile()).drawCard();
-//       assume draw card tile
-        return null;
-    }
-
-//    public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
-//
-//        myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
-//
-////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//        return null;
-//    }
-//
-//    public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
-//
-//        myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
-//
-////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//        return null;
-//    }
-
-
     //in a turn a player can roll/move, trade, mortgage
     public void setNextPlayer(AbstractPlayer nextPlayer) {
         myCurrPlayer = nextPlayer;
@@ -299,8 +246,8 @@ public class Turn {
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
 
-    public List<String> getMyActions() {
-        return myActions;
+    public List<String> getMyCurrentTileActions() {
+        return myCurrentTileActions;
     }
 
     public String getTileNameforPlayer(AbstractPlayer p) {
