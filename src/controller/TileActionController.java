@@ -6,11 +6,8 @@ import backend.board.AbstractBoard;
 import backend.card.action_cards.ActionCard;
 import backend.tile.*;
 import exceptions.*;
-import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
-import frontend.views.player_stats.PlayerFundsView;
-import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -24,19 +21,14 @@ import java.util.Map;
 public class TileActionController {
     private AbstractBoard myBoard;
     private Turn myTurn;
-    private PlayerFundsView fundsView;
-    private PlayerPropertiesView propertiesView;
     private AbstractBoardView boardView;
     private AbstractGameView myGameView;
-    private LogView myLogView;
     private Bank myBank;
 
-    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView, PlayerFundsView fundsView, PlayerPropertiesView propertiesView, LogView logView) {
+    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView) {
        this.myBoard = board;
        this.myTurn = turn;
        this.myGameView = gameView;
-       this.fundsView = fundsView;
-       this.propertiesView = propertiesView;
     }
 
     public void handleStayInJail() {
@@ -54,7 +46,7 @@ public class TileActionController {
             myBoard.getPlayerTileMap().put( myTurn.getMyCurrPlayer(), jail);
             myTurn.getMyCurrPlayer().addTurnInJail();
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
-            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
+//            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
         } catch (TileNotFoundException e){
             e.printStackTrace();
         }
@@ -64,9 +56,8 @@ public class TileActionController {
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
             myGameView.displayActionInfo("You've successfully paid the fine. You're free now!");
-            fundsView.update(myBoard.getMyPlayerList());
-            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
-
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+//            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
         } catch(TileNotFoundException e) {
             e.popUp();
         }
@@ -75,18 +66,18 @@ public class TileActionController {
         public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
         myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
-        fundsView.update(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
-        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+//        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
 
     }
 
     public void handlePayTaxFixed() {
         double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
         myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
-        fundsView.update(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
-        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
+//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
 
@@ -94,7 +85,7 @@ public class TileActionController {
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
             myGameView.displayActionInfo( actionCard.getText() );
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myGameView);
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {
@@ -128,7 +119,7 @@ public class TileActionController {
         Map.Entry<AbstractPlayer, Double> winner = property.determineAuctionResults(auctionAmount);
         String info = winner.getKey().getMyPlayerName() + " wins " + myTurn.getTileNameforPlayer(myTurn.getMyCurrPlayer()) + " for " + winner.getValue() + " Monopoly Dollars!";
         myGameView.displayActionInfo(info);
-        myLogView.gameLog.setText(info);
+//        myLogView.gameLog.setText(info);
         Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
         try {
             buyHelper(playerValue);
@@ -139,15 +130,14 @@ public class TileActionController {
         } catch (OutOfBuildingStructureException e) {
             e.popUp();
         }
-        fundsView.update(myBoard.getMyPlayerList());
-        propertiesView.update(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
     }
 
 
     public void handlePayTaxPercentage() {
         double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile) myTurn.currPlayerTile()).getTaxMultiplier();
         myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
-        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
+//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
     public void handleBuy(){

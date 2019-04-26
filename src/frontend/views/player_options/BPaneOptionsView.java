@@ -141,7 +141,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void disableControl(String control) {
         Control selected = myControls.get(control);
-        selected.setDisable(false);
+        selected.setDisable(true);
     }
 
     /**
@@ -151,7 +151,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void enableControl(String control) {
         Control selected = myControls.get(control);
-        selected.setDisable(true);
+        selected.setDisable(false);
     }
 
     /**

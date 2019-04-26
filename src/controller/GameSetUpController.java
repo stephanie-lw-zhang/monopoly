@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * This class is a controller that manages all "set-up" before
- * the game starts (i.e. creation of board, etc.)
+ * the game starts (i.e. creation of myBoard, etc.)
  *
  * @author Edward
  * @author Sam

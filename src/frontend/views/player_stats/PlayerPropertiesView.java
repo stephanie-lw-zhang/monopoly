@@ -21,9 +21,9 @@ public class PlayerPropertiesView extends AbstractPlayerTabView implements Stats
         String text = "";
         for(AbstractPropertyTile prop: player.getProperties()){
             if(prop.isMortgaged()){
-                text += prop.getName() + " (Mortgaged)\n";
+                text += prop.getTitleDeed() + " (Mortgaged)\n";
             } else {
-                text += prop.getName() + "\n";
+                text += prop.getTitleDeed() + "\n";
             }
         }
         properties.setText( text );
