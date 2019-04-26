@@ -24,6 +24,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>100</Amount>
@@ -31,6 +32,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Everyone</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>50</Amount>
@@ -38,6 +40,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Everyone</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>50</Amount>
@@ -51,6 +54,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>100</Amount>
@@ -58,10 +62,12 @@
         </ActionCard>
         <ActionCard>
             <CardType>GetOutOfJailCard</CardType>
+            <Type>GetOutOfJail</Type>
             <Message>Get Out of Jail Free</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>10</Amount>
@@ -69,6 +75,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>45</Amount>
@@ -76,6 +83,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
             <Amount>100</Amount>
@@ -83,6 +91,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>20</Amount>
@@ -90,6 +99,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
             <Amount>50</Amount>
@@ -97,6 +107,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>200</Amount>
@@ -104,6 +115,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>100</Amount>
@@ -111,6 +123,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
             <Amount>150</Amount>
@@ -118,6 +131,9 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+
+            <Amount>0</Amount>
         </ActionCard>
     </Deck>
 
@@ -125,6 +141,7 @@
         <Name>Chance Deck</Name>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>CurrentPlayer</Payer>
             <Payee>Everyone</Payee>
             <Amount>50</Amount>
@@ -132,10 +149,12 @@
         </ActionCard>
         <ActionCard>
             <CardType>GetOutOfJailCard</CardType>
+            <Type>GetOutOfJail</Type>
             <Message>Get Out of Jail Free</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>15</Amount>
@@ -155,6 +174,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
+            <Type>Move</Type>
 
             <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
@@ -172,6 +192,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>150</Amount>
@@ -179,6 +200,7 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>50</Amount>
@@ -216,6 +238,8 @@
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Amount>0</Amount>
         </ActionCard>
     </Deck>
 

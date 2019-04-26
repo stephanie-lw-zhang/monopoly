@@ -2,6 +2,7 @@ package backend.deck;
 
 import backend.card.action_cards.ActionCard;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -10,7 +11,7 @@ public class NormalDeck implements DeckInterface {
     private Queue<ActionCard> myDeck;
 
     public NormalDeck(){
-        myDeck = new PriorityQueue<>();
+        myDeck = new LinkedList<>();
     }
 
     public int getMyDeckSize() {

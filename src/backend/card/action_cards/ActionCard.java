@@ -17,6 +17,11 @@ public abstract class ActionCard extends AbstractCard {
                 return type;
         }
 
+//        @Override
+//        public int compareTo(ActionCard o) {
+//                return this.type.compareTo(o.getActionType());
+//        }
+
         public abstract List<Object> getParameters();
 
         public void setType(String s){
