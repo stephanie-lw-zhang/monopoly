@@ -28,7 +28,6 @@ public class JailTile extends Tile {
             possibleActions.add("StayInJail");
         }
         return possibleActions;
-        //do nothing
     }
 
     @Override

@@ -125,7 +125,7 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < numMoves; i++) {
+            for (int i = 0; i < 5; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
                    handlePassedTiles(passedTile);
@@ -143,13 +143,12 @@ public class GameController {
     public void handleTileLanding(Tile tile) {
         try {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
-            String desiredAction = determineDesiredActionForReflection(actions);
-            if(!desiredAction.equals( "" ) || desiredAction != null){
+            if (!(actions.size() == 0)) {
+                String desiredAction = determineDesiredActionForReflection(actions);
                 TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView);
                 Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
                 handle.invoke(tileActionController);
             }
-
         } catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("There is no such method");
         } catch (SecurityException e) {
@@ -166,14 +165,15 @@ public class GameController {
     private void handlePassedTiles(Tile passedTile) {
         try {
             List<String> actions = passedTile.applyPassedAction(myTurn.getMyCurrPlayer());
-            String desiredAction = determineDesiredActionForReflection(actions);
-            PassedTileActionController passedTileActionController = new PassedTileActionController( myBoard, myTurn, myGameView);
-            Method handle = null;
-            handle = passedTileActionController.getClass().getMethod("handle" + desiredAction);
-            handle.invoke(passedTileActionController);
-        } catch (IllegalAccessException e1) {
+            if (!(actions.size() == 0)) {
+                String desiredAction = determineDesiredActionForReflection(actions);
+                PassedTileActionController passedTileActionController = new PassedTileActionController( myBoard, myTurn, myGameView);
+                Method handle = passedTileActionController.getClass().getMethod("handle" + desiredAction);
+                handle.invoke(passedTileActionController);
+            }
+        } catch (IllegalAccessException e) {
             myGameView.displayActionInfo("Illegal access exception");
-        } catch (InvocationTargetException e1) {
+        } catch (InvocationTargetException e) {
             myGameView.displayActionInfo("Invocation target exception");
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");
