@@ -64,37 +64,6 @@ public class GameController {
     private AbstractGameView myGameView;
     private TileActionController tileActionController;
 
-//    public GameController(AbstractDice dice, Map<TextField, ComboBox> playerToIcon) {
-//        myDice = dice;
-//        // TODO: CHANGE THIS TO JUST BEING READ IN FROM DATA
-//        // TODO: TO BE A PART OF BOARD NOT GAME CONTROLLER
-//        myChanceDeck = new NormalDeck();
-//        myChestDeck = new NormalDeck();
-//        // TODO: CHANGE THIS TO JUST BEING READ IN FROM DATA
-//        // TODO: TO BE A PART OF BOARD NOT GAME CONTROLLER
-//
-//        //TODO: need money and totalPropertiesLeft read in from Data File
-//        try {
-//            myData = new XMLData("OriginalMonopoly.xml");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        // myGameView = new SplitScreenGameView(width, height);
-////        addHandlers();
-//        myBank = myData.getBank();
-//        myBoard = makeBoard(playerToIcon);
-//        myPlayers = myBoard.getMyPlayerList();
-//        myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
-//        this.numDoubleRolls = 0;
-//        tileActionController = new TileActionController( getBoard(), getMyTurn(), myGameView, fundsView, propertiesView, myLogView, myTestScreen.getMyBoardView());
-//    }
-//
-//    public GameController(TestingScreen view, AbstractDice dice, Map<TextField, ComboBox> playerToIcon){
-//        this(dice, playerToIcon);
-//        myTestScreen = view;
-//    }
-
     public GameController(double width, double height, GameSetUpController controller, AbstractBoard board, XMLData data){
         myBoard = board;
         myData = data;

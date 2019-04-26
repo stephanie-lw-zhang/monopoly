@@ -39,7 +39,7 @@ import java.util.List;
 public class FormView {
 
     private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
-    private TestingScreen            myScreen;
+    // private TestingScreen            myScreen;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
     private GameSetUpController myController;
@@ -111,10 +111,6 @@ public class FormView {
     public FormView(){
         initialize();
     }
-    public FormView(TestingScreen screen){
-        this();
-        myScreen = screen;
-    }
 
     public FormView(GameSetUpController controller){
         this();
@@ -170,12 +166,7 @@ public class FormView {
             throw new DuplicatePlayerException();
         }
 
-        // TODO: delete myScreen to gamesetupcontorl
-        if(myController==null) {
-            myScreen.handleStartGameButton(playerToIcon);
-        } else{
-            myController.startGame(playerToIcon);
-        }
+        myController.startGame(playerToIcon);
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {
