@@ -2,18 +2,16 @@ package controller;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.card.action_cards.HoldableCard;
 import backend.card.property_cards.BuildingCard;
-import backend.tile.AbstractPropertyTile;
-import backend.tile.BuildingTile;
-import backend.tile.IncomeTaxTile;
-import backend.tile.Tile;
+import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
+import exceptions.NotInJailException;
 import exceptions.TileNotFoundException;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
+import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +24,15 @@ public class ActionCardController{
     PlayerFundsView fundsView;
     AbstractBoardView boardView;
     AbstractGameView myGameView;
+    PlayerCardsView cardsView;
 
-    public ActionCardController(AbstractBoard board, Turn turn, PlayerFundsView fundsView, AbstractBoardView boardView, AbstractGameView myGameView) {
+    public ActionCardController(AbstractBoard board, Turn turn, PlayerFundsView fundsView, AbstractBoardView boardView, AbstractGameView myGameView, PlayerCardsView cardsView) {
         this.board = board;
         this.turn = turn;
         this.fundsView = fundsView;
         this.boardView = boardView;
         this.myGameView = myGameView;
+        this.cardsView = cardsView;
     }
 
     public void handlePay(List<Object> parameters){
@@ -53,7 +53,17 @@ public class ActionCardController{
             myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
         } catch (TileNotFoundException e) {
             e.popUp();
+        } catch (NotInJailException e) {
+            e.popUp();
         }
+    }
+
+
+    public void handleSave(List<Object> parameters){
+        turn.getMyCurrPlayer().getCards().add( (HoldableCard) parameters.get( 0 ) );
+        cardsView.update( board.getMyPlayerList() );
+        myGameView.displayActionInfo( "You now own " + ((HoldableCard) parameters.get( 0 )).getName() + ". You can use this card at any time." );
+
     }
 
     public void handleMoveAndPay(List<Object> parameters){
@@ -96,7 +106,7 @@ public class ActionCardController{
                 payer.payFullAmountTo( payee, amount );
             }
         }
-        fundsView.updatePlayerFundsDisplay( board.getMyPlayerList() );
+        fundsView.update( board.getMyPlayerList() );
     }
 
 

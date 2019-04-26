@@ -1,20 +1,24 @@
 package backend.card.action_cards;
 
-import backend.assetholder.AbstractPlayer;
 import backend.card.AbstractCard;
-import backend.tile.Tile;
 
 import java.util.List;
 
 public abstract class ActionCard extends AbstractCard {
         private String type;
+        private String text;
 
-        public ActionCard(String type) {
+        public ActionCard(String type, String text) {
                 this.type = type;
+                this.text = text;
         }
 
         public String getActionType() {
                 return type;
+        }
+
+        public String getText(){
+                return text;
         }
 
         public abstract List<Object> getParameters();

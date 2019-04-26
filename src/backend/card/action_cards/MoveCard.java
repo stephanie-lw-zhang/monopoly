@@ -1,7 +1,5 @@
 package backend.card.action_cards;
 
-import backend.assetholder.AbstractPlayer;
-import backend.board.AbstractBoard;
 import backend.tile.Tile;
 
 import java.util.ArrayList;
@@ -10,8 +8,8 @@ import java.util.List;
 public class MoveCard extends ActionCard {
     private Tile tile;
 
-    public MoveCard(Tile tile, String type) {
-        super(type);
+    public MoveCard(Tile tile, String type, String text) {
+        super(type, text);
         this.tile = tile;
     }
 

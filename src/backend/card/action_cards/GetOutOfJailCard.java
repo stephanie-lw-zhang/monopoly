@@ -1,18 +1,15 @@
 package backend.card.action_cards;
 
-import backend.assetholder.AbstractPlayer;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetOutOfJailCard extends ActionCard {
+public class GetOutOfJailCard extends HoldableCard {
 
-    public GetOutOfJailCard(String type) {
-        super( type );
+    public GetOutOfJailCard(String type, String text) {
+        super( type, text);
     }
 
-    @Override
-    public List<Object> getParameters() {
-        return new ArrayList<>(  );
-    }
+
+
+
 }

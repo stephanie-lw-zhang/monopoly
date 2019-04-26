@@ -2,6 +2,7 @@ package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
 
+import exceptions.NotInJailException;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -32,10 +33,14 @@ public class JailTile extends Tile {
         criminals.add(player);
     }
 
-    public void removeCriminal(AbstractPlayer player) {
-        //throw exceptions?? if player is not in the hashset
-        criminals.remove(player);
-        player.getOutOfJail();
+    public void removeCriminal(AbstractPlayer player) throws NotInJailException{
+        if(criminals.contains( player )){
+            criminals.remove(player);
+            player.getOutOfJail();
+        } else {
+            throw new NotInJailException( "This player is not in jail." );
+        }
+
     }
 
     @Override
