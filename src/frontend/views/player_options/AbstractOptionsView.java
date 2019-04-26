@@ -46,5 +46,5 @@ abstract public class AbstractOptionsView {
 
     public abstract void updateDice(Turn turn);
 
-    public abstract void updatePlayerPropertiesDisplay(List<AbstractPlayer> playerList);
+    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
 }

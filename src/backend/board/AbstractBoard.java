@@ -15,6 +15,8 @@ import backend.tile.Tile;
 import exceptions.TileNotFoundException;
 import backend.tile.*;
 import configuration.XMLData;
+
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -74,6 +76,8 @@ public abstract class AbstractBoard {
     //TODO: FIX THIS so that it returns all passed tiles
     public abstract void movePlayer(AbstractPlayer p, Tile tile);
 
+    public abstract void movePlayerToNearest(AbstractPlayer p, Tile tile) throws TileNotFoundException;
+
 
     public Map<AbstractPlayer, Tile> getPlayerTileMap() {
         return playerPositionMap;
@@ -82,6 +86,15 @@ public abstract class AbstractBoard {
     public List<Tile> getAdjacentTiles(Tile tile) {
         //System.out.println(adjacencyMap.get(backend.tile.GoTile@746de32));
         return adjacencyMap.get(tile);
+    }
+
+    public Boolean containsTileType(Tile tile){
+        for(Tile t: adjacencyMap.keySet()){
+            if (t.getTileType().equals( tile.getTileType() )){
+                return true;
+            }
+        }
+        return false;
     }
 
     public JailTile getJailTile() throws TileNotFoundException {
@@ -178,11 +191,4 @@ public abstract class AbstractBoard {
     public List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {
         return getColorListMap().get( property.getCard().getCategory());
     }
-
-//    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){
-//        List<AbstractPropertyTile> allOfCategory = new ArrayList<AbstractPropertyTile>(  );
-//        String targetCategory = property.getCard().getCategory();
-//        for()
-//        return allOfCategory;
-//    }
 }

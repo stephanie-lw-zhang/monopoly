@@ -1,6 +1,8 @@
 package backend.assetholder;
 
 import backend.card.AbstractCard;
+import backend.card.action_cards.ActionCard;
+import backend.card.action_cards.HoldableCard;
 import backend.tile.AbstractPropertyTile;
 
 import frontend.views.IconView;
@@ -16,7 +18,7 @@ import java.util.Objects;
  */
 abstract public class AbstractPlayer extends AbstractAssetHolder {
 
-    private List<AbstractCard> cards;
+    private List<HoldableCard> cards;
     private String             myPlayerName;
     private IconView           myIcon;
     private Boolean            isBankrupt;
@@ -170,7 +172,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
      * Adds card to player's list of cards
      * @param card
      */
-    public void addCard(AbstractCard card){
+    public void addCard(HoldableCard card){
         cards.add( card );
     }
 
@@ -178,7 +180,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
      * Gets player's list of cards
      * @return
      */
-    public List<AbstractCard> getCards(){
+    public List<HoldableCard> getCards(){
         return cards;
     }
 

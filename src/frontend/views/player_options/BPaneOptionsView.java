@@ -10,6 +10,7 @@ import frontend.views.FundsView;
 import frontend.views.LogView;
 import frontend.views.game.AbstractGameView;
 
+import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.beans.value.ChangeListener;
@@ -51,6 +52,9 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private XMLData myData;
     private PlayerPropertiesView myPlayerPropertiesView;
     private AbstractBoard myBoard;
+    private PlayerFundsView myPlayerFundsView;
+    private PlayerCardsView myPlayerCardsView;
+
     /**
      * VBoxOptionsView main constructor
      * @param gameView
@@ -68,8 +72,10 @@ public class BPaneOptionsView extends AbstractOptionsView {
 
     private void makeAssetViews() {
         myPlayerPropertiesView = new PlayerPropertiesView(myBoard.getMyPlayerList());
+        myPlayerFundsView = new PlayerFundsView(myBoard.getMyPlayerList());
+        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList());
         VBox aBox = new VBox();
-        aBox.getChildren().addAll(myPlayerPropertiesView.getNode());
+        aBox.getChildren().addAll(myPlayerPropertiesView.getNode(),myPlayerFundsView.getNode(),myPlayerCardsView.getNode());
         myOptionsViewNode.setCenter(aBox);
     }
 
@@ -165,8 +171,10 @@ public class BPaneOptionsView extends AbstractOptionsView {
     }
 
     @Override
-    public void updatePlayerPropertiesDisplay(List<AbstractPlayer> playerList) {
-        myPlayerPropertiesView.updatePlayerPropertiesDisplay(playerList);
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
+        myPlayerPropertiesView.update(myPlayerList);
+        myPlayerFundsView.update(myPlayerList);
+        myPlayerCardsView.update(myPlayerList);
     }
 
 }

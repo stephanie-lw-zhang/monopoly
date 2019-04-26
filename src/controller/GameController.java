@@ -3,7 +3,7 @@ package controller;
 import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.StandardBoard;
-import backend.card.action_cards.ActionCard;
+import backend.card.action_cards.HoldableCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
 import backend.dice.AbstractDice;
@@ -21,6 +21,7 @@ import frontend.screens.TestingScreen;
 import frontend.views.LogView;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
+import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.collections.FXCollections;
@@ -61,6 +62,7 @@ public class GameController {
     private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
     private PlayerFundsView fundsView;
     private PlayerPropertiesView propertiesView;
+    private PlayerCardsView cardsView;
     private LogView myLogView;
     //Strings are all actions
     private AbstractGameView myGameView;
@@ -206,6 +208,7 @@ public class GameController {
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
         //TODO: slow down options list popup
         handleTileLanding( myBoard.getPlayerTile( myTurn.getMyCurrPlayer() ) );
+        getMyTurn().endTurn();
     }
 
     private void handlePassedTiles(List<Tile> passedTiles) {
@@ -255,24 +258,14 @@ public class GameController {
 
     private void addHandlers(){
         handlerMap.put("roll",event->this.handleRollButton());
-        handlerMap.put("AUCTION",event->this.handleAuction());
-        handlerMap.put("BUY",event-> this.handleBuy());
+//        handlerMap.put("AUCTION",event->this.handleAuction());
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
-        handlerMap.put("DRAW CARD",event->this.handleDrawCard());
-        handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
-        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
-        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
-        handlerMap.put("PAY RENT",event->this.handlePayRent());
-        handlerMap.put("PAY BAIL",event->this.handlePayBail());
-        handlerMap.put("COLLECT passed MONEY",event->this.handleCollectMoneyPassed());
-        handlerMap.put("COLLECT landed MONEY",event->this.handleCollectMoneyLanded());
         handlerMap.put("UPGRADE", event->this.handleUpgradeProperty());
         handlerMap.put("TRADE",event->this.handleTrade());
-        handlerMap.put("mortgage", event->this.handleMortgage());
         handlerMap.put("forfeit",event->this.handleForfeit());
         handlerMap.put( "unmortgage", event->this.handleUnmortgage() );
-
+        handlerMap.put("end turn", event->this.handleEndTurnButton());
         //Why do we have a handler map? can't we just use Reflection
         /**
          * Auction();
@@ -315,76 +308,9 @@ public class GameController {
         }
     }
 
-    public void handleCollectMoneyLanded() {
-        myBank.payFullAmountTo( getMyTurn().getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
-        myTestScreen.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
-        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " collected " + getBoard().getGoTile().getLandedOnMoney() + " for landing on go.");
-        fundsView.updatePlayerFundsDisplay(getBoard().getMyPlayerList());
+    private void handleTrade() {
     }
 
-    public void handleCollectMoneyPassed() {
-        myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
-        myTestScreen.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
-        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " collected " + getBoard().getGoTile().getLandedOnMoney() + " for passing go.");
-        fundsView.updatePlayerFundsDisplay(getBoard().getMyPlayerList());
-    }
-
-    public void handlePayBail() {
-        try {
-            getMyTurn().getMyCurrPlayer().payFullAmountTo(getBoard().getBank(), getBoard().getJailTile().getBailAmount());
-            getBoard().getJailTile().removeCriminal(getMyTurn().getMyCurrPlayer());
-            myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");
-        } catch (TileNotFoundException e) {
-            e.popUp();
-        }
-    }
-
-    public void handleMortgage() {
-        try {
-            AbstractPropertyTile property = (AbstractPropertyTile) getBoard().getAdjacentTiles(getBoard().getJailTile()).get(0);
-
-            ObservableList<String> players = getAllPlayerNames();
-            String mortgagerName = myGameView.displayDropDownAndReturnResult("Mortgage", "Select the player who wants to mortgage: ", players);
-            AbstractPlayer mortgager = getBoard().getPlayerFromName(mortgagerName);
-
-            ObservableList<String> possibleProperties = FXCollections.observableArrayList();
-            for (AbstractPropertyTile p : mortgager.getProperties()) {
-                possibleProperties.add(p.getName());
-            }
-
-            if (possibleProperties.size() == 0) {
-                myGameView.displayActionInfo("You have no properties to mortgage at this time.");
-            } else {
-                String propertyToMortgage = myGameView.displayDropDownAndReturnResult("Mortgage", "Select the property to be mortgaged", possibleProperties);
-                for (AbstractPropertyTile p : mortgager.getProperties()) {
-                    if (p.getTitleDeed().equalsIgnoreCase(propertyToMortgage)) {
-                        property = p;
-                    }
-                }
-            }
-            property.mortgageProperty();
-            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has mortgaged " + property + ".");
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-        } catch (MortgagePropertyException e) {
-            e.popUp();
-        } catch (TileNotFoundException e) {
-            e.popUp();
-        } catch (IllegalActionOnImprovedPropertyException i) {
-            i.popUp();
-        }
-    }
-
-    //TODO
-    public void handleTrade() {
-    }
-
-    public void handlePayTaxPercentage() {
-        double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier();
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
-        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
-    }
 
     public void handleTileLanding(Tile tile) {
         try {
@@ -400,8 +326,9 @@ public class GameController {
             } else {
                 desiredAction = actions.get(0);
             }
-            Method handle = this.getClass().getMethod("handle" + desiredAction);
-            handle.invoke(this);
+            TileActionController tileActionController = new TileActionController( getBoard(), getMyTurn(), myGameView, fundsView, propertiesView, myLogView, myTestScreen.getMyBoardView());
+            Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
+            handle.invoke(tileActionController);
         } catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("There is no such method");
         } catch (SecurityException e) {
@@ -415,43 +342,7 @@ public class GameController {
         }
     }
 
-    public void handlePayRent() {
-        AbstractPropertyTile property = (AbstractPropertyTile) getBoard().getPlayerTile(getMyTurn().getMyCurrPlayer());
-        getMyTurn().getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice(getMyTurn().getNumMoves()));
-        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice(getMyTurn().getNumMoves()) + " of rent to " + property.getOwner() + ".");
-        fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-    }
 
-    public void handlePayTaxFixed() {
-        double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
-        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
-    }
-
-    public void handleGoToJail() {
-        getMyTurn().goToJail();
-        myGameView.displayActionInfo("Arrested! You're going to Jail.");
-        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
-    }
-
-    public void handleDrawCard() {
-        try {
-            ActionCard actionCard = ((AbstractDrawCardTile) getBoard().getPlayerTile(getMyTurn().getMyCurrPlayer())).drawCard();
-            Method handle = ActionCardController.class.getMethod("handle" + actionCard.getActionType(), List.class);
-            ActionCardController handleCard = new ActionCardController(myBoard, myTurn, fundsView, myTestScreen.getMyBoardView(), myGameView);
-            handle.invoke(handleCard, actionCard.getParameters());
-        } catch (NoSuchMethodException e) {
-            myGameView.displayActionInfo("There is no such method");
-        } catch (SecurityException e) {
-            myGameView.displayActionInfo("Security exception");
-        } catch (IllegalAccessException e) {
-            myGameView.displayActionInfo("Illegal access exception");
-        } catch (IllegalArgumentException e) {
-            myGameView.displayActionInfo("Illegal argument exception");
-        } catch (InvocationTargetException e) {
-            myGameView.displayActionInfo("Invocation target exception");
-        }
-    }
 
     public void handleSellToPlayer() {
         try {
@@ -490,8 +381,7 @@ public class GameController {
                     }
                 }
             }
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-            propertiesView.updatePlayerPropertiesDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException m) {
             m.popUp();
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -535,22 +425,6 @@ public class GameController {
         }
     }
 
-    public void handleBuy(){
-        try {
-            Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
-            String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
-            myTestScreen.displayActionInfo(info);
-            myLogView.gameLog.setText(info);
-            fundsView.updatePlayerFundsDisplay(getBoard().getMyPlayerList());
-            propertiesView.updatePlayerPropertiesDisplay(getBoard().getMyPlayerList());
-        } catch (IllegalActionOnImprovedPropertyException e) {
-            e.popUp();
-        } catch (IllegalInputTypeException e) {
-            e.popUp();
-        } catch (OutOfBuildingStructureException e) {
-            e.popUp();
-        }
-    }
 
     public void handleForfeit() {
         ObservableList<String> players = getAllPlayerNames();
@@ -561,46 +435,84 @@ public class GameController {
         getBoard().getMyPlayerList().remove(forfeiter);
         getBoard().getPlayerTileMap().remove(forfeiter);
         myLogView.gameLog.setText(forfeiter.getMyPlayerName() + " has forfeited.");
-
-        fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-        for (Tab tab : propertiesView.getTabs()) {
-            if (tab.getText().equalsIgnoreCase(player)) {
+        fundsView.update(myBoard.getMyPlayerList());
+        for(Tab tab: propertiesView.getTabs()){
+            if(tab.getText().equalsIgnoreCase( player )){
                 propertiesView.getTabs().remove(tab);
             }
         }
-        propertiesView.updatePlayerPropertiesDisplay(getBoard().getMyPlayerList());
+        propertiesView.update(getBoard().getMyPlayerList());
     }
 
+    public void handleUseHoldable(List<Object> parameters) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        HoldableCard card = null;
+        ObservableList<String> players = getAllPlayerNames();
+        String playerName = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the player who wants to use a card: ", players );
+        AbstractPlayer player = myBoard.getPlayerFromName( playerName );
 
-    public void handleAuction() {
-        Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
-        for (int i = 0; i < myPlayers.size(); i++) {
-            AbstractPlayer key = getPlayerAtIndex(i);
-            String value = myTestScreen.showInputTextDialog("Auction Amount for player " + getPlayerNameAtIndex(i),
-                    "Enter your auction amount:",
-                    "Amount:");
-            try {
-                auctionAmount.put(key, Double.parseDouble((value)));
-            } catch (NumberFormatException n) {
-                new IllegalInputTypeException("Input must be a number!");
-                i--;
+        ObservableList<String> possibleCards = FXCollections.observableArrayList();
+        for(HoldableCard c: player.getCards()){
+            possibleCards.add( c.getName() );
+        }
+        if (possibleCards.size()==0){
+            myGameView.displayActionInfo( "You have no cards to use at this time." );
+        } else{
+            String desiredCard = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card you want to use: ", possibleCards );
+            for(HoldableCard c: player.getCards()){
+                if(c.getName().equalsIgnoreCase( desiredCard )){
+                    card = c;
+                }
             }
         }
-        Map.Entry<AbstractPlayer, Double> winner = getMyTurn().auction(auctionAmount);
-        String info = winner.getKey().getMyPlayerName() + " wins " + this.getMyTurn().getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
-        myTestScreen.displayActionInfo(info);
-        myLogView.gameLog.setText(info);
-        Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
-        this.getMyTurn().onAction("buy", playerValue);
-        fundsView.updatePlayerFundsDisplay(getBoard().getMyPlayerList());
-        propertiesView.updatePlayerPropertiesDisplay(getBoard().getMyPlayerList());
+        ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myTestScreen.getMyBoardView(), myGameView);
+        Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
+        handle.invoke(actionCardController, card.getParameters());
+        myGameView.displayActionInfo( "You've successfully used " + card.getName());
+        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " used " + card.getName() + ".");
+        fundsView.update(myBoard.getMyPlayerList());
+        propertiesView.update( myBoard.getMyPlayerList() );
+        cardsView.update( myBoard.getMyPlayerList()  );
+    }
+
+    public void handleMortgage(){
+        try{
+            AbstractPropertyTile property = null;
+            ObservableList<String> players = getAllPlayerNames();
+            String mortgagerName = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the player who wants to mortgage: ", players );
+            AbstractPlayer mortgager = myBoard.getPlayerFromName( mortgagerName );
+
+            ObservableList<String> possibleProperties = FXCollections.observableArrayList();
+            for(AbstractPropertyTile p: mortgager.getProperties()){
+                possibleProperties.add( p.getName() );
+            }
+
+            if (possibleProperties.size()==0){
+                myGameView.displayActionInfo( "You have no properties to mortgage at this time." );
+            } else{
+                String propertyToMortgage = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the property to be mortgaged", possibleProperties );
+                for(AbstractPropertyTile p: mortgager.getProperties()){
+                    if(p.getTitleDeed().equalsIgnoreCase( propertyToMortgage )){
+                        property = p;
+                    }
+                }
+            }
+            property.mortgageProperty();
+            myGameView.displayActionInfo( "You've successfully mortgaged " + property.getName());
+            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has mortgaged " + property.getName() + ".");
+            fundsView.update(myBoard.getMyPlayerList());
+        } catch (MortgagePropertyException e) {
+            e.popUp();
+        }catch (IllegalActionOnImprovedPropertyException i) {
+            i.popUp();
+        }
     }
 
     public void handleUnmortgage() {
         try {
             AbstractPropertyTile property = (AbstractPropertyTile) getBoard().getAdjacentTiles(getBoard().getJailTile()).get(0);
             property.unmortgageProperty();
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
+            fundsView.update(myBoard.getMyPlayerList());
+            propertiesView.update( myBoard.getMyPlayerList() );
         } catch (MortgagePropertyException e) {
             e.popUp();
         } catch (TileNotFoundException e) {
@@ -672,4 +584,5 @@ public class GameController {
     private String translateReadable(String s){
         return s.replaceAll("\\s+","");
     }
+
 }

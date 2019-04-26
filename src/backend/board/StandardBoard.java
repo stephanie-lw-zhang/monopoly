@@ -7,12 +7,11 @@ package backend.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-import backend.tile.BuildingTile;
 import exceptions.MultiplePathException;
-import exceptions.TileNotFoundException;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.XMLData;
+import exceptions.TileNotFoundException;
 
 import java.util.*;
 
@@ -52,6 +51,7 @@ public class StandardBoard extends AbstractBoard {
             if (tile.applyPassedAction(p).size() > 0) {
                 passedTile = tile;
             }
+            getPlayerTileMap().put(p, tile);
         } else {
             throw new MultiplePathException( "There are multiple paths, please choose one" );
         }
@@ -63,5 +63,21 @@ public class StandardBoard extends AbstractBoard {
         getPlayerTileMap().put(p, tile);
 
     }
+
+    @Override
+    public void movePlayerToNearest(AbstractPlayer p, Tile tile) throws TileNotFoundException {
+        if(containsTileType( tile )){
+            Tile current = getPlayerTile(p);
+            Tile next = getAdjacentTiles(current).get(0);
+            //this needs to change for a non-standard board, could be informed by property file
+            while(!next.getTileType().equals( tile.getTileType())){
+                next = getAdjacentTiles(next).get(0);
+            }
+            movePlayer( p, next );
+        } else {
+            throw new TileNotFoundException( "Tile does not exist" );
+        }
+    }
+
 }
 

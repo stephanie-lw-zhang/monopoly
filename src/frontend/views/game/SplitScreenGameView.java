@@ -121,11 +121,6 @@ public class SplitScreenGameView extends AbstractGameView {
         }
     }
 
-    @Override
-    public void updatePlayerPropertiesDisplay(List<AbstractPlayer> playerList) {
-        myOptionsView.updatePlayerPropertiesDisplay(playerList);
-    }
-
     /**
      * Gets the internal node of the SplitScreenGameView
      * @return Node         a GridPane
@@ -151,5 +146,10 @@ public class SplitScreenGameView extends AbstractGameView {
     @Override
     public void updateDice(Turn turn) {
         myOptionsView.updateDice(turn);
+    }
+
+    @Override
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
+        myOptionsView.updateAssetDisplay(myPlayerList);
     }
 }

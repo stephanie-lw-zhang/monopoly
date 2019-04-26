@@ -233,14 +233,6 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        PAY_BAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handlePayBail();
-            }
-        });
-
         FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             //WORKS
             @Override

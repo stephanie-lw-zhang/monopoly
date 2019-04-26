@@ -145,7 +145,6 @@ public class Turn {
 
     public void endTurn(){
         isTurnOver = true;
-        myCurrPlayer = getNextPlayer();
     }
 
     public void move() throws MultiplePathException {
@@ -210,25 +209,10 @@ public class Turn {
         property = (AbstractPropertyTile) currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
         property.sellTo( player, value, sameSetProperties );
+//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
     }
 
-    public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
-        AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
-        return property.determineAuctionResults(auctionAmount);
-    }
 
-//    public Map.Entry<AbstractPlayer, Double> collectMoney() {
-//
-//        Boolean passed = true; //temp variable
-//        if(passed){
-//            myBoard.getBank().payFullAmountTo( myCurrPlayer, myBoard.getGoTile().getPassedMoney() );
-//            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
-//        } else {
-//            //means you landed directly on it
-//            myBoard.getBank().payFullAmountTo( myCurrPlayer, myBoard.getGoTile().getLandedOnMoney() );
-//            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
-//        }
-//    }
 
     //in a turn a player can roll/move, trade, mortgage
     public void setNextPlayer(AbstractPlayer nextPlayer) {

@@ -49,7 +49,6 @@ abstract public class AbstractGameView {
     abstract public void addPlayerOptionsView();
     abstract public void setTurnActions(List<String> turnActions);
     abstract public String showInputTextDialog(String title, String header, String content);
-    abstract public void updatePlayerPropertiesDisplay(List<AbstractPlayer> playerList);
 
     /**
      * Displays popup of actions
@@ -86,4 +85,6 @@ abstract public class AbstractGameView {
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
     abstract public void updateDice(Turn turn);
+
+    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
 }

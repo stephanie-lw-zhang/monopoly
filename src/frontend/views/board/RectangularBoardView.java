@@ -12,6 +12,7 @@ import frontend.views.IconView;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -415,23 +416,24 @@ public class RectangularBoardView extends AbstractBoardView {
  *
  * FIND THIS LINE OF CODE IN PLACEPROP and PLACENONPROP methods
  */
-//    private void showTileClickedAlert(ImportPropertyFile details) {
-//        //System.out.print("BANG!");
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle(details.getProp("TileName"));
-//        alert.setHeaderText("tile Info:");
-//        alert.setContentText(
-//                "tile Price = " + details.getProp("TilePrice")+"\n"+
-//                        "tile Rent = " + details.getProp("TileRent") +"\n" +
-//                        "tile Rent with Color Set = " + details.getProp("TileRentWithColorSet") +"\n" +
-//                        "tile Rent with 1 House = " + details.getProp("TileRent1House") +"\n" +
-//                        "tile Rent with 2 Houses = " + details.getProp("TileRent2House") +"\n" +
-//                        "tile Rent with 3 Houses = " + details.getProp("TileRent3House") +"\n" +
-//                        "tile Rent with 4 Houses = " + details.getProp("TileRent4House") +"\n" +
-//                        "tile Rent with Hotel = " + details.getProp("TileRentHotel") +"\n" +
-//                        "tile Mortgage Value = " + details.getProp("TileMortgageValue") +"\n" +
-//                        "tile House Price = " + details.getProp("TileHousePrice") +"\n" +
-//                        "tile Hotel Price = " + details.getProp("TileHotelPrice") +"\n");
-//        alert.showAndWait();
-//    }
+    private void showTileClickedAlert(AbstractPropertyTile tile) {
+        //System.out.print("BANG!");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(tile.getName());
+        alert.setHeaderText("tile Info:");
+        alert.setContentText(
+                //loop through the key set of the look-up table so this isn't so hard coded !!!!
+                "tile Price = " + tile.getCard().getTilePrice() + "\n"+
+                        "tile Rent = " + tile.getCard().getRentPriceLookupTable().get("NoHouse") +"\n" +
+                        "tile Rent with Color Set = " + tile.getCard().getRentPriceLookupTable().get("TileRentWithColorSet") +"\n" +
+                        "tile Rent with 1 House = " + tile.getCard().getRentPriceLookupTable().get("TileRent1House") +"\n" +
+                        "tile Rent with 2 Houses = " + tile.getCard().getRentPriceLookupTable().get("TileRent2House") +"\n" +
+                        "tile Rent with 3 Houses = " + tile.getCard().getRentPriceLookupTable().get("TileRent3House") +"\n" +
+                        "tile Rent with 4 Houses = " + tile.getCard().getRentPriceLookupTable().get("TileRent4House") +"\n" +
+                        "tile Rent with Hotel = " + tile.getCard().getRentPriceLookupTable().get("TileRentHotel") +"\n" +
+                        "tile Mortgage Value = " + tile.getCard().getRentPriceLookupTable().get("TileMortgageValue") +"\n" +
+                        "tile House Price = " + tile.getCard().getRentPriceLookupTable().get("TileHousePrice") +"\n" +
+                        "tile Hotel Price = " + tile.getCard().getRentPriceLookupTable().get("TileHotelPrice") +"\n");
+        alert.showAndWait();
+    }
 }
