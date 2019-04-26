@@ -1,5 +1,6 @@
 package frontend.views;
 
+import controller.GameSetUpController;
 import frontend.screens.TestingScreen;
 
 import javafx.scene.layout.ColumnConstraints;
@@ -38,6 +39,7 @@ public class FormView extends GridPane {
     private TestingScreen            myScreen;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
+    private GameSetUpController myController;
 
     /**
      * FormView main constructor
@@ -47,8 +49,7 @@ public class FormView extends GridPane {
      * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
      * @param screen
      */
-    public FormView(TestingScreen screen) {
-        myScreen = screen;
+    public FormView() {
         this.setHgap(5);
         this.setVgap(10);
         this.setAlignment(Pos.CENTER);
@@ -97,6 +98,16 @@ public class FormView extends GridPane {
         });
         this.setConstraints( submitFormButton, 0, 6);
         this.getChildren().add( submitFormButton );
+    }
+
+    public FormView(TestingScreen screen){
+        this();
+        myScreen = screen;
+    }
+
+    public FormView(GameSetUpController controller){
+        this();
+        myController = controller;
     }
 
     /**
@@ -167,7 +178,11 @@ public class FormView extends GridPane {
             return;
         }
         // TODO: delete myScreen to gamesetupcontorl
-        myScreen.handleStartGameButton(playerToIcon);
+        if(myController==null) {
+            myScreen.handleStartGameButton(playerToIcon);
+        } else{
+            myController.startGame(playerToIcon);
+        }
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {

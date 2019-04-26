@@ -1,12 +1,17 @@
 package controller;
 
 import configuration.ImportPropertyFile;
+import frontend.screens.AbstractScreen;
 import frontend.views.FormView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+
+import java.util.Map;
 
 public class GameSetUpController {
 
@@ -17,12 +22,16 @@ public class GameSetUpController {
 
     private GameController myGameController;
     private FormView myFormView;
+    private AbstractScreen myScreen;
     private double screenWidth,screenHeight;
 
-    public GameSetUpController(double sWidth, double sHeight){
+    public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
         screenWidth = sWidth;
         screenHeight = sHeight;
-        makeSetUpScreen();
+        myScreen = screen;
+        myFormView = new FormView(this);
+        myNode = myFormView;
+        //makeSetUpScreen();
     }
 
     private void makeSetUpScreen() {
@@ -32,5 +41,10 @@ public class GameSetUpController {
 
     public Node getNode() {
         return myNode;
+    }
+
+    public void startGame(Map<TextField, ComboBox> playerToIcon) {
+        makeSetUpScreen();
+        myScreen.changeDisplayNode(myNode);
     }
 }

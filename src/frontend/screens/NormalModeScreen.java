@@ -1,5 +1,6 @@
 package frontend.screens;
 
+import javafx.scene.Node;
 import javafx.stage.Stage;
 
 /**
@@ -10,8 +11,12 @@ import javafx.stage.Stage;
 public class NormalModeScreen extends AbstractScreen {
 
 
-    public NormalModeScreen(double sWidth, double sHeight, Stage stage) {
-        super(sWidth, sHeight, stage);
+    public NormalModeScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
+        super(sWidth, sHeight, stage, parent);
     }
 
+    @Override
+    public void changeDisplayNode(Node n) {
+
+    }
 }

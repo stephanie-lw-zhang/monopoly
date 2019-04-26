@@ -1,5 +1,6 @@
 package engine;
 
+import frontend.screens.AbstractScreen;
 import javafx.application.Application;
 
 import controller.GameController;
@@ -24,6 +25,7 @@ public class MonopolyDriver extends Application {
     private final static String TITLE = "Monopoly";
     private Stage               myStage;
     private Scene               myIntroScene;
+    private AbstractScreen myScreen;
 
     /**
      * Occurs at start of application
