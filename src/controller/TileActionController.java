@@ -68,7 +68,7 @@ public class TileActionController {
     public void handlePayBail(){
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
-            myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
+            //myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
             myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
             fundsView.update(myBoard.getMyPlayerList());
             myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");

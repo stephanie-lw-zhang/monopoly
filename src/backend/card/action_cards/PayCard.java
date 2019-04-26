@@ -19,7 +19,7 @@ public class PayCard extends ActionCard {
     }
 
     public PayCard(Element n){
-        super("");
+        super("","");
         amount = Double.parseDouble(getTagValue("Amount", n));
         this.setType(getTagValue("Type", n));
     }
