@@ -170,12 +170,15 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //    }
 
     public boolean checkIfImprovedProperty() {
+        System.out.println("current: " + getCurrentInUpgradeOrder());
+        System.out.println("upgrade order: " + card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()));
         //TODO: read from xml
         return (card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) > 1);
     }
 
     @Override
     public void mortgageProperty() throws MortgagePropertyException, IllegalActionOnImprovedPropertyException {
+        checkIfImprovedProperty();
         if (!isMortgaged() && checkIfImprovedProperty()) {
             getBank().payFullAmountTo(getOwner(), card.getMortgageValue() );
             setMortgaged(true);

@@ -401,7 +401,7 @@ public class GameController {
                 }
             }
             property.mortgageProperty();
-            myGameView.displayActionInfo( "You've successfully mortgaged " + property.getName());
+            myGameView.displayActionInfo( "You've successfully mortgaged " + property.getTitleDeed());
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException e) {
             e.popUp();
@@ -416,13 +416,37 @@ public class GameController {
 
     public void handleUnmortgage() {
         try {
-            AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getAdjacentTiles(myBoard.getJailTile()).get(0);
+            AbstractPropertyTile property = null;
+            ObservableList<String> players = getAllPlayerNames();
+            String mortgagerName = myGameView.displayDropDownAndReturnResult( "Unmortgage", "Select the player who wants to unmortgage: ", players );
+            AbstractPlayer mortgager = myBoard.getPlayerFromName( mortgagerName );
+
+            ObservableList<String> possibleProperties = FXCollections.observableArrayList();
+            for(AbstractPropertyTile p: mortgager.getProperties()){
+                if(p.isMortgaged()){
+                    possibleProperties.add( p.getTitleDeed() );
+                }
+            }
+
+            if (possibleProperties.size()==0){
+                myGameView.displayActionInfo( "You have no properties to unmortgage at this time." );
+            } else{
+                String propertyToUnortgage = myGameView.displayDropDownAndReturnResult( "Unortgage", "Select the property to be unmortgaged", possibleProperties );
+                for(AbstractPropertyTile p: mortgager.getProperties()){
+                    if(p.getTitleDeed().equalsIgnoreCase( propertyToUnortgage )){
+                        property = p;
+                    }
+                }
+            }
             property.unmortgageProperty();
+            myGameView.displayActionInfo( "You've successfully unmortgaged " + property.getTitleDeed());
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException e) {
             e.popUp();
-        } catch (TileNotFoundException e) {
+        } catch (PropertyNotFoundException e) {
             e.popUp();
+        } catch (CancelledActionException e) {
+            e.doNothing();
         }
     }
 

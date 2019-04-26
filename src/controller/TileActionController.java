@@ -85,11 +85,12 @@ public class TileActionController {
         double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
         }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
-        myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
+
 //        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
@@ -230,7 +231,12 @@ public class TileActionController {
                     "Enter your auction amount:",
                     "Amount:");
             try {
-                auctionAmount.put(key, Double.parseDouble((value)));
+                if (Double.parseDouble((value)) > key.getMoney()){
+                    new NotEnoughMoneyException("You don't have enough money! Please enter again.").popUp();
+                    i--;
+                } else {
+                    auctionAmount.put(key, Double.parseDouble((value)));
+                }
             } catch (NumberFormatException n) {
                 new IllegalInputTypeException("Input must be a number!");
                 i--;
@@ -250,6 +256,8 @@ public class TileActionController {
             e.popUp();
         } catch (OutOfBuildingStructureException e) {
             e.popUp();
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
         }
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
     }
@@ -259,6 +267,8 @@ public class TileActionController {
         double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile) myTurn.currPlayerTile()).getTaxMultiplier();
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.displayActionInfo( "You've paid " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
         }
@@ -276,10 +286,14 @@ public class TileActionController {
             e.popUp();
         } catch (OutOfBuildingStructureException e) {
             e.popUp();
+        } catch (NotEnoughMoneyException e){
+            e.popUp();
+            myGameView.displayActionInfo( "This property must go to auction." );
+            handleAuction();
         }
     }
 
-    private Map.Entry<AbstractPlayer, Double> buyHelper(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+    private Map.Entry<AbstractPlayer, Double> buyHelper(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
         AbstractPlayer player = null;
         double value = 0;
         if (paramMap != null) {
@@ -299,15 +313,12 @@ public class TileActionController {
         return ret;
     }
 
-    private void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+    private void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) myTurn.currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
-        try {
-            property.sellTo( player, value, sameSetProperties );
-        } catch (NotEnoughMoneyException e) {
-            e.popUp();
-        }
+        property.sellTo( player, value, sameSetProperties );
+
     }
 
     private ObservableList<String> getAllPlayerNames() {
