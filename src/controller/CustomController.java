@@ -75,7 +75,7 @@ public class CustomController {
             if (!name.equals(""))
                 playerList.add(new HumanPlayer(
                         name,
-                        makeIcon((String) playerToIcon.get(pName).getValue()),
+                        ((String) playerToIcon.get(pName).getValue()),
                         1500.00));
         }
         return playerList;
