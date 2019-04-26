@@ -6,6 +6,7 @@ import configuration.XMLData;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 
+import frontend.views.player_options.AbstractOptionsView;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
@@ -31,6 +32,7 @@ abstract public class AbstractGameView {
     private Scene             myScene;
     private AbstractBoardView myBoardView;
     private BorderPane        myPane;
+    private AbstractOptionsView myOptions;
 
     /**
      * AbstractGameView main constructor
@@ -85,6 +87,9 @@ abstract public class AbstractGameView {
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
     abstract public void updateDice(Turn turn);
-
     public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+
+    public abstract void disableButton(String str);
+
+    public abstract void enableButton(String str);
 }

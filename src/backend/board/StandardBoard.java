@@ -29,17 +29,6 @@ public class StandardBoard extends AbstractBoard {
         super(playerList, data);
     }
 
-    public List<Tile> movePlayer(AbstractPlayer p, int numMoves) throws MultiplePathException{
-        List<Tile> passedTiles = new ArrayList<>();
-        for(int i = 0; i < numMoves; i++){
-            Tile passedTile = movePlayerByOne( p );
-            if (passedTile != null && i != numMoves-1) {
-                passedTiles.add(passedTile);
-            }
-        }
-        return passedTiles;
-    }
-
     public Tile movePlayerByOne(AbstractPlayer p) throws MultiplePathException{
         Tile passedTile = null;
         Tile tile = getPlayerTile(p);
@@ -61,7 +50,6 @@ public class StandardBoard extends AbstractBoard {
     @Override
     public void movePlayer(AbstractPlayer p, Tile tile) {
         getPlayerTileMap().put(p, tile);
-
     }
 
     @Override

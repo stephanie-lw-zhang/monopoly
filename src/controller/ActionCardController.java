@@ -22,15 +22,13 @@ public class ActionCardController{
     AbstractBoard board;
     Turn turn;
     PlayerFundsView fundsView;
-    AbstractBoardView boardView;
     AbstractGameView myGameView;
     PlayerCardsView cardsView;
 
-    public ActionCardController(AbstractBoard board, Turn turn, PlayerFundsView fundsView, AbstractBoardView boardView, AbstractGameView myGameView) {
+    public ActionCardController(AbstractBoard board, Turn turn, PlayerFundsView fundsView, AbstractGameView myGameView) {
         this.board = board;
         this.turn = turn;
         this.fundsView = fundsView;
-        this.boardView = boardView;
         this.myGameView = myGameView;
     }
 
@@ -43,7 +41,7 @@ public class ActionCardController{
 
     public void handleMove(List<Object> parameters){
         board.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
-        boardView.move(turn.getMyCurrPlayer().getMyIcon(), (Tile) parameters.get( 0 ));
+//        myGameView.move(turn.getMyCurrPlayer().getMyIcon(), (Tile) parameters.get( 0 ));
     }
 
     public void handleGetOutOfJail(List<Object> parameters){

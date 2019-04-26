@@ -26,6 +26,7 @@ import javafx.scene.Node;
 
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +101,6 @@ public class BPaneOptionsView extends AbstractOptionsView {
         }
         playerOptionsModal.getChildren().add(makeMoveCheatKey());
         myOptionsViewNode.setCenter(playerOptionsModal);
-
     }
 
     private Node makeRollDisplay() {
@@ -122,6 +122,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
                     movesField.setText(newStr.replaceAll("[^\\d]", ""));
             }
         });
+//        getMoveCheatNumMoves(movesField);
         return movesField;
     }
 
@@ -175,4 +176,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerCardsView.update(myPlayerList);
     }
 
+//    public int getMoveCheatNumMoves(TextField movesField) {
+//        return Integer.parseInt(movesField.getText());
+//    }
 }

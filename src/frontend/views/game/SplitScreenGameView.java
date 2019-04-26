@@ -152,4 +152,16 @@ public class SplitScreenGameView extends AbstractGameView {
     public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
         myOptionsView.updateAssetDisplay(myPlayerList);
     }
+
+    public AbstractBoardView getMyBoardView() {
+        return myBoardView;
+    }
+
+    public void disableButton(String str) {
+        myOptionsView.disableControl(str);
+    }
+
+    public void enableButton(String str) {
+        myOptionsView.enableControl(str);
+    }
 }

@@ -182,102 +182,19 @@ public class TestingScreen extends AbstractScreen {
                     movesField.setText(newStr.replaceAll("[^\\d]", ""));
             }
         });
-
-        MOVE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                int numMoves = Integer.parseInt(movesField.getText());
-                myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
-                try {
-                    myGame.getMyTurn().moveCheat(numMoves);
-                } catch (MultiplePathException e) {
-                    e.popUp();
-                }
-            }
-        });
-
-        MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleMortgage();
-            }
-        });
-
-        COLLECT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Boolean passed = true; //TODO: find a way to not dynamically get variable
-                if(passed){
-//                    System.out.println("initial money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-                    myGame.getBoard().getBank().payFullAmountTo( myGame.getMyTurn().getMyCurrPlayer(), myGame.getBoard().getGoTile().getPassedMoney() );
-                    displayActionInfo( "You collected " + myGame.getBoard().getGoTile().getPassedMoney() + " for passing go." );
-                    myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " collected " + myGame.getBoard().getGoTile().getLandedOnMoney() + " for passing go.");
-
-//                    System.out.println("After money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-
-                } else {
-                    //means you landed directly on it
-//                    System.out.println("initial money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-//                    System.out.println("landing on go money: " + myGame.getBoard().getGoTile().getLandedOnMoney());
-
-                    myGame.getBoard().getBank().payFullAmountTo( myGame.getMyTurn().getMyCurrPlayer(), myGame.getBoard().getGoTile().getLandedOnMoney() );
-                    displayActionInfo( "You collected " + myGame.getBoard().getGoTile().getLandedOnMoney() + " for landing on go." );
-                    myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " collected " + myGame.getBoard().getGoTile().getLandedOnMoney() + " for landing on go.");
-
-
-//                    System.out.println("After money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-
-                }
-                updatePlayerFundsDisplay();
-            }
-        });
-
-        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleForfeit();
-            }
-        });
-
-        MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || myGame.getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
-                    new IllegalMoveException( "Cannot move because you are in jail." );
-                }
-                else{
-                    try {
-                        myGame.getBoard().movePlayer( myGame.getMyTurn().getMyCurrPlayer(), myGame.getMyTurn().getNumMoves() );
-                    } catch (MultiplePathException e) {
-                        e.popUp();
-                    }
-                }
-            }
-        });
-
-        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleUnmortgage();
-            }
-        });
-
-        SELL_TO_BANK.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleSellToBank();
-            }
-        });
-
-        UPGRADE.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleUpgradeProperty();
-            }
-        });
+//
+//        MOVE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                int numMoves = Integer.parseInt(movesField.getText());
+//                myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
+//                try {
+//                    myGame.getMyTurn().moveCheat(numMoves);
+//                } catch (MultiplePathException e) {
+//                    e.popUp();
+//                }
+//            }
+//        });
 
         moveCheatKey.getChildren().addAll(movesField, MOVE_BUTTON);
         playerOptionsModal.getChildren().addAll(
@@ -305,36 +222,6 @@ public class TestingScreen extends AbstractScreen {
 
         // TODO: CONDITION FOR GAME END LOGIC????
         myGame.startGameLoop();
-    }
-
-    //TODO: delete these (FOR TESTING rn)
-    public String showInputTextDialog(String title, String header, String content) {
-        TextInputDialog dialog = new TextInputDialog("0");
-        dialog.setTitle(title);
-        dialog.setHeaderText(header);
-        dialog.setContentText(content);
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            return result.get();
-        }
-        else {
-            //TODO: throw exceptions
-            return null;
-        }
-    }
-
-    public String displayOptionsPopup(List<String> options, String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        List<ButtonType> buttonOptions = new ArrayList<>();
-        for (String option : options) {
-            buttonOptions.add(new ButtonType(option));
-        }
-        alert.getButtonTypes().setAll(buttonOptions);
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.get().getText();
     }
 
     private TextFlow createPlayersText() {
@@ -468,15 +355,6 @@ public class TestingScreen extends AbstractScreen {
         currPlayerText.setText(currPlayer.getMyPlayerName());
     }
 
-    public void updateDice(final Turn turn) {
-        myDiceView.onUpdate(turn);
-        myLogView.gameLog.setText(myDiceView.getMyPopupText());
-    }
-
-    public void updatePlayerPosition(int roll) {
-        myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), roll);
-    }
-
     private void handleKeyInput(KeyCode code) {
         if (code == KeyCode.Q) {
             backToParent();
@@ -491,6 +369,4 @@ public class TestingScreen extends AbstractScreen {
     @Override
     public void changeDisplayNode(Node n) {
     }
-
-    public AbstractBoardView getMyBoardView() { return myBoardView; }
 }
