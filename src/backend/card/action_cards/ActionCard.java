@@ -16,7 +16,7 @@ public abstract class ActionCard extends AbstractCard {
         public String getActionType() {
                 return type;
         }
-
+        
         public String getText(){
                 return text;
         }
