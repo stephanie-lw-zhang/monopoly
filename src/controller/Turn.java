@@ -145,7 +145,6 @@ public class Turn {
 
     public void endTurn(){
         isTurnOver = true;
-        myCurrPlayer = getNextPlayer();
     }
 
     public void move() throws MultiplePathException {

@@ -185,6 +185,7 @@ public class GameController {
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
         //TODO: slow down options list popup
         handleTileLanding( myBoard.getPlayerTile( myTurn.getMyCurrPlayer() ) );
+        getMyTurn().endTurn();
     }
 
     private void handlePassedTiles(List<Tile> passedTiles) {
@@ -233,23 +234,25 @@ public class GameController {
     }
 
     private void addHandlers(){
-        handlerMap.put("AUCTION",event->this.handleAuction());
-        handlerMap.put("BUY",event-> this.handleBuy());
+//        handlerMap.put("AUCTION",event->this.handleAuction());
+//        handlerMap.put("BUY",event-> this.handleBuy());
+        handlerMap.put("roll", event-> this.handleRollButton());
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
-        handlerMap.put("DRAW CARD",event->this.handleDrawCard());
-        handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
-        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
-        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
-        handlerMap.put("PAY RENT",event->this.handlePayRent());
-        handlerMap.put("PAY BAIL",event->this.handlePayBail());
-        handlerMap.put("COLLECT passed MONEY",event->this.handleCollectMoneyPassed());
-        handlerMap.put("COLLECT landed MONEY",event->this.handleCollectMoneyLanded());
+//        handlerMap.put("DRAW CARD",event->this.handleDrawCard());
+//        handlerMap.put("GO TO JAIL",event->this.handleGoToJail());
+//        handlerMap.put("PAY TAX FIXED",event->this.handlePayTaxFixed());
+//        handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
+//        handlerMap.put("PAY RENT",event->this.handlePayRent());
+//        handlerMap.put("PAY BAIL",event->this.handlePayBail());
+//        handlerMap.put("COLLECT passed MONEY",event->this.handleCollectMoneyPassed());
+//        handlerMap.put("COLLECT landed MONEY",event->this.handleCollectMoneyLanded());
         handlerMap.put("UPGRADE", event->this.handleUpgradeProperty());
         handlerMap.put("TRADE",event->this.handleTrade());
         handlerMap.put("mortgage", event->this.handleMortgage());
         handlerMap.put("forfeit",event->this.handleForfeit());
         handlerMap.put( "unmortgage", event->this.handleUnmortgage() );
+        handlerMap.put("end turn", event->this.handleEndTurnButton());
         //Why do we have a handler map? can't we just use Reflection
         /**
          * Auction();
