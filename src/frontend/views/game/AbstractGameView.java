@@ -5,6 +5,8 @@ import backend.board.AbstractBoard;
 import backend.tile.Tile;
 import configuration.XMLData;
 import controller.Turn;
+import exceptions.CancelledActionException;
+import exceptions.PropertyNotFoundException;
 import frontend.views.board.AbstractBoardView;
 
 import frontend.views.player_options.AbstractOptionsView;
@@ -50,7 +52,6 @@ abstract public class AbstractGameView {
     abstract public void divideScreen();
     abstract public void addBoardView();
     abstract public void addPlayerOptionsView();
-    abstract public void setTurnActions(List<String> turnActions);
     abstract public String showInputTextDialog(String title, String header, String content);
 
     /**
@@ -63,13 +64,21 @@ abstract public class AbstractGameView {
         formAlert.showAndWait();
     }
 
-    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options){
-        ChoiceDialog players = new ChoiceDialog( options.get( 0 ), options );
-        players.setHeaderText( title );
-        players.setContentText(prompt);
-        //"Select the player who wants to mortgage a property: "
-        players.showAndWait();
-        return (String) players.getSelectedItem();
+    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options) throws CancelledActionException, PropertyNotFoundException {
+        try {
+            ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
+            choices.setHeaderText( title );
+            choices.setContentText(prompt);
+            //"Select the player who wants to mortgage a property: "
+            Optional<String> result = choices.showAndWait();
+//        choices.showAndWait();
+            if (result.isEmpty()) {
+                throw new CancelledActionException("Action has been cancelled");
+            }
+            return (String) choices.getSelectedItem();
+        } catch(IndexOutOfBoundsException n) {
+            throw new PropertyNotFoundException("You do not own any properties");
+        }
     }
 
     public String displayOptionsPopup(List<String> options, String title, String header, String content) {
