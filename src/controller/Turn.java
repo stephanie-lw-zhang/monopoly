@@ -181,11 +181,7 @@ public class Turn {
         property = (AbstractPropertyTile) currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
         property.sellTo( player, value, sameSetProperties );
-    }
-
-    public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
-        AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
-        return property.determineAuctionResults(auctionAmount);
+//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
     }
 
     //in a turn a player can roll/move, trade, mortgage

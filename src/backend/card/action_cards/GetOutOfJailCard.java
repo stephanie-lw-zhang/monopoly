@@ -6,10 +6,15 @@ import org.w3c.dom.Element;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetOutOfJailCard extends ActionCard {
+public class GetOutOfJailCard extends HoldableCard {
+
+    public GetOutOfJailCard(String type, String text, Element n) {
+        super( type, text );
+
+    }
 
     public GetOutOfJailCard(Element n){
-        super("");
+        super("", "");
         this.setType(getTagValue("Type", n));
     }
 
@@ -18,12 +23,6 @@ public class GetOutOfJailCard extends ActionCard {
         return "GetOutOfJail";
     }
 
-    public GetOutOfJailCard(String type) {
-        super( type );
-    }
 
-    @Override
-    public List<Object> getParameters() {
-        return new ArrayList<>(  );
-    }
+
 }
