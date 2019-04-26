@@ -198,7 +198,7 @@ public class TestingScreen extends AbstractScreen {
         MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handleMortgage();
+                // myGame.handleMortgage();
             }
         });
 
@@ -236,7 +236,7 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handlePayBail();
+                // myGame.handlePayBail();
             }
         });
 
@@ -268,7 +268,7 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handleUnmortgage();
+                //myGame.handleUnmortgage();
             }
         });
 
