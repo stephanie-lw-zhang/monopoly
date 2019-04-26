@@ -48,7 +48,6 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private VBox playerOptionsModal;
     private DiceView myDiceView;
     private LogView myLogView;
-    private FundsView myFundsView;
     private XMLData myData;
     private PlayerPropertiesView myPlayerPropertiesView;
     private AbstractBoard myBoard;
@@ -76,14 +75,14 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList());
         VBox aBox = new VBox();
         aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
-        myOptionsViewNode.setCenter(aBox);
+        myOptionsViewNode.setLeft(aBox);
     }
 
     private void makeNonActionViews() {
         myLogView = new LogView(myData);
         VBox NonActionBox = new VBox();
         NonActionBox.getChildren().addAll(myLogView.getNode());
-        myOptionsViewNode.setLeft(NonActionBox);
+        myOptionsViewNode.setTop(NonActionBox);
     }
 
     /**
@@ -95,12 +94,12 @@ public class BPaneOptionsView extends AbstractOptionsView {
     public void createButtons(Map<String, EventHandler<ActionEvent>> actionMap) {
         playerOptionsModal = new VBox();
         playerOptionsModal.setSpacing(10);
+        playerOptionsModal.getChildren().add(makeRollDisplay());
         for(String action:actionMap.keySet()){
             makeButton(action,actionMap.get(action),playerOptionsModal);
         }
         playerOptionsModal.getChildren().add(makeMoveCheatKey());
-        myOptionsViewNode.setRight(playerOptionsModal);
-        myOptionsViewNode.setTop(makeRollDisplay());
+        myOptionsViewNode.setCenter(playerOptionsModal);
 
     }
 

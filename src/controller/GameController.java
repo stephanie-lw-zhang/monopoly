@@ -482,7 +482,7 @@ public class GameController {
         getBoard().getMyPlayerList().remove(forfeiter);
         getBoard().getPlayerTileMap().remove(forfeiter);
         myLogView.gameLog.setText(forfeiter.getMyPlayerName() + " has forfeited.");
-        fundsView.update(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(getBoard().getMyPlayerList());
         for(Tab tab: propertiesView.getTabs()){
             if(tab.getText().equalsIgnoreCase( player )){
                 propertiesView.getTabs().remove(tab);
@@ -516,9 +516,7 @@ public class GameController {
         handle.invoke(actionCardController, card.getParameters());
         myGameView.displayActionInfo( "You've successfully used " + card.getName());
         myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " used " + card.getName() + ".");
-        fundsView.update(myBoard.getMyPlayerList());
-        propertiesView.update( myBoard.getMyPlayerList() );
-        cardsView.update( myBoard.getMyPlayerList()  );
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
     }
 
     public void handleMortgage(){

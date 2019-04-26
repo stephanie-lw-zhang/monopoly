@@ -51,9 +51,6 @@ public class Turn {
 
     public void start() {
         myRolls = rollDice(myBoard.getNumDie());
-        for (int i : myRolls) {
-            System.out.println("START MY ROLLS " + i);
-        }
         int numMoves = getNumMoves();
     }
 
