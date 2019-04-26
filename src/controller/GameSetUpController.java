@@ -1,5 +1,6 @@
 package controller;
 
+import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
 import backend.dice.SixDice;
 import configuration.ImportPropertyFile;
@@ -33,6 +34,7 @@ public class GameSetUpController {
     private AbstractScreen myScreen;
     private double screenWidth,screenHeight;
     private XMLData myData;
+    private AbstractBoard myBoard;
 
 
     public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
@@ -50,17 +52,12 @@ public class GameSetUpController {
     }
 
     private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon) {
+        myBoard = new StandardBoard(playerToIcon, myData);
         myGameController = new GameController(
                 this,
-                new SixDice(),
-                playerToIcon
+                myBoard
         );
 
-        myBoardView = new SquareBoardView(
-                new StandardBoard(myGame.getBoard().getMyPlayerList(), myData),
-                getScreenWidth()*0.5, getScreenHeight()*0.9,
-                90,11,11
-        );
         myGameController = new GameController(screenWidth,screenHeight,myPropertyFile,CONFIG_FILE);
         myNode = myGameController.getGameNode();
     }

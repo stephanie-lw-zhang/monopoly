@@ -1,10 +1,9 @@
 package frontend.views;
-
 import controller.GameSetUpController;
 import exceptions.DuplicatePlayerException;
 import exceptions.FormInputException;
-import exceptions.InputMismatchException;
 import exceptions.InsufficientPlayersException;
+import exceptions.*;
 import frontend.screens.TestingScreen;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
@@ -158,8 +157,11 @@ public class FormView {
      * @param playerToIcon
      */
     private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
-        if (hasUnassignedIcon(playerToIcon) || hasUnassignedName(playerToIcon)) {
-            throw new InputMismatchException();
+        if (this.hasUnassignedIcon(playerToIcon)) {
+            throw new InputIconMismatchException();
+        }
+        if (this.hasUnassignedName(playerToIcon)) {
+            throw new InputPlayerNameMismatchException();
         }
         if (! hasEnoughPlayers()) {
             throw new InsufficientPlayersException();

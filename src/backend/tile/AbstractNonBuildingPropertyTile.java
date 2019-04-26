@@ -6,7 +6,6 @@ import exceptions.OutOfBuildingStructureException;
 import exceptions.IllegalActionOnImprovedPropertyException;
 import exceptions.IllegalInputTypeException;
 import org.w3c.dom.Element;
-import exceptions.IllegalInputTypeException;
 
 import java.util.List;
 
