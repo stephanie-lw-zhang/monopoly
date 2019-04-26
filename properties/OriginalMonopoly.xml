@@ -10,6 +10,239 @@
         <NumDie>2</NumDie>
     </Dice>
 
+    <Decks>
+        <NumDecks>2</NumDecks>
+    </Decks>
+
+    <Deck>
+        <Name>Community Chest Deck</Name>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>0</TileIndex>
+            <Message>Advance to Go (Collect $200)</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>100</Amount>
+            <Message>You Inherit $100</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Everyone</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>50</Amount>
+            <Message>You Collect $50 From Every Player</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Everyone</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>50</Amount>
+            <Message>Receive For Services $25</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>JailTileIndex</TileIndex>
+            <Message>Go To Jail</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>100</Amount>
+            <Message>XMAS Fund Matures</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>GetOutOfJailCard</CardType>
+            <Type>GetOutOfJail</Type>
+            <Message>Get Out of Jail Free</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>10</Amount>
+            <Message>You Win Second Place in a Beauty Contest Collect $10</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>45</Amount>
+            <Message>From A Sale of Stock You Get $45</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>100</Amount>
+            <Message>Pay Hospital $100</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>20</Amount>
+            <Message>Income Tax Refund Collect $20</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>50</Amount>
+            <Message>Doctor's Fee Pay $50</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>200</Amount>
+            <Message>Bank Error In Your Favor Collect $200</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>100</Amount>
+            <Message>Life Insurance Matures Collect $100</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>150</Amount>
+            <Message>Pay School Tax of $150</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+
+            <Amount>0</Amount>
+        </ActionCard>
+    </Deck>
+
+    <Deck>
+        <Name>Chance Deck</Name>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Everyone</Payee>
+            <Amount>50</Amount>
+            <Message>You Have Been Elected Chairman of the Board Pay Each Player $50</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>GetOutOfJailCard</CardType>
+            <Type>GetOutOfJail</Type>
+            <Message>Get Out of Jail Free</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>15</Amount>
+            <Message>Pay Poor Tax of $15</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>0</TileIndex>
+            <Message>Advance to Go (Collect $200)</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+
+            <Message>Go Back 3 Spaces</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+
+            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+
+            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>JailTileIndex</TileIndex>
+            <Message>Go To Jail</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>150</Amount>
+            <Message>Your Building and Loan Matures Collect $150</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>50</Amount>
+            <Message>Bank Pays You Dividend of $50</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>ReadingRailroadIndex</TileIndex>
+            <Message>Take a Ride on the Reading</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>StCharlesIndex</TileIndex>
+            <Message>Advance to St. Charles Place</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>BoardwalkIndex</TileIndex>
+            <Message>Advance Token to Boardwalk</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+
+            <Message>Advance to Nearest Utility and Pay Double if Owned</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>IllinoisIndex</TileIndex>
+            <Message>Advance Token to Illinois Avenue</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Amount>0</Amount>
+        </ActionCard>
+    </Deck>
+
     <Bank>
         <Money>100000</Money>
         <Properties>
