@@ -1,30 +1,26 @@
 package controller;
 
 import backend.assetholder.Bank;
-import backend.assetholder.HumanPlayer;
-import backend.board.StandardBoard;
 import backend.card.action_cards.HoldableCard;
 import backend.deck.DeckInterface;
-import backend.deck.NormalDeck;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.SixDice;
-import backend.tile.AbstractTaxTile;
-import backend.tile.IncomeTaxTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.*;
+
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import exceptions.*;
-import frontend.screens.TestingScreen;
-import frontend.views.IconView;
+
 import frontend.views.LogView;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
 import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,14 +29,15 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.lang.reflect.Method;
-
-
+/**
+ *
+ */
 public class GameController {
 
     private GameSetUpController mySetUpController;

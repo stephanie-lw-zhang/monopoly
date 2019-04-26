@@ -53,7 +53,8 @@ public class SplitScreenGameView extends AbstractGameView {
         super(screenWidth,screenHeight, data, board);
         myData = data;
         try {
-            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), myData), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
+//            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), myData), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
+            myBoardView = new SquareBoardView(board, 0.9*screenWidth, 0.9*screenHeight,90,11,11);
         } catch (Exception e) {
             e.printStackTrace(); //change this !!!
         }

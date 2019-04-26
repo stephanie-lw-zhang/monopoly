@@ -59,9 +59,9 @@ public class GameSetUpController {
 
     private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon) {
         myBoard = makeBoard(playerToIcon);
-        myGameController = new GameController(screenWidth,screenHeight,
-                this,
-                myBoard,myData
+        myGameController = new GameController(
+                screenWidth,screenHeight,
+                this, myBoard, myData
         );
         myNode = myGameController.getGameNode();
     }
@@ -91,7 +91,6 @@ public class GameSetUpController {
             if (!name.equals(""))
                 playerList.add(new HumanPlayer(
                         name,
-                        // makeIcon((String) playerToIcon.get(pName).getValue()),
                         (String) playerToIcon.get(pName).getValue(),
                         1500.00));
         }

@@ -46,7 +46,6 @@ public class RectangularBoardView extends AbstractBoardView {
     private Map<IconView, Integer> iconToIndexMap;
     private List<AbstractPlayer>   myPlayerList;
     private List<AbstractTileView> myTiles;
-    private List<IconView>         myIconList;
     private AbstractBoard          myBoard;
     private int                    myNumMoves;
     private Map<Tile, AbstractTileView> tileToTileView = new HashMap<>(  );
@@ -71,13 +70,11 @@ public class RectangularBoardView extends AbstractBoardView {
         makeBoard();
         makeBackground();
         myPlayerList = myBoard.getMyPlayerList();
-        // setIconList();
         myPlayerIconMap = makePlayerIconMap();
-        setIconToIndexMap();
-        // initializePlayerIcons();
+        iconToIndexMap = setIconToIndexMap();
     }
 
-    public Map<AbstractPlayer, IconView> makePlayerIconMap() {
+    private Map<AbstractPlayer, IconView> makePlayerIconMap() {
         Map<AbstractPlayer, IconView> map = new HashMap<>();
         for (AbstractPlayer p : myPlayerList) {
             map.put(p, makeIcon(p.getMyIconPath()));
@@ -100,21 +97,6 @@ public class RectangularBoardView extends AbstractBoardView {
             map.put(i, 0);
 
         return map;
-    }
-
-//    private void setIconList() {
-//        myIconList = new ArrayList<>();
-//        for (AbstractPlayer p : myPlayerList) {
-//            p.getMyIcon().setHeight(myTileHeight / 2);
-//            p.getMyIcon().setWidth( myTileHeight / 2);
-//
-//            myIconList.add(p.getMyIcon());
-//        }
-//    }
-
-    private void initializePlayerIcons() {
-         for (IconView icon : myIconList)
-            myTiles.get(0).moveTo(icon.getMyNode());
     }
 
     private void makeBackground() {
@@ -169,7 +151,8 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     private void movePieceDemo(IconView icon) {
-        System.out.println(myPlayerIconMap.keySet().size());
+        System.out.println("number of players: " + myPlayerIconMap.keySet().size());
+        System.out.println("number of paths: " + myPlayerIconMap.values().size());
         if(myNumMoves>0) {
             if (iconToIndexMap.get(icon) >= myTiles.size()) {
                 iconToIndexMap.put(icon, 0);

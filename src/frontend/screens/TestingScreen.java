@@ -102,7 +102,7 @@ public class TestingScreen extends AbstractScreen {
         backgroundImg.setFitWidth(getScreenWidth());
         backgroundImg.setFitHeight(getScreenHeight());
 
-        myFormView = new FormView(this);
+        myFormView = new FormView();
 
         myLogView = new LogView(myData);
 
