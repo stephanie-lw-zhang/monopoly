@@ -236,7 +236,7 @@ public class TestingScreen extends AbstractScreen {
             //WORKS
             @Override
             public void handle(ActionEvent actionEvent) {
-                myGame.handlePayBail();
+                //myGame.handlePayBail();
             }
         });
 

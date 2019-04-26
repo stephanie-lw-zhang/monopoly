@@ -132,8 +132,17 @@
         <ActionCard>
             <CardType>PayBuildingsCard</CardType>
             <Type>PayBuilding</Type>
-
-            <Amount>0</Amount>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Message>For each House pay 40, For each Hotel pay 115</Message>
+            <Multiplier>
+                <Property>House</Property>
+                <Amount>40</Amount>
+            </Multiplier>
+            <Multiplier>
+                <Property>Hotel</Property>
+                <Amount>115</Amount>
+            </Multiplier>
         </ActionCard>
     </Deck>
 
@@ -175,13 +184,17 @@
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
             <Type>MoveAndPay</Type>
-
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
             <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
             <Type>MoveAndPay</Type>
-
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
             <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
@@ -227,7 +240,9 @@
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
             <Type>MoveAndPay</Type>
-
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
             <Message>Advance to Nearest Utility and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
@@ -239,7 +254,17 @@
         <ActionCard>
             <CardType>PayBuildingsCard</CardType>
             <Type>PayBuilding</Type>
-            <Amount>0</Amount>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Message>For each House pay 25, for each Hotel pay 100</Message>
+            <Multiplier>
+                <Property>House</Property>
+                <Amount>25</Amount>
+            </Multiplier>
+            <Multiplier>
+                <Property>Hotel</Property>
+                <Amount>100</Amount>
+            </Multiplier>
         </ActionCard>
     </Deck>
 

@@ -2,14 +2,18 @@ package backend.card.action_cards;
 
 import backend.assetholder.AbstractAssetHolder;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PayBuildingsCard extends ActionCard {
     private List<AbstractAssetHolder> payers;
     private List<AbstractAssetHolder> payees;
+    private String payerString;
+    private String payeeString;
     private Map<String, Double> baseToMultiplier;
 
     public PayBuildingsCard(List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, Map<String, Double> baseToMultiplier, String type, String text) {
@@ -21,7 +25,12 @@ public class PayBuildingsCard extends ActionCard {
     
     public PayBuildingsCard(Element n){
         super("", "");
-        this.setType(getTagValue("Type", n));
+        baseToMultiplier = new HashMap<>();
+        constructBaseToMultiplier(n.getElementsByTagName("Multiplier"));
+        payerString = getTagValue("Payer", n);
+        payeeString = getTagValue("Payee", n);
+        setType(getTagValue("Type", n));
+        setText(getTagValue("Message", n));
     }
 
     @Override
@@ -32,4 +41,20 @@ public class PayBuildingsCard extends ActionCard {
         parameters.add( baseToMultiplier );
         return parameters;
     }
+
+    public void constructBaseToMultiplier(NodeList nodeList){
+        for(int i = 0; i < nodeList.getLength(); i++){
+            Element element = (Element) nodeList.item(i);
+            baseToMultiplier.put(getTagValue("Property", element), Double.parseDouble(getTagValue("Amount", element)));
+        }
+    }
+
+    public String getPayerString(){
+        return payerString;
+    }
+
+    public String getPayeeString(){
+        return payeeString;
+    }
+
 }

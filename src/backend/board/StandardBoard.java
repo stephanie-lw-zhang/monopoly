@@ -11,6 +11,7 @@ import exceptions.MultiplePathException;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.XMLData;
+import exceptions.TileNotFoundException;
 
 import java.util.*;
 

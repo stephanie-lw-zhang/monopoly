@@ -1,5 +1,7 @@
 package backend.card.action_cards;
 
+import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,12 @@ public abstract class HoldableCard extends ActionCard {
     public HoldableCard(String text, String name) {
         super( "Save", text );
         this.name = name;
+    }
+
+    public HoldableCard(Element n){
+        super("Save", "");
+        setText(getTagValue("Message", n));
+        name = getTagValue("Type", n);
     }
 
     @Override

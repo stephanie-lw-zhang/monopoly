@@ -303,7 +303,7 @@ public class GameController {
             } else {
                 desiredAction = actions.get(0);
             }
-            TileActionController tileActionController = new TileActionController( getBoard(), getMyTurn(), myGameView, fundsView, propertiesView, myLogView, myTestScreen.getMyBoardView(), );
+            TileActionController tileActionController = new TileActionController( getBoard(), getMyTurn(), myGameView, fundsView, propertiesView, myLogView, myTestScreen.getMyBoardView());
             Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
             handle.invoke(tileActionController);
         } catch (NoSuchMethodException e) {
@@ -358,13 +358,12 @@ public class GameController {
                     }
                 }
             }
-<<<<<<< HEAD
-           fundsView.update( myBoard.getMyPlayerList() );
+            fundsView.update( myBoard.getMyPlayerList() );
             propertiesView.update( myBoard.getMyPlayerList() );
-=======
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-            propertiesView.updatePlayerPropertiesDisplay(myBoard.getMyPlayerList());
->>>>>>> 63ab9ba588e2ff81c2b10bdfaa173bf353676897
+
+//            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
+//            propertiesView.updatePlayerPropertiesDisplay(myBoard.getMyPlayerList());
+
         } catch (MortgagePropertyException m) {
             m.popUp();
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -419,15 +418,14 @@ public class GameController {
         getBoard().getPlayerTileMap().remove(forfeiter);
         myLogView.gameLog.setText(forfeiter.getMyPlayerName() + " has forfeited.");
 
-<<<<<<< HEAD
+
         fundsView.update(myBoard.getMyPlayerList());
         for(Tab tab: propertiesView.getTabs()){
             if(tab.getText().equalsIgnoreCase( player )){
-=======
-        fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-        for (Tab tab : propertiesView.getTabs()) {
-            if (tab.getText().equalsIgnoreCase(player)) {
->>>>>>> 63ab9ba588e2ff81c2b10bdfaa173bf353676897
+
+//        fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
+//        for (Tab tab : propertiesView.getTabs()) {
+//            if (tab.getText().equalsIgnoreCase(player)) {
                 propertiesView.getTabs().remove(tab);
             }
         }
@@ -454,7 +452,7 @@ public class GameController {
                 }
             }
         }
-        ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myTestScreen.getMyBoardView(), myGameView, );
+        ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myTestScreen.getMyBoardView(), myGameView, new PlayerCardsView());
         Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
         handle.invoke(actionCardController, card.getParameters());
         myGameView.displayActionInfo( "You've successfully used " + card.getName());
@@ -574,11 +572,5 @@ public class GameController {
     private String translateReadable(String s){
         return s.replaceAll("\\s+","");
     }
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> 63ab9ba588e2ff81c2b10bdfaa173bf353676897
 }

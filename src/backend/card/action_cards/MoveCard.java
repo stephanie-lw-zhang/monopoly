@@ -17,8 +17,9 @@ public class MoveCard extends ActionCard {
     }
 
     public MoveCard(Element n){
-        super("");
-        this.setType(getTagValue("Type", n));
+        super("", "");
+        setType(getTagValue("Type", n));
+        setText(getTagValue("Message", n));
         index = Integer.parseInt(getTagValue("TileIndex", n));
     }
 

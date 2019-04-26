@@ -9,6 +9,7 @@ import exceptions.*;
 import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
+import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.collections.FXCollections;
@@ -75,6 +76,8 @@ public class TileActionController {
 
         } catch(TileNotFoundException e) {
             e.popUp();
+        } catch (NotInJailException e) {
+            e.popUp();
         }
     }
 
@@ -101,7 +104,7 @@ public class TileActionController {
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
             myGameView.displayActionInfo( actionCard.getText() );
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView, );
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView, new PlayerCardsView());
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {
