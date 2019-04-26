@@ -70,7 +70,7 @@ public class TileActionController {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
             myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
             myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
+            fundsView.update(myBoard.getMyPlayerList());
             myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");
 
         } catch(TileNotFoundException e) {
@@ -78,50 +78,21 @@ public class TileActionController {
         }
     }
 
-    public void handleMortgage(){
-        try{
-            AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getAdjacentTiles(myBoard.getJailTile()).get(0);
-            ObservableList<String> players = getAllPlayerNames();
-            String mortgagerName = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the player who wants to mortgage: ", players );
-            AbstractPlayer mortgager = myBoard.getPlayerFromName( mortgagerName );
-
-            ObservableList<String> possibleProperties = FXCollections.observableArrayList();
-            for(AbstractPropertyTile p: mortgager.getProperties()){
-                possibleProperties.add( p.getName() );
-            }
-
-            if (possibleProperties.size()==0){
-                myGameView.displayActionInfo( "You have no properties to mortgage at this time." );
-            } else{
-                String propertyToMortgage = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the property to be mortgaged", possibleProperties );
-                for(AbstractPropertyTile p: mortgager.getProperties()){
-                    if(p.getTitleDeed().equalsIgnoreCase( propertyToMortgage )){
-                        property = p;
-                    }
-                }
-            }
-            property.mortgageProperty();
-            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has mortgaged " + property + ".");
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-        } catch (MortgagePropertyException e) {
-            e.popUp();
-        }catch (TileNotFoundException e) {
-            e.popUp();
-        }catch (IllegalActionOnImprovedPropertyException i) {
-            i.popUp();
-        }
-    }
 
     public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
         myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
-        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " +property.getOwner()+ ".");
-        fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
+        fundsView.update(myBoard.getMyPlayerList());
+        myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+
     }
 
     public void handlePayTaxFixed() {
         double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
         myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
+        fundsView.update(myBoard.getMyPlayerList());
+        myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
         myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
@@ -129,7 +100,8 @@ public class TileActionController {
     public void handleDrawCard(){
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView );
+            myGameView.displayActionInfo( actionCard.getText() );
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView, );
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {
@@ -144,6 +116,8 @@ public class TileActionController {
             myGameView.displayActionInfo( "Invocation target exception" );
         }
     }
+
+
 
     public void handlePayTaxPercentage() {
         double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile) myTurn.currPlayerTile()).getTaxMultiplier();
