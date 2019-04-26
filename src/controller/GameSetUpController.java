@@ -38,6 +38,7 @@ public class GameSetUpController {
 
     private static final String CONFIG_FILE = "OriginalMonopoly.xml";
 
+
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private Node myNode;
 
@@ -47,7 +48,6 @@ public class GameSetUpController {
     private double screenWidth,screenHeight;
     private XMLData myData;
     private AbstractBoard myBoard;
-
 
     public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
         screenWidth = sWidth;
