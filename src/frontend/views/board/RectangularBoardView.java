@@ -2,8 +2,10 @@ package frontend.views.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.card.property_cards.BuildingCard;
 import backend.card.property_cards.PropertyCard;
 import backend.tile.AbstractPropertyTile;
+import backend.tile.BuildingTile;
 import backend.tile.Tile;
 
 import frontend.views.board.boardcomponents.*;
@@ -186,14 +188,14 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     private void makeBottomRow() {
-        for(int i = 1; i<10;i++){
+        for(int i = 1; i<myHorizontals-1;i++){
             Tile tile= myBoard.getTilesIndex(i);
             String s = tile.getTileType();
             //change TileType to make BuildingTile, RailroadTile, and UtilityTile all
             if(s.equalsIgnoreCase("BuildingTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    tileToTileView.put( tile, placePropertyTile(card.getTitleDeed(), "", (Color)Color.class.getField(card.getCategory().toUpperCase()).get(null), i, 1, myHorizontals, myScreenWidth, 0));
+                    tileToTileView.put( tile, placePropertyTile(card.getTitleDeed(), (BuildingTile) tile, "", (Color)Color.class.getField(card.getCategory().toUpperCase()).get(null), i, 1, myHorizontals, myScreenWidth, 0));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -214,7 +216,7 @@ public class RectangularBoardView extends AbstractBoardView {
 
     private void makeLeftRow(){
         int x = 0;
-        for(int i = 11; i<20;i++) {
+        for(int i = myHorizontals; i<myHorizontals+myVerticals-2;i++) {
             x++;
             Tile tile = myBoard.getTilesIndex(i);
             String s = tile.getTileType();
@@ -222,7 +224,7 @@ public class RectangularBoardView extends AbstractBoardView {
             if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), 9, x, myHorizontals, myScreenWidth, 90));
+                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), (BuildingTile) tile, "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), 9, x, myHorizontals, myScreenWidth, 90));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -241,7 +243,7 @@ public class RectangularBoardView extends AbstractBoardView {
 
     private void makeTopRow() {
         int x = 0;
-        for(int i = 21; i<30;i++) {
+        for(int i = myHorizontals+myVerticals-1; i<2*myHorizontals+myVerticals-3;i++) {
             x++;
             Tile tile = myBoard.getTilesIndex(i);
             String s = tile.getTileType();
@@ -249,7 +251,7 @@ public class RectangularBoardView extends AbstractBoardView {
             if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, 1, myHorizontals, myScreenWidth, 180));
+                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), (BuildingTile) tile,"", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, 1, myHorizontals, myScreenWidth, 180));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -267,7 +269,7 @@ public class RectangularBoardView extends AbstractBoardView {
 
     private void makeRightRow(){
         int x = 0;
-        for(int i = 31; i<40;i++) {
+        for(int i = 2*myHorizontals+myVerticals-2; i<2*myHorizontals+2*myVerticals-4;i++) {
             x++;
             Tile tile = myBoard.getTilesIndex(i);
             String s = tile.getTileType();
@@ -275,7 +277,7 @@ public class RectangularBoardView extends AbstractBoardView {
             if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    tileToTileView.put( tile, placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, x, myHorizontals, myScreenWidth, 270));
+                    tileToTileView.put( tile, placePropertyTile(card.getTitleDeed(), (BuildingTile) tile,"", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, x, myHorizontals, myScreenWidth, 270));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -306,7 +308,7 @@ public class RectangularBoardView extends AbstractBoardView {
         myRoot.getChildren().add(tileNode);
     }
 
-    public PropertyTileView placePropertyTile(String tileName,
+    public PropertyTileView placePropertyTile(String tileName, BuildingTile propTile,
                                   String tileDescription,
                                   Paint tileColor,
                                   int xoffset,
@@ -314,14 +316,13 @@ public class RectangularBoardView extends AbstractBoardView {
                                   int totalTiles,
                                   double sideLength,double rotationAngle){
         var tile = new PropertyTileView(tileName, tileDescription,tileColor);
-//        myBoard.get
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
         Node tileNode = tile.getNodeOfTileView();
 
         //System.out.print("Prop tile Set");
-        // tileNode.setOnMouseClicked(e -> {showTileClickedAlert(details);});
+        tileNode.setOnMouseClicked(e -> showBuildingTileClickedAlert(propTile));
         tileNode.setRotate(rotationAngle);
         if(rotationAngle==0) {
             myRoot.setTopAnchor(tileNode, myScreenHeight - height * yoffset);
@@ -342,7 +343,7 @@ public class RectangularBoardView extends AbstractBoardView {
         return tile;
     }
 
-    public RectangularTileView placeNonPropertyTile(String tileName, //ImportPropertyFile details,
+    public RectangularTileView placeNonPropertyTile(String tileName, //AbstractNonBuildingPropertyTile nonPropTile,
                                      String tileDescription,
                                      int xoffset,
                                      int yoffset,
@@ -410,30 +411,28 @@ public class RectangularBoardView extends AbstractBoardView {
         tileToTileView.put(tileThirty, placeCornerTile(tileThirty.getTileType(), tileThirty.getTileType(), "clear", 1, 0));
     }
 
-    //TODO: FOR MATT
 /**
- * TO DiSPLAY TILE POPUPS ON CLICK OF TILE
+ * TO DISPLAY TILE POPUPS ON CLICK OF TILE
  *
  * FIND THIS LINE OF CODE IN PLACEPROP and PLACENONPROP methods
  */
-    private void showTileClickedAlert(AbstractPropertyTile tile) {
+    private void showBuildingTileClickedAlert(BuildingTile tile) {
         //System.out.print("BANG!");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(tile.getName());
-        alert.setHeaderText("tile Info:");
-        alert.setContentText(
-                //loop through the key set of the look-up table so this isn't so hard coded !!!!
-                "tile Price = " + tile.getCard().getTilePrice() + "\n"+
-                        "tile Rent = " + tile.getCard().getRentPriceLookupTable().get("NoHouse") +"\n" +
-                        "tile Rent with Color Set = " + tile.getCard().getRentPriceLookupTable().get("TileRentWithColorSet") +"\n" +
-                        "tile Rent with 1 House = " + tile.getCard().getRentPriceLookupTable().get("TileRent1House") +"\n" +
-                        "tile Rent with 2 Houses = " + tile.getCard().getRentPriceLookupTable().get("TileRent2House") +"\n" +
-                        "tile Rent with 3 Houses = " + tile.getCard().getRentPriceLookupTable().get("TileRent3House") +"\n" +
-                        "tile Rent with 4 Houses = " + tile.getCard().getRentPriceLookupTable().get("TileRent4House") +"\n" +
-                        "tile Rent with Hotel = " + tile.getCard().getRentPriceLookupTable().get("TileRentHotel") +"\n" +
-                        "tile Mortgage Value = " + tile.getCard().getRentPriceLookupTable().get("TileMortgageValue") +"\n" +
-                        "tile House Price = " + tile.getCard().getRentPriceLookupTable().get("TileHousePrice") +"\n" +
-                        "tile Hotel Price = " + tile.getCard().getRentPriceLookupTable().get("TileHotelPrice") +"\n");
+        alert.setHeaderText("Tile Info:");
+        String text = "Tile Price: " + tile.getCard().getTilePrice() + "\n";
+        for(int i = 0; i<tile.getCard().getRentPriceLookupTable().size(); i++){
+            for(String s: tile.getCard().getRentPriceLookupTable().keySet()){
+                if(tile.getCard().getUpgradeOrderIndexOf(s) == i){
+                    text += "Tile Rent with " + s + " = " + tile.getCard().getRentPriceLookupTable().get(s) + "\n";
+                }
+            }
+        }
+        text+= "Mortgage Value = " + tile.getCard().getMortgageValue() + "\n";
+        //this is hardcoded ...
+        text+="Upgrade Price = " + ((BuildingCard) tile.getCard()).getPriceNeededToUpgradeLookupTable("1House") + "\n";
+        alert.setContentText(text);
         alert.showAndWait();
     }
 }

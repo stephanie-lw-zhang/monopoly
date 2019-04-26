@@ -139,7 +139,7 @@ public class XMLData {
         ActionCard card;
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             String cardType = getTagValue("CardType", element);
-            System.out.println(cardType);
+            //System.out.println(cardType);
             card = (ActionCard) Class.forName("backend.card.action_cards." + cardType).getConstructor(Element.class).newInstance(element);
             if(card.getActionType().equalsIgnoreCase("Move")) ((MoveCard)card).setTile(tiles.get(((MoveCard)card).getIndex()));
             return card;
