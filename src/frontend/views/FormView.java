@@ -1,9 +1,6 @@
 package frontend.views;
 
-import exceptions.DuplicatePlayerException;
-import exceptions.FormInputException;
-import exceptions.InputMismatchException;
-import exceptions.InsufficientPlayersException;
+import exceptions.*;
 import frontend.screens.TestingScreen;
 
 import javafx.scene.layout.ColumnConstraints;
@@ -143,8 +140,11 @@ public class FormView extends GridPane {
      * @param playerToIcon
      */
     private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
-        if (this.hasUnassignedIcon(playerToIcon) || this.hasUnassignedName(playerToIcon)) {
-            throw new InputMismatchException();
+        if (this.hasUnassignedIcon(playerToIcon)) {
+            throw new InputIconMismatchException();
+        }
+        if (this.hasUnassignedName(playerToIcon)) {
+            throw new InputPlayerNameMismatchException();
         }
         if (! this.hasEnoughPlayers()) {
             throw new InsufficientPlayersException();
