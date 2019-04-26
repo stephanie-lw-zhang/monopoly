@@ -28,15 +28,13 @@ public class TileActionController {
     AbstractGameView myGameView;
     LogView myLogView;
     Bank myBank;
-    AbstractBoardView myBoardView;
 
-    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView, PlayerFundsView fundsView, PlayerPropertiesView propertiesView, LogView logView, AbstractBoardView boardView) {
+    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView, PlayerFundsView fundsView, PlayerPropertiesView propertiesView, LogView logView) {
        this.myBoard = board;
        this.myTurn = turn;
        this.myGameView = gameView;
        this.fundsView = fundsView;
        this.propertiesView = propertiesView;
-       this.myBoardView = boardView;
     }
 
     public void handleStayInJail() {
@@ -46,7 +44,7 @@ public class TileActionController {
     public void handleCollectMoneyLanded() {
         //means you landed directly on it
         myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
-        myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
+        myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() + " for landing on go." );
     }
 
     public void handleCollectMoneyPassed() {
@@ -101,7 +99,7 @@ public class TileActionController {
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
             myGameView.displayActionInfo( actionCard.getText() );
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView);
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myGameView);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {

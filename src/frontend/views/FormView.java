@@ -39,7 +39,7 @@ import java.util.List;
 public class FormView {
 
     private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
-    private TestingScreen            myScreen;
+    // private TestingScreen            myScreen;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
     private GameSetUpController myController;
@@ -51,7 +51,10 @@ public class FormView {
      * TODO: REFACTOR OUT
      * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
      * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
+<<<<<<< HEAD
+=======
      *
+>>>>>>> 4fbbf45c0861d92de80c34ccc83faf28937a539e
      */
     private void initialize(){
         myPane = new GridPane();
@@ -112,10 +115,6 @@ public class FormView {
     public FormView(){
         initialize();
     }
-    public FormView(TestingScreen screen){
-        this();
-        myScreen = screen;
-    }
 
     public FormView(GameSetUpController controller){
         this();
@@ -171,12 +170,7 @@ public class FormView {
             throw new DuplicatePlayerException();
         }
 
-        // TODO: delete myScreen to gamesetupcontorl
-        if(myController==null) {
-            myScreen.handleStartGameButton(playerToIcon);
-        } else{
-            myController.startGame(playerToIcon);
-        }
+        myController.startGame(playerToIcon);
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {

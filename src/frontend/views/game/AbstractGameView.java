@@ -2,10 +2,13 @@ package frontend.views.game;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.tile.Tile;
 import configuration.XMLData;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 
+import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
@@ -78,13 +81,18 @@ abstract public class AbstractGameView {
         for (String option : options) {
             buttonOptions.add(new ButtonType(option));
         }
+
         alert.getButtonTypes().setAll(buttonOptions);
         Optional<ButtonType> result = alert.showAndWait();
-        return result.get().getText();
+
+        return result.orElse(null).getText();
     }
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
     abstract public void updateDice(Turn turn);
 
     public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+    public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
+    public abstract void updateIconDisplay(AbstractPlayer currPlayer, int nMoves);
+    public abstract void updateIconDisplay(AbstractPlayer currPlayer, Tile tile);
 }
