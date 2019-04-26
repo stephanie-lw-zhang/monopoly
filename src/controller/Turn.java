@@ -3,11 +3,7 @@ package controller;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
-import exception.IllegalActionOnImprovedPropertyException;
-import exception.IllegalInputTypeException;
-import exception.TileNotFoundException;
-import exception.OutOfBuildingStructureException;
-import backend.tile.*;
+import exceptions.*;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.JailTile;
 import backend.tile.Tile;
@@ -152,44 +148,12 @@ public class Turn {
         myCurrPlayer = getNextPlayer();
     }
 
-    public void move() {
-//        if (myRolls == null){
-//            //throw exception that dice must be rolled first
-//        }
-//        if(myCurrPlayer.isBankrupt()){
-//            return;
-//        }
-        if (myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 1){
-            //
+    public void move() throws MultiplePathException {
+        if(myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 2){
+            new IllegalMoveException( "Cannot move because you are in jail." );
         }
-        else if (myCurrPlayer.getTurnsInJail() == 3) {
-            //player must either pay 50 and move or skip one turn
-            //series of states OR dialogue boxes
-            //try to get out of jail() {
-            //prompt user
-            //get boolean
-            //}
-            //button.setOnAction -> eventHandler
-            //states: waiting for user to answer question
-            //controller calls a method in the UI to present a choice
-            //model initiates question of roll or pay
-            //model tells controller
-            //controller tells view to show the choice
-            //show popup or modal dialogue box
-            //button prompts event handler
-        }
-        //assuming player chose to either pay $50 or skip one turn
-        //else if(player.getTurnsInJail()!=-1 && ){}
-
-        //assuming player chose to roll in jail
-        else if(myCurrPlayer.getTurnsInJail()!=-1 && myRolls[0] != myRolls[1]){
-            return;
-        }
-        //player is not in jail and moves normally
-        //
         else{
-            myBoard.movePlayer(myCurrPlayer, getNumMoves());
-            myCurrentTileActions = myBoard.getPlayerTile(myCurrPlayer).applyLandedOnAction(myCurrPlayer);
+            myBoard.movePlayer( myCurrPlayer, getNumMoves() );
         }
     }
 
@@ -197,7 +161,7 @@ public class Turn {
      * FOR TESTING
      * @param n number of moves
      */
-    public void moveCheat(int n) {
+    public void moveCheat(int n) throws MultiplePathException {
         myBoard.movePlayer(myCurrPlayer, n);
     }
 
@@ -248,21 +212,6 @@ public class Turn {
         property.sellTo( player, value, sameSetProperties );
     }
 
-//    public Map.Entry<AbstractPlayer, Double> payBail() {
-//
-//        myCurrPlayer.payFullAmountTo(myBoard.getBank(), 1500.00);
-//
-//        // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
-//        // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//        return null;
-//    }
-//
-//    public Map.Entry<AbstractPlayer, Double> trade() {
-//
-////      TODO: handle Receiver input and debt as instances
-//        return null;
-//    }
-
     public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
         AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
         return property.determineAuctionResults(auctionAmount);
@@ -280,37 +229,6 @@ public class Turn {
 //            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
 //        }
 //    }
-//
-//    public Map.Entry<AbstractPlayer, Double> sellToPlayer() {
-//        return null;
-//    }
-//
-//    public Map.Entry<AbstractPlayer, Double> sellToBank(){
-//        return null;
-//    }
-//
-//    public Map.Entry<AbstractPlayer, Double> drawCard(){
-//        ((AbstractDrawCardTile) currPlayerTile()).drawCard();
-////       assume draw card tile
-//        return null;
-//    }
-
-//    public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
-//
-//        myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
-//
-////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//        return null;
-//    }
-//
-//    public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
-//
-//        myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
-//
-////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//        return null;
-//    }
-
 
     //in a turn a player can roll/move, trade, mortgage
     public void setNextPlayer(AbstractPlayer nextPlayer) {
@@ -333,7 +251,7 @@ public class Turn {
     }
 
     public String getTileNameforPlayer(AbstractPlayer p) {
-        //TODO: exception if current tile is not abstract property tile
+        //TODO: exceptions if current tile is not abstract property tile
         return ((AbstractPropertyTile)myBoard.getPlayerTile(p)).getTitleDeed();
     }
 }

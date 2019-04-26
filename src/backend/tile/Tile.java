@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Tile {
@@ -13,10 +14,6 @@ public abstract class Tile {
     private int index;
 
     public abstract List<String> applyLandedOnAction(AbstractPlayer p);
-
-    public List<String> applyPassedAction(AbstractPlayer p) {
-        return null;
-    };
 
     public String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -66,5 +63,10 @@ public abstract class Tile {
 
     public boolean isBuildingTile() {
         return false;
+    }
+
+    public List<String> applyPassedAction(AbstractPlayer player){
+        //return empty list
+        return new ArrayList<String>();
     }
 }

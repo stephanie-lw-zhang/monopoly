@@ -1,8 +1,7 @@
 package backend.tile;
 
 import backend.assetholder.Bank;
-import backend.card.BuildingCard;
-import backend.card.PropertyCard;
+import backend.card.property_cards.PropertyCard;
 import org.w3c.dom.Element;
 
 public class UtilityTile extends AbstractNonBuildingPropertyTile {

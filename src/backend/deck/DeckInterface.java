@@ -1,6 +1,6 @@
 package backend.deck;
 
-import backend.card.ActionCard;
+import backend.card.action_cards.ActionCard;
 
 import java.util.List;
 

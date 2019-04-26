@@ -1,5 +1,6 @@
 package frontend.views.board;
 
+import backend.tile.Tile;
 import frontend.views.IconView;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -12,6 +13,8 @@ abstract public class AbstractBoardView {
     }
 
     abstract public void move(IconView icon, int numMoves);
+    abstract public void move(IconView icon, Tile tile);
+
     abstract public void setRoot();
     abstract public void setScreenLimits(double screenWidth,double screenHeight);
     abstract public void makeBoard();

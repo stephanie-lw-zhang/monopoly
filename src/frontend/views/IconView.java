@@ -1,5 +1,6 @@
 package frontend.views;
 
+import frontend.views.board.boardcomponents.AbstractTileView;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 
@@ -25,6 +26,12 @@ public class IconView {
      * @return Node     an ImageView
      */
     public Node getMyNode() { return myImageView; }
+
+    public void setOn(AbstractTileView tileView){
+        myImageView.setX(tileView.getMyX());
+        myImageView.setY(tileView.getMyY());
+    }
+
 
     /**
      * Setters for the height and width of the internal ImageView

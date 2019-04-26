@@ -2,7 +2,7 @@ package frontend.views.board;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import backend.card.PropertyCard;
+import backend.card.property_cards.PropertyCard;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 
@@ -15,7 +15,6 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
 import javafx.scene.Node;
 
@@ -44,6 +43,7 @@ public class RectangularBoardView extends AbstractBoardView {
     private List<IconView>         myIconList;
     private AbstractBoard          myBoard;
     private int                    myNumMoves;
+    private Map<Tile, AbstractTileView> tileToTileView;
 
     /**
      * RectangularBoardView main constructor
@@ -151,6 +151,11 @@ public class RectangularBoardView extends AbstractBoardView {
         }
     }
 
+    public void move(IconView icon, Tile tile){
+        AbstractTileView target = tileToTileView.get( tile );
+        icon.setOn(target);
+    }
+
     /**
      * Setter of the RectangularBoardView object's AnchorPane
      */
@@ -179,17 +184,6 @@ public class RectangularBoardView extends AbstractBoardView {
         return myRoot;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     private void makeBottomRow() {
         for(int i = 1; i<10;i++){
             Tile tile= myBoard.getTilesIndex(i);
@@ -198,8 +192,8 @@ public class RectangularBoardView extends AbstractBoardView {
             if(s.equalsIgnoreCase("BuildingTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    placePropertyTile(card.getTitleDeed(), "", (Color)Color.class.getField(card.getCategory().toUpperCase()).get(null), i, 1, myHorizontals, myScreenWidth, 0);
-                 } catch (IllegalAccessException e) {
+                    tileToTileView.put( tile, placePropertyTile(card.getTitleDeed(), "", (Color)Color.class.getField(card.getCategory().toUpperCase()).get(null), i, 1, myHorizontals, myScreenWidth, 0));
+                } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
                     e.printStackTrace(); // change this !!!
@@ -209,7 +203,7 @@ public class RectangularBoardView extends AbstractBoardView {
             //    placePropertyTile(tile.getTileType(), "", Color.GREEN, i, 1, myHorizontals, myScreenWidth,  0);
             //}
             else {
-                placeNonPropertyTile(tile.getTileType(), "", i, 1, myHorizontals, myScreenWidth, 0);
+                tileToTileView.put(tile, placeNonPropertyTile(tile.getTileType(), "", i, 1, myHorizontals, myScreenWidth, 0));
                 //this needs to be changed, might need to give names to non-property tiles
                 //AbstractCard card = tile;
                 //placeNonPropertyTile();
@@ -227,7 +221,7 @@ public class RectangularBoardView extends AbstractBoardView {
             if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), 9, x, myHorizontals, myScreenWidth, 90);
+                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), 9, x, myHorizontals, myScreenWidth, 90));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -236,7 +230,7 @@ public class RectangularBoardView extends AbstractBoardView {
             //} else if (s.equalsIgnoreCase("RailroadTile") || s.equalsIgnoreCase("UtilityTile")) {
             //    placePropertyTile(tile.getTileType(), "", Color.GREEN, 9, i-10, myHorizontals, myScreenWidth, 90);
             } else {
-                placeNonPropertyTile(tile.getTileType(), "", 9, i-10, myHorizontals, myScreenWidth, 90);
+                tileToTileView.put(tile, placeNonPropertyTile(tile.getTileType(), "", 9, i-10, myHorizontals, myScreenWidth, 90));
                 //this needs to be changed, might need to give names to non-property tiles
                 //AbstractCard card = tile;
                 //placeNonPropertyTile();
@@ -254,7 +248,7 @@ public class RectangularBoardView extends AbstractBoardView {
             if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, 1, myHorizontals, myScreenWidth, 180);
+                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, 1, myHorizontals, myScreenWidth, 180));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -265,7 +259,7 @@ public class RectangularBoardView extends AbstractBoardView {
 //                placePropertyTile(tile.getTileType(), "", Color.GREEN, x, 1, myHorizontals, myScreenWidth, 180);
 //            }
             else {
-                placeNonPropertyTile(tile.getTileType(), "", x, 1, myHorizontals, myScreenWidth, 180);
+                tileToTileView.put(tile, placeNonPropertyTile(tile.getTileType(), "", x, 1, myHorizontals, myScreenWidth, 180));
             }
         }
     }
@@ -280,7 +274,7 @@ public class RectangularBoardView extends AbstractBoardView {
             if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, x, myHorizontals, myScreenWidth, 270);
+                    tileToTileView.put( tile, placePropertyTile(card.getTitleDeed(), "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), x, x, myHorizontals, myScreenWidth, 270));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -289,7 +283,7 @@ public class RectangularBoardView extends AbstractBoardView {
                 //} else if (s.equalsIgnoreCase("RailroadTile") || s.equalsIgnoreCase("UtilityTile")) {
                 //    placePropertyTile(tile.getTileType(), "", Color.GREEN, 9, i-10, myHorizontals, myScreenWidth, 90);
             } else {
-                placeNonPropertyTile(tile.getTileType(), "", x, x, myHorizontals, myScreenWidth, 270);
+                tileToTileView.put(tile, placeNonPropertyTile(tile.getTileType(), "", x, x, myHorizontals, myScreenWidth, 270));
                 //this needs to be changed, might need to give names to non-property tiles
                 //AbstractCard card = tile;
                 //placeNonPropertyTile();
@@ -311,7 +305,7 @@ public class RectangularBoardView extends AbstractBoardView {
         myRoot.getChildren().add(tileNode);
     }
 
-    public void placePropertyTile(String tileName,
+    public PropertyTileView placePropertyTile(String tileName,
                                   String tileDescription,
                                   Paint tileColor,
                                   int xoffset,
@@ -319,6 +313,7 @@ public class RectangularBoardView extends AbstractBoardView {
                                   int totalTiles,
                                   double sideLength,double rotationAngle){
         var tile = new PropertyTileView(tileName, tileDescription,tileColor);
+//        myBoard.get
         var height = myTileHeight;
         var width = calculateTileWidth(sideLength,totalTiles);
         tile.makeTileViewNode(new double[]{width,height});
@@ -343,9 +338,10 @@ public class RectangularBoardView extends AbstractBoardView {
         tileNode.setRotate(rotationAngle);
         myRoot.getChildren().add(tileNode);
         myTiles.add(tile);
+        return tile;
     }
 
-    public void placeNonPropertyTile(String tileName, //ImportPropertyFile details,
+    public RectangularTileView placeNonPropertyTile(String tileName, //ImportPropertyFile details,
                                      String tileDescription,
                                      int xoffset,
                                      int yoffset,
@@ -377,9 +373,10 @@ public class RectangularBoardView extends AbstractBoardView {
         tileNode.setRotate(rotationAngle);
         myRoot.getChildren().add(tileNode);
         myTiles.add(tile);
+        return tile;
     }
 
-    public void placeCornerTile(String tileName,
+    public CornerTileView placeCornerTile(String tileName,
                                 String tileDescription,
                                 String tileColor,
                                 double xDiff,
@@ -395,6 +392,7 @@ public class RectangularBoardView extends AbstractBoardView {
 
         // tileNode.setOnMouseClicked(e -> {showTileClickedAlert(deets);});
         myRoot.getChildren().add(tileNode);
+        return tile;
     }
 
     public void makeCorners(){
@@ -405,10 +403,10 @@ public class RectangularBoardView extends AbstractBoardView {
         Tile tileTwenty = myBoard.getTilesIndex(20);
         Tile tileThirty = myBoard.getTilesIndex(30);
 
-        placeCornerTile(tileZero.getTileType(), tileZero.getTileType(), "clear", 1, 1);
-        placeCornerTile(tileTen.getTileType(), tileTen.getTileType(), "clear", 0, 1);
-        placeCornerTile(tileTwenty.getTileType(), tileTwenty.getTileType(), "clear", 0, 0);
-        placeCornerTile(tileThirty.getTileType(), tileThirty.getTileType(), "clear", 1, 0);
+        tileToTileView.put(tileZero, placeCornerTile(tileZero.getTileType(), tileZero.getTileType(), "clear", 1, 1));
+        tileToTileView.put(tileTen, placeCornerTile(tileTen.getTileType(), tileTen.getTileType(), "clear", 0, 1));
+        tileToTileView.put(tileTwenty, placeCornerTile(tileTwenty.getTileType(), tileTwenty.getTileType(), "clear", 0, 0));
+        tileToTileView.put(tileThirty, placeCornerTile(tileThirty.getTileType(), tileThirty.getTileType(), "clear", 1, 0));
     }
 
     //TODO: FOR MATT

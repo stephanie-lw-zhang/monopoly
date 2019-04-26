@@ -36,15 +36,14 @@ public class GoTile extends Tile {
 
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>( );
-//        player.setMoney(player.getMoney() + landedOnMoney);
-        possibleActions.add("COLLECT MONEY");
+        possibleActions.add("CollectMoneyGoLanded");
         return possibleActions;
     }
 
     @Override
     public List<String> applyPassedAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>();
-        possibleActions.add("COLLECT MONEY");
+        possibleActions.add("CollectMoneyGoPassed");
         return possibleActions;
     }
 
@@ -53,9 +52,6 @@ public class GoTile extends Tile {
         return true;
     }
 
-    //    public void applyPassedAction(AbstractPlayer player) {
-//        player.setMoney(player.getMoney() + passedMoney);
-//    }
 
     //private String getTagValue(String tag, Element element) {
     //    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();

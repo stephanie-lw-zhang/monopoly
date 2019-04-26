@@ -1,9 +1,7 @@
 package backend.tile;
 
 import backend.assetholder.Bank;
-import backend.card.BuildingCard;
-import backend.card.PropertyCard;
-import backend.card.RailroadCard;
+import backend.card.property_cards.RailroadCard;
 import org.w3c.dom.Element;
 
 public class RailroadTile extends AbstractNonBuildingPropertyTile {
