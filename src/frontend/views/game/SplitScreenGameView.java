@@ -155,6 +155,15 @@ public class SplitScreenGameView extends AbstractGameView {
         myOptionsView.updateAssetDisplay(myPlayerList);
     }
 
+
+    public void disableButton(String str) {
+        myOptionsView.disableControl(str);
+    }
+
+    public void enableButton(String str) {
+        myOptionsView.enableControl(str);
+    }
+
     @Override
     public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
         myOptionsView.updateCurrPlayerDisplay(currPlayer);

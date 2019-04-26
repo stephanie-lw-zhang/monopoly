@@ -1,10 +1,8 @@
 package frontend.bot_manager;
 
-import backend.assetholder.AutomatedPlayer;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import frontend.screens.TestingScreen;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import org.testfx.util.WaitForAsyncUtils;

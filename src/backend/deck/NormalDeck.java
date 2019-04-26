@@ -42,4 +42,9 @@ public class NormalDeck implements DeckInterface {
             myDeck.add( card );
         }
     }
+
+    public Queue<ActionCard> getCards(){
+        return myDeck;
+    }
+
 }

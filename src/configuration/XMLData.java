@@ -38,7 +38,7 @@ public class XMLData {
     private int numDecks;
     private List<Tile> tiles;
     private Tile firstTile;
-    private List<DeckInterface> decks;
+    private List<NormalDeck> decks;
     private String monopolyType;
 
     public XMLData(String fileName) {
@@ -102,26 +102,22 @@ public class XMLData {
 
     private Tile getTile(Node node) throws Exception {
         Tile tile;
-        if (node.getNodeType() == Node.ELEMENT_NODE) {
-            Element element = (Element) node;
-            String tileType = getTagValue("TileType", element);
-            if(tileType.equalsIgnoreCase("BuildingTile")|| tileType.equalsIgnoreCase("RailroadTile")||tileType.equalsIgnoreCase("UtilityTile")|| tileType.contains("Tax")){
-                tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
-                if (!tileType.contains("Tax")) {
-                    updateCategoryList(element, tile);
-                }
+        Element element = (Element) node;
+        String tileType = getTagValue("TileType", element);
+        if(tileType.equalsIgnoreCase("BuildingTile")|| tileType.equalsIgnoreCase("RailroadTile")||tileType.equalsIgnoreCase("UtilityTile")|| tileType.contains("Tax")){
+            tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Bank.class, Element.class).newInstance(bank, element);
+            if (!tileType.contains("Tax")) {
+                updateCategoryList(element, tile);
             }
-            else tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Element.class).newInstance(element);
-            indexNeighborList.put(tile, new ArrayList<>());
-            String [] neighbors = getTagValue("NextTiles", element).split(",");
-            for(String s: neighbors){
-                indexNeighborList.get(tile).add(Integer.parseInt(s));
-            }
-            return tile;
         }
-        else{
-            return null; //change this!!
+        else tile = (Tile) Class.forName("backend.tile." + tileType).getConstructor(Element.class).newInstance(element);
+        indexNeighborList.put(tile, new ArrayList<>());
+        String [] neighbors = getTagValue("NextTiles", element).split(",");
+        for(String s: neighbors){
+            indexNeighborList.get(tile).add(Integer.parseInt(s));
         }
+        return tile;
+
     }
 
     private void initializeDecks(Document doc) throws Exception {
@@ -140,16 +136,10 @@ public class XMLData {
     private ActionCard getActionCard(Node node) throws Exception{
         Element element = (Element) node;
         ActionCard card;
-        if (node.getNodeType() == Node.ELEMENT_NODE) {
-            String cardType = getTagValue("CardType", element);
-            //System.out.println(cardType);
-            card = (ActionCard) Class.forName("backend.card.action_cards." + cardType).getConstructor(Element.class).newInstance(element);
-            if(card.getActionType().equalsIgnoreCase("Move")) ((MoveCard)card).setTile(tiles.get(((MoveCard)card).getIndex()));
-            return card;
-        }
-        else{
-            return null; // change this !!!
-        }
+        String cardType = getTagValue("CardType", element);
+        card = (ActionCard) Class.forName("backend.card.action_cards." + cardType).getConstructor(Element.class).newInstance(element);
+        if(card.getActionType().equalsIgnoreCase("Move")) ((MoveCard)card).setTile(tiles.get(((MoveCard)card).getIndex()));
+        return card;
     }
 
 
@@ -215,7 +205,7 @@ public class XMLData {
         return firstTile;
     }
 
-    public List<DeckInterface> getDecks(){
+    public List<NormalDeck> getDecks(){
         return decks;
     }
 
