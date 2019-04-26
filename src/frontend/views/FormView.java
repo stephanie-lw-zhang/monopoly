@@ -50,14 +50,6 @@ public class FormView {
      * TODO: REFACTOR OUT
      * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
      * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
-<<<<<<< HEAD
-     //* @param screen
-=======
-<<<<<<< HEAD
-=======
->>>>>>> b0503cb6c51675a8d9c04e2379eddd776950fcb2
-     *
->>>>>>> 4fbbf45c0861d92de80c34ccc83faf28937a539e
      */
     private void initialize(){
         myPane = new GridPane();

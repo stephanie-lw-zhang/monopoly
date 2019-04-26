@@ -22,10 +22,7 @@ import javafx.scene.Node;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -38,7 +35,7 @@ public class GameController {
     private AbstractBoard myBoard;
     private AbstractDice myDice;
     private Turn myTurn;
-    private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
+    private Map<String, EventHandler<ActionEvent>> handlerMap = new LinkedHashMap<>();
     private int numDoubleRolls;
     private AbstractGameView myGameView;
     private TileActionController tileActionController;
@@ -128,7 +125,7 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < numMoves; i++) {
+            for (int i = 0; i < 5; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
                    handlePassedTiles(passedTile);
@@ -146,10 +143,12 @@ public class GameController {
     public void handleTileLanding(Tile tile) {
         try {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
-            String desiredAction = determineDesiredActionForReflection(actions);
-            TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView);
-            Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
-            handle.invoke(tileActionController);
+            if (!(actions.size() == 0)) {
+                String desiredAction = determineDesiredActionForReflection(actions);
+                TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView);
+                Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
+                handle.invoke(tileActionController);
+            }
         } catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("There is no such method");
         } catch (SecurityException e) {
@@ -166,14 +165,15 @@ public class GameController {
     private void handlePassedTiles(Tile passedTile) {
         try {
             List<String> actions = passedTile.applyPassedAction(myTurn.getMyCurrPlayer());
-            String desiredAction = determineDesiredActionForReflection(actions);
-            PassedTileActionController passedTileActionController = new PassedTileActionController( myBoard, myTurn, myGameView);
-            Method handle = null;
-            handle = passedTileActionController.getClass().getMethod("handle" + desiredAction);
-            handle.invoke(passedTileActionController);
-        } catch (IllegalAccessException e1) {
+            if (!(actions.size() == 0)) {
+                String desiredAction = determineDesiredActionForReflection(actions);
+                PassedTileActionController passedTileActionController = new PassedTileActionController( myBoard, myTurn, myGameView);
+                Method handle = passedTileActionController.getClass().getMethod("handle" + desiredAction);
+                handle.invoke(passedTileActionController);
+            }
+        } catch (IllegalAccessException e) {
             myGameView.displayActionInfo("Illegal access exception");
-        } catch (InvocationTargetException e1) {
+        } catch (InvocationTargetException e) {
             myGameView.displayActionInfo("Invocation target exception");
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");
@@ -221,6 +221,8 @@ public class GameController {
         } catch (CancelledActionException e) {
             e.doNothing();
         } catch (PropertyNotFoundException e) {
+            e.popUp();
+        } catch (NotEnoughMoneyException e) {
             e.popUp();
         }
     }
@@ -280,6 +282,8 @@ public class GameController {
         } catch (CancelledActionException e) {
             e.doNothing();
         } catch (PropertyNotFoundException e) {
+            e.popUp();
+        } catch (NotEnoughMoneyException e) {
             e.popUp();
         }
     }
@@ -380,7 +384,7 @@ public class GameController {
 
             ObservableList<String> possibleProperties = FXCollections.observableArrayList();
             for(AbstractPropertyTile p: mortgager.getProperties()){
-                possibleProperties.add( p.getName() );
+                possibleProperties.add( p.getTitleDeed() );
             }
 
             if (possibleProperties.size()==0){
