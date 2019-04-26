@@ -10,6 +10,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 
 /**
@@ -60,6 +64,9 @@ public class MainMenuScreen extends AbstractScreen {
         Button boardButton = new Button("board");
         boardButton.setOnAction(i -> handleBoardButton(getMyStage()));
 
+        Button rulesButton = new Button("rules");
+        rulesButton.setOnAction(i -> handleRulesButton(getMyStage()));
+
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20);
         gridPane.setVgap(15);
@@ -68,6 +75,7 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.add(randomModeButton, 2, 0);
         gridPane.add(instructButton, 3, 0);
         gridPane.add(boardButton,4,0);
+        gridPane.add(rulesButton, 5, 0);
 
         myPane = setBorderPane(
                 getScreenWidth(),
@@ -102,6 +110,24 @@ public class MainMenuScreen extends AbstractScreen {
             stage,this
         );
         completeStage(stage, normalModeScreen);
+    }
+
+    private void handleRulesButton(Stage stage) {
+        AbstractScreen rulesScreen = null;
+        try {
+            rulesScreen = new RulesScreen(
+                    getScreenWidth(),
+                    getScreenHeight(),
+                    stage,this
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        completeStage(stage, rulesScreen);
     }
 
     private void handleCustomModeButton(Stage stage) {
