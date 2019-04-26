@@ -1,10 +1,13 @@
 package frontend.bot_manager;
 
 import backend.assetholder.AutomatedPlayer;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import frontend.screens.TestingScreen;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class AutomatedPlayerManager {
     private  Button ROLL_BUTTON;
@@ -26,16 +29,31 @@ public class AutomatedPlayerManager {
 //        buttons=TestingScreen.getVBox(playerOptionsModal);
 //         ROLL_BUTTON = TestingScreen.getVBox();
 
-         END_TURN_BUTTON = new Button("END TURN");
-         TRADE_BUTTON = new Button("TRADE");
-         MORTGAGE_BUTTON = new Button("MORTGAGE");
-         MOVE_BUTTON = new Button("MOVE");
-         COLLECT_BUTTON = new Button("COLLECT");
-         PAY_BAIL_BUTTON = new Button("Pay Bail");
-         FORFEIT_BUTTON = new Button("Forfeit");
-         MOVE_HANDLER_BUTTON = new Button("Move handler");
-         UNMORTGAGE_BUTTON = new Button("Unmortgage");
-         SELL_TO_BANK = new Button("SELL TO BANK");
-         UPGRADE = new Button("UPGRADE");
+    }
+
+    public void autoPlayerTurn(Node n) {
+        //find roll button
+        //myButton = lookup().queryButton("roll");
+        //go to roll button
+        //click roll button
+        //execute roll
+        //buy/mortgage/sell/auction/trade logic
+        //end turn
+        //
+    }
+
+
+    // extra utility methods for different UI components
+    protected void clickOn (Button b) {
+        simulateAction(b, () -> b.fire());
+    }
+
+    private void simulateAction (Node n, Runnable action) {
+        // simulate robot motion
+        //moveTo(n);  - FIX THIS
+        // fire event using given action on the given node
+        Platform.runLater(action);
+        // make it "later" so the requested event has time to run
+        WaitForAsyncUtils.waitForFxEvents();
     }
 }

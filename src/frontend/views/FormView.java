@@ -83,11 +83,16 @@ public class FormView {
         options.addAll("icon1", "icon2", "icon3", "icon4",
                 "icon5", "icon6", "icon7", "icon8"
         );
+//
+//        ObservableList<String> playerChoices = FXCollections.observableArrayList();
+//        options.addAll("Human", "Bot"
+//        );
 
         playerToIcon = new HashMap<>();
 
         for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
             ComboBox<String> comboBox = createIconDropDown( options, i );
+//            ComboBox<String> playerBox = createPlayerDropDown(playerChoices, i);
             TextField pField = createPlayerTextField( i );
             myPane.getChildren().addAll( comboBox, pField );
             playerToIcon.put( pField, comboBox );
@@ -151,6 +156,14 @@ public class FormView {
         comboBox.setButtonCell( new CellFactory() );
         return comboBox;
     }
+
+//    private ComboBox<String> createPlayerDropDown (ObservableList<String> playeroptions, int row){
+//        ComboBox<String> playerBox = new ComboBox<>();
+//        playerBox.getItems().addAll(playeroptions);
+//        playerBox.setCellFactory( param -> new CellFactory() );
+//        playerBox.setButtonCell( new CellFactory() );
+//        return playerBox;
+//    }
 
     /**
      * Alerts if not enough players have signed up, or if
