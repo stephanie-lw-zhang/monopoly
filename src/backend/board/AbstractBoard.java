@@ -174,11 +174,4 @@ public abstract class AbstractBoard {
     public List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {
         return getColorListMap().get( property.getCard().getCategory());
     }
-
-//    public List<AbstractPropertyTile> getAllPropertiesOfSameCategoryAs(AbstractPropertyTile property){
-//        List<AbstractPropertyTile> allOfCategory = new ArrayList<AbstractPropertyTile>(  );
-//        String targetCategory = property.getCard().getCategory();
-//        for()
-//        return allOfCategory;
-//    }
 }
