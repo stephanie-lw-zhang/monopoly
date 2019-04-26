@@ -150,6 +150,8 @@ public class FormView {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().addAll( options );
         myPane.setConstraints( comboBox, 1, row );
+        comboBox.setMinWidth(75);
+        comboBox.setPromptText("Icon");
         comboBox.setCellFactory( param -> new CellFactory() );
         comboBox.setButtonCell( new CellFactory() );
         return comboBox;
@@ -159,6 +161,8 @@ public class FormView {
         ComboBox<String> playerBox = new ComboBox<>();
         playerBox.getItems().addAll(playeroptions);
         myPane.setConstraints( playerBox, 2, row );
+        playerBox.setMinWidth(130);
+        playerBox.setPromptText("Player Type");
         playerBox.setCellFactory( param -> new CellFactory() );
         playerBox.setButtonCell( new CellFactory() );
         return playerBox;
@@ -201,6 +205,10 @@ public class FormView {
             }
         }
         return false;
+    }
+
+    private boolean hasUnassignedType(){
+
     }
 
     /**
