@@ -26,7 +26,7 @@ public class FreeParkingTile extends Tile {
     }
 
     public List<String> applyLandedOnAction(AbstractPlayer player) {
-        List<String> possibleActions = new ArrayList<>(  );
+        List<String> possibleActions = new ArrayList<>();
 //        possibleActions.add("collect"); ORIGINAL MONOPOLY U DON'T GET ANYTHING
         return possibleActions;
     }

@@ -75,7 +75,7 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.add(randomModeButton, 2, 0);
         gridPane.add(instructButton, 3, 0);
         gridPane.add(boardButton,4,0);
-//        gridPane.add(rulesButton, 5, 0);
+
 
         myPane = setBorderPane(
                 getScreenWidth(),
