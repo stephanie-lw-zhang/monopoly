@@ -22,10 +22,7 @@ import javafx.scene.Node;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -38,7 +35,7 @@ public class GameController {
     private AbstractBoard myBoard;
     private AbstractDice myDice;
     private Turn myTurn;
-    private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
+    private Map<String, EventHandler<ActionEvent>> handlerMap = new LinkedHashMap<>();
     private int numDoubleRolls;
     private AbstractGameView myGameView;
     private TileActionController tileActionController;
