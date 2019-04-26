@@ -1,6 +1,7 @@
 package backend.card.action_cards;
 
 import backend.assetholder.AbstractAssetHolder;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,11 @@ public class PayBuildingsCard extends ActionCard {
         this.payers =  payers;
         this.payees = payees;
         this.baseToMultiplier = baseToMultiplier;
+    }
+
+    public PayBuildingsCard(Element n){
+        super("");
+        this.setType(getTagValue("Type", n));
     }
     
     @Override
