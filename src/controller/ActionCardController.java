@@ -47,14 +47,10 @@ public class ActionCardController{
     }
 
     public void handleGetOutOfJail(List<Object> parameters){
-        try {
-            board.getJailTile().removeCriminal(turn.getMyCurrPlayer());
-            myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
-        } catch (TileNotFoundException e) {
-            e.popUp();
-        } catch (NotInJailException e) {
-            e.popUp();
-        }
+        //TODO: can buy get out of jail card?
+        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
+        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
+
     }
 
 

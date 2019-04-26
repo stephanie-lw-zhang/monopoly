@@ -64,8 +64,10 @@ public class GameController {
     private PlayerPropertiesView propertiesView;
     private PlayerCardsView cardsView;
     private LogView myLogView;
+    private int numDoubleRolls;
     //Strings are all actions
     private AbstractGameView myGameView;
+    private TileActionController tileActionController;
 
     public GameController(AbstractDice dice, Map<TextField, ComboBox> playerToIcon) {
         myDice = dice;
@@ -89,6 +91,8 @@ public class GameController {
         myBoard = makeBoard(playerToIcon);
         myPlayers = myBoard.getMyPlayerList();
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+        this.numDoubleRolls = 0;
+        tileActionController = new TileActionController( getBoard(), getMyTurn(), myGameView, fundsView, propertiesView, myLogView, myTestScreen.getMyBoardView());
     }
 
     public GameController(TestingScreen view, AbstractDice dice, Map<TextField, ComboBox> playerToIcon){
@@ -182,33 +186,78 @@ public class GameController {
     private void handleEndTurnButton() {
         myTurn.skipTurn();
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
+        numDoubleRolls= 0;
     }
 
     private void handleRollButton() {
-        myTurn.start();
-        if(myGameView!=null){
-            myGameView.updateDice(myTurn);
-        } else {
-            myTestScreen.updateDice(myTurn);
-            myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
+//        if(myGameView!=null){
+//            myGameView.updateDice(myTurn);
+//        } else {
+//            myTestScreen.updateDice(myTurn);
+//            myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
+//        }
+        if(getMyTurn().getMyCurrPlayer().getTurnsInJail() == 0 || getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1) {
+            new IllegalMoveException("You cannot move because you are in jail. Roll a doubles to get out of jail for free!").popUp();
         }
-        try {
-            if(getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
+        myTurn.start();
+        myGameView.updateDice(myTurn);
+
+        if (getMyTurn().isDoubleRoll(getMyTurn().getRolls())) {
+            if(getMyTurn().getMyCurrPlayer().isInJail()) {
+                getMyTurn().getMyCurrPlayer().getOutOfJail();
+                myGameView.displayActionInfo("You are released from jail because you rolled doubles. You're free now!");
+                myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " rolled doubles and is out of Jail!");
+                handleMove();
+                //TODO: grey out roll button
+            }
+            else {
+                //TODO: get rid of magic value
+                 if (numDoubleRolls < 2) {
+                     numDoubleRolls++;
+                     handleMove();
+                     myTestScreen.displayActionInfo("You rolled doubles. Roll again!");
+                     //TODO: add log?
+                }
+                else { tileActionController.handleGoToJail(); }
+            }
+        }
+        else {
+            if (getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2) {
+                getMyTurn().getMyCurrPlayer().getOutOfJail();
+                myGameView.displayActionInfo("You have had three turns in jail! You are free after you pay the fine.");
+                tileActionController.handlePayBail();
+                handleMove();
+                //TODO: grey out roll button
+            }
+            else if(getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
                 new IllegalMoveException( "Cannot move because you are in jail." );
             }
-            else{
-                List<Tile> passedTiles = myBoard.movePlayer( getMyTurn().getMyCurrPlayer(), getMyTurn().getNumMoves());
-                if (passedTiles.size() > 0) {
-                    handlePassedTiles(passedTiles);
+            else if(getMyTurn().getMyCurrPlayer().getTurnsInJail() != -1){
+                try {
+                    myBoard.movePlayer( getMyTurn().getMyCurrPlayer(), 0);
+                } catch (MultiplePathException e) {
+                    e.popUp();
                 }
+                handleTileLanding( myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
+            }
+            else { handleMove(); }
+        }
+        //TODO: make roll button grey
+        //TODO: make button not grey
+    }
+
+    private void handleMove() {
+        try {
+            List<Tile> passedTiles = myBoard.movePlayer(getMyTurn().getMyCurrPlayer(), getMyTurn().getNumMoves());
+            if (passedTiles.size() > 0) {
+                handlePassedTiles(passedTiles);
             }
         } catch (MultiplePathException e) {
             e.popUp();
         }
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
         //TODO: slow down options list popup
-        handleTileLanding( myBoard.getPlayerTile( myTurn.getMyCurrPlayer() ) );
-        getMyTurn().endTurn();
+        handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
     }
 
     private void handlePassedTiles(List<Tile> passedTiles) {
@@ -342,8 +391,6 @@ public class GameController {
         }
     }
 
-
-
     public void handleSellToPlayer() {
         try {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
@@ -381,7 +428,7 @@ public class GameController {
                     }
                 }
             }
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException m) {
             m.popUp();
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -582,5 +629,4 @@ public class GameController {
     private String translateReadable(String s){
         return s.replaceAll("\\s+","");
     }
-
 }

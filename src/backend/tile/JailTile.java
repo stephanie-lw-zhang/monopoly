@@ -1,8 +1,6 @@
 package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
-
-import exceptions.NotInJailException;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -25,22 +23,12 @@ public class JailTile extends Tile {
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>(  );
+        if (player.isInJail()) {
+            possibleActions.add("PayBail");
+            possibleActions.add("StayInJail");
+        }
         return possibleActions;
         //do nothing
-    }
-
-    public void addCriminal(AbstractPlayer player) {
-        criminals.add(player);
-    }
-
-    public void removeCriminal(AbstractPlayer player) throws NotInJailException{
-        if(criminals.contains( player )){
-            criminals.remove(player);
-            player.getOutOfJail();
-        } else {
-            throw new NotInJailException( "This player is not in jail." );
-        }
-
     }
 
     @Override
