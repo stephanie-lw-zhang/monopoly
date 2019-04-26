@@ -196,6 +196,8 @@ public abstract class AbstractPropertyTile extends Tile {
         return true;
     }
 
+    public boolean isBuildingTile(){return false;}
+
     //    public boolean isRentNeeded(AbstractPlayer player) {
 //        return (!player.equals(getOwner()) && !mortgaged);
 //    }
