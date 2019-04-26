@@ -4,7 +4,6 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import exceptions.*;
-import backend.tile.*;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.JailTile;
 import backend.tile.Tile;
@@ -28,7 +27,8 @@ public class Turn {
     private AbstractPlayer myCurrPlayer;
     private AbstractBoard  myBoard;
     private AbstractDice   myDice;
-    private List<String>  myActions;
+    private List<String>   myCurrentTileActions;
+    private Map<Tile,String> myPassedTileActions;
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;
@@ -46,12 +46,12 @@ public class Turn {
         myCurrPlayer = player;
         myBoard = board;
         myDice = dice;
-        myActions = new ArrayList<>();
+        myCurrentTileActions = new ArrayList<>();
         canRollDie = true;
     }
 
     public void start() {
-        myActions = new ArrayList<>();
+        myCurrentTileActions = new ArrayList<>();
 
         isTurnOver = false;
 
@@ -145,19 +145,14 @@ public class Turn {
 
     public void endTurn(){
         isTurnOver = true;
-        myCurrPlayer = getNextPlayer();
     }
 
-    public void move() {
+    public void move() throws MultiplePathException {
         if(myCurrPlayer.getTurnsInJail() == 1 || myCurrPlayer.getTurnsInJail() == 2){
             new IllegalMoveException( "Cannot move because you are in jail." );
         }
         else{
-            try {
-                myBoard.movePlayer( myCurrPlayer, getNumMoves() );
-            } catch (MultiplePathException e) {
-                e.popUp();
-            }
+            myBoard.movePlayer( myCurrPlayer, getNumMoves() );
         }
     }
 
@@ -171,7 +166,7 @@ public class Turn {
 
     public Map.Entry<AbstractPlayer, Double> goToJail() {
         try {
-        JailTile jail = (JailTile) myBoard.getJailTile();
+        JailTile jail = myBoard.getJailTile();
         myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
         jail.addCriminal( myCurrPlayer );
         myCurrPlayer.addTurnInJail();
@@ -206,12 +201,10 @@ public class Turn {
         }
         buyProperty(player, value);
         Map.Entry<AbstractPlayer,Double> ret = new AbstractMap.SimpleEntry<>(player, value);
-        //endTurn();
         return ret;
     }
 
     public void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
-//        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
@@ -237,8 +230,8 @@ public class Turn {
     public AbstractPlayer getMyCurrPlayer() { return myCurrPlayer; }
     public int[] getRolls() { return myRolls; }
 
-    public List<String> getMyActions() {
-        return myActions;
+    public List<String> getMyCurrentTileActions() {
+        return myCurrentTileActions;
     }
 
     public String getTileNameforPlayer(AbstractPlayer p) {

@@ -1,6 +1,7 @@
 package backend.card.action_cards;
 
 import backend.assetholder.AbstractAssetHolder;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,11 @@ public class PayCard extends ActionCard {
         this.amount = amount;
     }
 
+    public PayCard(Element n){
+        super("");
+        amount = Double.parseDouble(getTagValue("Amount", n));
+        this.setType(getTagValue("Type", n));
+    }
 
     @Override
     public List<Object> getParameters() {

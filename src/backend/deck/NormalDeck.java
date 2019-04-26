@@ -2,12 +2,17 @@ package backend.deck;
 
 import backend.card.action_cards.ActionCard;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class NormalDeck implements DeckInterface {
-    private Queue<ActionCard> myDeck = new PriorityQueue<>();
+    private Queue<ActionCard> myDeck;
+
+    public NormalDeck(){
+        myDeck = new LinkedList<>();
+    }
 
     public int getMyDeckSize() {
         //for Testing
@@ -37,5 +42,4 @@ public class NormalDeck implements DeckInterface {
             myDeck.add( card );
         }
     }
-
 }

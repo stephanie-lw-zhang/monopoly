@@ -1,0 +1,12 @@
+<TestMonopoly>
+
+    <Type>
+        <MonopolyType>Test Monopoly</MonopolyType>
+    </Type>
+
+    <Dice>
+        <NumDie>2</NumDie>
+    </Dice>
+
+
+</TestMonopoly>

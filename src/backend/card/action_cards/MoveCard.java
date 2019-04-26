@@ -1,6 +1,7 @@
 package backend.card.action_cards;
 
 import backend.tile.Tile;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,11 @@ public class MoveCard extends ActionCard {
     public MoveCard(Tile tile, String type, String text) {
         super(type, text);
         this.tile = tile;
+    }
+
+    public MoveCard(Element n){
+        super("");
+        this.setType(getTagValue("Type", n));
     }
 
     @Override
