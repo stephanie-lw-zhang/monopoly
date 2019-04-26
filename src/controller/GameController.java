@@ -147,9 +147,12 @@ public class GameController {
         try {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
             String desiredAction = determineDesiredActionForReflection(actions);
-            TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView);
-            Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
-            handle.invoke(tileActionController);
+            if(!desiredAction.equals( "" ) || desiredAction != null){
+                TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView);
+                Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
+                handle.invoke(tileActionController);
+            }
+
         } catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("There is no such method");
         } catch (SecurityException e) {
@@ -222,6 +225,8 @@ public class GameController {
             e.doNothing();
         } catch (PropertyNotFoundException e) {
             e.popUp();
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
         }
     }
 
@@ -280,6 +285,8 @@ public class GameController {
         } catch (CancelledActionException e) {
             e.doNothing();
         } catch (PropertyNotFoundException e) {
+            e.popUp();
+        } catch (NotEnoughMoneyException e) {
             e.popUp();
         }
     }
@@ -380,7 +387,7 @@ public class GameController {
 
             ObservableList<String> possibleProperties = FXCollections.observableArrayList();
             for(AbstractPropertyTile p: mortgager.getProperties()){
-                possibleProperties.add( p.getName() );
+                possibleProperties.add( p.getTitleDeed() );
             }
 
             if (possibleProperties.size()==0){

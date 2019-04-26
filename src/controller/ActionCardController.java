@@ -6,6 +6,7 @@ import backend.card.action_cards.HoldableCard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
+import exceptions.NotEnoughMoneyException;
 import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
 import frontend.views.player_stats.PlayerFundsView;
@@ -87,7 +88,11 @@ public class ActionCardController{
     private void payHelper(List<AbstractPlayer> payers, List<AbstractPlayer> payees, Double amount) {
         for (AbstractPlayer payer : payers) {
             for (AbstractPlayer payee : payees) {
-                payer.payFullAmountTo( payee, amount );
+                try {
+                    payer.payFullAmountTo( payee, amount );
+                } catch (NotEnoughMoneyException e) {
+                    e.popUp();
+                }
             }
         }
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());

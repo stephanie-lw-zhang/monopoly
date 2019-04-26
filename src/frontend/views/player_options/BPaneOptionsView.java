@@ -17,13 +17,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-import org.w3c.dom.Text;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private AbstractBoard myBoard;
     private PlayerFundsView myPlayerFundsView;
     private PlayerCardsView myPlayerCardsView;
+
 
     /**
      * VBoxOptionsView main constructor
@@ -180,7 +182,5 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerCardsView.update(myPlayerList);
     }
 
-//    public int getMoveCheatNumMoves(TextField movesField) {
-//        return Integer.parseInt(movesField.getText());
-//    }
+
 }
