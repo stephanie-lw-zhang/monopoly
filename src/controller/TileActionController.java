@@ -68,7 +68,7 @@ public class TileActionController {
     public void handlePayBail(){
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
-            myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
+            //myBoard.getJailTile().removeCriminal(myTurn.getMyCurrPlayer());
             myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
             fundsView.update(myBoard.getMyPlayerList());
             myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");
@@ -101,7 +101,7 @@ public class TileActionController {
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
             myGameView.displayActionInfo( actionCard.getText() );
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView, );
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {

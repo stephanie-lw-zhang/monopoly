@@ -31,7 +31,7 @@ public class ViewMaker {
     public ViewMaker() {}
 
     public Scene makeIntroScene(Stage stage) {
-        MainMenuScreen mainMenuScreen = new MainMenuScreen(SCREEN_WIDTH, SCREEN_HEIGHT, stage);
+        MainMenuScreen mainMenuScreen = new MainMenuScreen(SCREEN_WIDTH, SCREEN_HEIGHT, stage,null);
         mainMenuScreen.makeScreen();
         mainMenuScreen.getMyIntroScene().setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 

@@ -1,6 +1,7 @@
 package frontend.views.player_stats;
 
 import backend.assetholder.AbstractPlayer;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 
 import java.util.List;
@@ -8,13 +9,12 @@ import java.util.List;
 public class PlayerFundsView implements StatsView {
     TextArea fundsDisplay;
 
-    public TextArea create(List<AbstractPlayer> playerList){
+    public PlayerFundsView(List<AbstractPlayer> playerList){
         fundsDisplay = new TextArea( );
         update(playerList);
         fundsDisplay.setMaxHeight( 150 );
         fundsDisplay.setMaxWidth( 200 );
         fundsDisplay.setStyle( "-fx-background-color: white" );
-        return fundsDisplay;
     }
 
     public void update(List<AbstractPlayer> playerList){
@@ -26,4 +26,7 @@ public class PlayerFundsView implements StatsView {
     }
 
 
+    public Node getNode() {
+        return fundsDisplay;
+    }
 }

@@ -23,7 +23,7 @@ public class MoveAndPayCard extends ActionCard{
     }
 
     public MoveAndPayCard(Element n){
-        super("");
+        super("","");
         this.setType(getTagValue("Type", n));
     }
 

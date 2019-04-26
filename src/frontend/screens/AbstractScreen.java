@@ -1,7 +1,9 @@
 package frontend.screens;
 
+import engine.MonopolyDriver;
 import frontend.Handlers;
 
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.FontPosture;
 import javafx.scene.layout.GridPane;
@@ -25,13 +27,14 @@ import javafx.geometry.Pos;
  *
  * @author Sam
  */
-public class AbstractScreen extends Handlers {
+abstract public class AbstractScreen{
 
     private double    screenWidth;
     private double    screenHeight;
     private Stage     myStage;
     private Scene     myScene;
     private String    myScreenTitle;
+    private AbstractScreen myParent;
 
     /**
      * AbstractScreen main constructor
@@ -39,10 +42,11 @@ public class AbstractScreen extends Handlers {
      * @param sHeight
      * @param stage
      */
-    public AbstractScreen(double sWidth, double sHeight, Stage stage) {
+    public AbstractScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myStage = stage;
+        myParent = parent;
         // myScene = makeScreen();
     }
 
@@ -89,9 +93,26 @@ public class AbstractScreen extends Handlers {
 
         return bPane;
     }
-
     public double getScreenWidth()  { return screenWidth; }
     public double getScreenHeight() { return screenHeight; }
     public Stage  getMyStage()      { return myStage; }
     public Scene  getMyScene()      { return myScene; }
+
+    protected void handleBackToMainButton(Stage stage) {
+        stage.close();
+        MonopolyDriver md = new MonopolyDriver();
+        md.start(stage);
+    }
+
+    public void backToParent(){
+        if(myParent!=null){
+            System.out.println(myParent.getClass());
+            myStage.close();
+            myStage.setScene(myParent.makeScreen());
+            myStage.show();
+        }
+    }
+
+    abstract public void changeDisplayNode(Node n);
+
 }

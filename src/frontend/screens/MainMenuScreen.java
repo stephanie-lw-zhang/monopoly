@@ -1,6 +1,8 @@
 package frontend.screens;
 
+import engine.MonopolyDriver;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -18,9 +20,10 @@ import javafx.stage.Stage;
 public class MainMenuScreen extends AbstractScreen {
     private static final String SCREEN_TITLE = "Monopoly";
     private Scene myScene;
+    private BorderPane myPane;
 
-    public MainMenuScreen(double sWidth, double sHeight, Stage stage) {
-        super(sWidth, sHeight, stage);
+    public MainMenuScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
+        super(sWidth, sHeight, stage, parent);
         myScene = makeScreen();
     }
 
@@ -66,23 +69,28 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.add(instructButton, 3, 0);
         gridPane.add(boardButton,4,0);
 
-        BorderPane bPane = setBorderPane(
+        myPane = setBorderPane(
                 getScreenWidth(),
                 getScreenHeight(),
                 gridPane
         );
-        bPane.setCenter(iv2);
+        myPane.setCenter(iv2);
 
         gridPane.setAlignment(Pos.BOTTOM_CENTER);
 
-        return new Scene(bPane, getScreenWidth(), getScreenHeight());
+        return new Scene(myPane, getScreenWidth(), getScreenHeight());
+    }
+
+    @Override
+    public void changeDisplayNode(Node n) {
+        myPane.setCenter(n);
     }
 
     private void handleBoardButton(Stage myStage) {
         AbstractScreen BoardModeScreen = new BoardModeScreen(
                 getScreenWidth(),
                 getScreenHeight(),
-                myStage
+                myStage,this
         );
         completeStage(myStage, BoardModeScreen);
     }
@@ -91,7 +99,7 @@ public class MainMenuScreen extends AbstractScreen {
         AbstractScreen normalModeScreen = new NormalModeScreen(
             getScreenWidth(),
             getScreenHeight(),
-            stage
+            stage,this
         );
         completeStage(stage, normalModeScreen);
     }
@@ -105,7 +113,7 @@ public class MainMenuScreen extends AbstractScreen {
         TestingScreen test = new TestingScreen(
             getScreenWidth(),
             getScreenHeight(),
-            stage
+            stage,this
         );
 
         completeStage(stage, test);
@@ -115,7 +123,7 @@ public class MainMenuScreen extends AbstractScreen {
         AbstractScreen instructionsScreen = new InstructionsScreen(
             getScreenWidth(),
             getScreenHeight(),
-            stage
+            stage,this
         );
         completeStage(stage, instructionsScreen);
     }

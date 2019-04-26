@@ -9,6 +9,9 @@ import backend.deck.NormalDeck;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.dice.SixDice;
+import backend.tile.AbstractTaxTile;
+import backend.tile.IncomeTaxTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.*;
 import configuration.ImportPropertyFile;
@@ -44,6 +47,7 @@ import java.lang.reflect.Method;
 
 public class GameController {
 
+    private GameSetUpController mySetUpController;
     //TODO: make all the back-end stuff be managed by a MonopolyModel/board class
     private XMLData myData;
     private List<AbstractPlayer> myPlayers;
@@ -63,7 +67,7 @@ public class GameController {
     //Strings are all actions
     private AbstractGameView myGameView;
 
-    public GameController(TestingScreen view, AbstractDice dice, Map<TextField, ComboBox> playerToIcon) {
+    public GameController(AbstractDice dice, Map<TextField, ComboBox> playerToIcon) {
         myDice = dice;
         // TODO: CHANGE THIS TO JUST BEING READ IN FROM DATA
         // TODO: TO BE A PART OF BOARD NOT GAME CONTROLLER
@@ -82,17 +86,54 @@ public class GameController {
         // myGameView = new SplitScreenGameView(width, height);
 //        addHandlers();
         myBank = myData.getBank();
-        myTestScreen = view;
         myBoard = makeBoard(playerToIcon);
         myPlayers = myBoard.getMyPlayerList();
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+    }
+
+    public GameController(TestingScreen view, AbstractDice dice, Map<TextField, ComboBox> playerToIcon){
+        this(dice, playerToIcon);
+        myTestScreen = view;
+    }
+
+    public GameController(double width, double height, GameSetUpController controller, AbstractBoard board, XMLData data){
+        myBoard = board;
+        myData = data;
+        myGameView = new SplitScreenGameView(width, height, data, myBoard);
+        mySetUpController = controller;
+        addHandlers();
+        myDice = new SixDice();
+        myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+    }
+
+
+
+    public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {
+        //TODO: need money and totalPropertiesLeft read in from Data File
+        XMLData myData = null;
+        try {
+            myData = new XMLData(configFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        myGameView = new SplitScreenGameView(width, height, myData,myBoard);
+//        myBoard = new StandardBoard(
+//                myPlayers,
+//                myData.getAdjacencyList(),
+//                myData.getPropertyCategoryMap(),
+//                myData.getFirstTile(),
+//                myData.getBank(),
+//                myFormView.getDice(),
+//                myFormView.getPlayerToIcon());
+        addHandlers();
+        //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
         return new StandardBoard(
                 makePlayerList(playerToIcon), myData.getAdjacencyList(),
                 myData.getPropertyCategoryMap(), myData.getFirstTile(),
-                myBank
+                myData.getBank()
         );
     }
 
@@ -117,27 +158,6 @@ public class GameController {
         imageView.setFitWidth(25);
 
         return imageView;
-    }
-
-    public GameController(double width, double height, ImportPropertyFile propertyFile, String configFile) {
-        //TODO: need money and totalPropertiesLeft read in from Data File
-        XMLData myData = null;
-        try {
-            myData = new XMLData(configFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        myGameView = new SplitScreenGameView(width, height);
-//        myBoard = new StandardBoard(
-//                myPlayers,
-//                myData.getAdjacencyList(),
-//                myData.getPropertyCategoryMap(),
-//                myData.getFirstTile(),
-//                myData.getBank(),
-//                myFormView.getDice(),
-//                myFormView.getPlayerToIcon());
-        addHandlers();
-        //myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
     }
 
     public void startGameLoop() {
@@ -166,9 +186,12 @@ public class GameController {
 
     private void handleRollButton() {
         myTurn.start();
-        myTestScreen.updateDice(myTurn);
-        myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
-
+        if(myGameView!=null){
+            myGameView.updateDice(myTurn);
+        } else {
+            myTestScreen.updateDice(myTurn);
+            myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
+        }
         try {
             if(getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
                 new IllegalMoveException( "Cannot move because you are in jail." );
@@ -234,8 +257,8 @@ public class GameController {
     }
 
     private void addHandlers(){
+        handlerMap.put("roll",event->this.handleRollButton());
 //        handlerMap.put("AUCTION",event->this.handleAuction());
-
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("UPGRADE", event->this.handleUpgradeProperty());
@@ -303,7 +326,7 @@ public class GameController {
             } else {
                 desiredAction = actions.get(0);
             }
-            TileActionController tileActionController = new TileActionController( getBoard(), getMyTurn(), myGameView, fundsView, propertiesView, myLogView, myTestScreen.getMyBoardView(), );
+            TileActionController tileActionController = new TileActionController( getBoard(), getMyTurn(), myGameView, fundsView, propertiesView, myLogView, myTestScreen.getMyBoardView());
             Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
             handle.invoke(tileActionController);
         } catch (NoSuchMethodException e) {
@@ -358,13 +381,7 @@ public class GameController {
                     }
                 }
             }
-<<<<<<< HEAD
-           fundsView.update( myBoard.getMyPlayerList() );
-            propertiesView.update( myBoard.getMyPlayerList() );
-=======
-            fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-            propertiesView.updatePlayerPropertiesDisplay(myBoard.getMyPlayerList());
->>>>>>> 63ab9ba588e2ff81c2b10bdfaa173bf353676897
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException m) {
             m.popUp();
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -418,16 +435,9 @@ public class GameController {
         getBoard().getMyPlayerList().remove(forfeiter);
         getBoard().getPlayerTileMap().remove(forfeiter);
         myLogView.gameLog.setText(forfeiter.getMyPlayerName() + " has forfeited.");
-
-<<<<<<< HEAD
         fundsView.update(myBoard.getMyPlayerList());
         for(Tab tab: propertiesView.getTabs()){
             if(tab.getText().equalsIgnoreCase( player )){
-=======
-        fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-        for (Tab tab : propertiesView.getTabs()) {
-            if (tab.getText().equalsIgnoreCase(player)) {
->>>>>>> 63ab9ba588e2ff81c2b10bdfaa173bf353676897
                 propertiesView.getTabs().remove(tab);
             }
         }
@@ -454,7 +464,7 @@ public class GameController {
                 }
             }
         }
-        ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myTestScreen.getMyBoardView(), myGameView, );
+        ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myTestScreen.getMyBoardView(), myGameView);
         Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
         handle.invoke(actionCardController, card.getParameters());
         myGameView.displayActionInfo( "You've successfully used " + card.getName());
@@ -574,11 +584,5 @@ public class GameController {
     private String translateReadable(String s){
         return s.replaceAll("\\s+","");
     }
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> 63ab9ba588e2ff81c2b10bdfaa173bf353676897
 }
