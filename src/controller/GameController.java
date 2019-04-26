@@ -154,7 +154,6 @@ public class GameController {
     private void handleEndTurnButton() {
         myTurn.skipTurn();
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
-        myTestScreen.getMyScene().lookup("#endTurn");
     }
 
     private void handleRollButton() {

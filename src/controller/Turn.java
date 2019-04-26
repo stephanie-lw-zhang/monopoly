@@ -31,7 +31,8 @@ public class Turn {
     private AbstractPlayer myCurrPlayer;
     private AbstractBoard  myBoard;
     private AbstractDice   myDice;
-    private List<String>  myCurrentTileActions;
+    private List<String>   myCurrentTileActions;
+    private Map<Tile,String> myPassedTileActions;
     private TurnState      myTurnState;
     private boolean        isTurnOver;
     private boolean        canRollDie;

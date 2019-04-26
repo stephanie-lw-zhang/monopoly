@@ -12,6 +12,7 @@ import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import configuration.XMLData;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,23 +30,25 @@ public class StandardBoard extends AbstractBoard {
         super(playerList, data);
     }
 
-    public void movePlayer(AbstractPlayer p, int numMoves) {
-            Tile tile = getPlayerTile(p);
-            Tile next;
-            for(int i = 0; i < numMoves; i++){
-                //this needs to change for a non-standard board, could be informed by property file
-                next = getAdjacentTiles(tile).get(0);
-                tile = next;
-                if (tile.applyPassedAction(p) != null) {
-                    //tile.applyPassedAction(p);
-                }
+    public Map<Tile, List<String>> movePlayer(AbstractPlayer p, int numMoves) {
+        Map<Tile,List<String>> passedTileActions = new HashMap<>();
+        Tile tile = getPlayerTile(p);
+        Tile next;
+        for(int i = 0; i < numMoves; i++){
+            //this needs to change for a non-standard board, could be informed by property file
+            next = getAdjacentTiles(tile).get(0);
+            tile = next;
+            if (tile.applyPassedAction(p) != null) {
+                passedTileActions.put(tile,tile.applyPassedAction(p));
             }
-            try {
-                if(tile.isGoToJailTile()) tile = getJailTile();
-                getPlayerTileMap().put(p, tile);
-            } catch (TileNotFoundException e) {
-                e.printStackTrace();
-            }
+        }
+        try {
+            if(tile.isGoToJailTile()) tile = getJailTile();
+            getPlayerTileMap().put(p, tile);
+        } catch (TileNotFoundException e) {
+            e.popUp();
+        }
+        return null;
     }
 
     @Override
