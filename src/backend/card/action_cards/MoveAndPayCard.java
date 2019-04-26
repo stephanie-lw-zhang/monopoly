@@ -1,19 +1,21 @@
 package backend.card.action_cards;
 
-import backend.assetholder.AbstractPlayer;
-import backend.board.AbstractBoard;
 import backend.assetholder.AbstractAssetHolder;
+import backend.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PayCard extends ActionCard {
+public class MoveAndPayCard extends ActionCard{
+
     private List<AbstractAssetHolder> payers;
     private List<AbstractAssetHolder> payees;
+    private Tile tile;
     private double amount;
 
-    public PayCard(List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, double amount, String type) {
+    public MoveAndPayCard(Tile tile, List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, double amount, String type) {
         super(type);
+        this.tile = tile;
         this.payers =  payers;
         this.payees = payees;
         this.amount = amount;
@@ -23,6 +25,7 @@ public class PayCard extends ActionCard {
     @Override
     public List<Object> getParameters() {
         List<Object> parameters = new ArrayList<Object>();
+        parameters.add( tile);
         parameters.add( payers );
         parameters.add( payees );
         parameters.add( amount );

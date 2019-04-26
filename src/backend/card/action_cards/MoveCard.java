@@ -9,16 +9,10 @@ import java.util.List;
 
 public class MoveCard extends ActionCard {
     private Tile tile;
-    private String type;
 
     public MoveCard(Tile tile, String type) {
+        super(type);
         this.tile = tile;
-        this.type = type;
-    }
-
-    @Override
-    public String getActionType() {
-        return type;
     }
 
     @Override

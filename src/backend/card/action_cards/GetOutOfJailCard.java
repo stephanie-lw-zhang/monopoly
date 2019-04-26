@@ -7,9 +7,8 @@ import java.util.List;
 
 public class GetOutOfJailCard extends ActionCard {
 
-    @Override
-    public String getActionType() {
-        return "GetOutOfJail";
+    public GetOutOfJailCard(String type) {
+        super( type );
     }
 
     @Override
