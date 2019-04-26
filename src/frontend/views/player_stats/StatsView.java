@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface StatsView {
 
-    Control create(List<AbstractPlayer> playerList);
-
     void update(List<AbstractPlayer> playerList);
 }

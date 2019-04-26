@@ -1,5 +1,8 @@
 package frontend.views.player_options;
 
+import backend.assetholder.AbstractPlayer;
+import backend.board.AbstractBoard;
+import controller.Turn;
 import exceptions.CancelledActionException;
 import exceptions.PropertyNotFoundException;
 import frontend.views.game.AbstractGameView;
@@ -15,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,8 +40,8 @@ public class VBoxOptionsView extends AbstractOptionsView {
      * VBoxOptionsView main constructor
      * @param gameView
      */
-    public VBoxOptionsView(AbstractGameView gameView){
-        super(gameView);
+    public VBoxOptionsView(AbstractGameView gameView, AbstractBoard board){
+        super(gameView,board);
         myGameView = gameView;
         myControls = new HashMap<>();
         makeNode();
@@ -96,6 +100,16 @@ public class VBoxOptionsView extends AbstractOptionsView {
     @Override
     public Node getOptionsViewNode() {
         return myOptionsViewNode;
+    }
+
+    @Override
+    public void updateDice(Turn turn) {
+
+    }
+
+    @Override
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
+
     }
 
 }

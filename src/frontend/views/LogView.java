@@ -1,6 +1,7 @@
 package frontend.views;
 
 import configuration.XMLData;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
@@ -20,8 +21,11 @@ public class LogView {
         gameLog.setStyle("-fx-max-width: 400; -fx-max-height: 100");
     }
 
-    public Pane getPane() {
-        return myRoot;
+    public void logMessage(String message){
+        gameLog.setText(message);
+    }
+    public Node getNode() {
+        return gameLog;
     }
 
 }
