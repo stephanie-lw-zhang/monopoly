@@ -5,12 +5,15 @@ import backend.board.AbstractBoard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.BuildingTile;
+import backend.tile.IncomeTaxTile;
 import backend.tile.Tile;
 import exceptions.BuildingDoesNotExistException;
 import exceptions.TileNotFoundException;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
 import frontend.views.player_stats.PlayerFundsView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -95,4 +98,6 @@ public class ActionCardController{
         }
         fundsView.updatePlayerFundsDisplay( board.getMyPlayerList() );
     }
+
+
 }

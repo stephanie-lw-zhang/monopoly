@@ -169,6 +169,25 @@ public class Turn {
         myBoard.movePlayer(myCurrPlayer, n);
     }
 
+    public Map.Entry<AbstractPlayer, Double> goToJail() {
+        try {
+        JailTile jail = (JailTile) myBoard.getJailTile();
+        myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
+        jail.addCriminal( myCurrPlayer );
+        myCurrPlayer.addTurnInJail();
+
+        } catch (TileNotFoundException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Map.Entry<AbstractPlayer, Double> payRent() {
+        AbstractPropertyTile property;
+        property = (AbstractPropertyTile) currPlayerTile();
+        myCurrPlayer.payFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
+        return null;
+    }
 
     public Map.Entry<AbstractPlayer, Double> buy(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
         AbstractPlayer player = null;
