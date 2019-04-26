@@ -1,5 +1,6 @@
 package frontend.screens;
 
+import javafx.scene.Node;
 import javafx.stage.Stage;
 
 /**
@@ -8,7 +9,13 @@ import javafx.stage.Stage;
  * @author Sam
  */
 public class InstructionsScreen extends AbstractScreen {
-    public InstructionsScreen(double sWidth, double sHeight, Stage stage) {
-        super (sWidth, sHeight, stage);
+    public InstructionsScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
+        super (sWidth, sHeight, stage,parent);
     }
+
+    @Override
+    public void changeDisplayNode(Node n) {
+
+    }
+
 }

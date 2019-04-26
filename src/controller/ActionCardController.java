@@ -26,13 +26,12 @@ public class ActionCardController{
     AbstractGameView myGameView;
     PlayerCardsView cardsView;
 
-    public ActionCardController(AbstractBoard board, Turn turn, PlayerFundsView fundsView, AbstractBoardView boardView, AbstractGameView myGameView, PlayerCardsView cardsView) {
+    public ActionCardController(AbstractBoard board, Turn turn, PlayerFundsView fundsView, AbstractBoardView boardView, AbstractGameView myGameView) {
         this.board = board;
         this.turn = turn;
         this.fundsView = fundsView;
         this.boardView = boardView;
         this.myGameView = myGameView;
-        this.cardsView = cardsView;
     }
 
     public void handlePay(List<Object> parameters){
@@ -48,14 +47,10 @@ public class ActionCardController{
     }
 
     public void handleGetOutOfJail(List<Object> parameters){
-        try {
-            board.getJailTile().removeCriminal(turn.getMyCurrPlayer());
-            myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
-        } catch (TileNotFoundException e) {
-            e.popUp();
-        } catch (NotInJailException e) {
-            e.popUp();
-        }
+        //TODO: can buy get out of jail card?
+        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
+        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
+
     }
 
 

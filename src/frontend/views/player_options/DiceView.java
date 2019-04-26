@@ -30,7 +30,7 @@ public class DiceView extends HBox {
     private List<RotateTransition>    myRTList;
     private List<ImageView>           myDiceIcons;
     private String                    myPopupText;
-    private int[]                     myRolls;
+    private Integer[]                     myRolls;
     private int                       myNumDieStates;
     private int                       myNumDie;
 
@@ -67,7 +67,7 @@ public class DiceView extends HBox {
     public void displayRollsPopup(final Turn turn) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("DICE ROLL");
-        myPopupText = "Player " + turn.getMyCurrPlayer().getMyPlayerName() + " gets to move " + turn.getNumMoves() + " spots...";
+        myPopupText = "Player " + turn.getMyCurrPlayer().getMyPlayerName() + " rolled a " + turn.getNumMoves();
         alert.setContentText(myPopupText);
         alert.showAndWait();
     }
