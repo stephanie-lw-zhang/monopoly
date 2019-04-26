@@ -42,12 +42,6 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
         }
     }
 
-    /** might not need this method
-     */
-//    public boolean checkIfOwnerIsCurrentPlayer(AbstractPlayer player) {
-//        return (!this.getOwner().equals(player));
-//            //throw exceptions: YOU DO NOT OWN THIS PROPERTY
-//    }
 
     /**
      * Houses and Hotels may be sold back to the Bank at any time for one-half the price paid for them.

@@ -473,7 +473,7 @@ public class TestingScreen extends AbstractScreen {
         return mapFromSet;
     }
 
-    private void displayActionInfo(String info) {
+    public void displayActionInfo(String info) {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
         formAlert.setContentText(info);
         myLogView.gameLog.setText(info);

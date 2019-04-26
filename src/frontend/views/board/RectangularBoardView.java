@@ -44,7 +44,7 @@ public class RectangularBoardView extends AbstractBoardView {
     private List<IconView>         myIconList;
     private AbstractBoard          myBoard;
     private int                    myNumMoves;
-    private Map<Tile, AbstractTileView> tileToTileView;
+    private Map<Tile, AbstractTileView> tileToTileView = new HashMap<>(  );
 
     /**
      * RectangularBoardView main constructor
@@ -153,7 +153,8 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     public void move(IconView icon, Tile tile){
-        //TODO: move to tile after creating tile To Tile View
+        AbstractTileView target = tileToTileView.get( tile );
+        icon.setOn(target);
     }
 
     /**
