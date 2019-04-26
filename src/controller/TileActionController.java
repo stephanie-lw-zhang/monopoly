@@ -16,6 +16,8 @@ import javafx.collections.ObservableList;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -117,6 +119,38 @@ public class TileActionController {
         }
     }
 
+    public void handleAuction() {
+        Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
+        for (int i = 0; i < myBoard.getMyPlayerList().size(); i++) {
+            AbstractPlayer key = getPlayerAtIndex(i);
+            String value = myGameView.showInputTextDialog("Auction Amount for player " + getPlayerNameAtIndex(i),
+                    "Enter your auction amount:",
+                    "Amount:");
+            try {
+                auctionAmount.put(key, Double.parseDouble((value)));
+            } catch (NumberFormatException n) {
+                new IllegalInputTypeException("Input must be a number!");
+                i--;
+            }
+        }
+        AbstractPropertyTile property = (AbstractPropertyTile) myTurn.currPlayerTile();
+        Map.Entry<AbstractPlayer, Double> winner = property.determineAuctionResults(auctionAmount);
+        String info = winner.getKey().getMyPlayerName() + " wins " + myTurn.getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
+        myGameView.displayActionInfo(info);
+        myLogView.gameLog.setText(info);
+        Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
+        try {
+            buyHelper(playerValue);
+        } catch (IllegalActionOnImprovedPropertyException e) {
+            e.popUp();
+        } catch (IllegalInputTypeException e) {
+            e.popUp();
+        } catch (OutOfBuildingStructureException e) {
+            e.popUp();
+        }
+        fundsView.update(myBoard.getMyPlayerList());
+        propertiesView.update(myBoard.getMyPlayerList());
+    }
 
 
     public void handlePayTaxPercentage() {
@@ -127,7 +161,7 @@ public class TileActionController {
 
     public void handleBuy(){
         try {
-            Map.Entry<AbstractPlayer, Double> playerValue = this.myTurn.buy(null);
+            Map.Entry<AbstractPlayer, Double> playerValue = buyHelper(null);
             String info = playerValue.getKey().getMyPlayerName() + " bought " + this.myTurn.getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
             myGameView.displayActionInfo(info);
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -139,6 +173,33 @@ public class TileActionController {
         }
     }
 
+    private Map.Entry<AbstractPlayer, Double> buyHelper(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+        AbstractPlayer player = null;
+        double value = 0;
+        if (paramMap != null) {
+            if (paramMap.keySet().size()==1) {
+                for (AbstractPlayer p : paramMap.keySet()) {
+                    player = p;
+                }
+            }
+            value = paramMap.get(player);
+        }
+        else {
+            player = myTurn.getMyCurrPlayer();
+            value = ((AbstractPropertyTile)myTurn.currPlayerTile()).getTilePrice();
+        }
+        buyProperty(player, value);
+        Map.Entry<AbstractPlayer,Double> ret = new AbstractMap.SimpleEntry<>(player, value);
+        return ret;
+    }
+
+    private void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+        AbstractPropertyTile property;
+        property = (AbstractPropertyTile) myTurn.currPlayerTile();
+        List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
+        property.sellTo( player, value, sameSetProperties );
+    }
+
     private ObservableList<String> getAllPlayerNames() {
         ObservableList<String> players = FXCollections.observableArrayList();
         for (AbstractPlayer p : myBoard.getMyPlayerList()) {
@@ -147,4 +208,17 @@ public class TileActionController {
         return players;
     }
 
+    private AbstractPlayer getPlayerAtIndex(int i) {
+        return myBoard.getMyPlayerList().get(i);
+    }
+
+    private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer, Double> param) {
+        Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
+        mapFromSet.put(param.getKey(), param.getValue());
+        return mapFromSet;
+    }
+
+    private String getPlayerNameAtIndex(int i) {
+        return getPlayerAtIndex(i).getMyPlayerName();
+    }
 }

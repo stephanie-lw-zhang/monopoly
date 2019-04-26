@@ -301,10 +301,6 @@ public class GameController {
         return myPlayers.get(i);
     }
 
-    public String getPlayerNameAtIndex(int i) {
-        return getPlayerAtIndex(i).getMyPlayerName();
-    }
-
     private void addHandlers(){
         handlerMap.put("roll",event->this.handleRollButton());
 //        handlerMap.put("AUCTION",event->this.handleAuction());
@@ -567,12 +563,6 @@ public class GameController {
 
     public Node getGameNode() {
         return myGameView.getGameViewNode();
-    }
-
-    private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer, Double> param) {
-        Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
-        mapFromSet.put(param.getKey(), param.getValue());
-        return mapFromSet;
     }
 
     private ObservableList<String> getAllOptionNames(List<String> names) {
