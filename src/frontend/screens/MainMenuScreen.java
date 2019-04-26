@@ -10,6 +10,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 
 /**
@@ -51,14 +55,17 @@ public class MainMenuScreen extends AbstractScreen {
         playButton.setOnAction(f -> handleNormalModeButton(getMyStage()));
 
         Button randomModeButton = new Button("TESTING");
-        // TODO:
-        randomModeButton.setOnAction(r -> handleCustomModeButton(getMyStage()));
+//        // TODO:
+//        randomModeButton.setOnAction(r -> handleCustomModeButton(getMyStage()));
 
         Button instructButton = new Button("INSTRUCTIONS");
         instructButton.setOnAction(i -> handleInstructButton(getMyStage()));
 
         Button boardButton = new Button("board");
         boardButton.setOnAction(i -> handleBoardButton(getMyStage()));
+
+        Button rulesButton = new Button("rules");
+        rulesButton.setOnAction(i -> handleRulesButton(getMyStage()));
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20);
@@ -68,6 +75,7 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.add(randomModeButton, 2, 0);
         gridPane.add(instructButton, 3, 0);
         gridPane.add(boardButton,4,0);
+        gridPane.add(rulesButton, 5, 0);
 
         myPane = setBorderPane(
                 getScreenWidth(),
@@ -104,20 +112,38 @@ public class MainMenuScreen extends AbstractScreen {
         completeStage(stage, normalModeScreen);
     }
 
-    private void handleCustomModeButton(Stage stage) {
-//        AbstractScreen customModeScreen = new CustomModeScreen(
+    private void handleRulesButton(Stage stage) {
+        AbstractScreen rulesScreen = null;
+        try {
+            rulesScreen = new RulesScreen(
+                    getScreenWidth(),
+                    getScreenHeight(),
+                    stage,this
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        completeStage(stage, rulesScreen);
+    }
+
+//    private void handleCustomModeButton(Stage stage) {
+////        AbstractScreen customModeScreen = new CustomModeScreen(
+////            getScreenWidth(),
+////            getScreenHeight(),
+////            stage
+////        );
+//        TestingScreen test = new TestingScreen(
 //            getScreenWidth(),
 //            getScreenHeight(),
-//            stage
+//            stage,this
 //        );
-        TestingScreen test = new TestingScreen(
-            getScreenWidth(),
-            getScreenHeight(),
-            stage,this
-        );
-
-        completeStage(stage, test);
-    }
+//
+//        completeStage(stage, test);
+//    }
 
     private void handleInstructButton(Stage stage) {
         AbstractScreen instructionsScreen = new InstructionsScreen(

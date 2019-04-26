@@ -2,6 +2,7 @@ package frontend.views.game;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.tile.Tile;
 import configuration.XMLData;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
@@ -80,9 +81,11 @@ abstract public class AbstractGameView {
         for (String option : options) {
             buttonOptions.add(new ButtonType(option));
         }
+
         alert.getButtonTypes().setAll(buttonOptions);
         Optional<ButtonType> result = alert.showAndWait();
-        return result.get().getText();
+
+        return result.orElse(null).getText();
     }
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
@@ -92,4 +95,8 @@ abstract public class AbstractGameView {
     public abstract void disableButton(String str);
 
     public abstract void enableButton(String str);
+
+    public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
+    public abstract void updateIconDisplay(AbstractPlayer currPlayer, int nMoves);
+    public abstract void updateIconDisplay(AbstractPlayer currPlayer, Tile tile);
 }

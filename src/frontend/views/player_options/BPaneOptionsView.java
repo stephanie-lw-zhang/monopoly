@@ -16,10 +16,7 @@ import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Control;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
@@ -167,6 +164,13 @@ public class BPaneOptionsView extends AbstractOptionsView {
     public void updateDice(Turn turn) {
         myDiceView.onUpdate(turn);
         myLogView.gameLog.setText(myDiceView.getMyPopupText());
+    }
+
+    @Override
+    public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("NEED TO CHANGE BPaneOptionsView.updateCurrPlayerDisplay()\n\n Current Player is: " + currPlayer.getMyPlayerName());
+        alert.showAndWait();
     }
 
     @Override

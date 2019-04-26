@@ -3,6 +3,7 @@ package frontend.views.game;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
+import backend.tile.Tile;
 import configuration.XMLData;
 
 import controller.Turn;
@@ -52,7 +53,8 @@ public class SplitScreenGameView extends AbstractGameView {
         super(screenWidth,screenHeight, data, board);
         myData = data;
         try {
-            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), myData), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
+//            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), myData), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
+            myBoardView = new SquareBoardView(board, 0.9*screenWidth, 0.9*screenHeight,90,11,11);
         } catch (Exception e) {
             e.printStackTrace(); //change this !!!
         }
@@ -153,9 +155,6 @@ public class SplitScreenGameView extends AbstractGameView {
         myOptionsView.updateAssetDisplay(myPlayerList);
     }
 
-    public AbstractBoardView getMyBoardView() {
-        return myBoardView;
-    }
 
     public void disableButton(String str) {
         myOptionsView.disableControl(str);
@@ -164,4 +163,20 @@ public class SplitScreenGameView extends AbstractGameView {
     public void enableButton(String str) {
         myOptionsView.enableControl(str);
     }
+
+    @Override
+    public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
+        myOptionsView.updateCurrPlayerDisplay(currPlayer);
+    }
+
+    @Override
+    public void updateIconDisplay(AbstractPlayer currPlayer, int nMoves) {
+        myBoardView.move(currPlayer, nMoves);
+    }
+
+    @Override
+    public void updateIconDisplay(AbstractPlayer currPlayer, Tile tile) {
+        myBoardView.move(currPlayer, tile);
+    }
+
 }

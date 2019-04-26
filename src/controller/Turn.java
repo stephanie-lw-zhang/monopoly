@@ -35,7 +35,6 @@ public class Turn {
 
     public void start() {
         myRolls = rollDice(myBoard.getNumDie());
-        int numMoves = getNumMoves();
     }
 
     public void skipTurn() {

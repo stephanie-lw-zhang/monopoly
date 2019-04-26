@@ -108,6 +108,11 @@ public class VBoxOptionsView extends AbstractOptionsView {
     }
 
     @Override
+    public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
+
+    }
+
+    @Override
     public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
 
     }

@@ -18,7 +18,8 @@ public class PlayerPropertiesView extends AbstractPlayerTabView implements Stats
     @Override
     public void writeText(AbstractPlayer player, Tab tab){
         TextArea properties = new TextArea();
-        String text = "";
+        String text = "Properties\n";
+
         for(AbstractPropertyTile prop: player.getProperties()){
             if(prop.isMortgaged()){
                 text += prop.getTitleDeed() + " (Mortgaged)\n";

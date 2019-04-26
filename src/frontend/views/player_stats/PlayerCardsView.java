@@ -16,7 +16,7 @@ public class PlayerCardsView extends AbstractPlayerTabView {
 
     public void writeText(AbstractPlayer player, Tab tab) {
         TextArea cards = new TextArea();
-        String text = "";
+        String text = "Cards \n";
         if(player.getCards()!=null) {
             for (HoldableCard card : player.getCards()) {
                 text += card.getName() + " \n";
