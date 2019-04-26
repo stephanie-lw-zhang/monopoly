@@ -19,7 +19,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     private BuildingCard card;
 
 
-    public BuildingTile(Bank bank, PropertyCard card, String tiletype, String tilecolor, int index) {
+    public BuildingTile(Bank bank, BuildingCard card, String tiletype, String tilecolor, int index) {
         super(bank, card, tiletype, index);
         this.card = (BuildingCard) this.getCard();
         this.tilecolor = tilecolor;
@@ -27,7 +27,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 
     public BuildingTile(Bank bank, Element n){
         super(bank, n);
-        setCard( new BuildingCard(n.getElementsByTagName("Card").item(0)) );
+        setCard(new BuildingCard(n.getElementsByTagName("Card").item(0)));
         card = (BuildingCard)this.getCard();
     }
 
