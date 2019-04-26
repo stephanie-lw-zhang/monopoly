@@ -1,7 +1,5 @@
 package backend.card.action_cards;
 
-import backend.assetholder.AbstractPlayer;
-import backend.board.AbstractBoard;
 import backend.assetholder.AbstractAssetHolder;
 import org.w3c.dom.Element;
 
@@ -23,7 +21,7 @@ public class PayCard extends ActionCard {
 
     public PayCard(Element n){
         amount = Double.parseDouble(getTagValue("Amount", n));
-        type = getTagValue("Type", n);
+        type = getTagValue("CardType", n);
     }
 
     @Override

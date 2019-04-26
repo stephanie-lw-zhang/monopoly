@@ -18,7 +18,6 @@ public class MoveCard extends ActionCard {
     }
 
     public MoveCard(Element n){
-
         type = getTagValue("Type", n);
     }
 

@@ -3,6 +3,7 @@ package configuration;
 import backend.assetholder.Bank;
 import backend.card.action_cards.ActionCard;
 import backend.deck.DeckInterface;
+import backend.deck.NormalDeck;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import org.w3c.dom.Document;
@@ -15,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,11 +37,11 @@ public class XMLData {
     private List<DeckInterface> decks;
     private String monopolyType;
 
-    public XMLData(String fileName) throws Exception {
-        File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder;
+    public XMLData(String fileName) {
         try {
+            File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder;
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
@@ -50,8 +52,10 @@ public class XMLData {
             initializeNumDecks(doc);
             initializeDecks(doc);
             initializeAdjacencyList();
-        }catch(ParserConfigurationException | SAXException | IOException e){
+        }catch(ParserConfigurationException | SAXException | IOException | URISyntaxException e) {
             e.printStackTrace(); //change this !!!
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -121,6 +125,7 @@ public class XMLData {
         NodeList deck = doc.getElementsByTagName("Deck");
         for(int i = 0; i<numDecks; i++){
             Element d = (Element) deck.item(i);
+            decks.add(new NormalDeck());
             NodeList actionCards = d.getElementsByTagName("ActionCard");
             for(int j = 0; j<actionCards.getLength(); j++){
                 decks.get(i).putBack(getActionCard(actionCards.item(j)));
@@ -133,6 +138,7 @@ public class XMLData {
         ActionCard card;
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             String cardType = getTagValue("CardType", element);
+            System.out.println(cardType);
             card = (ActionCard) Class.forName("backend.card.action_cards." + cardType).getConstructor(Element.class).newInstance(element);
             return card;
         }

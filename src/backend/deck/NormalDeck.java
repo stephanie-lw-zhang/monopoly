@@ -7,7 +7,11 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class NormalDeck implements DeckInterface {
-    private Queue<ActionCard> myDeck = new PriorityQueue<>();
+    private Queue<ActionCard> myDeck;
+
+    public NormalDeck(){
+        myDeck = new PriorityQueue<>();
+    }
 
     public int getMyDeckSize() {
         //for Testing
