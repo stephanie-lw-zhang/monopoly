@@ -61,5 +61,12 @@ public class MoveAndPayCard extends ActionCard{
         return payeeString;
     }
 
+    public void setPayers(List<AbstractAssetHolder> p){
+        payers = p;
+    }
+
+    public void setPayees(List<AbstractAssetHolder> p){
+        payees = p;
+    }
 
 }

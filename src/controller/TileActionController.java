@@ -1,9 +1,14 @@
 package controller;
 
+import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
+import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.card.action_cards.ActionCard;
+import backend.card.action_cards.MoveAndPayCard;
+import backend.card.action_cards.PayBuildingsCard;
+import backend.card.action_cards.PayCard;
 import backend.tile.*;
 import exceptions.*;
 import frontend.views.LogView;
@@ -15,8 +20,10 @@ import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -101,6 +108,9 @@ public class TileActionController {
     public void handleDrawCard(){
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
+            if(actionCard.getActionType().contains("Pay")){
+                this.getClass().getMethod("reinitialize"+ actionCard.getActionType(), ActionCard.class).invoke(this, actionCard);
+            }
             myGameView.displayActionInfo( actionCard.getText() );
             ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, fundsView, myBoardView, myGameView);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
@@ -118,6 +128,92 @@ public class TileActionController {
         }
     }
 
+//    get the class itself so that you don't need three separate methods to do the same thing
+//    private void reinitializePayCard(ActionCard actionCard){
+//        Class cast = actionCard.getClass();
+//
+//    }
+
+    private void reinitializePay(ActionCard actionCard){
+        List<AbstractAssetHolder> players = new ArrayList<>();
+        for(AbstractPlayer p: myBoard.getMyPlayerList()) players.add(p);
+        List<AbstractAssetHolder> bank = new ArrayList<>();
+        bank.add(myBoard.getBank());
+        List<AbstractAssetHolder> currPlayer = new ArrayList<>();
+        currPlayer.add(myTurn.getMyCurrPlayer());
+        if (((PayCard) actionCard).getPayeeString().equalsIgnoreCase("Everyone")) {
+            ((PayCard) actionCard).setPayees(players);
+        }
+        else if (((PayCard) actionCard).getPayeeString().equalsIgnoreCase("Bank")) {
+            ((PayCard) actionCard).setPayees(bank);
+        }
+        else if(((PayCard) actionCard).getPayeeString().equalsIgnoreCase("CurrentPlayer")) {
+            ((PayCard) actionCard).setPayees(currPlayer);
+        }
+        if (((PayCard) actionCard).getPayerString().equalsIgnoreCase("Everyone")) {
+            ((PayCard) actionCard).setPayers(players);
+        }
+        else if (((PayCard) actionCard).getPayerString().equalsIgnoreCase("Bank")) {
+            ((PayCard) actionCard).setPayers(bank);
+        }
+        else if(((PayCard) actionCard).getPayerString().equalsIgnoreCase("CurrentPlayer")) {
+            ((PayCard) actionCard).setPayers(currPlayer);
+        }
+    }
+
+    private void reinitializeMoveAndPay(ActionCard actionCard){
+        List<AbstractAssetHolder> players = new ArrayList<>();
+        for(AbstractPlayer p: myBoard.getMyPlayerList()) players.add(p);
+        List<AbstractAssetHolder> bank = new ArrayList<>();
+        bank.add(myBoard.getBank());
+        List<AbstractAssetHolder> currPlayer = new ArrayList<>();
+        currPlayer.add(myTurn.getMyCurrPlayer());
+        if (((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("Everyone")) {
+            ((MoveAndPayCard) actionCard).setPayees(players);
+        }
+        else if (((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("Bank")) {
+            ((MoveAndPayCard) actionCard).setPayees(bank);
+        }
+        else if(((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("CurrentPlayer")) {
+            ((MoveAndPayCard) actionCard).setPayees(currPlayer);
+        }
+        if (((MoveAndPayCard) actionCard).getPayerString().equalsIgnoreCase("Everyone")) {
+            ((MoveAndPayCard) actionCard).setPayers(players);
+        }
+        else if (((MoveAndPayCard) actionCard).getPayerString().equalsIgnoreCase("Bank")) {
+            ((MoveAndPayCard) actionCard).setPayers(bank);
+        }
+        else if(((MoveAndPayCard) actionCard).getPayerString().equalsIgnoreCase("CurrentPlayer")) {
+            ((MoveAndPayCard) actionCard).setPayers(currPlayer);
+        }
+    }
+
+    private void reinitializePayBuildings(ActionCard actionCard){
+        List<AbstractAssetHolder> players = new ArrayList<>();
+        for(AbstractPlayer p: myBoard.getMyPlayerList()) players.add(p);
+        List<AbstractAssetHolder> bank = new ArrayList<>();
+        bank.add(myBoard.getBank());
+        List<AbstractAssetHolder> currPlayer = new ArrayList<>();
+        currPlayer.add(myTurn.getMyCurrPlayer());
+        if (((PayBuildingsCard) actionCard).getPayeeString().equalsIgnoreCase("Everyone")) {
+            ((PayBuildingsCard) actionCard).setPayees(players);
+        }
+        else if (((PayBuildingsCard) actionCard).getPayeeString().equalsIgnoreCase("Bank")) {
+            ((PayBuildingsCard) actionCard).setPayees(bank);
+        }
+        else if(((PayBuildingsCard) actionCard).getPayeeString().equalsIgnoreCase("CurrentPlayer")) {
+            ((PayBuildingsCard) actionCard).setPayees(currPlayer);
+        }
+        if (((PayBuildingsCard) actionCard).getPayerString().equalsIgnoreCase("Everyone")) {
+            ((PayBuildingsCard) actionCard).setPayers(players);
+        }
+        else if (((PayBuildingsCard) actionCard).getPayerString().equalsIgnoreCase("Bank")) {
+            ((PayBuildingsCard) actionCard).setPayers(bank);
+        }
+        else if(((PayBuildingsCard) actionCard).getPayerString().equalsIgnoreCase("CurrentPlayer")) {
+            ((PayBuildingsCard) actionCard).setPayers(currPlayer);
+        }
+    }
 
 
     public void handlePayTaxPercentage() {

@@ -31,7 +31,7 @@ public class PayCard extends ActionCard {
 
     @Override
     public List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<Object>();
+        List<Object> parameters = new ArrayList<>();
         parameters.add( payers );
         parameters.add( payees );
         parameters.add( amount );
@@ -44,6 +44,14 @@ public class PayCard extends ActionCard {
 
     public String getPayeeString(){
         return payeeString;
+    }
+
+    public void setPayers(List<AbstractAssetHolder> p){
+        payers = p;
+    }
+
+    public void setPayees(List<AbstractAssetHolder> p){
+        payees = p;
     }
 
 }
