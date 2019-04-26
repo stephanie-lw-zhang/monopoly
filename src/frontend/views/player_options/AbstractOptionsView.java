@@ -25,12 +25,14 @@ abstract public class AbstractOptionsView {
      * @param gameView
      */
     public AbstractOptionsView(AbstractGameView gameView, AbstractBoard board) {}
+
     /**
      * Abstract method to create all buttons required from
      * a map for the AbstractOptionsView object
      * @param actionMap
      */
     abstract public void createButtons(Map<String, EventHandler<ActionEvent>> actionMap);
+
     /**
      * Abstract methods for the disabling or enabling
      * of a control element (e.g. a button)
@@ -45,6 +47,8 @@ abstract public class AbstractOptionsView {
     abstract public Node getOptionsViewNode();
 
     public abstract void updateDice(Turn turn);
+
+    public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
 
     public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
 }
