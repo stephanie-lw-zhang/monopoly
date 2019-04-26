@@ -63,13 +63,19 @@ public class TileActionController {
 //            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
         } catch(TileNotFoundException e) {
             e.popUp();
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
         }
     }
 
         public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
-        myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            try {
+                myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
+            } catch (NotEnoughMoneyException e) {
+                e.popUp();
+            }
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
 //        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
 
@@ -77,7 +83,11 @@ public class TileActionController {
 
     public void handlePayTaxFixed() {
         double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
+        try {
+            myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
+        }
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
 //        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
@@ -247,7 +257,11 @@ public class TileActionController {
 
     public void handlePayTaxPercentage() {
         double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile) myTurn.currPlayerTile()).getTaxMultiplier();
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
+        try {
+            myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
+        }
 //        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
@@ -289,7 +303,11 @@ public class TileActionController {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) myTurn.currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
-        property.sellTo( player, value, sameSetProperties );
+        try {
+            property.sellTo( player, value, sameSetProperties );
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
+        }
     }
 
     private ObservableList<String> getAllPlayerNames() {

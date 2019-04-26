@@ -5,10 +5,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.card.property_cards.BuildingCard;
 import backend.card.property_cards.PropertyCard;
-import exceptions.IllegalActionOnImprovedPropertyException;
-import exceptions.MortgagePropertyException;
-import exceptions.IllegalInputTypeException;
-import exceptions.OutOfBuildingStructureException;
+import exceptions.*;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -85,7 +82,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     @Override
-    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
         if (!checkIfImprovedProperty()) {
             super.sellTo(assetHolder,price, sameColorProperties);
             if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
@@ -101,7 +98,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     //CHECK IF WE NEED UPGRADE FOR RAILROAD AND UTILITY
-    public void upgrade(AbstractPlayer player, List<AbstractPropertyTile> sameCategoryProperties) throws IllegalInputTypeException, OutOfBuildingStructureException {
+    public void upgrade(AbstractPlayer player, List<AbstractPropertyTile> sameCategoryProperties) throws IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
         BuildingCard card = (BuildingCard) this.getCard();
         String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
