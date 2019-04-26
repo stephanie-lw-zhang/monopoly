@@ -45,7 +45,11 @@ public class PlayerPropertiesView {
         TextArea properties = new TextArea();
         String text = "";
         for(AbstractPropertyTile prop: player.getProperties()){
-            text = text + prop.getName() + "\n";
+            if(prop.isMortgaged()){
+                text += prop.getName() + " (Mortgaged)\n";
+            } else {
+                text += prop.getName() + "\n";
+            }
         }
         properties.setText( text );
         tab.setContent( properties );

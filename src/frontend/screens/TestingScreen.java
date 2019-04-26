@@ -58,13 +58,9 @@ public class TestingScreen extends AbstractScreen {
     private final Button ROLL_BUTTON = new Button("ROLL");
     private final Button END_TURN_BUTTON = new Button("END TURN");
     private final Button TRADE_BUTTON = new Button("TRADE");
-    private final Button AUCTION_BUTTON = new Button("AUCTION");
     private final Button MORTGAGE_BUTTON = new Button("MORTGAGE");
     private final Button MOVE_BUTTON = new Button("MOVE");
-    private final Button BUY_BUTTON = new Button("BUY");
     private final Button COLLECT_BUTTON = new Button("COLLECT");
-    private final Button GO_TO_JAIL_BUTTON = new Button("Go To Jail");
-    private final Button PAY_RENT_BUTTON = new Button("Pay Rent");
     private final Button PAY_BAIL_BUTTON = new Button("Pay Bail");
     private final Button FORFEIT_BUTTON = new Button("Forfeit");
     private final Button MOVE_HANDLER_BUTTON = new Button("Move handler");
@@ -199,58 +195,10 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        BUY_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-//                System.out.println("initial money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-                Map.Entry<AbstractPlayer, Double> playerValue = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(BUY_BUTTON.getText().toLowerCase(), null);
-                String info = playerValue.getKey().getMyPlayerName() + " bought " + myGame.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
-                displayActionInfo(info);
-                myLogView.gameLog.setText(info);
-//                System.out.println("after buy money: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
-//                System.out.println("after buy properties: " + myGame.getMyTurn().getMyCurrPlayer().getProperties());
-                updatePlayerFundsDisplay();
-                updatePlayerPropertiesDisplay();
-            }
-        });
-
         MORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 myGame.handleMortgage();
-            }
-        });
-
-        PAY_RENT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handlePayRent();
-            }
-        });
-
-        AUCTION_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
-                for (int i = 0; i < myGame.getNumberOfPlayers(); i++) {
-                    AbstractPlayer key = myGame.getPlayerAtIndex(i);
-                    String value = showAuctionInputTextDialog(myGame.getPlayerNameAtIndex(i));
-                    try {
-                        auctionAmount.put(key, Double.parseDouble((value)));
-                    } catch (NumberFormatException n) {
-                        new IllegalInputTypeException("Input must be a number!");
-                        i--;
-                    }
-                }
-                Map.Entry<AbstractPlayer, Double> winner = (Map.Entry<AbstractPlayer, Double>)myGame.getMyTurn().onAction(AUCTION_BUTTON.getText().toLowerCase(), auctionAmount);
-                String info = winner.getKey().getMyPlayerName() + " wins " + myGame.getMyTurn().getTileNameforPlayer(winner.getKey()) + " for " + winner.getValue() + " Monopoly Dollars!";
-                displayActionInfo(info);
-                myLogView.gameLog.setText(info);
-                Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
-                myGame.getMyTurn().onAction("buy", playerValue);
-                updatePlayerFundsDisplay();
-                updatePlayerPropertiesDisplay();
             }
         });
 
@@ -284,14 +232,6 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-        GO_TO_JAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-            //WORKS
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                myGame.handleGoToJail();
-            }
-        });
-
         PAY_BAIL_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
             //WORKS
             @Override
@@ -300,13 +240,13 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-//        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-//            //WORKS
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                myGame.handleForfeit();
-//            }
-//        });
+        FORFEIT_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.handleForfeit();
+            }
+        });
 
         MOVE_HANDLER_BUTTON.setOnAction(new EventHandler<ActionEvent>(){
             @Override
@@ -324,13 +264,13 @@ public class TestingScreen extends AbstractScreen {
             }
         });
 
-//        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
-//            //WORKS
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                myGame.handleUnmortgage();
-//            }
-//        });
+        UNMORTGAGE_BUTTON.setOnAction(new EventHandler<ActionEvent>() {
+            //WORKS
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                myGame.handleUnmortgage();
+            }
+        });
 
         SELL_TO_BANK.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -352,9 +292,9 @@ public class TestingScreen extends AbstractScreen {
                 myDiceView, ROLL_BUTTON,
                 playersText, currPlayerText,
                 END_TURN_BUTTON, TRADE_BUTTON, UPGRADE,
-                AUCTION_BUTTON, MORTGAGE_BUTTON, BUY_BUTTON,
+                MORTGAGE_BUTTON,
                 moveCheatKey, createPlayerPropertiesDisplay(),
-//                BUY_BUTTON, COLLECT_BUTTON, GO_TO_JAIL_BUTTON, PAY_RENT_BUTTON, PAY_BAIL_BUTTON,
+//               GO_TO_JAIL_BUTTON, PAY_BAIL_BUTTON,
                 FORFEIT_BUTTON,
                 MOVE_HANDLER_BUTTON, UNMORTGAGE_BUTTON, SELL_TO_BANK, createPlayerFundsDisplay()
         );
@@ -467,13 +407,7 @@ public class TestingScreen extends AbstractScreen {
         fundsDisplay.setText( text );
     }
 
-    private Map<AbstractPlayer, Double> convertEntrytoMap(Map.Entry<AbstractPlayer,Double> param) {
-        Map<AbstractPlayer, Double> mapFromSet = new HashMap<>();
-        mapFromSet.put(param.getKey(), param.getValue());
-        return mapFromSet;
-    }
-
-    private void displayActionInfo(String info) {
+    public void displayActionInfo(String info) {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
         formAlert.setContentText(info);
         myLogView.gameLog.setText(info);

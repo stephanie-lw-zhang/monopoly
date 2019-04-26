@@ -65,7 +65,7 @@ public abstract class AbstractBoard {
      * Moves the player on the board by reassigning its tile mapping
      */
 
-    public abstract Map<Tile, List<String>> movePlayer(AbstractPlayer p, int numMoves) throws MultiplePathException;
+    public abstract List<Tile> movePlayer(AbstractPlayer p, int numMoves) throws MultiplePathException;
 
     //TODO: FIX THIS so that it returns all passed tiles
     public abstract void movePlayer(AbstractPlayer p, Tile tile);
