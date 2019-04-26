@@ -18,12 +18,12 @@ public class PayBuildingsCard extends ActionCard {
         this.payees = payees;
         this.baseToMultiplier = baseToMultiplier;
     }
-
+    
     public PayBuildingsCard(Element n){
         super("");
         this.setType(getTagValue("Type", n));
     }
-    
+
     @Override
     public List<Object> getParameters() {
         List<Object> parameters = new ArrayList<Object>();
