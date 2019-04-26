@@ -11,7 +11,7 @@ public abstract class AbstractPlayerTabView implements StatsView {
     private TabPane tabPane;
 
     public AbstractPlayerTabView(List<AbstractPlayer> playerList){
-        tabPane = new TabPane( );
+        tabPane = new TabPane();
         for(AbstractPlayer p: playerList){
             Tab tab = new Tab(p.getMyPlayerName());
             tab.setId( p.getMyPlayerName() );

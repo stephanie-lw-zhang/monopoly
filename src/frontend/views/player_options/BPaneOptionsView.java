@@ -75,7 +75,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerFundsView = new PlayerFundsView(myBoard.getMyPlayerList());
         myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList());
         VBox aBox = new VBox();
-        aBox.getChildren().addAll(myPlayerPropertiesView.getNode(),myPlayerFundsView.getNode(),myPlayerCardsView.getNode());
+        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
         myOptionsViewNode.setCenter(aBox);
     }
 
