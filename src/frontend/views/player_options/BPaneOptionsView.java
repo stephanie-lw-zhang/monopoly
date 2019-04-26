@@ -81,9 +81,8 @@ public class BPaneOptionsView extends AbstractOptionsView {
 
     private void makeNonActionViews() {
         myLogView = new LogView(myData);
-        myFundsView = new FundsView();
         VBox NonActionBox = new VBox();
-        NonActionBox.getChildren().addAll(myFundsView.getNode(),myLogView.getNode());
+        NonActionBox.getChildren().addAll(myLogView.getNode());
         myOptionsViewNode.setLeft(NonActionBox);
     }
 
