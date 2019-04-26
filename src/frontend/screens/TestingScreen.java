@@ -68,7 +68,7 @@ public class TestingScreen extends AbstractScreen {
     private final Button UNMORTGAGE_BUTTON = new Button("Unmortgage");
     private final Button SELL_TO_BANK = new Button("SELL TO BANK");
     private final Button UPGRADE = new Button("UPGRADE");
-
+    private VBox playerOptionsModal;
     /**
      * TestingScreen main constructor
      * @param width
@@ -89,6 +89,7 @@ public class TestingScreen extends AbstractScreen {
         //        Image myCursor = new Image(this.getClass().getClassLoader().getResourceAsStream("mustacheCursor.png"), 20,20,true,true);
 //        myScene.setCursor(new ImageCursor(myCursor));
     }
+
 
     /**
      * Overridden makeScreen method for TestingScreen
@@ -490,6 +491,14 @@ public class TestingScreen extends AbstractScreen {
 
     @Override
     public void changeDisplayNode(Node n) {
+    }
+
+    public Button getButton(Button button) {
+        return button;
+    }
+
+    public static VBox getVBox(VBox buttons) {
+        return buttons;
     }
 
     public AbstractBoardView getMyBoardView() { return myBoardView; }

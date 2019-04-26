@@ -4,6 +4,7 @@ import backend.assetholder.AutomatedPlayer;
 import javafx.scene.control.Button;
 import frontend.screens.TestingScreen;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 
 public class AutomatedPlayerManager {
     private  Button ROLL_BUTTON;
@@ -18,10 +19,13 @@ public class AutomatedPlayerManager {
     private  Button UNMORTGAGE_BUTTON;
     private  Button SELL_TO_BANK;
     private  Button UPGRADE;
+    private  VBox   buttons;
 
-    public AutomatedPlayerManager(VBox buttonHolder) {
-        
-         ROLL_BUTTON = new Button("ROLL");
+    public AutomatedPlayerManager(Screen screen) {
+
+//        buttons=TestingScreen.getVBox(playerOptionsModal);
+//         ROLL_BUTTON = TestingScreen.getVBox();
+
          END_TURN_BUTTON = new Button("END TURN");
          TRADE_BUTTON = new Button("TRADE");
          MORTGAGE_BUTTON = new Button("MORTGAGE");
