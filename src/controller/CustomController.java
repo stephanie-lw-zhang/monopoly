@@ -4,65 +4,49 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
-import backend.dice.SixDice;
-import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import frontend.screens.AbstractScreen;
 import frontend.views.FormView;
-
-import frontend.views.board.SquareBoardView;
+import frontend.views.RulesView;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class is a controller that manages all "set-up" before
- * the game starts (i.e. creation of board, etc.)
- *
- * @author Edward
- * @author Sam
- */
-public class GameSetUpController {
-
-    private static final String CONFIG_FILE = "OriginalMonopoly.xml";
-
-
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
-    private Node myNode;
-
+public class CustomController {
     private GameController myGameController;
-    private FormView myFormView;
+    private RulesView myRulesView;
     private AbstractScreen myScreen;
     private double screenWidth,screenHeight;
     private XMLData myData;
     private AbstractBoard myBoard;
+    private Node myNode;
 
-    public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
+
+    public CustomController(double sWidth, double sHeight, AbstractScreen screen) throws ParserConfigurationException, SAXException, IOException {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
-        myFormView = new FormView(this);
-        myNode = myFormView.getNode();
-        try {
-            myData = new XMLData(CONFIG_FILE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //makeSetUpScreen();
+        myRulesView = new RulesView(this);
+        myNode = myRulesView.getNode();
+        myData = new XMLData(myRulesView.createCustomXML().getNodeName());
     }
+
 
     private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon) {
         myBoard = makeBoard(playerToIcon);
-        myGameController = new GameController(
-                screenWidth,screenHeight,
-                this, myBoard, myData
-        );
+//        myGameController = new GameController(screenWidth,screenHeight,
+//                this,
+//                myBoard,myData
+//        );
         myNode = myGameController.getGameNode();
     }
 
@@ -91,9 +75,19 @@ public class GameSetUpController {
             if (!name.equals(""))
                 playerList.add(new HumanPlayer(
                         name,
-                        (String) playerToIcon.get(pName).getValue(),
+                        makeIcon((String) playerToIcon.get(pName).getValue()),
                         1500.00));
         }
         return playerList;
     }
+
+    private ImageView makeIcon(String iconPath) {
+        Image image = new Image(iconPath + ".png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+
+        return imageView;
+    }
+
 }

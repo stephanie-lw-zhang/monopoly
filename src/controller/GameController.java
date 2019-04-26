@@ -200,7 +200,6 @@ public class GameController {
 
     private void addHandlers(){
         handlerMap.put("roll",event->this.handleRollButton());
-//        handlerMap.put("AUCTION",event->this.handleAuction());
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("UPGRADE", event->this.handleUpgradeProperty());
@@ -208,25 +207,6 @@ public class GameController {
         handlerMap.put("forfeit",event->this.handleForfeit());
         handlerMap.put("unmortgage", event->this.handleUnmortgage() );
         handlerMap.put("end turn", event->this.handleEndTurnButton());
-        //Why do we have a handler map? can't we just use Reflection
-        /**
-         * Auction();
-         * Buy();
-         * SellToBank());
-         * SellToPlayer());
-         * DrawCard());
-         * GoToJail());
-         * PayTaxFixed());
-         * PayTaxPercentage());
-         * PayRent());
-         * PayBail());
-         * CollectMoney());
-         * UpgradeProperty());
-         * Trade());
-         * Mortgage());
-         *Forfeit());
-         * Unmortgage() );
-         */
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
     }
