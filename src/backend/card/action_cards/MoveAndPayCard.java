@@ -13,8 +13,8 @@ public class MoveAndPayCard extends ActionCard{
     private Tile tile;
     private double amount;
 
-    public MoveAndPayCard(Tile tile, List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, double amount, String type) {
-        super(type);
+    public MoveAndPayCard(Tile tile, List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, double amount, String type, String text) {
+        super(type,text );
         this.tile = tile;
         this.payers =  payers;
         this.payees = payees;
