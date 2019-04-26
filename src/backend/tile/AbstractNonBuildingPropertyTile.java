@@ -2,10 +2,11 @@ package backend.tile;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.Bank;
-import exception.OutOfBuildingStructureException;
-import exception.IllegalActionOnImprovedPropertyException;
-import exception.IllegalInputTypeException;
+import exceptions.OutOfBuildingStructureException;
+import exceptions.IllegalActionOnImprovedPropertyException;
+import exceptions.IllegalInputTypeException;
 import org.w3c.dom.Element;
+import exceptions.IllegalInputTypeException;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
 
     public abstract double calculateRentPrice(int roll);
 
-    //try to avoid throwing exception here?
+    //try to avoid throwing exceptions here?
     @Override
     public void sellTo(AbstractAssetHolder buyer, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, OutOfBuildingStructureException, IllegalInputTypeException {
         AbstractAssetHolder seller = this.getOwner();
@@ -38,5 +39,4 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
             each.setCurrentInUpgradeOrder( newInUpgradeOrder );
         }
     }
-
 }

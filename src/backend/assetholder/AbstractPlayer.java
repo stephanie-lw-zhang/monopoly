@@ -21,7 +21,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
     private IconView           myIcon;
     private Boolean            isBankrupt;
     private int                turnsInJail; //-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
-
+    private final static int FREE = -1;
     /**
      * AbstractPlayer main constructor
      * @param name
@@ -33,7 +33,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
         myPlayerName = name;
         myIcon = new IconView(icon);
         isBankrupt = false;
-        turnsInJail = -1;
+        turnsInJail = FREE;
     }
 
     public void declareBankruptcy(Bank bank){
@@ -148,7 +148,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
      * @return boolean      whether player in jail
      */
     public boolean isInJail(){
-        return turnsInJail != -1;
+        return turnsInJail != FREE;
     }
 
     /**

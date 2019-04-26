@@ -4,10 +4,9 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.StandardBoard;
 import backend.dice.SixDice;
 import backend.tile.AbstractPropertyTile;
-import configuration.ImportPropertyFile;
 import configuration.XMLData;
 import controller.Turn;
-import exception.*;
+import exceptions.*;
 import frontend.views.LogView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -17,7 +16,6 @@ import frontend.views.FormView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -130,7 +128,7 @@ public class TestingScreen extends AbstractScreen {
         bPane.setAlignment(backButton, Pos.TOP_CENTER);
         bPane.setTop(backButton);
         bPane.setMargin(backButton, new Insets(35,0,-30,0));
-        bPane.setCenter(myFormView);
+        bPane.setCenter(myFormView.getNode());
 
         return new Scene(bPane, getScreenWidth(), getScreenHeight());
     }
@@ -194,7 +192,11 @@ public class TestingScreen extends AbstractScreen {
             public void handle(ActionEvent actionEvent) {
                 int numMoves = Integer.parseInt(movesField.getText());
                 myBoardView.move(myGame.getMyTurn().getMyCurrPlayer().getMyIcon(), numMoves);
-                myGame.getMyTurn().moveCheat(numMoves);
+                try {
+                    myGame.getMyTurn().moveCheat(numMoves);
+                } catch (MultiplePathException e) {
+                    e.popUp();
+                }
             }
         });
 
@@ -314,7 +316,11 @@ public class TestingScreen extends AbstractScreen {
                     new IllegalMoveException( "Cannot move because you are in jail." );
                 }
                 else{
-                    myGame.getBoard().movePlayer( myGame.getMyTurn().getMyCurrPlayer(), myGame.getMyTurn().getNumMoves() );
+                    try {
+                        myGame.getBoard().movePlayer( myGame.getMyTurn().getMyCurrPlayer(), myGame.getMyTurn().getNumMoves() );
+                    } catch (MultiplePathException e) {
+                        e.popUp();
+                    }
                 }
             }
         });
@@ -382,7 +388,7 @@ public class TestingScreen extends AbstractScreen {
             return result.get();
         }
         else {
-            //TODO: throw exception
+            //TODO: throw exceptions
             return null;
         }
     }
@@ -468,7 +474,7 @@ public class TestingScreen extends AbstractScreen {
         return mapFromSet;
     }
 
-    private void displayActionInfo(String info) {
+    public void displayActionInfo(String info) {
         Alert formAlert = new Alert(Alert.AlertType.INFORMATION);
         formAlert.setContentText(info);
         myLogView.gameLog.setText(info);
@@ -506,7 +512,7 @@ public class TestingScreen extends AbstractScreen {
             return result.get();
         }
         else {
-            //TODO: throw exception
+            //TODO: throw exceptions
             return null;
         }
     }

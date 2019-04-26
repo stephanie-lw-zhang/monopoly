@@ -1,6 +1,4 @@
-package exception;
-
-import javafx.scene.control.Alert;
+package exceptions;
 
 public class IllegalActionOnImprovedPropertyException extends MonopolyException {
     public IllegalActionOnImprovedPropertyException(String message) {

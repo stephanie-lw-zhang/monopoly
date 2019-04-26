@@ -1,7 +1,11 @@
 package frontend.views.player_options;
 
+import exceptions.CancelledActionException;
+import exceptions.PropertyNotFoundException;
 import frontend.views.game.AbstractGameView;
 
+import javafx.collections.ObservableList;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Control;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -12,10 +16,11 @@ import javafx.event.ActionEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Represents some abstract VBox node that offers
- * options and contorls to users
+ * options and controls to users
  *
  * @author Edward
  * @author Sam
@@ -92,4 +97,5 @@ public class VBoxOptionsView extends AbstractOptionsView {
     public Node getOptionsViewNode() {
         return myOptionsViewNode;
     }
+
 }

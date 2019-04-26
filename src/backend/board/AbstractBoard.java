@@ -1,31 +1,29 @@
 package backend.board;
 
+import backend.assetholder.AbstractPlayer;
+import backend.assetholder.Bank;
+import backend.deck.DeckInterface;
+import backend.dice.AbstractDice;
+import exceptions.PlayerDoesNotExistException;
+import exceptions.TileNotFoundException;
+import exceptions.MultiplePathException;
+import exceptions.TileNotFoundException;
+import backend.tile.GoTile;
+import backend.tile.JailTile;
+import backend.tile.AbstractPropertyTile;
+import backend.tile.Tile;
+import exceptions.TileNotFoundException;
+import backend.tile.*;
+import configuration.XMLData;
+import java.util.*;
 
 /**
  * This class is an abstraction of the game board which contains
  * fundamental pieces to the game itself
  *
- * @author Matt, Sam
+ * @author Matt
+ * @author Sam
  *             updated Constructor for PlayerList
- */
-import backend.assetholder.AbstractPlayer;
-import backend.assetholder.Bank;
-import backend.deck.DeckInterface;
-import backend.dice.AbstractDice;
-import exception.PlayerDoesNotExistException;
-import exception.TileNotFoundException;
-import backend.tile.GoTile;
-import backend.tile.JailTile;
-import backend.tile.AbstractPropertyTile;
-import backend.tile.Tile;
-import exception.TileNotFoundException;
-import backend.tile.*;
-import configuration.XMLData;
-
-import java.util.*;
-
-/**
- *
  */
 public abstract class AbstractBoard {
     private Map<AbstractPlayer, Tile>               playerPositionMap;
@@ -34,8 +32,8 @@ public abstract class AbstractBoard {
     private List<AbstractPlayer>                    myPlayerList;
     private int                                     numDie;
     private Bank                                    bank;
-    private List<DeckInterface> myDecks;
-    private AbstractDice myDice;
+    private List<DeckInterface>                     myDecks;
+    private AbstractDice                            myDice;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
@@ -70,7 +68,7 @@ public abstract class AbstractBoard {
     /**
      * Moves the player on the board by reassigning its tile mapping
      */
-    public abstract void movePlayer(AbstractPlayer p, int numMoves);
+    public abstract void movePlayer(AbstractPlayer p, int numMoves) throws MultiplePathException;
 
     public abstract void movePlayer(AbstractPlayer p, Tile tile);
 

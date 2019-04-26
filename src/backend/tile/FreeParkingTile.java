@@ -9,10 +9,10 @@ import java.util.List;
 
 public class FreeParkingTile extends Tile {
 
-    //private double landedOnMoney;
     private int index;
     private String tileType;
-    //might need to calculate money?
+    private double landedOnMoney;
+
     public FreeParkingTile(double landedOnMoney, String tileType, int index){
         //this.landedOnMoney = landedOnMoney;
         this.tileType = tileType;
@@ -26,9 +26,8 @@ public class FreeParkingTile extends Tile {
     }
 
     public List<String> applyLandedOnAction(AbstractPlayer player) {
-        //player.setMoney(player.getMoney() + landedOnMoney);
         List<String> possibleActions = new ArrayList<>(  );
-        possibleActions.add("COLLECT MONEY");
+//        possibleActions.add("collect"); ORIGINAL MONOPOLY U DON'T GET ANYTHING
         return possibleActions;
     }
 

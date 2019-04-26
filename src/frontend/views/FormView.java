@@ -1,8 +1,12 @@
 package frontend.views;
 
 import controller.GameSetUpController;
+import exceptions.DuplicatePlayerException;
+import exceptions.FormInputException;
+import exceptions.InputMismatchException;
+import exceptions.InsufficientPlayersException;
 import frontend.screens.TestingScreen;
-
+import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -33,13 +37,14 @@ import java.util.List;
  *
  * @author Sam
  */
-public class FormView extends GridPane {
+public class FormView {
 
     private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
     private TestingScreen            myScreen;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
     private GameSetUpController myController;
+    private GridPane myPane;
 
     /**
      * FormView main constructor
@@ -49,21 +54,21 @@ public class FormView extends GridPane {
      * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
      * @param screen
      */
-    public FormView() {
-        this.setHgap(5);
-        this.setVgap(10);
-        this.setAlignment(Pos.CENTER);
-        this.setStyle("-fx-background-color: #d32f2f;");
-        this.setMaxSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 400);
-        this.setPadding(new Insets(20, 20, 20, 20));
-        this.maxWidthProperty().bind(this.widthProperty());
+    private void initialize(){
+        myPane.setHgap(5);
+        myPane.setVgap(10);
+        myPane.setAlignment(Pos.CENTER);
+        myPane.setStyle("-fx-background-color: #d32f2f;");
+        myPane.setMaxSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 400);
+        myPane.setPadding(new Insets(20, 20, 20, 20));
+        myPane.maxWidthProperty().bind(myPane.widthProperty());
 
-        this.getColumnConstraints().add(new ColumnConstraints( 200 ) );
-        this.getColumnConstraints().add(new ColumnConstraints(200));
+        myPane.getColumnConstraints().add(new ColumnConstraints( 200 ) );
+        myPane.getColumnConstraints().add(new ColumnConstraints(200));
 
 //        Label headerLabel = new Label("ENTER GAME INFORMATION: ");
 //        headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-//        this.setConstraints( headerLabel,0,0 );
+//        myPane.setConstraints( headerLabel,0,0 );
 
         ImageView headerImg = new ImageView();
         headerImg.setImage(new Image("monopopout.png"));
@@ -72,7 +77,7 @@ public class FormView extends GridPane {
         headerImg.setSmooth(true);
         headerImg.setCache(true);
 
-        this.getChildren().add( headerImg );
+        myPane.getChildren().add( headerImg );
 
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll("icon1", "icon2", "icon3", "icon4",
@@ -84,7 +89,7 @@ public class FormView extends GridPane {
         for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
             ComboBox<String> comboBox = createIconDropDown( options, i );
             TextField pField = createPlayerTextField( i );
-            this.getChildren().addAll( comboBox, pField );
+            myPane.getChildren().addAll( comboBox, pField );
             playerToIcon.put( pField, comboBox );
         }
 
@@ -93,13 +98,20 @@ public class FormView extends GridPane {
         submitFormButton.setPrefWidth(150);
         submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
-                handleSubmitFormButton(getPlayerToIconMap());
+                try {
+                    handleSubmitFormButton(getPlayerToIconMap());
+                } catch (FormInputException e) {
+                    e.popUp();
+                }
             }
         });
-        this.setConstraints( submitFormButton, 0, 6);
-        this.getChildren().add( submitFormButton );
+        myPane.setConstraints( submitFormButton, 0, 6);
+        myPane.getChildren().add( submitFormButton );
     }
 
+    public FormView(){
+        initialize();
+    }
     public FormView(TestingScreen screen){
         this();
         myScreen = screen;
@@ -121,7 +133,7 @@ public class FormView extends GridPane {
         addTextLimiter( pField, 25 );
         pField.setPrefHeight( 30 );
         pField.setMaxWidth( 200 );
-        this.setConstraints( pField, 0, row );
+        myPane.setConstraints( pField, 0, row );
         return pField;
     }
 
@@ -134,7 +146,7 @@ public class FormView extends GridPane {
     private ComboBox<String> createIconDropDown(ObservableList<String> options, int row) {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().addAll( options );
-        this.setConstraints( comboBox, 1, row );
+        myPane.setConstraints( comboBox, 1, row );
         comboBox.setCellFactory( param -> new CellFactory() );
         comboBox.setButtonCell( new CellFactory() );
         return comboBox;
@@ -145,38 +157,17 @@ public class FormView extends GridPane {
      * enough have signed up, calls for start of game
      * @param playerToIcon
      */
-    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) {
-        // cleanPlayerIconMap();
-        if (! this.hasEnoughPlayers()) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Not enough players signed up! (need >= 2)");
-            formAlert.showAndWait();
-            return;
+    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
+        if (hasUnassignedIcon(playerToIcon) || hasUnassignedName(playerToIcon)) {
+            throw new InputMismatchException();
         }
-        if (this.hasDuplicatePlayers()) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Duplicate player names not allowed!");
-            formAlert.showAndWait();
-            return;
+        if (! hasEnoughPlayers()) {
+            throw new InsufficientPlayersException();
         }
-//        if (this.hasUnassignedIcon(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("A player has not selected an icon!");
-//            formAlert.showAndWait();
-//            return;
-//        }
-//        if (this.hasUnassignedName(playerToIcon)) {
-//            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-//            formAlert.setContentText("An icon has no player name (or remove icon)!");
-//            formAlert.showAndWait();
-//            return;
-//        }
-        if (this.hasDuplicateIcons(playerToIcon)) {
-            Alert formAlert = new Alert(Alert.AlertType.ERROR);
-            formAlert.setContentText("Duplicate icons not allowed!");
-            formAlert.showAndWait();
-            return;
+        if (hasDuplicatePlayers() || hasDuplicateIcons(playerToIcon)) {
+            throw new DuplicatePlayerException();
         }
+
         // TODO: delete myScreen to gamesetupcontorl
         if(myController==null) {
             myScreen.handleStartGameButton(playerToIcon);
@@ -187,7 +178,7 @@ public class FormView extends GridPane {
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {
         for (TextField t : playerToIcon.keySet()) {
-            if (! t.getText().equals("") && playerToIcon.get(t).getValue().equals("")) {
+            if (! t.getText().equals("") && playerToIcon.get(t).getValue() == null) {
                 return true;
             }
         }
@@ -195,7 +186,7 @@ public class FormView extends GridPane {
     }
     private boolean hasUnassignedName(Map<TextField, ComboBox> playerToIcon) {
         for (TextField t : playerToIcon.keySet()) {
-            if (t.getText().equals("") && ! playerToIcon.get(t).getValue().equals("")) {
+            if (t.getText().equals("") && playerToIcon.get(t).getValue() != null) {
                 return true;
             }
         }
@@ -213,10 +204,9 @@ public class FormView extends GridPane {
             if (! key.getText().equals(""))
                 convertedMap.put(key, (String) playerToIcon.get(key).getValue());
 
-        Collection<String> valuesList = convertedMap.values();
         Set<String> set = new HashSet<>(convertedMap.values());
 
-        return valuesList.size() != set.size();
+        return convertedMap.values().size() != set.size();
     }
 
     /**
@@ -273,5 +263,9 @@ public class FormView extends GridPane {
      */
     public Map<TextField, ComboBox> getPlayerToIconMap() {
         return playerToIcon;
+    }
+
+    public Node getNode() {
+        return myPane;
     }
 }

@@ -10,9 +10,9 @@ import javafx.stage.Stage;
  */
 public class NormalModeScreen extends AbstractScreen {
 
-
     public NormalModeScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
         super(sWidth, sHeight, stage, parent);
+        makeScreen();
     }
 
     @Override

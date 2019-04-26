@@ -3,7 +3,7 @@ package controller;
 import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.StandardBoard;
-import backend.card.ActionCard;
+import backend.card.action_cards.ActionCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
 import backend.dice.AbstractDice;
@@ -15,8 +15,9 @@ import backend.tile.AbstractPropertyTile;
 import backend.tile.*;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
-import exception.*;
+import exceptions.*;
 import frontend.screens.TestingScreen;
+import frontend.views.LogView;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
 import frontend.views.player_stats.PlayerFundsView;
@@ -33,13 +34,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.lang.reflect.Method;
+
+
 public class GameController {
 
+    private GameSetUpController mySetUpController;
     //TODO: make all the back-end stuff be managed by a MonopolyModel/board class
     private XMLData              myData;
     private List<AbstractPlayer> myPlayers;
@@ -54,10 +60,11 @@ public class GameController {
     private Map<String, EventHandler<ActionEvent>> handlerMap = new HashMap<>();
     private PlayerFundsView fundsView;
     private PlayerPropertiesView propertiesView;
+    private LogView myLogView;
     //Strings are all actions
     private AbstractGameView myGameView;
 
-    public GameController(TestingScreen view, AbstractDice dice, Map<TextField, ComboBox> playerToIcon) {
+    public GameController(AbstractDice dice, Map<TextField, ComboBox> playerToIcon) {
         myDice = dice;
         // TODO: CHANGE THIS TO JUST BEING READ IN FROM DATA
         // TODO: TO BE A PART OF BOARD NOT GAME CONTROLLER
@@ -73,11 +80,22 @@ public class GameController {
             e.printStackTrace();
         }
 
+        // myGameView = new SplitScreenGameView(width, height);
+//        addHandlers();
         myBank = myData.getBank();
-        myTestScreen = view;
         myBoard = makeBoard(playerToIcon);
         myPlayers = myBoard.getMyPlayerList();
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+    }
+
+    public GameController(TestingScreen view, AbstractDice dice, Map<TextField, ComboBox> playerToIcon){
+        this(dice, playerToIcon);
+        myTestScreen = view;
+    }
+
+    public GameController(GameSetUpController controller, AbstractDice dice, Map<TextField, ComboBox> playerToIcon){
+        this(dice, playerToIcon);
+        mySetUpController = controller;
     }
 
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
@@ -164,7 +182,8 @@ public class GameController {
 
         myTurn.move();
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
-        List<String> possibleActions = myTurn.getMyActions();
+//        List<String> possibleActions = myTurn.getMyActions();
+        handleTileLanding( myBoard.getPlayerTile( myTurn.getMyCurrPlayer() ) );
         //TODO: front end display these two possible actions
     }
 
@@ -185,17 +204,8 @@ public class GameController {
 
     private void addHandlers(){
         handlerMap.put("AUCTION",event->this.handleAuction());
-        handlerMap.put("BUY",event-> {
-            try {
-                this.handleBuy();
-            } catch (IllegalActionOnImprovedPropertyException e) {
-                e.popUp();
-            } catch (OutOfBuildingStructureException e) {
-                e.popUp();
-            } catch (IllegalInputTypeException e) {
-                e.popUp();
-            }
-        });
+        handlerMap.put("BUY",event-> this.handleBuy());
+
         handlerMap.put("SELL TO BANK",event->this.handleSellToBank());
         handlerMap.put("SELL TO PLAYER",event->this.handleSellToPlayer());
         handlerMap.put("DRAW CARD",event->this.handleDrawCard());
@@ -204,12 +214,33 @@ public class GameController {
         handlerMap.put("PAY TAX PERCENTAGE",event->this.handlePayTaxPercentage());
         handlerMap.put("PAY RENT",event->this.handlePayRent());
         handlerMap.put("PAY BAIL",event->this.handlePayBail());
-        handlerMap.put("COLLECT MONEY",event->this.handleCollectMoney());
+        handlerMap.put("COLLECT passed MONEY",event->this.handleCollectMoneyPassed());
+        handlerMap.put("COLLECT landed MONEY",event->this.handleCollectMoneyLanded());
         handlerMap.put("UPGRADE", event->this.handleUpgradeProperty());
         handlerMap.put("TRADE",event->this.handleTrade());
         handlerMap.put("mortgage", event->this.handleMortgage());
         handlerMap.put("forfeit",event->this.handleForfeit());
         handlerMap.put( "unmortgage", event->this.handleUnmortgage() );
+        //Why do we have a handler map? can't we just use Reflection
+        /**
+         * Auction();
+         * Buy();
+         * SellToBank());
+         * SellToPlayer());
+         * DrawCard());
+         * GoToJail());
+         * PayTaxFixed());
+         * PayTaxPercentage());
+         * PayRent());
+         * PayBail());
+         * CollectMoney());
+         * UpgradeProperty());
+         * Trade());
+         * Mortgage());
+         *Forfeit());
+         * Unmortgage() );
+         */
+
 
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
@@ -223,15 +254,7 @@ public class GameController {
 
             ObservableList<String> tiles = getAllOptionNames(myBoard.getBuildingTileNamesAsStrings(owner));
             BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Upgrade Property", "Choose which property to upgrade ", tiles);
-
-//            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-//            System.out.println("initial money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
-
             tile.upgrade(owner, myBoard.getSameSetProperties(tile));
-
-//            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-//            System.out.println("after money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
-
         } catch (IllegalInputTypeException e) {
             e.popUp();
         } catch (OutOfBuildingStructureException e) {
@@ -243,31 +266,26 @@ public class GameController {
         }
     }
 
-    private void handleCollectMoney() {
-        Boolean passed = true; //temp variable
-        if(passed){
-            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
-            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
-        } else {
+    private void handleCollectMoneyLanded() {
             //means you landed directly on it
             myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
             myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
-        }
+    }
+
+    private void handleCollectMoneyPassed() {
+        //USE REFLECTION  CollectMoney + "landed" OR "passed"
+            myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
+            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
     }
 
     public void handlePayBail(){
         try {
-//                System.out.println("initial: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
-//                System.out.println("initial: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
             getMyTurn().getMyCurrPlayer().payFullAmountTo(getBoard().getBank(), getBoard().getJailTile().getBailAmount());
             getBoard().getJailTile().removeCriminal(getMyTurn().getMyCurrPlayer());
             myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
               fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-            //TODO: COMMENT LOG VIEW BACK IN
-//            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " has posted bail and can roll to leave Jail!");
+            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");
 
-//                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().inJail());
-//                System.out.println("After: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
         } catch(TileNotFoundException e) {
             e.popUp();
         }
@@ -297,8 +315,7 @@ public class GameController {
                 }
             }
             property.mortgageProperty();
-            //TODO: comment log view and updatePlayerFundsDisplay back in when refactored
-//            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " has mortgaged " + property + ".");
+            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has mortgaged " + property + ".");
             fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException e) {
             e.popUp();
@@ -313,42 +330,77 @@ public class GameController {
     }
 
     private void handlePayTaxPercentage() {
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier() );
+        double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile)myTurn.currPlayerTile()).getTaxMultiplier();
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
+        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
-    private void handleTileLanding() {
-        List<String> actions = new ArrayList<>();
-        actions.add("PAY TAX PERCENTAGE");
-        actions.add("PAY TAX FIXED");
-        String action = myGameView.displayOptionsPopup(actions, "Options", "Tile Actions", "Choose One");
+    private void handleTileLanding(Tile tile) {
+        try {
+            List<String> actions = tile.applyLandedOnAction( getMyTurn().getMyCurrPlayer() );
+            String desiredAction;
+            if(actions.size() > 1){
+                List<String> readableActions = new ArrayList<>();
+                for(String each: actions){
+                    readableActions.add( makeReadable( each ) );
+                }
+                String pickedOption = myTestScreen.displayOptionsPopup(readableActions, "Options", "Tile Actions", "Choose One");
+                desiredAction = translateReadable( pickedOption );
+            } else {
+                desiredAction = actions.get( 0 );
+            }
+//            System.out.println(desiredAction);
+            Method handle = this.getClass().getMethod("handle" + desiredAction);
+            handle.invoke(this);
+        } catch (NoSuchMethodException e) {
+            myGameView.displayActionInfo( "There is no such method" );
+        } catch (SecurityException e) {
+            myGameView.displayActionInfo( "Security exception" );
+        } catch (IllegalAccessException e) {
+            myGameView.displayActionInfo( "Illegal access exception" );
+        } catch (IllegalArgumentException e) {
+            myGameView.displayActionInfo( "Illegal argument" );
+        } catch (InvocationTargetException e) {
+            myGameView.displayActionInfo( "Invocation target exception" );
+        }
     }
 
     public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) getBoard().getPlayerTile( getMyTurn().getMyCurrPlayer());
-//                System.out.println("initial owner:" + property.getOwner().getMoney());
-//                System.out.println("intial payee: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
         getMyTurn().getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( getMyTurn().getNumMoves()));
-//TODO: COMMENT LOG VIEW BACK IN
-        //        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer() + " has paid " + property.calculateRentPrice( getMyTurn().getNumMoves()) + " of rent to " +property.getOwner()+ ".");
-//                System.out.println("After owner:" + property.getOwner().getMoney());
-//                System.out.println("After payee: " + myGame.getMyTurn().getMyCurrPlayer().getMoney());
+        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( getMyTurn().getNumMoves()) + " of rent to " +property.getOwner()+ ".");
         fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
     }
 
     private void handlePayTaxFixed() {
-        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct() );
+        double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
+        myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
+        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
     public void handleGoToJail() {
         getMyTurn().goToJail();
         myGameView.displayActionInfo( "Arrested! You're going to Jail." );
-        //TODO: COMMENT LOG VIEW BACK IN
-//        myLogView.gameLog.setText(myGame.getMyTurn().getMyCurrPlayer() + " has been sent to Jail!");
+        myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
     }
 
-    private void handleDrawCard() {
-        ActionCard drawCardTile = ((AbstractDrawCardTile) getBoard().getPlayerTile(getMyTurn().getMyCurrPlayer())).drawCard();
-        drawCardTile.applyTo(getMyTurn().getMyCurrPlayer());
+    private void handleDrawCard(){
+        try {
+            ActionCard actionCard = ((AbstractDrawCardTile) getBoard().getPlayerTile(getMyTurn().getMyCurrPlayer())).drawCard();
+            Method handle = ActionCardController.class.getMethod("handle" + actionCard.getActionType(), List.class);
+            ActionCardController handleCard = new ActionCardController(myBoard, myTurn, fundsView, myTestScreen.getMyBoardView(), myGameView );
+            handle.invoke(handleCard, actionCard.getParameters());
+        } catch (NoSuchMethodException e) {
+            myGameView.displayActionInfo( "There is no such method" );
+        } catch (SecurityException e) {
+            myGameView.displayActionInfo( "Security exception" );
+        } catch (IllegalAccessException e) {
+            myGameView.displayActionInfo( "Illegal access exception" );
+        } catch (IllegalArgumentException e) {
+            myGameView.displayActionInfo( "Illegal argument exception" );
+        } catch (InvocationTargetException e) {
+            myGameView.displayActionInfo( "Invocation target exception" );
+        }
     }
 
     private void handleSellToPlayer() {
@@ -411,10 +463,6 @@ public class GameController {
 
             ObservableList<String> tiles = getAllOptionNames(myBoard.getBuildingTileNamesAsStrings(owner));
             BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Sell Buildings", "Choose which property to sell buildings from ", tiles);
-
-//            System.out.println("initial money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-//            System.out.println("initial money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
-
             List<String> options = createListOf2OptionsAsStrings("SELL ALL BUILDINGS ON ALL PROPERTIES OF SAME GROUP",
                     "SELL ONE BUILDING ON SELECTED PROPERTY");
             String str = myTestScreen.displayOptionsPopup(options, "Sell Buildings", "Sell buildings options ", "Choose one ");
@@ -424,8 +472,6 @@ public class GameController {
             } else {
                 tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
             }
-//            System.out.println("after money for owner: " + myTurn.getMyCurrPlayer().getMoney() + " " + myTurn.getMyCurrPlayer().getProperties());
-//            System.out.println("after money for bank: " + myBank.getMoney() + " House: " + myBank.getNumberOfBuildingsLeft("House") + " Hotel: " + myBank.getNumberOfBuildingsLeft("Hotel"));
         } catch (IllegalActionOnImprovedPropertyException e) {
             e.popUp();
         } catch (CancelledActionException e) {
@@ -435,10 +481,18 @@ public class GameController {
         }
     }
 
-    private void handleBuy() throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
-        Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
-        String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
-        myGameView.displayActionInfo(info);
+    public void handleBuy(){
+        try {
+            Map.Entry<AbstractPlayer, Double> playerValue = this.getMyTurn().buy(null);
+            String info = playerValue.getKey().getMyPlayerName() + " bought " + this.getMyTurn().getTileNameforPlayer(playerValue.getKey()) + " for " + playerValue.getValue() + " Monopoly Dollars!";
+            myTestScreen.displayActionInfo(info);
+        } catch (IllegalActionOnImprovedPropertyException e) {
+            e.popUp();
+        } catch (IllegalInputTypeException e) {
+            e.popUp();
+        } catch (OutOfBuildingStructureException e) {
+            e.popUp();
+        }
     }
 
     private void handleForfeit(){
@@ -446,21 +500,11 @@ public class GameController {
         String player = myGameView.displayDropDownAndReturnResult( "Forfeit", "Select the player who wants to forfeit: ", players );
         AbstractPlayer forfeiter = getBoard().getPlayerFromName( player );
 
-//                System.out.println("initial money:" + player.getMoney());
-//                System.out.println("initial properties:" + player.getProperties());
-//                System.out.println("initial bankruptcy: "+ player.isBankrupt());
-
         forfeiter.declareBankruptcy(getBoard().getBank());
         getBoard().getMyPlayerList().remove( forfeiter );
         getBoard().getPlayerTileMap().remove( forfeiter );
-        //TODO: COMMENT LOG VIEW BACK IN
-//        myLogView.gameLog.setText(forfeiter + " has forfeited.");
+        myLogView.gameLog.setText(forfeiter.getMyPlayerName() + " has forfeited.");
 
-//                System.out.println("After money:" + player.getMoney());
-//                System.out.println("initial properties:" + player.getProperties());
-//                System.out.println("initial bankruptcy: "+ player.isBankrupt());
-
-//                System.out.println("current tile: " + myGame.getBoard().getPlayerTile(myGame.getMyTurn().getMyCurrPlayer()).getName());
         fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
         for(Tab tab: propertiesView.getTabs()){
             if(tab.getText().equalsIgnoreCase( player )){
@@ -470,7 +514,7 @@ public class GameController {
         propertiesView.updatePlayerPropertiesDisplay(getBoard().getMyPlayerList());
     }
 
-    private void handleAuction() {
+    public void handleAuction() {
         Map<AbstractPlayer,Double> auctionAmount = new HashMap<>();
         for (int i = 0; i < myPlayers.size(); i++) {
             AbstractPlayer key = getPlayerAtIndex(i);
@@ -550,4 +594,24 @@ public class GameController {
         }
         return players;
     }
+
+    private String makeReadable(String s){
+        String label = s.substring( 0,1 );
+        for(int i = 1; i < s.length(); i++){
+            //start at 1 so doesn't add a space before the first letter
+            if(Character.isUpperCase( s. charAt( i ))){
+                label += " " + s.charAt( i );
+            } else{
+                label += s.charAt( i );
+            }
+        }
+        return label;
+    }
+
+    private String translateReadable(String s){
+        return s.replaceAll("\\s+","");
+    }
+
+
+
 }

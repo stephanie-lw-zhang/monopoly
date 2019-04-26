@@ -1,8 +1,7 @@
 package backend.tile;
 
 import backend.assetholder.AbstractPlayer;
-import backend.card.AbstractCard;
-import backend.card.ActionCard;
+import backend.card.action_cards.ActionCard;
 import backend.deck.DeckInterface;
 import org.w3c.dom.Element;
 
@@ -31,8 +30,7 @@ public abstract class AbstractDrawCardTile extends Tile {
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>();
-        possibleActions.add("DRAW CARD");
-//        myDeck.drawCard();
+        possibleActions.add("DrawCard");
         return possibleActions;
     }
 
