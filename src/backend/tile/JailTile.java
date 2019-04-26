@@ -24,18 +24,12 @@ public class JailTile extends Tile {
     @Override
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         List<String> possibleActions = new ArrayList<>(  );
+        if (player.isInJail()) {
+            possibleActions.add("PayBail");
+            possibleActions.add("StayInJail");
+        }
         return possibleActions;
         //do nothing
-    }
-
-    public void addCriminal(AbstractPlayer player) {
-        criminals.add(player);
-    }
-
-    public void removeCriminal(AbstractPlayer player) {
-        //throw exceptions?? if player is not in the hashset
-        criminals.remove(player);
-        player.getOutOfJail();
     }
 
     @Override

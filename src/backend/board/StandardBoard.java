@@ -44,16 +44,16 @@ public class StandardBoard extends AbstractBoard {
         Tile tile = getPlayerTile(p);
         Tile next;
         //this needs to change for a non-standard board, could be informed by property file
-        if(getAdjacentTiles(tile).size() == 1){
+        if(getAdjacentTiles(tile).size() == 1) {
             next = getAdjacentTiles(tile).get(0);
             tile = next;
             if (tile.applyPassedAction(p).size() > 0) {
                 passedTile = tile;
             }
-            getPlayerTileMap().put(p, tile);
         } else {
             throw new MultiplePathException( "There are multiple paths, please choose one" );
         }
+        getPlayerTileMap().put(p, tile);
         return passedTile;
     }
 
@@ -63,4 +63,3 @@ public class StandardBoard extends AbstractBoard {
 
     }
 }
-

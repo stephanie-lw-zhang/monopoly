@@ -60,6 +60,7 @@ public class GameController {
     private PlayerFundsView fundsView;
     private PlayerPropertiesView propertiesView;
     private LogView myLogView;
+    private int numDoubleRolls;
     //Strings are all actions
     private AbstractGameView myGameView;
 
@@ -86,6 +87,7 @@ public class GameController {
         myBoard = makeBoard(playerToIcon);
         myPlayers = myBoard.getMyPlayerList();
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+        this.numDoubleRolls = 0;
     }
 
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
@@ -162,30 +164,69 @@ public class GameController {
     private void handleEndTurnButton() {
         myTurn.skipTurn();
         myTestScreen.updateCurrentPlayer(myTurn.getMyCurrPlayer());
+        numDoubleRolls= 0;
     }
 
     private void handleRollButton() {
+        if(getMyTurn().getMyCurrPlayer().getTurnsInJail() == 0 || getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1) {
+            new IllegalMoveException("You cannot move because you are in jail. Roll a doubles to get out of jail for free!").popUp();
+        }
         myTurn.start();
         myTestScreen.updateDice(myTurn);
-        myTestScreen.getMyBoardView().move(myTurn.getMyCurrPlayer().getMyIcon(), myTurn.getNumMoves());
 
-        try {
-            if(getMyTurn().getMyCurrPlayer().getTurnsInJail() == 1 || getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2){
-                new IllegalMoveException( "Cannot move because you are in jail." );
+        if (getMyTurn().isDoubleRoll(getMyTurn().getRolls())) {
+            if(getMyTurn().getMyCurrPlayer().isInJail()) {
+                getMyTurn().getMyCurrPlayer().getOutOfJail();
+                myGameView.displayActionInfo("You are released from jail because you rolled doubles. You're free now!");
+                myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " rolled doubles and is out of Jail!");
+                handleMove();
+                //TODO: grey out roll button
             }
-            else{
-                List<Tile> passedTiles = myBoard.movePlayer( getMyTurn().getMyCurrPlayer(), getMyTurn().getNumMoves());
-                if (passedTiles.size() > 0) {
-                    handlePassedTiles(passedTiles);
+            else {
+                //TODO: get rid of magic value
+                 if (numDoubleRolls < 2) {
+                     numDoubleRolls++;
+                     handleMove();
+                     myTestScreen.displayActionInfo("You rolled doubles. Roll again!");
+                     //TODO: add log?
                 }
+                else { handleGoToJail(); }
+            }
+        }
+        else {
+            if (getMyTurn().getMyCurrPlayer().getTurnsInJail() == 2) {
+                getMyTurn().getMyCurrPlayer().getOutOfJail();
+                myTestScreen.displayActionInfo("You have had three turns in jail! You are free after you pay the fine.");
+                handlePayBail();
+                handleMove();
+                //TODO: grey out roll button
+            }
+            else if(getMyTurn().getMyCurrPlayer().getTurnsInJail() != -1){
+                try {
+                    myBoard.movePlayer( getMyTurn().getMyCurrPlayer(), 0);
+                } catch (MultiplePathException e) {
+                    e.popUp();
+                }
+                handleTileLanding( myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
+            }
+            else { handleMove(); }
+        }
+        //TODO: make roll button grey
+        //TODO: make button not grey
+    }
+
+    private void handleMove() {
+        try {
+            List<Tile> passedTiles = myBoard.movePlayer(getMyTurn().getMyCurrPlayer(), getMyTurn().getNumMoves());
+            if (passedTiles.size() > 0) {
+                handlePassedTiles(passedTiles);
             }
         } catch (MultiplePathException e) {
             e.popUp();
         }
         myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
         //TODO: slow down options list popup
-        handleTileLanding( myBoard.getPlayerTile( myTurn.getMyCurrPlayer() ) );
-        getMyTurn().endTurn();
+        handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
     }
 
     private void handlePassedTiles(List<Tile> passedTiles) {
@@ -295,6 +336,10 @@ public class GameController {
         }
     }
 
+    public void handleStayInJail() {
+        getMyTurn().getMyCurrPlayer().addTurnInJail();
+    }
+
     public void handleCollectMoneyLanded() {
         myBank.payFullAmountTo( getMyTurn().getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
         myTestScreen.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
@@ -312,10 +357,9 @@ public class GameController {
     public void handlePayBail() {
         try {
             getMyTurn().getMyCurrPlayer().payFullAmountTo(getBoard().getBank(), getBoard().getJailTile().getBailAmount());
-            getBoard().getJailTile().removeCriminal(getMyTurn().getMyCurrPlayer());
-            myGameView.displayActionInfo("You've successfully paid bail. You're free now!");
+            myTestScreen.displayActionInfo("You've successfully paid the fine. You're free now!");
             fundsView.updatePlayerFundsDisplay(myBoard.getMyPlayerList());
-            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has posted bail and can roll to leave Jail!");
+            myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can roll!");
         } catch (TileNotFoundException e) {
             e.popUp();
         }
@@ -409,8 +453,14 @@ public class GameController {
     }
 
     public void handleGoToJail() {
-        getMyTurn().goToJail();
-        myGameView.displayActionInfo("Arrested! You're going to Jail.");
+        myTestScreen.displayActionInfo("Arrested! You're going to Jail.");
+        try {
+            JailTile jail = myBoard.getJailTile();
+            myBoard.movePlayer( getMyTurn().getMyCurrPlayer(), jail);
+            getMyTurn().getMyCurrPlayer().addTurnInJail();
+        } catch (TileNotFoundException e){
+            e.popUp();
+        }
         myLogView.gameLog.setText(getMyTurn().getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
     }
 
