@@ -24,8 +24,8 @@ public class IncomeTaxTile extends AbstractTaxTile {
     public List<String> applyLandedOnAction(AbstractPlayer player) {
         //interaction with front-end: pay full or 10%?
         List<String> possibleActions = new ArrayList<>(  );
-        possibleActions.add("PayTaxIncomeFixed");
-        possibleActions.add("PayTaxIncomePercentage");
+        possibleActions.add("PayTaxFixed");
+        possibleActions.add("PayTaxPercentage");
         return possibleActions;
     }
 
