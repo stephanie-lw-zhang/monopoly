@@ -19,8 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -70,15 +68,6 @@ public class GameController {
 //        handlerMap.put("Move Cheat", event->this.handleMoveCheat);
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
-    }
-
-    private ImageView makeIcon(String iconPath) {
-        Image image = new Image(iconPath + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-
-        return imageView;
     }
 
     private void handleEndTurnButton() {
