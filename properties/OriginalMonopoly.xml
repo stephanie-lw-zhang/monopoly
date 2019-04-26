@@ -14,6 +14,20 @@
         <NumDecks>2</NumDecks>
     </Decks>
 
+    <Deck>
+        <Name>Chance Deck</Name>
+        <ActionCard>
+
+        </ActionCard>
+    </Deck>
+
+    <Deck>
+        <Name>Community Chest Deck</Name>
+        <ActionCard>
+            
+        </ActionCard>
+    </Deck>
+
     <Bank>
         <Money>100000</Money>
         <Properties>

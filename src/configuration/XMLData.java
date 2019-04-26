@@ -30,6 +30,7 @@ public class XMLData {
     private Bank bank;
     private int numDie;
     private int numDecks;
+    private List<Tile> tiles;
     private Tile firstTile;
     private List<DeckInterface> decks;
     private String monopolyType;
@@ -42,40 +43,32 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-            numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
-            numDecks = Integer.parseInt(getTagValue("NumDecks", (Element) doc.getElementsByTagName("Decks").item(0)));
-            monopolyType = getTagValue(("MonopolyType"), (Element) doc.getElementsByTagName("Type").item(0));
-            bank = getBank(doc.getElementsByTagName("Bank").item(0));
-            NodeList tileList = doc.getElementsByTagName("Tile");
-            List<Tile> tiles = new ArrayList<>();
-            indexNeighborList = new HashMap<>();
-            propertyCategoryToSpecificListMap = new HashMap<>();
-            for (int i = 0; i < tileList.getLength(); i++) {
-                tiles.add(getTile(tileList.item(i)));
-            }
-            firstTile = tiles.get(0);
-            initializeAdjacencyList(tiles);
-
-            decks = new ArrayList<>();
-            NodeList deck = doc.getElementsByTagName("Deck");
-            for(int i = 0; i<numDecks; i++){
-                Element d = (Element) deck.item(i);
-                NodeList actionCards = d.getElementsByTagName("ActionCard");
-                for(int j = 0; j<actionCards.getLength(); j++){
-                    Element c = (Element) actionCards.item(j);
-                    String cardType = getTagValue("ActionCardType", c);
-                    ActionCard card = (ActionCard) Class.forName("backend.card." + cardType).getConstructor(Element.class).newInstance(c);
-                    decks.get(i).putBack(card);
-                }
-            }
-
+            initializeNumDie(doc);
+            initializeGameType(doc);
+            initializeBank(doc);
+            initializeTiles(doc);
+            initializeNumDecks(doc);
+            initializeDecks(doc);
+            initializeAdjacencyList();
         }catch(ParserConfigurationException | SAXException | IOException e){
             e.printStackTrace(); //change this !!!
         }
     }
 
-    private Bank getBank(Node node) {
-        Element banks = (Element) node;
+    private void initializeNumDie(Document doc){
+        numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
+    }
+
+    private void initializeGameType(Document doc){
+        monopolyType = getTagValue(("MonopolyType"), (Element) doc.getElementsByTagName("Type").item(0));
+    }
+
+    private void initializeNumDecks(Document doc){
+        numDecks = Integer.parseInt(getTagValue("NumDecks", (Element) doc.getElementsByTagName("Decks").item(0)));
+    }
+
+    private void initializeBank(Document doc) {
+        Element banks = (Element) doc.getElementsByTagName("Bank").item(0);
         Double money = Double.parseDouble(getTagValue("Money", banks));
         NodeList properties = banks.getElementsByTagName("Properties");
         Map<String, Integer> totalPropertiesLeft = new HashMap<>();
@@ -85,7 +78,18 @@ public class XMLData {
             String[] entry = property.split(",");
             totalPropertiesLeft.put(entry[0], Integer.parseInt(entry[1]));
         }
-        return new Bank(money, totalPropertiesLeft);
+        bank = new Bank(money, totalPropertiesLeft);
+    }
+
+    private void initializeTiles(Document doc) throws Exception {
+        indexNeighborList = new HashMap<>();
+        propertyCategoryToSpecificListMap = new HashMap<>();
+        NodeList tileList = doc.getElementsByTagName("Tile");
+        tiles = new ArrayList<>();
+        for (int i = 0; i < tileList.getLength(); i++) {
+            tiles.add(getTile(tileList.item(i)));
+        }
+        firstTile = tiles.get(0);
     }
 
     private Tile getTile(Node node) throws Exception {
@@ -112,12 +116,24 @@ public class XMLData {
         }
     }
 
+    private void initializeDecks(Document doc) throws Exception {
+        decks = new ArrayList<>();
+        NodeList deck = doc.getElementsByTagName("Deck");
+        for(int i = 0; i<numDecks; i++){
+            Element d = (Element) deck.item(i);
+            NodeList actionCards = d.getElementsByTagName("ActionCard");
+            for(int j = 0; j<actionCards.getLength(); j++){
+                decks.get(i).putBack(getActionCard(actionCards.item(j)));
+            }
+        }
+    }
+
     private ActionCard getActionCard(Node node) throws Exception{
         Element element = (Element) node;
         ActionCard card;
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             String cardType = getTagValue("CardType", element);
-            card = (ActionCard) Class.forName("backend.card." + cardType).getConstructor(Element.class).newInstance(element);
+            card = (ActionCard) Class.forName("backend.card.action_cards." + cardType).getConstructor(Element.class).newInstance(element);
             return card;
         }
         else{
@@ -127,6 +143,7 @@ public class XMLData {
 
 
     private void updateCategoryList(Element element, Tile tile){
+        //change to category !!!
         String color;
         try{
             color = getTagValue("TileColor", element);
@@ -141,7 +158,7 @@ public class XMLData {
         }
     }
 
-    private void initializeAdjacencyList(List<Tile> tiles){
+    private void initializeAdjacencyList(){
         adjacencyList = new HashMap<>();
         for(Tile tile: tiles){
             adjacencyList.put(tile, new ArrayList<>());

@@ -3,6 +3,7 @@ package backend.card.action_cards;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.assetholder.AbstractAssetHolder;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,10 @@ public class PayCard extends ActionCard {
         this.type = type;
     }
 
-
+    public PayCard(Element n){
+        amount = Double.parseDouble(getTagValue("Amount", n));
+        type = getTagValue("Type", n);
+    }
 
     @Override
     public String getActionType() {
