@@ -17,7 +17,7 @@ public class PayBuildingsCard extends ActionCard {
         this.payees = payees;
         this.baseToMultiplier = baseToMultiplier;
     }
-    
+
     @Override
     public List<Object> getParameters() {
         List<Object> parameters = new ArrayList<Object>();

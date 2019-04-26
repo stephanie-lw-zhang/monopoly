@@ -169,25 +169,6 @@ public class Turn {
         myBoard.movePlayer(myCurrPlayer, n);
     }
 
-    public Map.Entry<AbstractPlayer, Double> goToJail() {
-        try {
-        JailTile jail = (JailTile) myBoard.getJailTile();
-        myBoard.getPlayerTileMap().put( myCurrPlayer, jail);
-        jail.addCriminal( myCurrPlayer );
-        myCurrPlayer.addTurnInJail();
-
-        } catch (TileNotFoundException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> payRent() {
-        AbstractPropertyTile property;
-        property = (AbstractPropertyTile) currPlayerTile();
-        myCurrPlayer.payFullAmountTo( property.getOwner(), property.calculateRentPrice( getNumMoves() ) );
-        return null;
-    }
 
     public Map.Entry<AbstractPlayer, Double> buy(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
         AbstractPlayer player = null;
@@ -219,68 +200,6 @@ public class Turn {
 //        System.out.println(player.getMyPlayerName() + ": " + player.getMoney());
     }
 
-    public Map.Entry<AbstractPlayer, Double> payBail() {
-
-        myCurrPlayer.payFullAmountTo(myBoard.getBank(), 1500.00);
-
-        // TODO: set debt as Turn or Player instance? replace 1500 w/ that instance
-        // MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> trade() {
-
-//      TODO: handle Receiver input and debt as instances
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> auction(Map<AbstractPlayer,Double> auctionAmount) {
-        AbstractPropertyTile property = (AbstractPropertyTile) currPlayerTile();
-        return property.determineAuctionResults(auctionAmount);
-    }
-
-//    public Map.Entry<AbstractPlayer, Double> collectMoney() {
-//
-//        Boolean passed = true; //temp variable
-//        if(passed){
-//            myBoard.getBank().payFullAmountTo( myCurrPlayer, myBoard.getGoTile().getPassedMoney() );
-//            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
-//        } else {
-//            //means you landed directly on it
-//            myBoard.getBank().payFullAmountTo( myCurrPlayer, myBoard.getGoTile().getLandedOnMoney() );
-//            myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() +" for landing on go." );
-//        }
-//    }
-
-    public Map.Entry<AbstractPlayer, Double> sellToPlayer() {
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> sellToBank(){
-        return null;
-    }
-
-    public Map.Entry<AbstractPlayer, Double> drawCard(){
-        ((AbstractDrawCardTile) currPlayerTile()).drawCard();
-//       assume draw card tile
-        return null;
-    }
-
-//    public Map.Entry<AbstractPlayer, Double> payTaxFixed() {
-//
-//        myCurrPlayer.payFullAmountTo( myBoard.getBank(), 200.0 );
-//
-////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//        return null;
-//    }
-//
-//    public Map.Entry<AbstractPlayer, Double> payTaxPercentage() {
-//
-//        myCurrPlayer.payFullAmountTo( myBoard.getBank(),myCurrPlayer.getMoney() * 0.1 );
-//
-////      MUST BE FROM DATA FILE, CURRENTLY HARD CODED
-//        return null;
-//    }
 
 
     //in a turn a player can roll/move, trade, mortgage
