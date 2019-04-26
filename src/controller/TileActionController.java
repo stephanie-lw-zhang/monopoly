@@ -130,8 +130,31 @@ public class TileActionController {
 
 //    get the class itself so that you don't need three separate methods to do the same thing
 //    private void reinitializePayCard(ActionCard actionCard){
+//        List<AbstractAssetHolder> players = new ArrayList<>();
+//        for(AbstractPlayer p: myBoard.getMyPlayerList()) players.add(p);
+//        List<AbstractAssetHolder> bank = new ArrayList<>();
+//        bank.add(myBoard.getBank());
+//        List<AbstractAssetHolder> currPlayer = new ArrayList<>();
+//        currPlayer.add(myTurn.getMyCurrPlayer());
 //        Class cast = actionCard.getClass();
-//
+//        if (((cast) actionCard).getPayeeString().equalsIgnoreCase("Everyone")) {
+//            ((cast) actionCard).setPayees(players);
+//        }
+//        else if (((cast) actionCard).getPayeeString().equalsIgnoreCase("Bank")) {
+//            ((cast) actionCard).setPayees(bank);
+//        }
+//        else if(((cast) actionCard).getPayeeString().equalsIgnoreCase("CurrentPlayer")) {
+//            ((cast) actionCard).setPayees(currPlayer);
+//        }
+//        if (((cast) actionCard).getPayerString().equalsIgnoreCase("Everyone")) {
+//            ((cast) actionCard).setPayers(players);
+//        }
+//        else if (((cast) actionCard).getPayerString().equalsIgnoreCase("Bank")) {
+//            ((cast) actionCard).setPayers(bank);
+//        }
+//        else if(((cast) actionCard).getPayerString().equalsIgnoreCase("CurrentPlayer")) {
+//            ((cast) actionCard).setPayers(currPlayer);
+//        }
 //    }
 
     private void reinitializePay(ActionCard actionCard){
