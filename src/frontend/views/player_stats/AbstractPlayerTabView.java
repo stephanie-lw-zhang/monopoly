@@ -33,10 +33,10 @@ public abstract class AbstractPlayerTabView implements StatsView {
     }
 
     public void update(List<AbstractPlayer> playerList) {
-            for(Tab tab: tabPane.getTabs()){
-                AbstractPlayer player = getPlayerFromName( playerList, tab.getText() );
-                writeText(player, tab);
-            }
+        for(Tab tab: tabPane.getTabs()){
+            AbstractPlayer player = getPlayerFromName( playerList, tab.getText() );
+            writeText(player, tab);
+        }
     }
 
     public abstract void writeText(AbstractPlayer player, Tab tab);

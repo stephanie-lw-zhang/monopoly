@@ -6,11 +6,8 @@ import backend.card.action_cards.HoldableCard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
-import exceptions.NotInJailException;
 import exceptions.TileNotFoundException;
-import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
-import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 
 import java.util.HashMap;
@@ -19,18 +16,13 @@ import java.util.Map;
 
 public class ActionCardController{
 
-    AbstractBoard board;
+    AbstractBoard myBoard;
     Turn turn;
-    PlayerFundsView fundsView;
-    AbstractBoardView boardView;
     AbstractGameView myGameView;
-    PlayerCardsView cardsView;
 
-    public ActionCardController(AbstractBoard board, Turn turn, PlayerFundsView fundsView, AbstractGameView myGameView) {
-        this.board = board;
+    public ActionCardController(AbstractBoard board, Turn turn, AbstractGameView myGameView) {
+        this.myBoard = board;
         this.turn = turn;
-        this.fundsView = fundsView;
-        this.boardView = boardView;
         this.myGameView = myGameView;
     }
 
@@ -42,23 +34,20 @@ public class ActionCardController{
     }
 
     public void handleMove(List<Object> parameters){
-        board.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
+        myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
     }
 
     public void handleGetOutOfJail(List<Object> parameters){
         //TODO: can buy get out of jail card?
         myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
-        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
-
     }
 
 
     public void handleSave(List<Object> parameters){
         turn.getMyCurrPlayer().getCards().add( (HoldableCard) parameters.get( 0 ) );
-        cardsView.update( board.getMyPlayerList() );
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         myGameView.displayActionInfo( "You now own " + ((HoldableCard) parameters.get( 0 )).getName() + ". You can use this card at any time." );
-
     }
 
     public void handleMoveAndPay(List<Object> parameters){
@@ -67,7 +56,7 @@ public class ActionCardController{
         List<AbstractPlayer> payees = (List<AbstractPlayer>) parameters.get( 2 );
         double amount = (Double) parameters.get( 3 );
         try {
-            board.movePlayerToNearest( turn.getMyCurrPlayer(), targetTile );
+            myBoard.movePlayerToNearest( turn.getMyCurrPlayer(), targetTile );
             payHelper( payers, payees, amount );
         } catch (TileNotFoundException e) {
             e.popUp();
@@ -101,8 +90,6 @@ public class ActionCardController{
                 payer.payFullAmountTo( payee, amount );
             }
         }
-        fundsView.update( board.getMyPlayerList() );
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
     }
-
-
 }
