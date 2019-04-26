@@ -265,6 +265,7 @@ public class GameController {
                     }
                 }
             }
+
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         } catch (MortgagePropertyException m) {
             m.popUp();
@@ -362,6 +363,7 @@ public class GameController {
                 }
             }
         }
+
         ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
         Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
         handle.invoke(actionCardController, card.getParameters());

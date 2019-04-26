@@ -35,7 +35,7 @@ public class CustomController {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
-        myRulesView = new RulesView(this);
+        //myRulesView = new RulesView(this);
         myNode = myRulesView.getNode();
         myData = new XMLData(myRulesView.createCustomXML().getNodeName());
     }
@@ -81,13 +81,28 @@ public class CustomController {
         return playerList;
     }
 
-    private ImageView makeIcon(String iconPath) {
-        Image image = new Image(iconPath + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
 
-        return imageView;
-    }
+//    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
+//        List<AbstractPlayer> playerList = new ArrayList<>();
+//
+//        for (TextField pName : playerToIcon.keySet()) {
+//            String name = pName.getText();
+//            if (!name.equals(""))
+//                playerList.add(new HumanPlayer(
+//                        name,
+//                        makeIcon((String) playerToIcon.get(pName).getValue()),
+//                        1500.00));
+//        }
+//        return playerList;
+//    }
+//
+//    private ImageView makeIcon(String iconPath) {
+//        Image image = new Image(iconPath + ".png");
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitHeight(25);
+//        imageView.setFitWidth(25);
+//
+//        return imageView;
+//    }
 
 }

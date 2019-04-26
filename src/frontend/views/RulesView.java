@@ -1,7 +1,7 @@
 package frontend.views;
 
 import controller.CustomController;
-import frontend.screens.RulesScreen;
+//import frontend.screens.RulesScreen;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -42,7 +42,7 @@ public class RulesView {
      */
     private Button submitFormButton;
     private GridPane myPane;
-    private RulesScreen myScreen;
+    //private RulesScreen myScreen;
     private CustomController myController;
     private ArrayList<TextField> integerFields = new ArrayList<>(  );
     private ArrayList<TextField> doubleFields = new ArrayList<>();
@@ -58,10 +58,10 @@ public class RulesView {
 
 
 
-    public RulesView(RulesScreen screen){
-        initialize();
-        myScreen = screen;
-    }
+//    public RulesView(RulesScreen screen){
+//        initialize();
+//        myScreen = screen;
+//    }
 
     public RulesView(CustomController myController){
         initialize();
