@@ -7,6 +7,8 @@ import configuration.XMLData;
 import controller.Turn;
 import frontend.views.board.AbstractBoardView;
 
+import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
@@ -79,9 +81,11 @@ abstract public class AbstractGameView {
         for (String option : options) {
             buttonOptions.add(new ButtonType(option));
         }
+
         alert.getButtonTypes().setAll(buttonOptions);
         Optional<ButtonType> result = alert.showAndWait();
-        return result.get().getText();
+
+        return result.orElse(null).getText();
     }
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);

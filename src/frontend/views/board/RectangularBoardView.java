@@ -151,8 +151,6 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     private void movePieceDemo(IconView icon) {
-        System.out.println("number of players: " + myPlayerIconMap.keySet().size());
-        System.out.println("number of paths: " + myPlayerIconMap.values().size());
         if(myNumMoves>0) {
             if (iconToIndexMap.get(icon) >= myTiles.size()) {
                 iconToIndexMap.put(icon, 0);

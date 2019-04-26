@@ -161,6 +161,7 @@ public class GameController {
                     handle = this.getClass().getMethod("handle" + str);
                     handle.invoke(this);
                 } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
                     myGameView.displayActionInfo("There is no such method");
                 } catch (IllegalAccessException e) {
                     myGameView.displayActionInfo("Illegal access exception");
@@ -271,6 +272,7 @@ public class GameController {
             Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
             handle.invoke(tileActionController);
         } catch (NoSuchMethodException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("There is no such method");
         } catch (SecurityException e) {
             myGameView.displayActionInfo("Security exception");
