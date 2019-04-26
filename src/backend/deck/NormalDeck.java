@@ -41,5 +41,4 @@ public class NormalDeck implements DeckInterface {
             myDeck.add( card );
         }
     }
-
 }
