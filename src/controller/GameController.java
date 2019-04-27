@@ -148,7 +148,7 @@ public class GameController {
     public void handleTileLanding(Tile tile) {
         try {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
-            if (!(actions.size() == 0)) {
+            if (actions.size() != 0) {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView);
                 Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
@@ -171,7 +171,7 @@ public class GameController {
     private void handlePassedTiles(Tile passedTile) {
         try {
             List<String> actions = passedTile.applyPassedAction(myTurn.getMyCurrPlayer());
-            if (!(actions.size() == 0)) {
+            if (actions.size() != 0) {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 PassedTileActionController passedTileActionController = new PassedTileActionController( myBoard, myTurn, myGameView);
                 Method handle = passedTileActionController.getClass().getMethod("handle" + desiredAction);
