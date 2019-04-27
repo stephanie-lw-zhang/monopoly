@@ -178,4 +178,9 @@ public class SplitScreenGameView extends AbstractGameView {
     @Override
     public void updateLogDisplay(String s) { myOptionsView.updateLogDisplay(s); }
 
+    @Override
+    public int getCheatMoves() {
+        return myOptionsView.getCheatMoves();
+    }
+
 }

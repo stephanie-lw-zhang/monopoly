@@ -52,7 +52,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private AbstractBoard myBoard;
     private PlayerFundsView myPlayerFundsView;
     private PlayerCardsView myPlayerCardsView;
-
+    private TextField myCheatMovesField;
 
     /**
      * VBoxOptionsView main constructor
@@ -65,6 +65,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myControls = new HashMap<>();
         myData = data;
         myBoard = board;
+        myCheatMovesField = (TextField) makeMoveCheatKey();
         makeNonActionViews();
         makeAssetViews();
     }
@@ -98,15 +99,12 @@ public class BPaneOptionsView extends AbstractOptionsView {
         for(String action:actionMap.keySet()){
             makeButton(action,actionMap.get(action),playerOptionsModal);
         }
-        playerOptionsModal.getChildren().add(makeMoveCheatKey());
+        playerOptionsModal.getChildren().add(myCheatMovesField);
         myOptionsViewNode.setCenter(playerOptionsModal);
     }
 
     private Node makeRollDisplay() {
         myDiceView = new DiceView(2,6);
-//                myGame.getBoard().getNumDie(),
-//                myGame.getMyDice().getNumStates());
-
         return myDiceView;
     }
 
@@ -121,8 +119,11 @@ public class BPaneOptionsView extends AbstractOptionsView {
                     movesField.setText(newStr.replaceAll("[^\\d]", ""));
             }
         });
-//        getMoveCheatNumMoves(movesField);
         return movesField;
+    }
+
+    public int getCheatMoves() {
+        return Integer.parseInt(myCheatMovesField.getText());
     }
 
     private void makeButton(String action, EventHandler<ActionEvent> handler, VBox box) {

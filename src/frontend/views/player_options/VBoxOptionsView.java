@@ -117,4 +117,10 @@ public class VBoxOptionsView extends AbstractOptionsView {
 
     }
 
+    @Override
+    public void updateLogDisplay(String s) {}
+
+    @Override
+    public int getCheatMoves() { return 0; }
+
 }
