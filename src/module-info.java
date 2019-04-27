@@ -8,6 +8,7 @@ module monopoly {
 
     requires org.junit.jupiter.api;
     requires org.testfx;
+    requires org.testfx.junit5;
 
     exports engine;
 }
