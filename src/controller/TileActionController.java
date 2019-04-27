@@ -98,9 +98,9 @@ public class TileActionController {
 
     }
 
-    private void payOrForfeit(double tax) {
+    private void payOrForfeit(double debt) {
         myGameView.disableButton( "End Turn" );
-        while(myTurn.getMyCurrPlayer().getMoney() < tax) {
+        while(myTurn.getMyCurrPlayer().getMoney() < debt) {
             List<String> options = new ArrayList<>();
             if (myTurn.getMyCurrPlayer().getProperties().size() != 0) {
                 options.add( "Sell To Player" );
@@ -108,7 +108,7 @@ public class TileActionController {
                 options.add( "Mortgage" );
             }
             options.add( "Forfeit" );
-            String desiredAction = myGameView.displayOptionsPopup( options, "Pay Tax", "Paying Tax (" + tax + ")", "You must tax or forfeit. Here are your options." );
+            String desiredAction = myGameView.displayOptionsPopup( options, "Pay", "Pay " + debt + " monopoly dollars", "You must pay or forfeit. Here are your options." );
             if (desiredAction.equals( "Forfeit" )) {
                 gameController.handleForfeit();
                 break;
@@ -128,7 +128,7 @@ public class TileActionController {
                 } catch (InvocationTargetException e1) {
                     myGameView.displayActionInfo( "Invocation Target Exception" );
                 }
-                if (myTurn.getMyCurrPlayer().getMoney() >= tax) {
+                if (myTurn.getMyCurrPlayer().getMoney() >= debt) {
                     handlePayTaxFixed();
                     break;
                 }
