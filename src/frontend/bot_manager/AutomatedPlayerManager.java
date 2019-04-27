@@ -6,10 +6,7 @@ import frontend.views.player_options.BPaneOptionsView;
 import controller.TileActionController;
 import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Control;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
@@ -20,6 +17,7 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import java.util.Map;
+import java.util.Set;
 
 public class AutomatedPlayerManager extends ApplicationTest {
     private  Button ROLL_BUTTON;
@@ -68,6 +66,13 @@ public class AutomatedPlayerManager extends ApplicationTest {
         myBot = player;
         System.setProperty("testfx.robot", "glass");
         Button okButton = lookup("OK").queryButton();
+//        Set nodes = lookup("OK").queryAll();
+//        for (Object node : nodes ) {
+//            if (node instanceof ButtonType){
+//                ButtonType button = ((ButtonType) node);
+//                clickOn(button);
+//            }
+//        }
         clickOn(okButton);
         botRoll();
         WaitForAsyncUtils.waitForFxEvents();
