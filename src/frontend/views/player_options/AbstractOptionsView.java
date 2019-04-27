@@ -53,4 +53,6 @@ abstract public class AbstractOptionsView {
     abstract public void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
 
     abstract public void updateLogDisplay(String s);
+
+    abstract public int getCheatMoves();
 }

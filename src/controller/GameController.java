@@ -62,7 +62,7 @@ public class GameController {
         handlerMap.put("Unmortgage", event->this.handleUnmortgage() );
         handlerMap.put("Trade",event->this.handleTrade());
         handlerMap.put("Forfeit",event->this.handleForfeit());
-//        handlerMap.put("Move Cheat", event->this.handleMoveCheat);
+        handlerMap.put("Move Cheat", event->this.handleMoveCheat());
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
     }
@@ -120,7 +120,7 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < 41; i++) {
+            for (int i = 0; i < numMoves; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
                    handlePassedTiles(passedTile);
@@ -192,15 +192,12 @@ public class GameController {
         return desiredAction;
     }
 
-//    public void handleMoveCheat() {
-//        int numMoves = Integer.parseInt(movesField.getText());
-////        myGameView.move(myTurn.getMyCurrPlayer().getMyIcon(), numMoves);
-//        try {
-//            myBoard.movePlayer(myTurn.getMyCurrPlayer(), numMoves);
-//        } catch (MultiplePathException e) {
-//            e.popUp();
-//        }
-//    }
+    public void handleMoveCheat() {
+        int moves = myGameView.getCheatMoves();
+        myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), moves);
+        handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+    }
 
     public void handleUpgradeProperty() {
         try {
