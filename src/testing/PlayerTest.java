@@ -1,5 +1,5 @@
 
-package backend.assetholder;
+package testing;
 
 class PlayerTest {
 /**
