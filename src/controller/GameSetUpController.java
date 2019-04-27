@@ -17,6 +17,8 @@ import frontend.screens.AbstractScreen;
 import frontend.views.FormView;
 
 import frontend.views.board.SquareBoardView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -142,5 +144,12 @@ public class GameSetUpController {
 
     public void backToParent() {
         myScreen.backToParent();
+    }
+
+    public void handleSave() {
+    }
+
+    public void handleLoad(){
+
     }
 }
