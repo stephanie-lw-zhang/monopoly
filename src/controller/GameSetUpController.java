@@ -13,15 +13,21 @@ import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
+import engine.MonopolyDriver;
 import frontend.screens.AbstractScreen;
 import frontend.views.FormView;
 
+import frontend.views.GameConfigView;
 import frontend.views.board.SquareBoardView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +54,19 @@ public class GameSetUpController {
     private double screenWidth,screenHeight;
     private XMLData myData;
     private AbstractBoard myBoard;
+    private BorderPane myLayoutPane;
+    private GameConfigView myGameConfigView;
 
     public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
+        myLayoutPane = new BorderPane();
         myFormView = new FormView(this);
-        myNode = myFormView.getNode();
+        myLayoutPane.setCenter(myFormView.getNode());
+        myGameConfigView = new GameConfigView(this);
+        myLayoutPane.setTop(myGameConfigView.getNode());
+        myNode = myLayoutPane;
         try {
             myData = new XMLData(CONFIG_FILE);
         } catch (Exception e) {
@@ -69,7 +81,7 @@ public class GameSetUpController {
                 screenWidth,screenHeight,
                 this, myBoard, myData
         );
-        myNode = myGameController.getGameNode();
+        myLayoutPane.setCenter(myGameController.getGameNode());
     }
 
     public Node getNode() {
@@ -142,5 +154,19 @@ public class GameSetUpController {
 
     public void backToParent() {
         myScreen.backToParent();
+    }
+
+    public void handleSave() {
+        myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
+    }
+
+    public void handleLoad(){
+        myGameConfigView.generateLoadDialog();
+    }
+
+    public void handleNewGame() {
+        Stage stage = new Stage();
+        MonopolyDriver newDriver = new MonopolyDriver();
+        newDriver.start(stage);
     }
 }

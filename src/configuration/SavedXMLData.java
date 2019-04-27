@@ -82,9 +82,9 @@ public class SavedXMLData {
         return node.getNodeValue();
     }
 
-    public static void main(String[] args){
-        XMLData data = new XMLData("OriginalMonopoly.xml");
-        SavedXMLData dat = new SavedXMLData("saved_xml.xml", data);
-    }
+//    public static void main(String[] args){
+//        XMLData data = new XMLData("OriginalMonopoly.xml");
+//        SavedXMLData dat = new SavedXMLData("saved_xml.xml", data);
+//    }
 
 }
