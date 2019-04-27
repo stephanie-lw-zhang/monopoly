@@ -172,7 +172,6 @@ public class GameController {
                          myGameView.disableButton( "End Turn" );
                          myGameView.enableButton("Roll");
                      }
-                     //TODO: add log?
                 } else {
                     tileActionController.handleGoToJail();
                     myGameView.enableButton("End Turn");
@@ -280,6 +279,7 @@ public class GameController {
         myTurn.setNumMoves( moves );
         this.handleMove( moves );
         myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );
+        myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " moved " + moves + " spaces.");
     }
 
     public void handleUpgradeProperty() {
@@ -292,6 +292,7 @@ public class GameController {
             tile.upgrade(owner, myBoard.getSameSetProperties(tile));
             myGameView.displayActionInfo( "You successfully upgraded to " + makeReadable(tile.getCurrentInUpgradeOrder()) );
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.updateLogDisplay(owner.getMyPlayerName() + " upgraded " + tile.getTitleDeed() + " to " + makeReadable(tile.getCurrentInUpgradeOrder()) + "." );
         } catch (IllegalInputTypeException e) {
             e.popUp();
         } catch (OutOfBuildingStructureException e) {
@@ -333,15 +334,26 @@ public class GameController {
             AbstractPropertyTile tile = getSelectedPropertyTile("Sell Property", "Choose which property to sell ", tiles);
 
             double amount = 0;
-            boolean sellAmountDetermined = false;
-            while (!sellAmountDetermined) {
-                String value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
-                        "Enter your proposed amount:",
-                        "Amount:");
-                try {
-                    amount = Double.parseDouble(value);
-                } catch (NumberFormatException n) {
-                    new IllegalInputTypeException("Input must be a number!").popUp();
+            String value = "";
+            boolean sellAmountDetermined = false, properformat = false;
+            while (!sellAmountDetermined && !properformat) {
+                while (!properformat) {
+                    value = myGameView.showInputTextDialog("Amount to sell to player " + buyer.getMyPlayerName(),
+                            "Enter your proposed amount:",
+                            "Amount:");
+                    try {
+                        amount = Double.parseDouble(value);
+                        if (Double.parseDouble((value)) > owner.getMoney()){
+                            new NotEnoughMoneyException("You don't have enough money! Please enter again.").popUp();
+                        } else if (Double.parseDouble((value)) < 0.0){
+                            new IllegalInputTypeException( "Input must be a positive number!" ).popUp();
+                        }
+                        else {
+                            properformat = true;
+                        }
+                    } catch (NumberFormatException n) {
+                        new IllegalInputTypeException("Input must be a number!").popUp();
+                    }
                 }
                 List<String> options = createListOf2OptionsAsStrings("Yes", "No");
                 String result = myGameView.displayOptionsPopup(options, "Proposed Amount", "Do you accept the proposed amount below?", value + " Monopoly dollars");
@@ -357,8 +369,12 @@ public class GameController {
                         }
                     }
                 }
+                else {
+                    properformat = false;
+                }
             }
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.updateLogDisplay(owner.getMyPlayerName() + " sold " + tile.getTitleDeed() + " to " + buyer.getMyPlayerName() + " for " + amount + ".");
         } catch (CancelledActionException e) {
             e.doNothing();
         } catch (PropertyNotFoundException e) {
@@ -396,8 +412,8 @@ public class GameController {
         BuildingTile tile = null;
         try {
             tile = (BuildingTile) getSelectedPropertyTile("Sell Buildings", "Choose which property to sell buildings from ", tiles);
-            List<String> options = createListOf2OptionsAsStrings("SELL ALL BUILDINGS ON ALL PROPERTIES OF SAME GROUP",
-                    "SELL ONE BUILDING ON SELECTED PROPERTY");
+            List<String> options = createListOf2OptionsAsStrings("Sell all buildings on all properties of the same group",
+                    "Sell one building on selected property");
             String str = myGameView.displayOptionsPopup(options, "Sell Buildings", "Sell buildings options ", "Choose one ");
             if (str.equalsIgnoreCase(options.get(0))) {
                 try {
@@ -415,6 +431,7 @@ public class GameController {
                 //TODO: add front-end implementation
             }
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.updateLogDisplay(owner.getMyPlayerName() + " chose to " + str + " (" + tile.getTitleDeed() +").");
         }
         catch (CancelledActionException e) {
             e.doNothing();
@@ -442,6 +459,7 @@ public class GameController {
         myBoard.getMyPlayerList().remove(forfeiter);
         myBoard.getPlayerTileMap().remove(forfeiter);
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
+        myGameView.updateLogDisplay(forfeiter.getMyPlayerName() + " has forfeited.");
         if(myBoard.getMyPlayerList().size() == 1){
             handleEndGame();
         }
@@ -461,7 +479,6 @@ public class GameController {
     }
 
     public void handleMortgageFor(AbstractPlayer mortgager) {
-
         ObservableList<String> possibleProperties = FXCollections.observableArrayList();
         for (AbstractPropertyTile p : mortgager.getProperties()) {
             possibleProperties.add( p.getTitleDeed() );
@@ -479,6 +496,9 @@ public class GameController {
                     }
                 }
                 property.mortgageProperty();
+                myGameView.displayActionInfo( "You've successfully mortgaged " + property.getTitleDeed() );
+                myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );
+                myGameView.updateLogDisplay(mortgager.getMyPlayerName() + " has mortgaged " + property.getTitleDeed() + ".");
             } catch (MortgagePropertyException e) {
                 e.popUp();
             } catch (IllegalActionOnImprovedPropertyException e) {
@@ -488,8 +508,6 @@ public class GameController {
             } catch (PropertyNotFoundException e) {
                 e.printStackTrace();
             }
-            myGameView.displayActionInfo( "You've successfully mortgaged " + property.getTitleDeed() );
-            myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );
         }
     }
 
@@ -520,6 +538,7 @@ public class GameController {
             property.unmortgageProperty();
             myGameView.displayActionInfo( "You've successfully unmortgaged " + property.getTitleDeed());
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has unmortgaged " + property.getTitleDeed() + ".");
         } catch (MortgagePropertyException e) {
             e.popUp();
         } catch (PropertyNotFoundException e) {
@@ -593,27 +612,3 @@ public class GameController {
 
     public AutomatedPlayerManager getMyAutoManager() { return autoManager; }
 }
-
-
-
-//    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
-//        return new StandardBoard(
-//                makePlayerList(playerToIcon), myData.getAdjacencyList(),
-//                myData.getPropertyCategoryMap(), myData.getFirstTile(),
-//                myData.getBank()
-//        );
-//    }
-
-//    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
-//        List<AbstractPlayer> playerList = new ArrayList<>();
-//
-//        for (TextField pName : playerToIcon.keySet()) {
-//            String name = pName.getText();
-//            if (!name.equals(""))
-//                playerList.add(new HumanPlayer(
-//                        name,
-//                        makeIcon((String) playerToIcon.get(pName).getValue()),
-//                        1g00.00));
-//        }
-//        return playerList;
-//    }

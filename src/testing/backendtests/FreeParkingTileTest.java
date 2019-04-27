@@ -1,12 +1,12 @@
-package testing;
+package testing.backendtests;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
+import backend.tile.FreeParkingTile;
 import backend.tile.GoTile;
-import backend.tile.GoToJailTile;
 import configuration.XMLData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GoTileTest {
-
+class FreeParkingTileTest {
     private Bank bank;
-    private GoTile goTile;
+    private FreeParkingTile freeParkingTile;
     private List<AbstractPlayer> playerList;
     private AbstractBoard board;
 
@@ -30,42 +29,13 @@ class GoTileTest {
         playerList = new ArrayList<>();
         playerList.add(new HumanPlayer("TestPlayer", "Icon1", 1000.0));
         board = new StandardBoard(playerList, data);
-        goTile = (GoTile) data.getTiles().get(0);
-    }
-
-    @Test
-    void getLandedOnMoney() {
-        double expected = 200;
-        double actual = goTile.getLandedOnMoney();
-        assertEquals( expected, actual );
-    }
-
-    @Test
-    void getPassedMoney() {
-        double expected = 200;
-        double actual = goTile.getPassedMoney();
-        assertEquals( expected, actual );
+        freeParkingTile = (FreeParkingTile) data.getTiles().get(10);
     }
 
     @Test
     void applyLandedOnAction() {
-        List<String> expected = new ArrayList<>( );
-        expected.add("CollectMoneyLanded");
-        List<String> actual = goTile.applyLandedOnAction( playerList.get( 0 ) );
-        assertEquals( expected, actual );
-
-    }
-
-    @Test
-    void applyPassedAction() {
         List<String> expected = new ArrayList<>();
-        expected.add("CollectMoneyPassed");
-        List<String> actual = goTile.applyPassedAction( playerList.get( 0 ) );
+        List<String> actual = freeParkingTile.applyLandedOnAction( playerList.get( 0 ) );
         assertEquals( expected, actual );
-    }
-
-    @Test
-    void isGoTile() {
-        assertTrue(goTile.isGoTile());
     }
 }
