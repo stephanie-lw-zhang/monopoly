@@ -8,14 +8,15 @@ import java.util.List;
 
 public class GetOutOfJailCard extends HoldableCard {
 
-    public GetOutOfJailCard(String type, String text, Element n) {
+    public GetOutOfJailCard(String type, String text) {
         super( type, text );
 
     }
 
     public GetOutOfJailCard(Element n){
         super("", "");
-        this.setType(getTagValue("Type", n));
+        setType(getTagValue("Type", n));
+        setText(getTagValue("Message", n));
     }
 
     @Override
