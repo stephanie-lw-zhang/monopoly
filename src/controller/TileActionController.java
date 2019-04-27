@@ -57,9 +57,11 @@ public class TileActionController {
     public void handlePayBail(){
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
+            myTurn.getMyCurrPlayer().getOutOfJail();
             myGameView.displayActionInfo("You've successfully paid the fine. You're free now!");
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
             myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
+            gameController.handleMove(myTurn.getNumMoves());
         } catch(TileNotFoundException e) {
             e.popUp();
         } catch (NotEnoughMoneyException e) {

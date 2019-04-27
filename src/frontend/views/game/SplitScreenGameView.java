@@ -184,4 +184,9 @@ public class SplitScreenGameView extends AbstractGameView {
     public int getCheatMoves() {
         return myOptionsView.getCheatMoves();
     }
+
+//    @Override
+//    public void requestFocus(String str) {
+//        myOptionsView.requestFocus(str);
+//    }
 }

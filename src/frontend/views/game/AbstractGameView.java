@@ -71,9 +71,8 @@ abstract public class AbstractGameView {
             ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
             choices.setHeaderText( title );
             choices.setContentText(prompt);
-            //"Select the player who wants to mortgage a property: "
+
             Optional<String> result = choices.showAndWait();
-//        choices.showAndWait();
             if (result.isEmpty()) {
                 throw new CancelledActionException("Action has been cancelled");
             }
@@ -109,6 +108,7 @@ abstract public class AbstractGameView {
     public abstract void disableButton(String str);
 
     public abstract void enableButton(String str);
+//    public abstract void requestFocus(String str);
 
     public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
     public abstract void updateIconDisplay(AbstractPlayer currPlayer, Tile tile);

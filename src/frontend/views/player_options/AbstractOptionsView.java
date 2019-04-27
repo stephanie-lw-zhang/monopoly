@@ -55,4 +55,6 @@ abstract public class AbstractOptionsView {
     abstract public void updateLogDisplay(String s);
 
     abstract public int getCheatMoves();
+//
+//    abstract public void requestFocus(String control);
 }
