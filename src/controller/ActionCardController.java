@@ -36,6 +36,7 @@ public class ActionCardController{
 
     public void handleMove(List<Object> parameters){
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
+
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
     }
 

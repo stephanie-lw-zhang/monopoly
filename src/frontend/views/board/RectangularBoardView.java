@@ -162,8 +162,22 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     public void move(AbstractPlayer currPlayer, Tile tile){
-        AbstractTileView target = tileToTileView.get( tile );
-        myPlayerIconMap.get(currPlayer).setOn(target);
+//        AbstractTileView target = tileToTileView.get( tile );
+//        myPlayerIconMap.get(currPlayer).setOn(target);
+        Thread updateThread = new Thread(() -> {
+            while(iconToIndexMap.get(myPlayerIconMap.get(currPlayer)) != tile.getTileIndex()) {
+                try {
+                    Thread.sleep(300);
+                    Platform.runLater(() -> this.movePieceDemo(
+                            myPlayerIconMap.get(currPlayer)
+                    ));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        updateThread.setDaemon(true);
+        updateThread.start();
     }
 
     /**
