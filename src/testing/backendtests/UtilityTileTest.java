@@ -40,9 +40,7 @@ class UtilityTileTest {
         try {
             utility.mortgageProperty();
         } catch (MortgagePropertyException e) {
-            e.printStackTrace();
         } catch (IllegalActionOnImprovedPropertyException e) {
-            e.printStackTrace();
         }
         double expected = 0;
         double actual = utility.calculateRentPrice(5);

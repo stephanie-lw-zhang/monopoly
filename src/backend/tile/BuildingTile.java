@@ -65,7 +65,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
      * or they may be sold one house at a time (one hotel equals five houses),
      * evenly, in reverse of the manner in which they were erected.
      */
-    public void sellOneBuilding(List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException {
+    public void sellOneBuilding(List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, UpgradeMinimumException {
         if(checkIfImprovedProperty() && checkIfUpdatingEvenly(sameSetProperties,false)) {
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this, false);
             getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );

@@ -61,27 +61,18 @@ class BuildingTileTest {
         try {
             buildingTile.sellTo( playerList.get( 0 ), 0, sameSet);
         } catch (IllegalActionOnImprovedPropertyException e) {
-            e.printStackTrace();
         } catch (IllegalInputTypeException e) {
-            e.printStackTrace();
         } catch (OutOfBuildingStructureException e) {
-            e.printStackTrace();
         } catch (NotEnoughMoneyException e) {
-            e.printStackTrace();
         } catch (UpgradeMaxedOutException e) {
-            e.printStackTrace();
         }
 
         try {
             buildingTile.upgrade( playerList.get( 0 ), sameSet );
         } catch (IllegalInputTypeException e) {
-            e.printStackTrace();
         } catch (OutOfBuildingStructureException e) {
-            e.printStackTrace();
         } catch (NotEnoughMoneyException e) {
-            e.printStackTrace();
         } catch (UpgradeMaxedOutException e) {
-            e.printStackTrace();
         }
         String expected = "1House";
         String actual = buildingTile.getCurrentInUpgradeOrder();
@@ -99,9 +90,7 @@ class BuildingTileTest {
         try {
             buildingTile.mortgageProperty();
         } catch (MortgagePropertyException e) {
-            e.printStackTrace();
         } catch (IllegalActionOnImprovedPropertyException e) {
-            e.printStackTrace();
         }
         assertTrue( buildingTile.isMortgaged() );
     }

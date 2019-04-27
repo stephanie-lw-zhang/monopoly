@@ -40,9 +40,7 @@ class RailroadTileTest {
         try {
             railroadTile.mortgageProperty();
         } catch (MortgagePropertyException e) {
-            e.printStackTrace();
         } catch (IllegalActionOnImprovedPropertyException e) {
-            e.printStackTrace();
         }
         double expected = 0.0;
         double actual = railroadTile.calculateRentPrice( 5 );
