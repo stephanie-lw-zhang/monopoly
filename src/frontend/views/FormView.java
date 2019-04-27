@@ -4,7 +4,6 @@ import exceptions.DuplicatePlayerException;
 import exceptions.FormInputException;
 import exceptions.InsufficientPlayersException;
 import exceptions.*;
-import frontend.screens.TestingScreen;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.control.TextField;
@@ -39,9 +38,10 @@ import java.util.List;
 public class FormView {
 
     private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
-    private TestingScreen            myScreen;
+    // private TestingScreen            myScreen;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
+    private Map<TextField, ComboBox> playerToType;
     private GameSetUpController myController;
     private GridPane myPane;
 
@@ -51,7 +51,6 @@ public class FormView {
      * TODO: REFACTOR OUT
      * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
      * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
-     * @param screen
      */
     private void initialize(){
         myPane = new GridPane();
@@ -83,13 +82,17 @@ public class FormView {
         options.addAll("icon1", "icon2", "icon3", "icon4",
                 "icon5", "icon6", "icon7", "icon8"
         );
-
+        ObservableList<String> playerChoices = FXCollections.observableArrayList();
+        playerChoices.addAll("human", "bot"
+        );
         playerToIcon = new HashMap<>();
 
         for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
+
+            ComboBox<String> playerBox = createPlayerDropDown(playerChoices, i);
             ComboBox<String> comboBox = createIconDropDown( options, i );
             TextField pField = createPlayerTextField( i );
-            myPane.getChildren().addAll( comboBox, pField );
+            myPane.getChildren().addAll( comboBox,playerBox,pField );
             playerToIcon.put( pField, comboBox );
         }
 
@@ -111,10 +114,6 @@ public class FormView {
 
     public FormView(){
         initialize();
-    }
-    public FormView(TestingScreen screen){
-        this();
-        myScreen = screen;
     }
 
     public FormView(GameSetUpController controller){
@@ -147,9 +146,22 @@ public class FormView {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().addAll( options );
         myPane.setConstraints( comboBox, 1, row );
+        comboBox.setMinWidth(75);
+        comboBox.setPromptText("Icon");
         comboBox.setCellFactory( param -> new CellFactory() );
         comboBox.setButtonCell( new CellFactory() );
         return comboBox;
+    }
+
+    private ComboBox<String> createPlayerDropDown (ObservableList<String> playeroptions, int row){
+        ComboBox<String> playerBox = new ComboBox<>();
+        playerBox.getItems().addAll(playeroptions);
+        myPane.setConstraints( playerBox, 2, row );
+        playerBox.setMinWidth(130);
+        playerBox.setPromptText("Player Type");
+        playerBox.setCellFactory( param -> new CellFactory() );
+        playerBox.setButtonCell( new CellFactory() );
+        return playerBox;
     }
 
     /**
@@ -171,12 +183,7 @@ public class FormView {
             throw new DuplicatePlayerException();
         }
 
-        // TODO: delete myScreen to gamesetupcontorl
-        if(myController==null) {
-            myScreen.handleStartGameButton(playerToIcon);
-        } else{
-            myController.startGame(playerToIcon);
-        }
+        myController.startGame(playerToIcon);
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {
@@ -195,6 +202,10 @@ public class FormView {
         }
         return false;
     }
+
+//    private boolean hasUnassignedType(){
+//
+//    }
 
     /**
      * Checks for duplicate icons

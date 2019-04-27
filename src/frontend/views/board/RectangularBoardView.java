@@ -15,6 +15,8 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -40,10 +42,10 @@ public class RectangularBoardView extends AbstractBoardView {
     private double                 myScreenWidth, myScreenHeight;
     private int                    myHorizontals, myVerticals;
 
+    private Map<AbstractPlayer, IconView> myPlayerIconMap;
     private Map<IconView, Integer> iconToIndexMap;
     private List<AbstractPlayer>   myPlayerList;
     private List<AbstractTileView> myTiles;
-    private List<IconView>         myIconList;
     private AbstractBoard          myBoard;
     private int                    myNumMoves;
     private Map<Tile, AbstractTileView> tileToTileView = new HashMap<>(  );
@@ -68,30 +70,33 @@ public class RectangularBoardView extends AbstractBoardView {
         makeBoard();
         makeBackground();
         myPlayerList = myBoard.getMyPlayerList();
-        setIconList();
-        setIconToIndexMap();
-        // initializePlayerIcons();
+        myPlayerIconMap = makePlayerIconMap();
+        iconToIndexMap = setIconToIndexMap();
     }
 
-    private void setIconToIndexMap() {
-        iconToIndexMap = new HashMap<>();
-        for (IconView i : myIconList)
-            iconToIndexMap.put(i, 0);
-    }
-
-    private void setIconList() {
-        myIconList = new ArrayList<>();
+    private Map<AbstractPlayer, IconView> makePlayerIconMap() {
+        Map<AbstractPlayer, IconView> map = new HashMap<>();
         for (AbstractPlayer p : myPlayerList) {
-            p.getMyIcon().setHeight(myTileHeight / 2);
-            p.getMyIcon().setWidth( myTileHeight / 2);
-
-            myIconList.add(p.getMyIcon());
+            map.put(p, makeIcon(p.getMyIconPath()));
         }
+        return map;
     }
 
-    private void initializePlayerIcons() {
-         for (IconView icon : myIconList)
-            myTiles.get(0).moveTo(icon.getMyNode());
+    private IconView makeIcon(String iconPath) {
+        Image image = new Image(iconPath + ".png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(myTileHeight / 2);
+        imageView.setFitWidth (myTileHeight / 2);
+
+        return new IconView(imageView);
+    }
+
+    private Map<IconView, Integer> setIconToIndexMap() {
+        Map<IconView, Integer> map = new HashMap<>();
+        for (IconView i : myPlayerIconMap.values())
+            map.put(i, 0);
+
+        return map;
     }
 
     private void makeBackground() {
@@ -124,16 +129,18 @@ public class RectangularBoardView extends AbstractBoardView {
     /**
      * This method dictates the movement of a particular
      * player icon on the board for the given number of moves
-     * @param icon      the IconView of the player to move
-     * @param nMoves    the number of moves the icon moves
+     * @param currPlayer        the AbstractPlayer to move
+     * @param nMoves            the number of moves the icon moves
      */
-    public void move(IconView icon, int nMoves) {
+    public void move(AbstractPlayer currPlayer, int nMoves) {
         myNumMoves = nMoves; // update invariant myNumMoves
         Thread updateThread = new Thread(() -> {
             while(myNumMoves>0) {
                 try {
                     Thread.sleep(300);
-                    Platform.runLater(() -> this.movePieceDemo(icon));
+                    Platform.runLater(() -> this.movePieceDemo(
+                            myPlayerIconMap.get(currPlayer)
+                    ));
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -154,9 +161,9 @@ public class RectangularBoardView extends AbstractBoardView {
         }
     }
 
-    public void move(IconView icon, Tile tile){
+    public void move(AbstractPlayer currPlayer, Tile tile){
         AbstractTileView target = tileToTileView.get( tile );
-        icon.setOn(target);
+        myPlayerIconMap.get(currPlayer).setOn(target);
     }
 
     /**

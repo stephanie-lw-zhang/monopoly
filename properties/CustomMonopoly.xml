@@ -14,25 +14,13 @@
         <NumDecks>2</NumDecks>
     </Decks>
 
-    <InitialFunds>
-        <Player>1500</Player>
-    </InitialFunds>
-
     <Deck>
-        <Name>Community Chest</Name>
+        <Name>Community Chest Deck</Name>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>0</TileIndex>
             <Message>Advance to Go (Collect $200)</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>PayCard</CardType>
-            <Type>Pay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Bank</Payee>
-            <Amount>150</Amount>
-            <Message>Pay School Tax of $150</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -53,9 +41,9 @@
         <ActionCard>
             <CardType>PayCard</CardType>
             <Type>Pay</Type>
-            <Payer>Bank</Payer>
+            <Payer>Everyone</Payer>
             <Payee>CurrentPlayer</Payee>
-            <Amount>25</Amount>
+            <Amount>50</Amount>
             <Message>Receive For Services $25</Message>
         </ActionCard>
         <ActionCard>
@@ -134,24 +122,23 @@
             <Message>Life Insurance Matures Collect $100</Message>
         </ActionCard>
         <ActionCard>
-            <CardType>PayBuildingsCard</CardType>
-            <Type>PayBuilding</Type>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
-            <Message>For each House pay 40, For each Hotel pay 115</Message>
-            <Multiplier>
-                <Property>House</Property>
-                <Amount>40</Amount>
-            </Multiplier>
-            <Multiplier>
-                <Property>Hotel</Property>
-                <Amount>115</Amount>
-            </Multiplier>
+            <Amount>150</Amount>
+            <Message>Pay School Tax of $150</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayBuildingsCard</CardType>
+            <Type>PayBuilding</Type>
+
+            <Amount>0</Amount>
         </ActionCard>
     </Deck>
 
     <Deck>
-        <Name>Chance</Name>
+        <Name>Chance Deck</Name>
         <ActionCard>
             <CardType>PayCard</CardType>
             <Type>Pay</Type>
@@ -188,17 +175,13 @@
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
             <Type>MoveAndPay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Owner</Payee>
-            <Multiplier>2</Multiplier>
+
             <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
             <Type>MoveAndPay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Owner</Payee>
-            <Multiplier>2</Multiplier>
+
             <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
@@ -244,9 +227,7 @@
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
             <Type>MoveAndPay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Owner</Payee>
-            <Multiplier>2</Multiplier>
+
             <Message>Advance to Nearest Utility and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
@@ -258,17 +239,7 @@
         <ActionCard>
             <CardType>PayBuildingsCard</CardType>
             <Type>PayBuilding</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Bank</Payee>
-            <Message>For each House pay 25, for each Hotel pay 100</Message>
-            <Multiplier>
-                <Property>House</Property>
-                <Amount>25</Amount>
-            </Multiplier>
-            <Multiplier>
-                <Property>Hotel</Property>
-                <Amount>100</Amount>
-            </Multiplier>
+            <Amount>0</Amount>
         </ActionCard>
     </Deck>
 
@@ -529,6 +500,7 @@
         <NextTiles>11</NextTiles>
     </Tile>
 
+
     <Tile>
         <TileNumber>11</TileNumber>
         <TileType>BuildingTile</TileType>
@@ -582,6 +554,7 @@
             <NextTiles>13</NextTiles>
         </Card>
     </Tile>
+
 
 
     <Tile>
@@ -844,7 +817,6 @@
     <Tile>
         <TileNumber>22</TileNumber>
         <TileType>ChanceTile</TileType>
-        <TileName>Chance</TileName>
         <NextTiles>23</NextTiles>
     </Tile>
 

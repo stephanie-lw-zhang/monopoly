@@ -16,16 +16,15 @@ import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Control;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +52,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private AbstractBoard myBoard;
     private PlayerFundsView myPlayerFundsView;
     private PlayerCardsView myPlayerCardsView;
+    private TextField myCheatMovesField;
 
     /**
      * VBoxOptionsView main constructor
@@ -65,6 +65,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myControls = new HashMap<>();
         myData = data;
         myBoard = board;
+        myCheatMovesField = (TextField) makeMoveCheatKey();
         makeNonActionViews();
         makeAssetViews();
     }
@@ -98,16 +99,12 @@ public class BPaneOptionsView extends AbstractOptionsView {
         for(String action:actionMap.keySet()){
             makeButton(action,actionMap.get(action),playerOptionsModal);
         }
-        playerOptionsModal.getChildren().add(makeMoveCheatKey());
+        playerOptionsModal.getChildren().add(myCheatMovesField);
         myOptionsViewNode.setCenter(playerOptionsModal);
-
     }
 
     private Node makeRollDisplay() {
         myDiceView = new DiceView(2,6);
-//                myGame.getBoard().getNumDie(),
-//                myGame.getMyDice().getNumStates());
-
         return myDiceView;
     }
 
@@ -125,6 +122,10 @@ public class BPaneOptionsView extends AbstractOptionsView {
         return movesField;
     }
 
+    public int getCheatMoves() {
+        return Integer.parseInt(myCheatMovesField.getText());
+    }
+
     private void makeButton(String action, EventHandler<ActionEvent> handler, VBox box) {
         var buttonView = new Button();
         buttonView.setText(action);
@@ -140,7 +141,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void disableControl(String control) {
         Control selected = myControls.get(control);
-        selected.setDisable(false);
+        selected.setDisable(true);
     }
 
     /**
@@ -150,7 +151,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void enableControl(String control) {
         Control selected = myControls.get(control);
-        selected.setDisable(true);
+        selected.setDisable(false);
     }
 
     /**
@@ -165,7 +166,18 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void updateDice(Turn turn) {
         myDiceView.onUpdate(turn);
-        myLogView.gameLog.setText(myDiceView.getMyPopupText());
+        myLogView.updateLogDisplay(myDiceView.getMyPopupText());
+    }
+
+    public void updateLogDisplay(String s) {
+        myLogView.updateLogDisplay(s);
+    }
+
+    @Override
+    public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("NEED TO CHANGE BPaneOptionsView.updateCurrPlayerDisplay()\n\n Current Player is: " + currPlayer.getMyPlayerName());
+        alert.showAndWait();
     }
 
     @Override
@@ -174,5 +186,6 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerFundsView.update(myPlayerList);
         myPlayerCardsView.update(myPlayerList);
     }
+
 
 }

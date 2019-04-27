@@ -5,10 +5,7 @@ import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.card.property_cards.PropertyCard;
 
-import exceptions.IllegalActionOnImprovedPropertyException;
-import exceptions.MortgagePropertyException;
-import exceptions.IllegalInputTypeException;
-import exceptions.OutOfBuildingStructureException;
+import exceptions.*;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -83,7 +80,7 @@ public abstract class AbstractPropertyTile extends Tile {
      * --> then need to check if (want to lift mortgage immediately), then call unmortgageProperty()
      * --> else, call soldMortgagedPropertyLaterUnmortgages()
      */
-    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
         assetHolder.addProperty(this);
         assetHolder.payFullAmountTo( owner, price );
         owner.getProperties().remove(this);
@@ -109,7 +106,11 @@ public abstract class AbstractPropertyTile extends Tile {
     public void unmortgageProperty() throws MortgagePropertyException {
         if (isMortgaged()) {
             //TODO: NEED CONFIG
-            owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
+            try {
+                owner.payFullAmountTo(bank, card.getMortgageValue() * 1.1);
+            } catch (NotEnoughMoneyException e) {
+                e.popUp();
+            }
             this.mortgaged = false;
         }
         else {
@@ -123,7 +124,11 @@ public abstract class AbstractPropertyTile extends Tile {
     public void soldMortgagedPropertyLaterUnmortgages() throws MortgagePropertyException {
         if (isMortgaged()) {
             //TODO: NEED CONFIG
-            owner.payFullAmountTo(bank, getCard().getMortgageValue() * 0.1);
+            try {
+                owner.payFullAmountTo(bank, getCard().getMortgageValue() * 0.1);
+            } catch (NotEnoughMoneyException e) {
+                e.popUp();
+            }
         }
         else {
             throw new MortgagePropertyException("Property is not mortgaged!");

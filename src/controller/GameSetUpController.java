@@ -1,9 +1,15 @@
 package controller;
 
+import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
+import backend.card.AbstractCard;
+import backend.card.action_cards.ActionCard;
+import backend.card.action_cards.PayCard;
+import backend.deck.DeckInterface;
+import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
@@ -23,7 +29,7 @@ import java.util.Map;
 
 /**
  * This class is a controller that manages all "set-up" before
- * the game starts (i.e. creation of board, etc.)
+ * the game starts (i.e. creation of myBoard, etc.)
  *
  * @author Edward
  * @author Sam
@@ -31,6 +37,7 @@ import java.util.Map;
 public class GameSetUpController {
 
     private static final String CONFIG_FILE = "OriginalMonopoly.xml";
+
 
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private Node myNode;
@@ -41,7 +48,6 @@ public class GameSetUpController {
     private double screenWidth,screenHeight;
     private XMLData myData;
     private AbstractBoard myBoard;
-
 
     public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
         screenWidth = sWidth;
@@ -59,9 +65,9 @@ public class GameSetUpController {
 
     private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon) {
         myBoard = makeBoard(playerToIcon);
-        myGameController = new GameController(screenWidth,screenHeight,
-                this,
-                myBoard,myData
+        myGameController = new GameController(
+                screenWidth,screenHeight,
+                this, myBoard, myData
         );
         myNode = myGameController.getGameNode();
     }
@@ -76,11 +82,13 @@ public class GameSetUpController {
     }
 
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
-        return new StandardBoard(
+        AbstractBoard board = new StandardBoard(
                 makePlayerList(playerToIcon), myData.getAdjacencyList(),
                 myData.getPropertyCategoryMap(), myData.getFirstTile(),
                 myData.getBank()
         );
+        //reinitializeDecks(myData.getDecks(), );
+        return board;
     }
 
     private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
@@ -89,13 +97,39 @@ public class GameSetUpController {
         for (TextField pName : playerToIcon.keySet()) {
             String name = pName.getText();
             if (!name.equals(""))
+
+                //use reflection to get class name and create a type of player dependent on user choice of playertype
+                
                 playerList.add(new HumanPlayer(
                         name,
-                        makeIcon((String) playerToIcon.get(pName).getValue()),
+                        (String) playerToIcon.get(pName).getValue(),
                         1500.00));
         }
         return playerList;
     }
+
+//    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
+//        for(NormalDeck deck: decks){
+//            for(ActionCard card: deck.getCards()){
+//                //this is very hardcoded at the moment
+//                if(card.getActionType().equalsIgnoreCase("Pay")){
+//                    if(((PayCard) card).getPayeeString().equalsIgnoreCase("Everyone")){
+//                        ((PayCard) card).setPayees(playerList);
+//                    }
+//                    //else if()
+//                }
+//                else if(card.getActionType().equalsIgnoreCase("PayBuildings")){
+//                    if(((PayCard) card).getPayeeString().equalsIgnoreCase("Everyone")){
+//                        //((PayCard) card).setPayers();
+//                        ((PayCard) card).setPayees(playerList);
+//                    }
+//                }
+//                else if(card.getActionType().equalsIgnoreCase("MoveAndPay")){
+//
+//                }
+//            }
+//        }
+//    }
 
     private ImageView makeIcon(String iconPath) {
         Image image = new Image(iconPath + ".png");

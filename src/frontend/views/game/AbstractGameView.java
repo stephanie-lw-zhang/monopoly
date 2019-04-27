@@ -2,10 +2,14 @@ package frontend.views.game;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.tile.Tile;
 import configuration.XMLData;
 import controller.Turn;
+import exceptions.CancelledActionException;
+import exceptions.PropertyNotFoundException;
 import frontend.views.board.AbstractBoardView;
 
+import frontend.views.player_options.AbstractOptionsView;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
@@ -31,6 +35,7 @@ abstract public class AbstractGameView {
     private Scene             myScene;
     private AbstractBoardView myBoardView;
     private BorderPane        myPane;
+    private AbstractOptionsView myOptions;
 
     /**
      * AbstractGameView main constructor
@@ -47,7 +52,6 @@ abstract public class AbstractGameView {
     abstract public void divideScreen();
     abstract public void addBoardView();
     abstract public void addPlayerOptionsView();
-    abstract public void setTurnActions(List<String> turnActions);
     abstract public String showInputTextDialog(String title, String header, String content);
 
     /**
@@ -60,13 +64,21 @@ abstract public class AbstractGameView {
         formAlert.showAndWait();
     }
 
-    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options){
-        ChoiceDialog players = new ChoiceDialog( options.get( 0 ), options );
-        players.setHeaderText( title );
-        players.setContentText(prompt);
-        //"Select the player who wants to mortgage a property: "
-        players.showAndWait();
-        return (String) players.getSelectedItem();
+    public String displayDropDownAndReturnResult(String title, String prompt, ObservableList<String> options) throws CancelledActionException, PropertyNotFoundException {
+        try {
+            ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
+            choices.setHeaderText( title );
+            choices.setContentText(prompt);
+            //"Select the player who wants to mortgage a property: "
+            Optional<String> result = choices.showAndWait();
+//        choices.showAndWait();
+            if (result.isEmpty()) {
+                throw new CancelledActionException("Action has been cancelled");
+            }
+            return (String) choices.getSelectedItem();
+        } catch(IndexOutOfBoundsException n) {
+            throw new PropertyNotFoundException("You do not own any properties");
+        }
     }
 
     public String displayOptionsPopup(List<String> options, String title, String header, String content) {
@@ -78,13 +90,24 @@ abstract public class AbstractGameView {
         for (String option : options) {
             buttonOptions.add(new ButtonType(option));
         }
+
         alert.getButtonTypes().setAll(buttonOptions);
         Optional<ButtonType> result = alert.showAndWait();
-        return result.get().getText();
+
+        return result.orElse(null).getText();
     }
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
     abstract public void updateDice(Turn turn);
-
     public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+
+    public abstract void disableButton(String str);
+
+    public abstract void enableButton(String str);
+
+    public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
+    public abstract void updateIconDisplay(AbstractPlayer currPlayer, int nMoves);
+    public abstract void updateIconDisplay(AbstractPlayer currPlayer, Tile tile);
+    public abstract void updateLogDisplay(String s);
+    public abstract int getCheatMoves();
 }
