@@ -170,18 +170,18 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     public void move(AbstractPlayer currPlayer, Tile tile){
-//        Thread updateThread = new Thread(() -> {
-//            try {
-//                Thread.sleep(1000);
-//                Platform.runLater(() -> this.moveHelper(
-//                       currPlayer,tile));
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//            }
-//        });
-//        updateThread.setDaemon(true);
-//        updateThread.start();
-        this.moveHelper(currPlayer,tile);
+        Thread updateThread = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                Platform.runLater(() -> this.moveHelper(
+                       currPlayer,tile));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+            }
+        });
+        updateThread.setDaemon(true);
+        updateThread.start();
+        //this.moveHelper(currPlayer,tile);
     }
 
     private void moveHelper(AbstractPlayer currPlayer, Tile tile){
