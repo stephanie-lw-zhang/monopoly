@@ -130,13 +130,15 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < numMoves; i++) {
+            for (int i = 0; i < numMoves-1; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
-                if (passedTile != null && i != myTurn.getNumMoves()-1) {
+                if (passedTile != null) {
                     handlePassedTiles(passedTile);
                 }
                 myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),passedTile);
             }
+            Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
+            myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),passedTile);
         } catch (MultiplePathException e) {
             e.popUp();
         }
