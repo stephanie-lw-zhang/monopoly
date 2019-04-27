@@ -63,6 +63,7 @@ public class GameController {
         handlerMap.put("Mortgage", event->this.handleMortgage());
         handlerMap.put("Unmortgage", event->this.handleUnmortgage() );
         handlerMap.put("Trade",event->this.handleTrade());
+        handlerMap.put("Use Card",event->this.handleUseCardButton());
         handlerMap.put("Forfeit",event->this.handleForfeit());
         handlerMap.put("Move Cheat", event->this.handleMoveCheat());
         myGameView.createOptions(handlerMap);
@@ -82,6 +83,60 @@ public class GameController {
 //        }
     }
 
+    private void handleUseCardButton() {
+        HoldableCard card = null;
+        ObservableList<String> players = getAllPlayerNames();
+        String cardUserName = null;
+        try {
+            cardUserName = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the player who wants to use a card: ", players );
+        } catch (CancelledActionException e) {
+            e.doNothing();
+        } catch (PropertyNotFoundException e) {
+            e.popUp();
+        }
+        AbstractPlayer cardUser = myBoard.getPlayerFromName( cardUserName );
+
+        ObservableList<String> possibleCards = FXCollections.observableArrayList();
+        for(HoldableCard c: cardUser.getCards()){
+            possibleCards.add( c.getName() );
+        }
+        if (possibleCards.size()==0){
+            myGameView.displayActionInfo( "You have no cards to use at this time." );
+        } else {
+            String cardToUse = null;
+            try {
+                cardToUse = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card to be used", possibleCards );
+            } catch (CancelledActionException e) {
+                e.doNothing();
+            } catch (PropertyNotFoundException e) {
+                e.popUp();
+            }
+            for (HoldableCard c : cardUser.getCards()) {
+                if (c.getName().equalsIgnoreCase( cardToUse )) {
+                    card = c;
+                }
+            }
+
+            ActionCardController actionCardController = new ActionCardController( myBoard, myTurn, myGameView );
+            Method handle = null;
+            try {
+                handle = actionCardController.getClass().getMethod( "handle" + card.getActionType(), List.class );
+            } catch (NoSuchMethodException e) {
+                myGameView.displayActionInfo( "No such method exception" );
+            }
+            try {
+                handle.invoke( actionCardController, cardUser );
+            } catch (IllegalAccessException e) {
+                myGameView.displayActionInfo( "Illegal access exception" );
+            } catch (InvocationTargetException e) {
+                myGameView.displayActionInfo( "Invocation Target Exception" );
+            }
+        }
+
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+    }
+
+
     private void handleEndGame() {
         myGameView.displayActionInfo("Player " + myBoard.getMyPlayerList().get(0).getMyPlayerName() + " won the game! Return to main menu.");
         mySetUpController.backToParent();
@@ -93,10 +148,9 @@ public class GameController {
             new IllegalMoveException("You cannot move because you are in jail. Roll a doubles to get out of jail for free!").popUp();
         }
         myTurn.start();
+        myTurn.setNumMoves();
         myGameView.updateDice(myTurn);
-
         if (myTurn.isDoubleRoll(myTurn.getRolls())) {
-            myTurn.setNumMoves();
             if(myTurn.getMyCurrPlayer().isInJail()) {
                 myTurn.getMyCurrPlayer().getOutOfJail();
                 myGameView.displayActionInfo("You are released from jail because you rolled doubles. You're free now!");
@@ -160,7 +214,6 @@ public class GameController {
     public void handleTileLanding(Tile tile) {
         try {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
-            System.out.println("got here");
             if (!(actions.size() == 0)) {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView, this);

@@ -31,6 +31,7 @@ public class Turn {
         myBoard = board;
         myDice = dice;
         myCurrentTileActions = new ArrayList<>();
+        numMoves = 0;
     }
 
     public void start() {
@@ -66,7 +67,9 @@ public class Turn {
 
     public void setNumMoves(){
         numMoves = 0;
-        for (int roll : myRolls) numMoves += roll;
+        for (int roll : myRolls) {
+            numMoves += roll;
+        }
     }
 
     public int getNumMoves() {
