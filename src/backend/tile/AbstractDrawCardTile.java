@@ -13,6 +13,7 @@ public abstract class AbstractDrawCardTile extends Tile {
 
     private DeckInterface myDeck;
     private String tileType;
+    private String deckName;
     private int index;
 
     public AbstractDrawCardTile(DeckInterface deck, String tileType, int index) {
@@ -22,6 +23,8 @@ public abstract class AbstractDrawCardTile extends Tile {
     }
 
     public AbstractDrawCardTile(Element n) {
+        //myDeck = deck;
+        deckName = getTagValue("TileName", n);
         setTileType(getTagValue("TileType", n));
         setTileIndex(Integer.parseInt(getTagValue("TileNumber", n)));
         //TODO: Finish this implementation
@@ -36,5 +39,13 @@ public abstract class AbstractDrawCardTile extends Tile {
 
     public ActionCard drawCard(){
         return myDeck.drawCard();
+    }
+
+    public void setDeck(DeckInterface deck){
+        myDeck = deck;
+    }
+
+    public String getName(){
+        return deckName;
     }
 }
