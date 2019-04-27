@@ -189,6 +189,5 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerFundsView.update(myPlayerList, forfeiter);
         myPlayerPropertiesView.update(myPlayerList, forfeiter);
         myPlayerRosterView.update(myPlayerList, forfeiter);
-
     }
 }
