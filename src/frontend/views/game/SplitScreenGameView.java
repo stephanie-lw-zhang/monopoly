@@ -168,11 +168,6 @@ public class SplitScreenGameView extends AbstractGameView {
     }
 
     @Override
-    public void updateIconDisplay(AbstractPlayer currPlayer, int nMoves) {
-        myBoardView.move(currPlayer, nMoves);
-    }
-
-    @Override
     public void updateIconDisplay(AbstractPlayer currPlayer, Tile tile) {
         myBoardView.move(currPlayer, tile);
     }
