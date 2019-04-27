@@ -2,6 +2,7 @@ package controller;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
+import backend.assetholder.AutomatedPlayer;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
@@ -29,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,13 +53,13 @@ public class GameSetUpController {
     private GameController myGameController;
     private FormView myFormView;
     private AbstractScreen myScreen;
-    private double screenWidth,screenHeight;
+    private double screenWidth, screenHeight;
     private XMLData myData;
     private AbstractBoard myBoard;
     private BorderPane myLayoutPane;
     private GameConfigView myGameConfigView;
 
-    public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
+    public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen) {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
@@ -75,10 +77,10 @@ public class GameSetUpController {
         //makeSetUpScreen();
     }
 
-    private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon) {
-        myBoard = makeBoard(playerToIcon);
+    private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
+        myBoard = makeBoard(playerToIcon, playerToType);
         myGameController = new GameController(
-                screenWidth,screenHeight,
+                screenWidth, screenHeight,
                 this, myBoard, myData
         );
         myLayoutPane.setCenter(myGameController.getGameNode());
@@ -88,14 +90,14 @@ public class GameSetUpController {
         return myNode;
     }
 
-    public void startGame(Map<TextField, ComboBox> playerToIcon) {
-        makeSetUpScreen(playerToIcon);
+    public void startGame(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
+        makeSetUpScreen(playerToIcon, playerToType);
         myScreen.changeDisplayNode(myNode);
     }
 
-    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
+    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
         AbstractBoard board = new StandardBoard(
-                makePlayerList(playerToIcon), myData.getAdjacencyList(),
+                makePlayerList(playerToIcon, playerToType), myData.getAdjacencyList(),
                 myData.getPropertyCategoryMap(), myData.getFirstTile(),
                 myData.getBank()
         );
@@ -103,22 +105,47 @@ public class GameSetUpController {
         return board;
     }
 
-    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
+    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
         List<AbstractPlayer> playerList = new ArrayList<>();
 
         for (TextField pName : playerToIcon.keySet()) {
             String name = pName.getText();
-            if (!name.equals(""))
 
-                //use reflection to get class name and create a type of player dependent on user choice of playertype
-                
-                playerList.add(new HumanPlayer(
-                        name,
-                        (String) playerToIcon.get(pName).getValue(),
-                        1500.00));
+            if (!name.equals("")) {
+                String playerType = playerToType.get(pName).getValue().toString();
+                if (playerType.equals("human")) {
+                    playerList.add(new HumanPlayer(
+                            name,
+                            (String) playerToIcon.get(pName).getValue(),
+                            1500.00));
+                }
+                if (playerType.equals("bot")) {
+                    playerList.add(new AutomatedPlayer(
+                            name,
+                            (String) playerToIcon.get(pName).getValue(),
+                            1500.00));
+                    System.out.print("bot!");
+                }
+            }
         }
+
         return playerList;
+
     }
+
+    private ImageView makeIcon(String iconPath) {
+        Image image = new Image(iconPath + ".png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+
+        return imageView;
+    }
+
+    public void backToParent() {
+        myScreen.backToParent();
+    }
+
 
 //    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
 //        for(NormalDeck deck: decks){
@@ -142,19 +169,6 @@ public class GameSetUpController {
 //            }
 //        }
 //    }
-
-    private ImageView makeIcon(String iconPath) {
-        Image image = new Image(iconPath + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-
-        return imageView;
-    }
-
-    public void backToParent() {
-        myScreen.backToParent();
-    }
 
     public void handleSave() {
         myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
