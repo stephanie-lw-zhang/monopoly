@@ -96,6 +96,7 @@ public class GameController {
         myGameView.updateDice(myTurn);
 
         if (myTurn.isDoubleRoll(myTurn.getRolls())) {
+            myTurn.setNumMoves();
             if(myTurn.getMyCurrPlayer().isInJail()) {
                 myTurn.getMyCurrPlayer().getOutOfJail();
                 myGameView.displayActionInfo("You are released from jail because you rolled doubles. You're free now!");
@@ -137,13 +138,15 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < numMoves; i++) {
+            for (int i = 0; i < numMoves-1; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
-                if (passedTile != null && i != myTurn.getNumMoves()-1) {
+                if (passedTile != null) {
                     handlePassedTiles(passedTile);
                 }
                 myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),passedTile);
             }
+            Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
+            myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),passedTile);
         } catch (MultiplePathException e) {
             e.popUp();
         }
@@ -157,6 +160,7 @@ public class GameController {
     public void handleTileLanding(Tile tile) {
         try {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
+            System.out.println("got here");
             if (!(actions.size() == 0)) {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView, this);
@@ -215,16 +219,9 @@ public class GameController {
 
     public void handleMoveCheat() {
         int moves = myGameView.getCheatMoves();
-        for (int i = 0; i < moves; i++) {
-            try {
-                myBoard.movePlayerByOne( myTurn.getMyCurrPlayer() );
-            } catch (MultiplePathException e) {
-                e.popUp();
-            }
-        }
-        myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), moves);
-        handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
-        myGameView.enableButton( "End Turn" );
+        myTurn.setNumMoves( moves );
+        this.handleMove( moves );
+        myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );
     }
 
     public void handleUpgradeProperty() {
@@ -357,9 +354,7 @@ public class GameController {
 //        myGameView.enableButton( "End Turn" );
         myBoard.getMyPlayerList().remove(forfeiter);
         myBoard.getPlayerTileMap().remove(forfeiter);
-        System.out.println("PLAYER LIST CONTROLLER: " + myBoard.getMyPlayerList().size());
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
-        System.out.println("HI");
         if(myBoard.getMyPlayerList().size() == 1){
             handleEndGame();
         }
