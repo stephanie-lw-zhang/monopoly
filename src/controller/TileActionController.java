@@ -2,8 +2,6 @@ package controller;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
-import backend.assetholder.Bank;
-import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.MoveAndPayCard;
@@ -16,7 +14,6 @@ import frontend.views.game.AbstractGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -26,7 +23,6 @@ public class TileActionController {
     private Turn myTurn;
     private AbstractBoardView boardView;
     private AbstractGameView myGameView;
-    private Bank myBank;
 
     public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView) {
        this.myBoard = board;
@@ -39,7 +35,7 @@ public class TileActionController {
     }
 
     public void handleCollectMoneyLanded() {
-        myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
+        myBoard.getBank().payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
         myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() + " for landing on go." );
     }
 
@@ -49,7 +45,7 @@ public class TileActionController {
             myBoard.getPlayerTileMap().put( myTurn.getMyCurrPlayer(), jail);
             myTurn.getMyCurrPlayer().addTurnInJail();
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
-//            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
+            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
         } catch (TileNotFoundException e){
             e.printStackTrace();
         }
@@ -60,7 +56,7 @@ public class TileActionController {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
             myGameView.displayActionInfo("You've successfully paid the fine. You're free now!");
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
-//            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
+            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
         } catch(TileNotFoundException e) {
             e.popUp();
         } catch (NotEnoughMoneyException e) {
@@ -76,8 +72,8 @@ public class TileActionController {
                 e.popUp();
             }
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
-        myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
-//        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+            myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
 
     }
 
@@ -90,7 +86,7 @@ public class TileActionController {
         }
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
-//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
+        myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
 
@@ -242,7 +238,7 @@ public class TileActionController {
         Map.Entry<AbstractPlayer, Double> winner = property.determineAuctionResults(auctionAmount);
         String info = winner.getKey().getMyPlayerName() + " wins " + myTurn.getTileNameforPlayer(myTurn.getMyCurrPlayer()) + " for " + winner.getValue() + " Monopoly Dollars!";
         myGameView.displayActionInfo(info);
-//        myLogView.gameLog.setText(info);
+        myGameView.updateLogDisplay(info);
         Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
         try {
             buyHelper(playerValue);
@@ -264,7 +260,7 @@ public class TileActionController {
         } catch (NotEnoughMoneyException e) {
             e.popUp();
         }
-//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
+        myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
     public void handleBuy(){

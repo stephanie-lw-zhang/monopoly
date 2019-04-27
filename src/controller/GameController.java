@@ -171,6 +171,7 @@ public class GameController {
         } catch (IllegalAccessException e) {
             myGameView.displayActionInfo("Illegal access exception");
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");
@@ -361,7 +362,6 @@ public class GameController {
                 }
             }
         }
-
         ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
         Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
         handle.invoke(actionCardController, card.getParameters());
