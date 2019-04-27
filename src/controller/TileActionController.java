@@ -95,7 +95,6 @@ public class TileActionController {
             e.popUp();
             payOrForfeit( tax );
         }
-
     }
 
     private void payOrForfeit(double debt) {
@@ -110,22 +109,22 @@ public class TileActionController {
             options.add( "Forfeit" );
             String desiredAction = myGameView.displayOptionsPopup( options, "Pay", "Pay " + debt + " monopoly dollars", "You must pay or forfeit. Here are your options." );
             if (desiredAction.equals( "Forfeit" )) {
-                gameController.handleForfeit();
+                gameController.handleForfeitFor(myTurn.getMyCurrPlayer());
                 break;
             } else {
                 gameController.translateReadable( desiredAction );
                 desiredAction = desiredAction.replaceAll( "\\s+", "" );
+                System.out.println("method name: " + desiredAction);
                 Method handle = null;
                 try {
-                    handle = gameController.getClass().getMethod( "handle" + desiredAction );
-                } catch (NoSuchMethodException e1) {
-                    myGameView.displayActionInfo( "No Such Method Exception" );
-                }
-                try {
-                    handle.invoke( gameController );
+                    handle = gameController.getClass().getMethod( "handle" + desiredAction + "For", AbstractPlayer.class);
+                    handle.invoke( gameController , myTurn.getMyCurrPlayer());
                 } catch (IllegalAccessException e1) {
                     myGameView.displayActionInfo( "Illegal Access Exception" );
-                } catch (InvocationTargetException e1) {
+                } catch (NoSuchMethodException e){
+                    myGameView.displayActionInfo( "There is no such method" );
+                }
+                catch (InvocationTargetException e1) {
                     myGameView.displayActionInfo( "Invocation Target Exception" );
                 }
                 if (myTurn.getMyCurrPlayer().getMoney() >= debt) {

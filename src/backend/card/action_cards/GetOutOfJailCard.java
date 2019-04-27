@@ -16,7 +16,7 @@ public class GetOutOfJailCard extends HoldableCard {
     public GetOutOfJailCard(Element n){
         super("", "");
         setType(getTagValue("Type", n));
-        setText( getTagValue( "message",n ) );
+        setText( getTagValue( "Message",n ) );
     }
 
     @Override
