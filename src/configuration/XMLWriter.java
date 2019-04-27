@@ -29,12 +29,25 @@ public class XMLWriter {
             for(int i = 0; i<board.getMyPlayerList().size(); i++){
                 Element player = document.createElement("Player");
                 root.appendChild(player);
-                // firstname element
+
+                Element name = document.createElement("Name");
+                name.appendChild(document.createTextNode(board.getMyPlayerList().get(i).getMyPlayerName()));
+                player.appendChild(name);
+
+                Element playerIcon = document.createElement("Icon");
+                playerIcon.appendChild(document.createTextNode(board.getMyPlayerList().get(i).getMyIconPath()));
+                player.appendChild(playerIcon);
+
+//                Element bankruptcy = document.createElement("Bankruptcy");
+//                bankruptcy.appendChild(document.createTextNode(board.getMyPlayerList().get(i).isBankrupt()));
+//                player.appendChild(bankruptcy);
+
+
                 Element tileIndex = document.createElement("TileIndex");
                 tileIndex.appendChild(document.createTextNode("" + board.getPlayerTile(board.getMyPlayerList().get(i)).getTileIndex()));
                 player.appendChild(tileIndex);
 
-                // lastname element
+
                 Element funds = document.createElement("Money");
                 funds.appendChild(document.createTextNode("" + board.getMyPlayerList().get(i).getMoney()));
                 player.appendChild(funds);
