@@ -121,6 +121,11 @@ public class SplitScreenGameView extends AbstractGameView {
 //        }
     }
 
+    @Override
+    public BPaneOptionsView getMyOptionsView() {
+        return (BPaneOptionsView) myOptionsView;
+    }
+
     /**
      * Gets the internal node of the SplitScreenGameView
      * @return Node         a GridPane
@@ -179,5 +184,7 @@ public class SplitScreenGameView extends AbstractGameView {
     public int getCheatMoves() {
         return myOptionsView.getCheatMoves();
     }
+
+
 
 }

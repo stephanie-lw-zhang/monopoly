@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BankTest {
 
@@ -27,45 +28,21 @@ class BankTest {
         XMLData data = new XMLData("TestMonopoly.xml");
         bank = data.getBank();
         playerList = new ArrayList<>();
-        playerList.add(new HumanPlayer("TestPlayer", "Icon1", 1000.0));
+        playerList.add(new HumanPlayer("TestPlayer", "Icon1", 0.0));
         board = new StandardBoard(playerList, data);
-        building = (BuildingTile) data.getTiles().get(0);
+        building = (BuildingTile) data.getTiles().get(1);
     }
-/**
+
     @Test
     void addProperty() {
         bank.addProperty(building);
-        assertEquals(32, bank.buildingsRemain("House"));
-    }
-
-    @Test
-    void subtractOneHouse() {
-        bank.subtractOneHouse();
-        assertEquals(31, bank.getNumHousesLeft());
-    }
-
-    @Test
-    void subtractOneHotel() {
-        bank.subtractOneHotel();
-        assertEquals(11, bank.getNumHotelsLeft());
-    }
-
-    @Test
-    void addHouses() {
-        bank.addHouses(3);
-        assertEquals(35, bank.getNumHousesLeft());
-    }
-
-    @Test
-    void addHotels() {
-        bank.addHotels(3);
-        assertEquals(15, bank.getNumHotelsLeft());
+        assertTrue(bank.getProperties().contains(building));
     }
 
     @Test
     void payFullAmountTo() {
-        bank.payFullAmountTo(player, 300.0);
-        assertEquals(300.0, player.getMoney());
+        bank.payFullAmountTo(playerList.get(0), 300.0);
+        assertEquals(300.0, playerList.get(0).getMoney());
     }
-    */
+
 }
