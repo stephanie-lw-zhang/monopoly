@@ -44,7 +44,7 @@ public class StandardBoard extends AbstractBoard {
             throw new MultiplePathException( "There are multiple paths, please choose one" );
         }
         getPlayerTileMap().put(p, tile);
-        return passedTile;
+        return next;
     }
 
     @Override
