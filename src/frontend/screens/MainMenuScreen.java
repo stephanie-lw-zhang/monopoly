@@ -61,7 +61,7 @@ public class MainMenuScreen extends AbstractScreen {
         Button instructButton = new Button("INSTRUCTIONS");
         instructButton.setOnAction(i -> handleInstructButton(getMyStage()));
 
-        Button boardButton = new Button("board");
+        Button boardButton = new Button("PLAY: NORMAL MODE");
         boardButton.setOnAction(i -> handleBoardButton(getMyStage()));
 
 //        Button rulesButton = new Button("rules");
@@ -71,10 +71,11 @@ public class MainMenuScreen extends AbstractScreen {
         gridPane.setHgap(20);
         gridPane.setVgap(15);
 
-        gridPane.add(playButton, 1, 0);
-        gridPane.add(randomModeButton, 2, 0);
-        gridPane.add(instructButton, 3, 0);
-        gridPane.add(boardButton,4,0);
+//        gridPane.add(playButton, 1, 0);
+//        gridPane.add(randomModeButton, 2, 0);
+//        gridPane.add(instructButton, 3, 0);
+        gridPane.add(boardButton,1,0);
+        gridPane.add(instructButton, 2, 0);
 
 
         myPane = setBorderPane(
