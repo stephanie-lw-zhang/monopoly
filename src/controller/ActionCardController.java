@@ -1,5 +1,6 @@
 package controller;
 
+import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import backend.card.action_cards.HoldableCard;
@@ -28,13 +29,14 @@ public class ActionCardController{
     }
 
     public void handlePay(List<Object> parameters){
-        List<AbstractPlayer> payers = (List<AbstractPlayer>) parameters.get( 0 );
-        List<AbstractPlayer> payees = (List<AbstractPlayer>) parameters.get( 1 );
+        List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 0 );
+        List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 1 );
         double amount = (Double) parameters.get( 2 );
         payHelper( payers, payees, amount );
     }
 
     public void handleMove(List<Object> parameters){
+        //System.out.println("BANG!!!");
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
 
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
@@ -54,8 +56,8 @@ public class ActionCardController{
 
     public void handleMoveAndPay(List<Object> parameters){
         Tile targetTile = (Tile) parameters.get( 0 );
-        List<AbstractPlayer> payers = (List<AbstractPlayer>) parameters.get( 1 );
-        List<AbstractPlayer> payees = (List<AbstractPlayer>) parameters.get( 2 );
+        List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 1 );
+        List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 2 );
         double amount = (Double) parameters.get( 3 );
         try {
             myBoard.movePlayerToNearest( turn.getMyCurrPlayer(), targetTile );
@@ -66,8 +68,8 @@ public class ActionCardController{
     }
 
     public void handlePayBuildings(List<Object> parameters) throws BuildingDoesNotExistException {
-        List<AbstractPlayer> payers = (List<AbstractPlayer>) parameters.get( 0 );
-        List<AbstractPlayer> payees = (List<AbstractPlayer>) parameters.get( 1 );
+        List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 0 );
+        List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 1 );
         Map<String, Double> baseToMultiplier = (Map<String, Double>) parameters.get( 2 );
         double total = 0;
         Map<String, Integer> totalBuildings = new HashMap<>();
@@ -86,9 +88,11 @@ public class ActionCardController{
         payHelper( payers, payees, total );
     }
 
-    private void payHelper(List<AbstractPlayer> payers, List<AbstractPlayer> payees, Double amount) {
-        for (AbstractPlayer payer : payers) {
-            for (AbstractPlayer payee : payees) {
+
+    private void payHelper(List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, Double amount) {
+        //System.out.println("test");
+        for (AbstractAssetHolder payer : payers) {
+            for (AbstractAssetHolder payee : payees) {
                 try {
                     payer.payFullAmountTo( payee, amount );
                 } catch (NotEnoughMoneyException e) {

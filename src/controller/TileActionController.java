@@ -98,13 +98,15 @@ public class TileActionController {
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
             if(actionCard.getActionType().contains("Pay")){
-                this.getClass().getMethod("reinitialize"+ actionCard.getActionType(), ActionCard.class).invoke(this, actionCard);
+                //System.out.println(actionCard.getActionType());
+                getClass().getMethod("reinitialize"+ actionCard.getActionType(), ActionCard.class).invoke(this, actionCard);
             }
             myGameView.displayActionInfo( actionCard.getText() );
             ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo( "There is no such method" );
         } catch (SecurityException e) {
             myGameView.displayActionInfo( "Security exception" );
@@ -146,7 +148,7 @@ public class TileActionController {
 //        }
 //    }
 
-    private void reinitializePay(ActionCard actionCard){
+    public void reinitializePay(ActionCard actionCard){
         List<AbstractAssetHolder> players = new ArrayList<>();
         for(AbstractPlayer p: myBoard.getMyPlayerList()) players.add(p);
         List<AbstractAssetHolder> bank = new ArrayList<>();
@@ -173,7 +175,7 @@ public class TileActionController {
         }
     }
 
-    private void reinitializeMoveAndPay(ActionCard actionCard){
+    public void reinitializeMoveAndPay(ActionCard actionCard){
         List<AbstractAssetHolder> players = new ArrayList<>();
         for(AbstractPlayer p: myBoard.getMyPlayerList()) players.add(p);
         List<AbstractAssetHolder> bank = new ArrayList<>();
@@ -200,7 +202,7 @@ public class TileActionController {
         }
     }
 
-    private void reinitializePayBuildings(ActionCard actionCard) {
+    public void reinitializePayBuildings(ActionCard actionCard) {
         List<AbstractAssetHolder> players = new ArrayList<>();
         for (AbstractPlayer p : myBoard.getMyPlayerList()) players.add(p);
         List<AbstractAssetHolder> bank = new ArrayList<>();
