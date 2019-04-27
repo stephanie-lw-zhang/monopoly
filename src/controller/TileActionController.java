@@ -72,11 +72,13 @@ public class TileActionController {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
             try {
                 myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
+                myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+                myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
             } catch (NotEnoughMoneyException e) {
                 e.popUp();
+                myGameView.disableButton( "End Turn" );
             }
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
-        myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+
 //        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
 
     }
@@ -89,6 +91,7 @@ public class TileActionController {
             myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
+            myGameView.disableButton( "End Turn" );
         }
 
 //        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
@@ -234,11 +237,14 @@ public class TileActionController {
                 if (Double.parseDouble((value)) > key.getMoney()){
                     new NotEnoughMoneyException("You don't have enough money! Please enter again.").popUp();
                     i--;
-                } else {
+                } else if (Double.parseDouble((value)) < 0.0){
+                    new IllegalInputTypeException( "Input must be a positive number!" ).popUp();
+                    i--;
+                }else {
                     auctionAmount.put(key, Double.parseDouble((value)));
                 }
             } catch (NumberFormatException n) {
-                new IllegalInputTypeException("Input must be a number!");
+                new IllegalInputTypeException("Input must be a number!").popUp();
                 i--;
             }
         }
@@ -258,6 +264,8 @@ public class TileActionController {
             e.popUp();
         } catch (NotEnoughMoneyException e) {
             e.popUp();
+        } catch (UpgradeMaxedOutException e) {
+            e.popUp();
         }
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
     }
@@ -271,6 +279,7 @@ public class TileActionController {
             myGameView.displayActionInfo( "You've paid " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
+            myGameView.disableButton( "End Turn" );
         }
 //        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
@@ -290,10 +299,12 @@ public class TileActionController {
             e.popUp();
             myGameView.displayActionInfo( "This property must go to auction." );
             handleAuction();
+        } catch (UpgradeMaxedOutException e) {
+            e.popUp();
         }
     }
 
-    private Map.Entry<AbstractPlayer, Double> buyHelper(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
+    private Map.Entry<AbstractPlayer, Double> buyHelper(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         AbstractPlayer player = null;
         double value = 0;
         if (paramMap != null) {
@@ -313,7 +324,7 @@ public class TileActionController {
         return ret;
     }
 
-    private void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
+    private void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) myTurn.currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());

@@ -50,6 +50,7 @@ public class GameController {
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
         this.numDoubleRolls = 0;
         tileActionController = new TileActionController( myBoard, myTurn, myGameView);
+        myGameView.disableButton( "End Turn" );
     }
 
     private void addHandlers(){
@@ -97,6 +98,7 @@ public class GameController {
                      numDoubleRolls++;
                      handleMove(myTurn.getNumMoves());
                      myGameView.displayActionInfo("You rolled doubles. Roll again!");
+                     myGameView.disableButton( "End Turn" );
                      myGameView.enableButton("Roll");
                      //TODO: add log?
                 }
@@ -112,20 +114,22 @@ public class GameController {
                 myGameView.displayActionInfo("You have had three turns in jail! You are free after you pay the fine.");
                 tileActionController.handlePayBail();
                 handleMove(myTurn.getNumMoves());
+                myGameView.enableButton("End Turn");
+
             }
             else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1){
                 handleMove(0);
+                myGameView.enableButton("End Turn");
             }
             else {
                 handleMove(myTurn.getNumMoves());
             }
-            myGameView.enableButton("End Turn");
         }
     }
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
                    handlePassedTiles(passedTile);
@@ -136,6 +140,7 @@ public class GameController {
         }
         myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), myTurn.getNumMoves());
         //TODO: slow down options list popup
+        myGameView.enableButton("End Turn");
         handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
     }
@@ -213,6 +218,7 @@ public class GameController {
             ObservableList<String> tiles = getAllOptionNames(myBoard.getBuildingTileNamesAsStrings(owner));
             BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Upgrade Property", "Choose which property to upgrade ", tiles);
             tile.upgrade(owner, myBoard.getSameSetProperties(tile));
+            myGameView.displayActionInfo( "You successfully upgraded to " + makeReadable(tile.getCurrentInUpgradeOrder()) );
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
         } catch (IllegalInputTypeException e) {
             e.popUp();
@@ -223,6 +229,8 @@ public class GameController {
         } catch (PropertyNotFoundException e) {
             e.popUp();
         } catch (NotEnoughMoneyException e) {
+            e.popUp();
+        } catch (UpgradeMaxedOutException e) {
             e.popUp();
         }
     }
@@ -284,6 +292,8 @@ public class GameController {
         } catch (PropertyNotFoundException e) {
             e.popUp();
         } catch (NotEnoughMoneyException e) {
+            e.popUp();
+        } catch (UpgradeMaxedOutException e) {
             e.popUp();
         }
     }

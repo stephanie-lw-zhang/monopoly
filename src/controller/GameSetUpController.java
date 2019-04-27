@@ -100,7 +100,7 @@ public class GameSetUpController {
                 playerList.add(new HumanPlayer(
                         name,
                         (String) playerToIcon.get(pName).getValue(),
-                        1500.00));
+                        1.00));
         }
         return playerList;
     }

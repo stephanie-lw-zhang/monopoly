@@ -82,7 +82,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     @Override
-    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         if (!checkIfImprovedProperty()) {
             super.sellTo(assetHolder,price, sameColorProperties);
             if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
@@ -98,7 +98,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     //CHECK IF WE NEED UPGRADE FOR RAILROAD AND UTILITY
-    public void upgrade(AbstractPlayer player, List<AbstractPropertyTile> sameCategoryProperties) throws IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
+    public void upgrade(AbstractPlayer player, List<AbstractPropertyTile> sameCategoryProperties) throws IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         BuildingCard card = (BuildingCard) this.getCard();
         String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
@@ -170,16 +170,13 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 //    }
 
     public boolean checkIfImprovedProperty() {
-        System.out.println("current: " + getCurrentInUpgradeOrder());
-        System.out.println("upgrade order: " + card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()));
         //TODO: read from xml
         return (card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) > 1);
     }
 
     @Override
     public void mortgageProperty() throws MortgagePropertyException, IllegalActionOnImprovedPropertyException {
-        checkIfImprovedProperty();
-        if (!isMortgaged() && checkIfImprovedProperty()) {
+        if (!isMortgaged() && !checkIfImprovedProperty()) {
             getBank().payFullAmountTo(getOwner(), card.getMortgageValue() );
             setMortgaged(true);
         }
