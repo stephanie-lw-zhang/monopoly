@@ -165,7 +165,6 @@ public class RectangularBoardView extends AbstractBoardView {
         if (iconToIndexMap.get(icon) >= myTiles.size()) {
             iconToIndexMap.put(icon, 0);
         }
-
         myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
         iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
     }
@@ -173,7 +172,7 @@ public class RectangularBoardView extends AbstractBoardView {
     public void move(AbstractPlayer currPlayer, Tile tile){
 //        Thread updateThread = new Thread(() -> {
 //            try {
-//                Thread.sleep(1000);
+//                Thread.sleep(500);
 //                Platform.runLater(() -> this.moveHelper(
 //                       currPlayer,tile));
 //                } catch (InterruptedException e) {
