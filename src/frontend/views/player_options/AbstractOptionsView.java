@@ -50,7 +50,7 @@ abstract public class AbstractOptionsView {
 
     abstract public void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
 
-    abstract public void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+    abstract public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter);
 
     abstract public void updateLogDisplay(String s);
 

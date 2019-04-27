@@ -171,24 +171,26 @@ public class RectangularBoardView extends AbstractBoardView {
     }
 
     public void move(AbstractPlayer currPlayer, Tile tile){
-//        AbstractTileView target = tileToTileView.get( tile );
-//        myPlayerIconMap.get(currPlayer).setOn(target);
-        Thread updateThread = new Thread(() -> {
-            while(iconToIndexMap.get(myPlayerIconMap.get(currPlayer)) != tile.getTileIndex()) {
-                try {
-                    Thread.sleep(300);
-                    Platform.runLater(() -> this.movePieceIncrementally(
-                            myPlayerIconMap.get(currPlayer)
-                    ));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        updateThread.setDaemon(true);
-        updateThread.start();
+//        Thread updateThread = new Thread(() -> {
+//            try {
+//                Thread.sleep(1000);
+//                Platform.runLater(() -> this.moveHelper(
+//                       currPlayer,tile));
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//            }
+//        });
+//        updateThread.setDaemon(true);
+//        updateThread.start();
+        this.moveHelper(currPlayer,tile);
     }
 
+    private void moveHelper(AbstractPlayer currPlayer, Tile tile){
+        AbstractTileView target = tileToTileView.get( tile );
+        IconView pIcon = myPlayerIconMap.get(currPlayer);
+        target.moveTo(pIcon.getMyNode());
+        //System.out.println(target.getMyTileName());
+    }
     /**
      * Setter of the RectangularBoardView object's AnchorPane
      */
@@ -462,6 +464,7 @@ public class RectangularBoardView extends AbstractBoardView {
         text+= "Mortgage Value = " + tile.getCard().getMortgageValue() + "\n";
         //this is hardcoded ...
         text+="Upgrade Price = " + ((BuildingCard) tile.getCard()).getPriceNeededToUpgradeLookupTable("1House") + "\n";
+        text += "\n current buildings: " + tile.getCurrentInUpgradeOrder();
         alert.setContentText(text);
         alert.showAndWait();
     }
