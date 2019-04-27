@@ -8,21 +8,19 @@ import java.util.List;
 
 public class GetOutOfJailCard extends HoldableCard {
 
-    public GetOutOfJailCard(String type, String text, Element n) {
-        super( type, text );
+    public GetOutOfJailCard(String text, Element n) {
+        super( "Save", text );
 
     }
 
     public GetOutOfJailCard(Element n){
-        super("", "");
-        this.setType(getTagValue("Type", n));
+        super("", "Get Out Of Jail");
+        setType(getTagValue("Type", n));
+        setText( getTagValue( "Message",n ) );
     }
 
     @Override
-    public String getActionType() {
+    public String getHoldableCardAction() {
         return "GetOutOfJail";
     }
-
-
-
 }

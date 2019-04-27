@@ -94,9 +94,9 @@ public class TileActionController {
         }
     }
 
-    private void payOrForfeit(double tax, String method) {
+    private void payOrForfeit(double debt, String method) {
         myGameView.disableButton( "End Turn" );
-        while(myTurn.getMyCurrPlayer().getMoney() < tax) {
+        while(myTurn.getMyCurrPlayer().getMoney() < debt) {
             List<String> options = new ArrayList<>();
             if (myTurn.getMyCurrPlayer().getProperties().size() != 0) {
                 options.add( "Sell To Player" );
@@ -104,7 +104,7 @@ public class TileActionController {
                 options.add( "Mortgage" );
             }
             options.add( "Forfeit" );
-            String desiredAction = myGameView.displayOptionsPopup( options, "Pay Tax", "Paying Tax (" + tax + ")", "You must tax or forfeit. Here are your options." );
+            String desiredAction = myGameView.displayOptionsPopup( options, "Pay", "Pay " + debt + " monopoly dollars", "You must pay or forfeit. Here are your options." );
             if (desiredAction.equals( "Forfeit" )) {
                 gameController.handleForfeit();
                 break;
@@ -116,7 +116,7 @@ public class TileActionController {
                 try {
                     handle = gameController.getClass().getMethod("handle" + desiredAction);
                     handle.invoke(gameController);
-                    if (myTurn.getMyCurrPlayer().getMoney() >= tax) {
+                    if (myTurn.getMyCurrPlayer().getMoney() >= debt) {
                         Method redo = null;
                         redo = this.getClass().getMethod(method);
                         redo.invoke(this);

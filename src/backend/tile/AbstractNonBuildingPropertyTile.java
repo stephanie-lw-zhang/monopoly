@@ -2,9 +2,7 @@ package backend.tile;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.Bank;
-import exceptions.OutOfBuildingStructureException;
-import exceptions.IllegalActionOnImprovedPropertyException;
-import exceptions.IllegalInputTypeException;
+import exceptions.*;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -19,13 +17,9 @@ public abstract class AbstractNonBuildingPropertyTile extends AbstractPropertyTi
 
     //try to avoid throwing exceptions here?
     @Override
-    public void sellTo(AbstractAssetHolder buyer, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, OutOfBuildingStructureException, IllegalInputTypeException {
+    public void sellTo(AbstractAssetHolder buyer, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, OutOfBuildingStructureException, IllegalInputTypeException, NotEnoughMoneyException, UpgradeMaxedOutException {
         AbstractAssetHolder seller = this.getOwner();
-        try {
-            super.sellTo(buyer, price, sameSetProperties);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+        super.sellTo(buyer, price, sameSetProperties);
         updateUpgradeOrder( buyer, sameSetProperties );
         updateUpgradeOrder( seller, sameSetProperties );
     }
