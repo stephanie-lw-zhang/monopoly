@@ -41,6 +41,7 @@ public class FormView {
     // private TestingScreen            myScreen;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
+    private Map<TextField, ComboBox> playerToType;
     private GameSetUpController myController;
     private GridPane myPane;
 
@@ -50,14 +51,6 @@ public class FormView {
      * TODO: REFACTOR OUT
      * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
      * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
-<<<<<<< HEAD
-     //* @param screen
-=======
-<<<<<<< HEAD
-=======
->>>>>>> b0503cb6c51675a8d9c04e2379eddd776950fcb2
-     *
->>>>>>> 4fbbf45c0861d92de80c34ccc83faf28937a539e
      */
     private void initialize(){
         myPane = new GridPane();
@@ -89,13 +82,17 @@ public class FormView {
         options.addAll("icon1", "icon2", "icon3", "icon4",
                 "icon5", "icon6", "icon7", "icon8"
         );
-
+        ObservableList<String> playerChoices = FXCollections.observableArrayList();
+        playerChoices.addAll("human", "bot"
+        );
         playerToIcon = new HashMap<>();
 
         for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
+
+            ComboBox<String> playerBox = createPlayerDropDown(playerChoices, i);
             ComboBox<String> comboBox = createIconDropDown( options, i );
             TextField pField = createPlayerTextField( i );
-            myPane.getChildren().addAll( comboBox, pField );
+            myPane.getChildren().addAll( comboBox,playerBox,pField );
             playerToIcon.put( pField, comboBox );
         }
 
@@ -149,9 +146,22 @@ public class FormView {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().addAll( options );
         myPane.setConstraints( comboBox, 1, row );
+        comboBox.setMinWidth(75);
+        comboBox.setPromptText("Icon");
         comboBox.setCellFactory( param -> new CellFactory() );
         comboBox.setButtonCell( new CellFactory() );
         return comboBox;
+    }
+
+    private ComboBox<String> createPlayerDropDown (ObservableList<String> playeroptions, int row){
+        ComboBox<String> playerBox = new ComboBox<>();
+        playerBox.getItems().addAll(playeroptions);
+        myPane.setConstraints( playerBox, 2, row );
+        playerBox.setMinWidth(130);
+        playerBox.setPromptText("Player Type");
+        playerBox.setCellFactory( param -> new CellFactory() );
+        playerBox.setButtonCell( new CellFactory() );
+        return playerBox;
     }
 
     /**
@@ -192,6 +202,10 @@ public class FormView {
         }
         return false;
     }
+
+//    private boolean hasUnassignedType(){
+//
+//    }
 
     /**
      * Checks for duplicate icons

@@ -2,6 +2,7 @@ package backend.assetholder;
 
 import backend.card.action_cards.HoldableCard;
 import backend.tile.AbstractPropertyTile;
+import exceptions.NotEnoughMoneyException;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
     private Boolean            isBankrupt;
     private int                turnsInJail; //-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private final static int FREE = -1;
+
     /**
      * AbstractPlayer main constructor
      * @param name
@@ -41,20 +43,14 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
     }
 
     @Override
-    public void payFullAmountTo (AbstractAssetHolder receiver, Double debt){
-//        if(this.getMoney() > debt){
-//            receiver.setMoney( receiver.getMoney() + this.getMoney() );
-//            this.setMoney( 0.0 );
-//            debt = debt - this.getMoney();
-//            if (getTotalAssetValue() < debt){
-//                this.declareBankruptcyTo(receiver);
-//            } else{
-//                payBackDebt( receiver, debt );
-//            }
-//        } else{
+    public void payFullAmountTo (AbstractAssetHolder receiver, Double debt) throws NotEnoughMoneyException {
+        if(this.getMoney() >= debt){
             this.setMoney( this.getMoney()-debt );
             receiver.setMoney( receiver.getMoney() + debt );
-//        }
+        } else {
+            throw new NotEnoughMoneyException( "You don't have enough money" );
+        }
+
     }
 
     public void addProperty(AbstractPropertyTile property){

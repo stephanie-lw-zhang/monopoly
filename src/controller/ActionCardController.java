@@ -7,6 +7,7 @@ import backend.card.action_cards.HoldableCard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
+import exceptions.NotEnoughMoneyException;
 import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
 import frontend.views.player_stats.PlayerFundsView;
@@ -86,11 +87,16 @@ public class ActionCardController{
         payHelper( payers, payees, total );
     }
 
+
     private void payHelper(List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, Double amount) {
         //System.out.println("test");
         for (AbstractAssetHolder payer : payers) {
             for (AbstractAssetHolder payee : payees) {
-                payer.payFullAmountTo( payee, amount);
+                try {
+                    payer.payFullAmountTo( payee, amount );
+                } catch (NotEnoughMoneyException e) {
+                    e.popUp();
+                }
             }
         }
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());

@@ -48,7 +48,11 @@ abstract public class AbstractOptionsView {
 
     public abstract void updateDice(Turn turn);
 
-    public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
+    abstract public void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
 
-    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+    abstract public void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+
+    abstract public void updateLogDisplay(String s);
+
+    abstract public int getCheatMoves();
 }
