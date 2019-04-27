@@ -255,7 +255,7 @@ public class GameController {
         } catch (MultiplePathException e) {
             e.popUp();
         }
-        myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
+        //myTestScreen.updatePlayerPosition(myTurn.getNumMoves());
         //TODO: slow down options list popup
         handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
     }
@@ -370,7 +370,7 @@ public class GameController {
                 for(String each: actions){
                     readableActions.add( makeReadable( each ) );
                 }
-                String pickedOption = myTestScreen.displayOptionsPopup(readableActions, "Options", "Tile Actions", "Choose One");
+                String pickedOption = myGameView.displayOptionsPopup(readableActions, "Options", "Tile Actions", "Choose One");
                 desiredAction = translateReadable( pickedOption );
             } else {
                 desiredAction = actions.get(0);
