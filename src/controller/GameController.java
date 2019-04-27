@@ -19,7 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -90,9 +89,9 @@ public class GameController {
         }
         myTurn.start();
         myGameView.updateDice(myTurn);
-        System.out.println(myTurn.getMyCurrPlayer().getTurnsInJail());
 
         if (myTurn.isDoubleRoll(myTurn.getRolls())) {
+            myTurn.setNumMoves();
             if(myTurn.getMyCurrPlayer().isInJail()) {
                 myTurn.getMyCurrPlayer().getOutOfJail();
                 myGameView.displayActionInfo("You are released from jail because you rolled doubles. You're free now!");
@@ -214,7 +213,9 @@ public class GameController {
 
     public void handleMoveCheat() {
         int moves = myGameView.getCheatMoves();
-        this.handleMove(moves);
+        myTurn.setNumMoves( moves );
+        this.handleMove( moves );
+        myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );
     }
 
     public void handleUpgradeProperty() {
