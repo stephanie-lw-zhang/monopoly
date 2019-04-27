@@ -1,13 +1,25 @@
 package frontend.bot_manager;
 
+import backend.assetholder.AbstractPlayer;
+import frontend.views.player_options.BPaneOptionsView;
+import controller.TileActionController;
 import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import org.testfx.util.WaitForAsyncUtils;
+import org.testfx.util.WaitForAsyncUtils.*;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit5.ApplicationTest;
 
-public class AutomatedPlayerManager {
+import java.util.Map;
+
+public class AutomatedPlayerManager extends ApplicationTest {
     private  Button ROLL_BUTTON;
     private  Button END_TURN_BUTTON;
     private  Button TRADE_BUTTON;
@@ -22,23 +34,81 @@ public class AutomatedPlayerManager {
     private  Button UPGRADE;
     private  VBox   buttons;
 
-    public AutomatedPlayerManager(Screen screen) {
+    private AbstractPlayer myBot;
+    private BPaneOptionsView myBPane;
+    private Map<String, Control> buttonMap;
 
+    private Button rollButton;
+    private Button endTurnButton;
+
+    public AutomatedPlayerManager(BPaneOptionsView bPane) {
+        myBPane = bPane;
+        buttonMap = bPane.getControls();
 //        buttons=TestingScreen.getVBox(playerOptionsModal);
 //         ROLL_BUTTON = TestingScreen.getVBox();
+        initializeButtons();
 
     }
 
-    public void autoPlayerTurn(Node n) {
-        //find roll button
-        //myButton = lookup().queryButton("roll");
-        //go to roll button
-        //click roll button
-        //execute roll
-        //buy/mortgage/sell/auction/trade logic
-        //end turn
-        //
+    public void initializeButtons(){
+        String roll = "ROLL_BUTTON";
+        String endturn = "END_TURN_BUTTON";
+        rollButton = (Button) buttonMap.get(roll);
+        endTurnButton = (Button) buttonMap.get(endturn);
+
+
     }
+
+    public void autoPlayerTurn(AbstractPlayer player) {
+        myBot = player;
+        System.setProperty("testfx.robot", "glass");
+        botRoll();
+        WaitForAsyncUtils.waitForFxEvents();
+        Button okButton = lookup("OK").queryButton();
+        clickOn(okButton);
+        botEndTurn();
+        try {
+            unclick();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearPopUp(Alert popup, Map<String, Control> buttonMap) {
+        Button okButton = lookup("OK").queryButton();
+        Button buyButton = lookup("Buy").queryButton();
+        Button auctionButton = lookup("Auction").queryButton();
+//        Button
+
+//        if(popup instanceof TileActionController.class)
+
+    }
+
+    public void click(Button button){
+        clickOn(button);
+        simulateUIAction (button , () -> button.fire());
+    }
+
+    private void simulateUIAction(Node n, Runnable action) {
+        moveTo(n);
+        WaitForAsyncUtils.waitForFxEvents();
+        Platform.runLater(action);
+
+    }
+
+    private void unclick() throws Exception {
+        release(new KeyCode[]{});
+        release(new MouseButton[]{});
+    }
+
+    public void botRoll() {
+        clickOn(rollButton);
+    }
+
+    public void botEndTurn() {
+        clickOn(endTurnButton);
+    }
+
 
 
     // extra utility methods for different UI components

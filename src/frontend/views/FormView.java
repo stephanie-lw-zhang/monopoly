@@ -188,7 +188,7 @@ public class FormView {
             throw new PlayerTypeAssignmentException();
         }
 
-        myController.startGame(playerToIcon);
+        myController.startGame(playerToIcon, playerToType);
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {

@@ -144,6 +144,10 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
         return turnsInJail != FREE;
     }
 
+    public boolean isAuto() {
+        return (this.isAuto());
+    }
+
     /**
      * Changes turnsInJail invariant for player not in jail
      */

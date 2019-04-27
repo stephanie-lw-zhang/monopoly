@@ -532,6 +532,10 @@ public class GameController {
         return label;
     }
 
+    public AbstractGameView getMyGameView() {
+        return myGameView;
+    }
+
     public String translateReadable(String s){
         return s.replaceAll("\\s+","");
     }

@@ -161,6 +161,8 @@ public class BPaneOptionsView extends AbstractOptionsView {
         return myOptionsViewNode;
     }
 
+    public Map getControls() { return myControls; }
+
     @Override
     public void updateDice(Turn turn) {
         myDiceView.onUpdate(turn);

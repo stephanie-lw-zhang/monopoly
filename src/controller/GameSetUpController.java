@@ -100,37 +100,40 @@ public class GameSetUpController {
             String name = pName.getText();
 
             if (!name.equals("")) {
-                try {
-                    Class humanClassType = Class.forName("HumanPlayer");
-                    Class botClassType = Class.forName("AutomatedPlayer");
-                    Constructor playerClassConstructor = humanClassType.getConstructor(String.class, String.class, Double.class);
-                    //use reflection to get class name and create a type of player dependent on user choice of playertype
-                    String playerType = playerToType.get(pName).getValue().toString();
-                    if (playerType.equals("human")) {
-                        playerList.add(new HumanPlayer(
-                                name,
-                                (String) playerToIcon.get(pName).getValue(),
-                                1500.00));
-                    }
-                    if (playerType.equals("bot")) {
-                        playerList.add(new AutomatedPlayer(
-                                name,
-                                (String) playerToIcon.get(pName).getValue(),
-                                1500.00));
-                        System.out.print("bot!");
-                    }
-                } catch (ClassNotFoundException e) {
-                    Class humanClassType = HumanPlayer.class;
-                    Class botClassType = AutomatedPlayer.class;
-                    e.printStackTrace();
-
-                } catch (NoSuchMethodException e) {
-                    Class humanClassType = HumanPlayer.class;
-                    Class botClassType = AutomatedPlayer.class;
+                String playerType = playerToType.get(pName).getValue().toString();
+                if (playerType.equals("human")) {
+                    playerList.add(new HumanPlayer(
+                            name,
+                            (String) playerToIcon.get(pName).getValue(),
+                            1500.00));
+                }
+                if (playerType.equals("bot")) {
+                    playerList.add(new AutomatedPlayer(
+                            name,
+                            (String) playerToIcon.get(pName).getValue(),
+                            1500.00));
+                    System.out.print("bot!");
                 }
             }
-            return playerList;
         }
+
+        return playerList;
+
+    }
+
+    private ImageView makeIcon(String iconPath) {
+        Image image = new Image(iconPath + ".png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+
+        return imageView;
+    }
+
+    public void backToParent() {
+        myScreen.backToParent();
+    }
+
 
 //    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
 //        for(NormalDeck deck: decks){
@@ -154,19 +157,4 @@ public class GameSetUpController {
 //            }
 //        }
 //    }
-
-        private ImageView makeIcon(String iconPath) {
-            Image image = new Image(iconPath + ".png");
-            ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(25);
-            imageView.setFitWidth(25);
-
-            return imageView;
-        }
-
-    }
-
-    public void backToParent() {
-        myScreen.backToParent();
-    }
 }
