@@ -50,9 +50,6 @@ public class Turn {
 
     public void start() {
         myRolls = rollDice(myBoard.getNumDie());
-        if(myCurrPlayer.isAuto()==true) {
-            autoManager = new AutomatedPlayerManager(bPane);
-        }
         XMLWriter.writeXML("C:\\Users\\Matt Rose\\CS307\\monopoly_team05\\data\\saved_xml.xml", myBoard);
     }
 
@@ -69,9 +66,9 @@ public class Turn {
 
         while (iterator.hasNext()) {
             AbstractPlayer current = iterator.next();
-            if(current.isAuto()==(true)) {
-                autoManager.autoPlayerTurn(current);
-            }
+//            if(current.isAuto()==(true)) {
+//                GameController.getMyAutoManager().autoPlayerTurn(current);
+//            }
             if (current.equals(myCurrPlayer) && iterator.hasNext())  // employs custom AbstractPlayer.equals()
                 return iterator.next(); // get next player if myCurrPlayer not last element
         }

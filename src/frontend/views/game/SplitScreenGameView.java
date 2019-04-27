@@ -61,10 +61,6 @@ public class SplitScreenGameView extends AbstractGameView {
         addBoardView();
     }
 
-    public AbstractOptionsView getMyOptionsView() {
-        return myOptionsView;
-    }
-
     /**
      * Sets layout dimensions of the View's internal GridPane node
      * @param screenWidth
@@ -123,6 +119,11 @@ public class SplitScreenGameView extends AbstractGameView {
 //        else {
 //            throw new CancelledActionException( "Cancelled Action" );
 //        }
+    }
+
+    @Override
+    public BPaneOptionsView getMyOptionsView() {
+        return (BPaneOptionsView) myOptionsView;
     }
 
     /**

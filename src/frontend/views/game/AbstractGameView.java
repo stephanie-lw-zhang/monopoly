@@ -10,6 +10,7 @@ import exceptions.PropertyNotFoundException;
 import frontend.views.board.AbstractBoardView;
 
 import frontend.views.player_options.AbstractOptionsView;
+import frontend.views.player_options.BPaneOptionsView;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
@@ -96,6 +97,9 @@ abstract public class AbstractGameView {
 
         return result.orElse(null).getText();
     }
+
+
+    abstract public BPaneOptionsView getMyOptionsView();
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
     abstract public void updateDice(Turn turn);

@@ -1,6 +1,7 @@
 package frontend.bot_manager;
 
 import backend.assetholder.AbstractPlayer;
+import controller.GameController;
 import frontend.views.player_options.BPaneOptionsView;
 import controller.TileActionController;
 import javafx.application.Platform;
@@ -41,7 +42,10 @@ public class AutomatedPlayerManager extends ApplicationTest {
     private Button rollButton;
     private Button endTurnButton;
 
-    public AutomatedPlayerManager(BPaneOptionsView bPane) {
+    private GameController myCtrl;
+
+    public AutomatedPlayerManager(BPaneOptionsView bPane, GameController ctrl) {
+        myCtrl=ctrl;
         myBPane = bPane;
         buttonMap = bPane.getControls();
 //        buttons=TestingScreen.getVBox(playerOptionsModal);
@@ -62,9 +66,10 @@ public class AutomatedPlayerManager extends ApplicationTest {
     public void autoPlayerTurn(AbstractPlayer player) {
         myBot = player;
         System.setProperty("testfx.robot", "glass");
+        Button okButton = lookup("OK").queryButton();
+        clickOn(okButton);
         botRoll();
         WaitForAsyncUtils.waitForFxEvents();
-        Button okButton = lookup("OK").queryButton();
         clickOn(okButton);
         botEndTurn();
         try {
