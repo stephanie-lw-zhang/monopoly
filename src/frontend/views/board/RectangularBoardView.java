@@ -165,7 +165,6 @@ public class RectangularBoardView extends AbstractBoardView {
         if (iconToIndexMap.get(icon) >= myTiles.size()) {
             iconToIndexMap.put(icon, 0);
         }
-
         myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
         iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
     }
