@@ -461,7 +461,6 @@ public class GameController {
     }
 
     public void handleMortgageFor(AbstractPlayer mortgager) {
-
         ObservableList<String> possibleProperties = FXCollections.observableArrayList();
         for (AbstractPropertyTile p : mortgager.getProperties()) {
             possibleProperties.add( p.getTitleDeed() );
@@ -479,6 +478,8 @@ public class GameController {
                     }
                 }
                 property.mortgageProperty();
+                myGameView.displayActionInfo( "You've successfully mortgaged " + property.getTitleDeed() );
+                myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );
             } catch (MortgagePropertyException e) {
                 e.popUp();
             } catch (IllegalActionOnImprovedPropertyException e) {
@@ -488,8 +489,6 @@ public class GameController {
             } catch (PropertyNotFoundException e) {
                 e.printStackTrace();
             }
-            myGameView.displayActionInfo( "You've successfully mortgaged " + property.getTitleDeed() );
-            myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );
         }
     }
 
