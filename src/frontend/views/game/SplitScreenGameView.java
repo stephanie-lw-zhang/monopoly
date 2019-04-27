@@ -152,8 +152,8 @@ public class SplitScreenGameView extends AbstractGameView {
     }
 
     @Override
-    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
-        myOptionsView.updateAssetDisplay(myPlayerList);
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter) {
+        myOptionsView.updateAssetDisplay(myPlayerList, forfeiter);
     }
 
 
@@ -178,6 +178,14 @@ public class SplitScreenGameView extends AbstractGameView {
     @Override
     public void updateIconDisplay(AbstractPlayer currPlayer, Tile tile) {
         myBoardView.move(currPlayer, tile);
+    }
+
+    @Override
+    public void updateLogDisplay(String s) { myOptionsView.updateLogDisplay(s); }
+
+    @Override
+    public int getCheatMoves() {
+        return myOptionsView.getCheatMoves();
     }
 
 }

@@ -97,10 +97,13 @@ public class GameSetUpController {
         for (TextField pName : playerToIcon.keySet()) {
             String name = pName.getText();
             if (!name.equals(""))
+
+                //use reflection to get class name and create a type of player dependent on user choice of playertype
+                
                 playerList.add(new HumanPlayer(
                         name,
                         (String) playerToIcon.get(pName).getValue(),
-                        1.00));
+                        1500.00));
         }
         return playerList;
     }

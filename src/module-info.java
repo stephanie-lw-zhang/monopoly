@@ -7,6 +7,7 @@ module monopoly {
     requires javafx.web;
 
     requires org.junit.jupiter.api;
+    requires org.testfx;
 
     exports engine;
 }

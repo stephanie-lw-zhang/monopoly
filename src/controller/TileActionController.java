@@ -57,7 +57,7 @@ public class TileActionController {
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
             myGameView.displayActionInfo("You've successfully paid the fine. You're free now!");
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
 //            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
         } catch(TileNotFoundException e) {
             e.popUp();
@@ -68,13 +68,14 @@ public class TileActionController {
 
         public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
+            double rent = property.calculateRentPrice( myTurn.getNumMoves());
             try {
-                myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
-                myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+                myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), rent);
+                myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
                 myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
             } catch (NotEnoughMoneyException e) {
                 e.popUp();
-                myGameView.disableButton( "End Turn" );
+                payOrForfeit( rent );
             }
 
 //        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
@@ -85,44 +86,53 @@ public class TileActionController {
         double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
             myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
-            myGameView.disableButton( "End Turn" );
-            while(myTurn.getMyCurrPlayer().getMoney() < tax){
-                List<String> options = new ArrayList<>(  );
-                if(myTurn.getMyCurrPlayer().getProperties().size() != 0){
-                    options.add( "Sell To Player" );
-                    options.add("Sell To Bank");
-                    options.add( "Mortgage" );
-                }
-                options.add( "Forfeit" );
-                String desiredAction = myGameView.displayOptionsPopup(options, "Pay Tax", "Paying Tax (" + tax +")", "You must tax or forfeit. Here are your options.");
+            payOrForfeit( tax );
+        }
+
+//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
+    }
+
+    private void payOrForfeit(double tax) {
+        myGameView.disableButton( "End Turn" );
+        while(myTurn.getMyCurrPlayer().getMoney() < tax) {
+            List<String> options = new ArrayList<>();
+            if (myTurn.getMyCurrPlayer().getProperties().size() != 0) {
+                options.add( "Sell To Player" );
+                options.add( "Sell To Bank" );
+                options.add( "Mortgage" );
+            }
+            options.add( "Forfeit" );
+            String desiredAction = myGameView.displayOptionsPopup( options, "Pay Tax", "Paying Tax (" + tax + ")", "You must tax or forfeit. Here are your options." );
+            if (desiredAction.equals( "Forfeit" )) {
+                gameController.handleForfeit();
+                break;
+            } else {
                 gameController.translateReadable( desiredAction );
-                desiredAction = desiredAction.replaceAll("\\s+","");
+                desiredAction = desiredAction.replaceAll( "\\s+", "" );
                 Method handle = null;
                 try {
-                    handle = gameController.getClass().getMethod("handle" + desiredAction);
+                    handle = gameController.getClass().getMethod( "handle" + desiredAction );
                 } catch (NoSuchMethodException e1) {
                     myGameView.displayActionInfo( "No Such Method Exception" );
                 }
                 try {
-                    handle.invoke(gameController);
+                    handle.invoke( gameController );
                 } catch (IllegalAccessException e1) {
                     myGameView.displayActionInfo( "Illegal Access Exception" );
                 } catch (InvocationTargetException e1) {
                     myGameView.displayActionInfo( "Invocation Target Exception" );
                 }
+                if (myTurn.getMyCurrPlayer().getMoney() >= tax) {
+                    handlePayTaxFixed();
+                    break;
+                }
             }
-            if(myTurn.getMyCurrPlayer().getMoney() >= tax){
-                handlePayTaxFixed();
-            }
-
 
         }
-
-//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
 
@@ -295,7 +305,7 @@ public class TileActionController {
         } catch (UpgradeMaxedOutException e) {
             e.popUp();
         }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
     }
 
 
@@ -303,7 +313,7 @@ public class TileActionController {
         double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile) myTurn.currPlayerTile()).getTaxMultiplier();
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
             myGameView.displayActionInfo( "You've paid " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();

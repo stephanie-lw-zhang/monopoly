@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Tab;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -63,7 +64,7 @@ public class GameController {
         handlerMap.put("Unmortgage", event->this.handleUnmortgage() );
         handlerMap.put("Trade",event->this.handleTrade());
         handlerMap.put("Forfeit",event->this.handleForfeit());
-//        handlerMap.put("Move Cheat", event->this.handleMoveCheat);
+        handlerMap.put("Move Cheat", event->this.handleMoveCheat());
         myGameView.createOptions(handlerMap);
         myGameView.addPlayerOptionsView();
     }
@@ -88,11 +89,10 @@ public class GameController {
             if(myTurn.getMyCurrPlayer().isInJail()) {
                 myTurn.getMyCurrPlayer().getOutOfJail();
                 myGameView.displayActionInfo("You are released from jail because you rolled doubles. You're free now!");
-                myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+                myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
                 handleMove(myTurn.getNumMoves());
                 myGameView.enableButton("End Turn");
-            }
-            else {
+            } else {
                 //TODO: get rid of magic value
                  if (numDoubleRolls < 2) {
                      numDoubleRolls++;
@@ -101,27 +101,25 @@ public class GameController {
                      myGameView.disableButton( "End Turn" );
                      myGameView.enableButton("Roll");
                      //TODO: add log?
-                }
-                else {
+                } else {
                     tileActionController.handleGoToJail();
                     myGameView.enableButton("End Turn");
                  }
             }
-        }
-        else {
+        } else {
             if (myTurn.getMyCurrPlayer().getTurnsInJail() == 2) {
                 myTurn.getMyCurrPlayer().getOutOfJail();
                 myGameView.displayActionInfo("You have had three turns in jail! You are free after you pay the fine.");
                 tileActionController.handlePayBail();
                 handleMove(myTurn.getNumMoves());
                 myGameView.enableButton("End Turn");
-
             }
             else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1){
                 handleMove(0);
                 myGameView.enableButton("End Turn");
             }
             else {
+
                 handleMove(myTurn.getNumMoves());
             }
         }
@@ -129,7 +127,7 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < numMoves; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
                    handlePassedTiles(passedTile);
@@ -142,7 +140,7 @@ public class GameController {
         //TODO: slow down options list popup
         myGameView.enableButton("End Turn");
         handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
 
     public void handleTileLanding(Tile tile) {
@@ -164,6 +162,7 @@ public class GameController {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo("Invocation target exception");
+            e.printStackTrace();
         }
     }
 
@@ -180,6 +179,7 @@ public class GameController {
             myGameView.displayActionInfo("Illegal access exception");
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo("Invocation target exception");
+            e.printStackTrace();
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");
         }
@@ -200,15 +200,19 @@ public class GameController {
         return desiredAction;
     }
 
-//    public void handleMoveCheat() {
-//        int numMoves = Integer.parseInt(movesField.getText());
-////        myGameView.move(myTurn.getMyCurrPlayer().getMyIcon(), numMoves);
-//        try {
-//            myBoard.movePlayer(myTurn.getMyCurrPlayer(), numMoves);
-//        } catch (MultiplePathException e) {
-//            e.popUp();
-//        }
-//    }
+    public void handleMoveCheat() {
+        int moves = myGameView.getCheatMoves();
+        for (int i = 0; i < moves; i++) {
+            try {
+                myBoard.movePlayerByOne( myTurn.getMyCurrPlayer() );
+            } catch (MultiplePathException e) {
+                e.popUp();
+            }
+        }
+        myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), moves);
+        handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
+        myGameView.enableButton( "End Turn" );
+    }
 
     public void handleUpgradeProperty() {
         try {
@@ -219,7 +223,7 @@ public class GameController {
             BuildingTile tile = (BuildingTile) getSelectedPropertyTile("Upgrade Property", "Choose which property to upgrade ", tiles);
             tile.upgrade(owner, myBoard.getSameSetProperties(tile));
             myGameView.displayActionInfo( "You successfully upgraded to " + makeReadable(tile.getCurrentInUpgradeOrder()) );
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         } catch (IllegalInputTypeException e) {
             e.popUp();
         } catch (OutOfBuildingStructureException e) {
@@ -276,7 +280,7 @@ public class GameController {
                 }
             }
 
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         } catch (MortgagePropertyException m) {
             m.popUp();
         } catch (IllegalActionOnImprovedPropertyException e) {
@@ -315,7 +319,7 @@ public class GameController {
                 tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
                 //TODO: add front-end implementation
             }
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         } catch (IllegalActionOnImprovedPropertyException e) {
             e.popUp();
         } catch (CancelledActionException e) {
@@ -336,11 +340,11 @@ public class GameController {
             e.popUp();
         }
         AbstractPlayer forfeiter = myBoard.getPlayerFromName(player);
-
         forfeiter.declareBankruptcy(myBoard.getBank());
+        myGameView.enableButton( "End Turn" );
         myBoard.getMyPlayerList().remove(forfeiter);
         myBoard.getPlayerTileMap().remove(forfeiter);
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
     }
 
     public void handleUseHoldable(List<Object> parameters) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
@@ -382,7 +386,7 @@ public class GameController {
         Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
         handle.invoke(actionCardController, card.getParameters());
         myGameView.displayActionInfo( "You've successfully used " + card.getName());
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
 
     public void handleMortgage(){
@@ -409,7 +413,7 @@ public class GameController {
             }
             property.mortgageProperty();
             myGameView.displayActionInfo( "You've successfully mortgaged " + property.getTitleDeed());
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         } catch (MortgagePropertyException e) {
             e.popUp();
         }catch (IllegalActionOnImprovedPropertyException i) {
@@ -447,7 +451,7 @@ public class GameController {
             }
             property.unmortgageProperty();
             myGameView.displayActionInfo( "You've successfully unmortgaged " + property.getTitleDeed());
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         } catch (MortgagePropertyException e) {
             e.popUp();
         } catch (PropertyNotFoundException e) {

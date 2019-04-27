@@ -47,7 +47,7 @@ public class ActionCardController{
 
     public void handleSave(List<Object> parameters){
         turn.getMyCurrPlayer().getCards().add( (HoldableCard) parameters.get( 0 ) );
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         myGameView.displayActionInfo( "You now own " + ((HoldableCard) parameters.get( 0 )).getName() + ". You can use this card at any time." );
     }
 
@@ -95,6 +95,6 @@ public class ActionCardController{
                 }
             }
         }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
 }
