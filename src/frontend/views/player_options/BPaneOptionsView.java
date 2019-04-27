@@ -5,6 +5,7 @@ import backend.board.AbstractBoard;
 import configuration.XMLData;
 import controller.Turn;
 import frontend.views.LogView;
+import frontend.views.TimerView;
 import frontend.views.game.AbstractGameView;
 
 //import frontend.views.player_stats.PlayerCardsView;
@@ -48,6 +49,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private PlayerFundsView myPlayerFundsView;
 //    private PlayerCardsView myPlayerCardsView;
     private TextField myCheatMovesField;
+    private TimerView myTimer;
     private PlayerRosterView myPlayerRosterView;
 
     /**
@@ -81,9 +83,10 @@ public class BPaneOptionsView extends AbstractOptionsView {
     }
 
     private void makeNonActionViews() {
+        myTimer = new TimerView();
         myLogView = new LogView(myData);
         VBox NonActionBox = new VBox();
-        NonActionBox.getChildren().addAll(myLogView.getNode());
+        NonActionBox.getChildren().addAll(myTimer.getNode(),myLogView.getNode());
         myOptionsViewNode.setTop(NonActionBox);
     }
 
@@ -186,6 +189,5 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerFundsView.update(myPlayerList, forfeiter);
         myPlayerPropertiesView.update(myPlayerList, forfeiter);
         myPlayerRosterView.update(myPlayerList, forfeiter);
-
     }
 }

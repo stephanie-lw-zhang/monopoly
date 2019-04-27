@@ -37,7 +37,7 @@ public class Turn {
 
     public void start() {
         myRolls = rollDice(myBoard.getNumDie());
-        XMLWriter.writeXML("C:\\Users\\Matt Rose\\CS307\\monopoly_team05\\data\\saved_xml.xml", myBoard);
+        XMLWriter.writeXML(System.getProperty("user.dir")+"\\data\\saved_xml.xml", myBoard);
     }
 
     public void skipTurn() {
