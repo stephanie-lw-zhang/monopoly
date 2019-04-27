@@ -19,21 +19,6 @@ public class UtilityTile extends AbstractNonBuildingPropertyTile {
         else {
             return getCard().lookupPrice( getCurrentInUpgradeOrder() ) * roll;
 
-
-//            int utilitiesOwned = 0;
-//            for(AbstractPropertyTile property: this.getOwner().getProperties()){
-//                if(property instanceof AbstractUtilityTile){
-//                    utilitiesOwned += 1;
-//                }
-//            }
-//
-//            // TODO ==================================================
-//            // TODO: REPLACE WITH USING TURN AS ROLL NOT GAME
-//            // TODO ==================================================
-
-//            // TODO ==================================================
-
-
         }
     }
 }
