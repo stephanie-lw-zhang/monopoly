@@ -38,6 +38,7 @@ public class ActionCardController{
     public void handleMove(List<Object> parameters){
         //System.out.println("BANG!!!");
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
+
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
     }
 

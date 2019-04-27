@@ -138,7 +138,7 @@ public class RectangularBoardView extends AbstractBoardView {
             while(myNumMoves>0) {
                 try {
                     Thread.sleep(300);
-                    Platform.runLater(() -> this.movePieceDemo(
+                    Platform.runLater(() -> this.movePiece(
                             myPlayerIconMap.get(currPlayer)
                     ));
                 } catch (InterruptedException e) {
@@ -150,20 +150,43 @@ public class RectangularBoardView extends AbstractBoardView {
         updateThread.start();
     }
 
-    private void movePieceDemo(IconView icon) {
+    private void movePiece(IconView icon) {
         if(myNumMoves>0) {
-            if (iconToIndexMap.get(icon) >= myTiles.size()) {
-                iconToIndexMap.put(icon, 0);
-            }
-            myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
-            iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
+            moverHelper(icon);
             myNumMoves--;
         }
     }
 
+    private void movePieceIncrementally(IconView icon) {
+        moverHelper(icon);
+    }
+
+    private void moverHelper(IconView icon) {
+        if (iconToIndexMap.get(icon) >= myTiles.size()) {
+            iconToIndexMap.put(icon, 0);
+        }
+
+        myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
+        iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
+    }
+
     public void move(AbstractPlayer currPlayer, Tile tile){
-        AbstractTileView target = tileToTileView.get( tile );
-        myPlayerIconMap.get(currPlayer).setOn(target);
+//        AbstractTileView target = tileToTileView.get( tile );
+//        myPlayerIconMap.get(currPlayer).setOn(target);
+        Thread updateThread = new Thread(() -> {
+            while(iconToIndexMap.get(myPlayerIconMap.get(currPlayer)) != tile.getTileIndex()) {
+                try {
+                    Thread.sleep(300);
+                    Platform.runLater(() -> this.movePieceIncrementally(
+                            myPlayerIconMap.get(currPlayer)
+                    ));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        updateThread.setDaemon(true);
+        updateThread.start();
     }
 
     /**
