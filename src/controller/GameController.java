@@ -205,7 +205,7 @@ public class GameController {
 
     public void handleMoveCheat() {
         int moves = myGameView.getCheatMoves();
-        myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), moves);
+        this.handleMove(moves);
         handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
     }
