@@ -2,19 +2,19 @@ package frontend.views.game;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import backend.board.StandardBoard;
 import backend.tile.Tile;
 import configuration.XMLData;
 
 import controller.Turn;
+import exceptions.CancelledActionException;
 import frontend.views.LogView;
 import frontend.views.player_options.AbstractOptionsView;
 import frontend.views.player_options.BPaneOptionsView;
-import frontend.views.player_options.VBoxOptionsView;
 import frontend.views.player_options.DiceView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
 
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -23,7 +23,6 @@ import javafx.scene.Node;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +105,9 @@ public class SplitScreenGameView extends AbstractGameView {
     @Override
     public String showInputTextDialog(String title, String header, String content) {
         TextInputDialog dialog = new TextInputDialog("0");
+        dialog.getDialogPane().lookupButton( ButtonType.CANCEL).setDisable(true);
+        dialog.getDialogPane().lookupButton( ButtonType.CANCEL).setVisible(false);
+
         dialog.setTitle(title);
         dialog.setHeaderText(header);
         dialog.setContentText(content);
@@ -113,10 +115,10 @@ public class SplitScreenGameView extends AbstractGameView {
         if (result.isPresent()) {
             return result.get();
         }
-        else {
-            //TODO: throw exceptions
-            return null;
-        }
+        return "";
+//        else {
+//            throw new CancelledActionException( "Cancelled Action" );
+//        }
     }
 
     /**
@@ -147,8 +149,8 @@ public class SplitScreenGameView extends AbstractGameView {
     }
 
     @Override
-    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
-        myOptionsView.updateAssetDisplay(myPlayerList);
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter) {
+        myOptionsView.updateAssetDisplay(myPlayerList, forfeiter);
     }
 
 
@@ -177,5 +179,10 @@ public class SplitScreenGameView extends AbstractGameView {
 
     @Override
     public void updateLogDisplay(String s) { myOptionsView.updateLogDisplay(s); }
+
+    @Override
+    public int getCheatMoves() {
+        return myOptionsView.getCheatMoves();
+    }
 
 }

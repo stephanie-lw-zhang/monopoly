@@ -165,4 +165,8 @@ public class GameSetUpController {
         }
 
     }
+
+    public void backToParent() {
+        myScreen.backToParent();
+    }
 }

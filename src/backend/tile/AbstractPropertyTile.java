@@ -80,7 +80,7 @@ public abstract class AbstractPropertyTile extends Tile {
      * --> then need to check if (want to lift mortgage immediately), then call unmortgageProperty()
      * --> else, call soldMortgagedPropertyLaterUnmortgages()
      */
-    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         assetHolder.addProperty(this);
         assetHolder.payFullAmountTo( owner, price );
         owner.getProperties().remove(this);
