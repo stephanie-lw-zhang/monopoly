@@ -448,7 +448,7 @@ public class GameController {
     }
 
     public void handleMortgageFor(AbstractPlayer mortgager) {
-        
+
         ObservableList<String> possibleProperties = FXCollections.observableArrayList();
         for (AbstractPropertyTile p : mortgager.getProperties()) {
             possibleProperties.add( p.getTitleDeed() );

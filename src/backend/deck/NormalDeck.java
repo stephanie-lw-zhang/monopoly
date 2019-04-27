@@ -48,6 +48,7 @@ public class NormalDeck implements DeckInterface {
         }
     }
 
+    @Override
     public String getName(){
         return name;
     }
