@@ -139,4 +139,8 @@ public class GameSetUpController {
 
         return imageView;
     }
+
+    public void backToParent() {
+        myScreen.backToParent();
+    }
 }

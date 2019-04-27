@@ -4,20 +4,15 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import configuration.XMLData;
 import controller.Turn;
-import exceptions.CancelledActionException;
-import exceptions.PropertyNotFoundException;
-import frontend.views.FundsView;
 import frontend.views.LogView;
 import frontend.views.game.AbstractGameView;
 
-import frontend.views.player_stats.PlayerCardsView;
+//import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
@@ -29,7 +24,6 @@ import javafx.event.ActionEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Represents some abstract VBox node that offers
@@ -51,8 +45,8 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private PlayerPropertiesView myPlayerPropertiesView;
     private AbstractBoard myBoard;
     private PlayerFundsView myPlayerFundsView;
-    private PlayerCardsView myPlayerCardsView;
-
+//    private PlayerCardsView myPlayerCardsView;
+    private TextField myCheatMovesField;
 
     /**
      * VBoxOptionsView main constructor
@@ -65,16 +59,21 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myControls = new HashMap<>();
         myData = data;
         myBoard = board;
+        myCheatMovesField = (TextField) makeMoveCheatKey();
         makeNonActionViews();
         makeAssetViews();
     }
 
     private void makeAssetViews() {
+//        TabPane cards = new TabPane(  );
         myPlayerPropertiesView = new PlayerPropertiesView(myBoard.getMyPlayerList());
         myPlayerFundsView = new PlayerFundsView(myBoard.getMyPlayerList());
-        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList());
+//        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList(), cards);
         VBox aBox = new VBox();
-        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
+//        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
+        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode());
+
+
         myOptionsViewNode.setLeft(aBox);
     }
 
@@ -98,15 +97,12 @@ public class BPaneOptionsView extends AbstractOptionsView {
         for(String action:actionMap.keySet()){
             makeButton(action,actionMap.get(action),playerOptionsModal);
         }
-        playerOptionsModal.getChildren().add(makeMoveCheatKey());
+        playerOptionsModal.getChildren().add(myCheatMovesField);
         myOptionsViewNode.setCenter(playerOptionsModal);
     }
 
     private Node makeRollDisplay() {
         myDiceView = new DiceView(2,6);
-//                myGame.getBoard().getNumDie(),
-//                myGame.getMyDice().getNumStates());
-
         return myDiceView;
     }
 
@@ -121,8 +117,11 @@ public class BPaneOptionsView extends AbstractOptionsView {
                     movesField.setText(newStr.replaceAll("[^\\d]", ""));
             }
         });
-//        getMoveCheatNumMoves(movesField);
         return movesField;
+    }
+
+    public int getCheatMoves() {
+        return Integer.parseInt(myCheatMovesField.getText());
     }
 
     private void makeButton(String action, EventHandler<ActionEvent> handler, VBox box) {
@@ -180,10 +179,10 @@ public class BPaneOptionsView extends AbstractOptionsView {
     }
 
     @Override
-    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
-        myPlayerPropertiesView.update(myPlayerList);
-        myPlayerFundsView.update(myPlayerList);
-        myPlayerCardsView.update(myPlayerList);
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter) {
+//        myPlayerCardsView.update(myPlayerList, forfeiter);
+        myPlayerFundsView.update(myPlayerList, forfeiter);
+        myPlayerPropertiesView.update(myPlayerList, forfeiter);
     }
 
 
