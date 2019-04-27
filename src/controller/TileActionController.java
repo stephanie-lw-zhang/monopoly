@@ -2,7 +2,6 @@ package controller;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
-import backend.assetholder.Bank;
 import backend.board.AbstractBoard;
 import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.MoveAndPayCard;
