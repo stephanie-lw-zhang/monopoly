@@ -303,7 +303,6 @@ public class GameController {
         try {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
             AbstractPlayer owner = getSelectedPlayer("Sell Property", "Choose who is selling their property ", players);
-            players.remove(owner.getMyPlayerName());
             handleSellToPlayerFor( owner );
         } catch (NullPointerException e) {
             new CancelledActionException("").doNothing();
@@ -317,6 +316,7 @@ public class GameController {
     public void handleSellToPlayerFor(AbstractPlayer owner)  {
         try {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
+            players.remove(owner.getMyPlayerName());
             AbstractPlayer buyer = getSelectedPlayer("Sell Property", "Choose who to sell property to ", players);
             ObservableList<String> tiles = getAllOptionNames(myBoard.getPropertyTileNamesAsStrings(owner));
             AbstractPropertyTile tile = getSelectedPropertyTile("Sell Property", "Choose which property to sell ", tiles);
