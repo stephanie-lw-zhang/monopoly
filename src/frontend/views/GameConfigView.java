@@ -18,8 +18,10 @@ public class GameConfigView {
         myButtonBox = new HBox();
         Button saveButton = new Button("Save");
         Button loadButton = new Button("Load");
+        Button newGameButton = new Button("New Game");
         saveButton.setOnAction(actionEvent -> myController.handleSave());
         loadButton.setOnAction(actionEvent -> myController.handleLoad());
+        newGameButton.setOnAction(actionEvent -> myController.handleNewGame());
         myButtonBox.getChildren().addAll(saveButton,loadButton);
     }
 

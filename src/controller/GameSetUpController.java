@@ -16,6 +16,7 @@ import configuration.XMLData;
 import frontend.screens.AbstractScreen;
 import frontend.views.FormView;
 
+import frontend.views.GameConfigView;
 import frontend.views.board.SquareBoardView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +25,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +52,19 @@ public class GameSetUpController {
     private double screenWidth,screenHeight;
     private XMLData myData;
     private AbstractBoard myBoard;
+    private BorderPane myLayoutPane;
+    private GameConfigView myGameConfigView;
 
     public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
+        myLayoutPane = new BorderPane();
         myFormView = new FormView(this);
-        myNode = myFormView.getNode();
+        myLayoutPane.setCenter(myFormView.getNode());
+        myGameConfigView = new GameConfigView(this);
+        myLayoutPane.setTop(myGameConfigView.getNode());
+        myNode = myLayoutPane;
         try {
             myData = new XMLData(CONFIG_FILE);
         } catch (Exception e) {
@@ -71,7 +79,7 @@ public class GameSetUpController {
                 screenWidth,screenHeight,
                 this, myBoard, myData
         );
-        myNode = myGameController.getGameNode();
+        myLayoutPane.setCenter(myGameController.getGameNode());
     }
 
     public Node getNode() {
@@ -151,5 +159,8 @@ public class GameSetUpController {
 
     public void handleLoad(){
 
+    }
+
+    public void handleNewGame() {
     }
 }
