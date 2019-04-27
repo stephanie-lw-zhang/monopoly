@@ -1,59 +1,61 @@
 package testing.backendtests;
 
-public class StandardBoardTest {
-    /**
-     private StandardBoard board;
-     private List<AbstractPlayer> playerList;
-     private List<tile> goNeighbor;
-     private List<tile> buildingNeighbor;
-     private List<tile> jailNeighbor;
-     private List<tile> goToJailNeighbor;
+import backend.assetholder.AbstractPlayer;
+import backend.assetholder.HumanPlayer;
+import backend.board.StandardBoard;
+import backend.tile.Tile;
+import configuration.XMLData;
+import exceptions.MultiplePathException;
+import exceptions.TileNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-     @BeforeEach
-     void setUp(){
-     playerList = new ArrayList<>();
-     //        playerList.add(new HumanPlayer(0.0, new Bank(0.0)));
-     Map adjacencyList = new HashMap<tile, List<tile>>();
-     tile go = new GoTile(200.0,200.0);
-     JailTile jail = new JailTile();
-     goNeighbor = new ArrayList<>();
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class StandardBoardTest {
+
+    private StandardBoard board;
+    private List<AbstractPlayer> playerList;
+    private XMLData data;
 
 
-     //        goNeighbor.add(new BuildingTile(new Bank(0.0), new BuildingCard("Property", 0.0,0.0, java.awt.Color.BLUE,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0), "Property", 200.0, java.awt.Color.BLACK));
+    @BeforeEach
+    void setUp(){
+        playerList = new ArrayList<>();
+        playerList.add(new HumanPlayer("TestPlayer", "Icon1", 1000.0));
+        data = new XMLData("TestMonopoly.xml");
+        board = new StandardBoard(playerList, data);
+    }
 
-     //        goNeighbor.add(new BuildingTile(new Bank(0.0), new BuildingCard("Property", 0.0,0.0, java.awt.Color.BLUE,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0), "Property", 200.0, java.awt.Color.BLACK));
+    @Test
+    void movesOneTile(){
+        try {
+            board.movePlayerByOne(playerList.get(0));
+        } catch (MultiplePathException e) { }
+        assertEquals(data.getTiles().get(1), board.getPlayerTile(playerList.get(0)));
+    }
 
-     buildingNeighbor = new ArrayList<>();
-     buildingNeighbor.add(jail);
-     jailNeighbor = new ArrayList<>();
-     jailNeighbor.add(new GoToJailTile(jail));
-     goToJailNeighbor = new ArrayList<>();
-     goToJailNeighbor.add(go);
-     adjacencyList.put(go, goNeighbor);
-     adjacencyList.put(goNeighbor.get(0), buildingNeighbor);
-     adjacencyList.put(buildingNeighbor.get(0), jailNeighbor);
-     adjacencyList.put(jailNeighbor.get(0), goToJailNeighbor);
-     Map colorMap = new HashMap<Color, List<BuildingTile>>();
-     board = new StandardBoard(playerList, adjacencyList, colorMap, go);
-     }
+    @Test
+    void movePlayerToNearest() {
+        Tile railroad = data.getTiles().get(8);
+        try {
+            board.movePlayerToNearest(playerList.get(0), railroad);
+        } catch (TileNotFoundException e) { }
+        assertEquals(data.getTiles().get(4), board.getPlayerTile(playerList.get(0)));
+    }
 
-     @Test
-     void movesOneTile(){
-     //        board.movePlayer(playerList.get(0), play);
-     assertEquals(goNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-     }
+    @Test
+    void testGetJailTile(){
+        try {
+            assertEquals(data.getTiles().get(6), board.getJailTile());
+        } catch (TileNotFoundException e) { }
+    }
 
-     @Test
-     void testBoardCycle() {
-     //        board.movePlayer(playerList.get(0), new int[]{6, 6});
-     assertEquals(goToJailNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-     }
-
-     @Test
-     void testGoToJailTile() {
-     //        board.movePlayer(playerList.get(0), new int[]{5, 6});
-     board.getPlayerTile(playerList.get(0)).applyLandedOnAction(playerList.get(0));
-     assertEquals(buildingNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-     }
-     */
+    @Test
+    void testGetGoTile(){
+        assertEquals(data.getTiles().get(0), board.getGoTile());
+    }
 }
