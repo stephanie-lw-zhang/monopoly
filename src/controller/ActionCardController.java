@@ -10,7 +10,6 @@ import exceptions.BuildingDoesNotExistException;
 import exceptions.NotEnoughMoneyException;
 import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
-import frontend.views.player_stats.PlayerFundsView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,6 @@ public class ActionCardController{
     }
 
     public void handleMove(List<Object> parameters){
-        //System.out.println("BANG!!!");
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
     }
@@ -88,9 +86,7 @@ public class ActionCardController{
         payHelper( payers, payees, total );
     }
 
-
     private void payHelper(List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, Double amount) {
-        //System.out.println("test");
         for (AbstractAssetHolder payer : payers) {
             for (AbstractAssetHolder payee : payees) {
                 try {

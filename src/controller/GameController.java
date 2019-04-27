@@ -33,7 +33,6 @@ public class GameController {
 
     private GameSetUpController mySetUpController;
     //TODO: make all the back-end stuff be managed by a MonopolyModel/myBoard class
-//    private XMLData myData;
     private AbstractBoard myBoard;
     private AbstractDice myDice;
     private Turn myTurn;
@@ -45,7 +44,6 @@ public class GameController {
 
     public GameController(double width, double height, GameSetUpController controller, AbstractBoard board, XMLData data){
         myBoard = board;
-//        myData = data;
         myGameView = new SplitScreenGameView(width, height, data, myBoard);
         mySetUpController = controller;
         addHandlers();
@@ -83,11 +81,9 @@ public class GameController {
         numDoubleRolls = 0;
         myGameView.disableButton("End Turn");
         myGameView.enableButton("Roll");
-
         if(myTurn.getMyCurrPlayer().isAuto()==(true)) {
             autoManager.autoPlayerTurn(myTurn.getMyCurrPlayer());
         }
-
     }
 
     private void handleUseCardButton() {
@@ -174,7 +170,7 @@ public class GameController {
                      }
                 } else {
                     tileActionController.handleGoToJail();
-                    myGameView.enableButton("End Turn");
+                     myGameView.enableButton("End Turn");
                  }
             }
         } else {
@@ -195,7 +191,7 @@ public class GameController {
         }
     }
 
-    private void handleMove(int numMoves) {
+    public void handleMove(int numMoves) {
         try {
             for (int i = 0; i < numMoves-1; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
