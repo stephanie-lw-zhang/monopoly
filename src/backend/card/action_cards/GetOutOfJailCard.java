@@ -14,16 +14,13 @@ public class GetOutOfJailCard extends HoldableCard {
     }
 
     public GetOutOfJailCard(Element n){
-        super("", "");
+        super("", "Get Out Of Jail");
         setType(getTagValue("Type", n));
-        setText( getTagValue( "message",n ) );
+        setText( getTagValue( "Message",n ) );
     }
 
     @Override
-    public String getActionType() {
+    public String getHoldableCardAction() {
         return "GetOutOfJail";
     }
-
-
-
 }

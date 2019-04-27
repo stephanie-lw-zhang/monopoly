@@ -174,7 +174,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("NEED TO CHANGE BPaneOptionsView.updateCurrPlayerDisplay()\n\n Current Player is: " + currPlayer.getMyPlayerName());
+        alert.setContentText("Current Player is: " + currPlayer.getMyPlayerName());
         alert.showAndWait();
     }
 
@@ -184,6 +184,4 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myPlayerFundsView.update(myPlayerList, forfeiter);
         myPlayerPropertiesView.update(myPlayerList, forfeiter);
     }
-
-
 }

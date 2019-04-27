@@ -19,7 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -71,16 +70,11 @@ public class GameController {
     }
 
     private void handleEndTurnButton() {
-//        if(myBoard.getMyPlayerList().size()>1) {
-            myTurn.skipTurn();
-            myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
-            numDoubleRolls = 0;
-            myGameView.disableButton("End Turn");
-            myGameView.enableButton("Roll");
-//        }
-//        else {
-//            handleEndGame();
-//        }
+        myTurn.skipTurn();
+        myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
+        numDoubleRolls = 0;
+        myGameView.disableButton("End Turn");
+        myGameView.enableButton("Roll");
     }
 
     private void handleUseCardButton() {
@@ -162,9 +156,11 @@ public class GameController {
                  if (numDoubleRolls < 2) {
                      numDoubleRolls++;
                      handleMove(myTurn.getNumMoves());
-                     myGameView.displayActionInfo("You rolled doubles. Roll again!");
-                     myGameView.disableButton( "End Turn" );
-                     myGameView.enableButton("Roll");
+                     if (!myTurn.getMyCurrPlayer().isInJail()) {
+                         myGameView.displayActionInfo("You rolled doubles. Roll again!");
+                         myGameView.disableButton( "End Turn" );
+                         myGameView.enableButton("Roll");
+                     }
                      //TODO: add log?
                 } else {
                     tileActionController.handleGoToJail();
@@ -180,11 +176,10 @@ public class GameController {
                 myGameView.enableButton("End Turn");
             }
             else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1){
-                handleMove(0);
+                handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
                 myGameView.enableButton("End Turn");
             }
             else {
-
                 handleMove(myTurn.getNumMoves());
             }
         }
@@ -214,7 +209,7 @@ public class GameController {
     public void handleTileLanding(Tile tile) {
         try {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
-            if (!(actions.size() == 0)) {
+            if (actions.size() != 0) {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView, this);
                 Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
@@ -229,7 +224,6 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
             e.printStackTrace();
         }
@@ -238,7 +232,7 @@ public class GameController {
     private void handlePassedTiles(Tile passedTile) {
         try {
             List<String> actions = passedTile.applyPassedAction(myTurn.getMyCurrPlayer());
-            if (!(actions.size() == 0)) {
+            if (actions.size() != 0) {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 PassedTileActionController passedTileActionController = new PassedTileActionController( myBoard, myTurn, myGameView);
                 Method handle = passedTileActionController.getClass().getMethod("handle" + desiredAction);
@@ -448,7 +442,7 @@ public class GameController {
             }
         }
         ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
-        Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
+        Method handle = actionCardController.getClass().getMethod("handle" + card.getHoldableCardAction(), List.class);
         handle.invoke(actionCardController, card.getParameters());
         myGameView.displayActionInfo( "You've successfully used " + card.getName());
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
