@@ -90,8 +90,7 @@ public class GameController {
                 myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
                 handleMove(myTurn.getNumMoves());
                 myGameView.enableButton("End Turn");
-            }
-            else {
+            } else {
                 //TODO: get rid of magic value
                  if (numDoubleRolls < 2) {
                      numDoubleRolls++;
@@ -99,24 +98,20 @@ public class GameController {
                      myGameView.displayActionInfo("You rolled doubles. Roll again!");
                      myGameView.enableButton("Roll");
                      //TODO: add log?
-                }
-                else {
+                } else {
                     tileActionController.handleGoToJail();
                     myGameView.enableButton("End Turn");
                  }
             }
-        }
-        else {
+        } else {
             if (myTurn.getMyCurrPlayer().getTurnsInJail() == 2) {
                 myTurn.getMyCurrPlayer().getOutOfJail();
                 myGameView.displayActionInfo("You have had three turns in jail! You are free after you pay the fine.");
                 tileActionController.handlePayBail();
                 handleMove(myTurn.getNumMoves());
-            }
-            else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1){
+            } else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1){
                 handleMove(0);
-            }
-            else {
+            } else {
                 handleMove(myTurn.getNumMoves());
             }
             myGameView.enableButton("End Turn");

@@ -175,4 +175,7 @@ public class SplitScreenGameView extends AbstractGameView {
         myBoardView.move(currPlayer, tile);
     }
 
+    @Override
+    public void updateLogDisplay(String s) { myOptionsView.updateLogDisplay(s); }
+
 }

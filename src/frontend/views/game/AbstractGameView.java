@@ -108,4 +108,5 @@ abstract public class AbstractGameView {
     public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
     public abstract void updateIconDisplay(AbstractPlayer currPlayer, int nMoves);
     public abstract void updateIconDisplay(AbstractPlayer currPlayer, Tile tile);
+    public abstract void updateLogDisplay(String s);
 }
