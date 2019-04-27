@@ -464,6 +464,7 @@ public class RectangularBoardView extends AbstractBoardView {
         text+= "Mortgage Value = " + tile.getCard().getMortgageValue() + "\n";
         //this is hardcoded ...
         text+="Upgrade Price = " + ((BuildingCard) tile.getCard()).getPriceNeededToUpgradeLookupTable("1House") + "\n";
+        text += "\n current buildings: " + tile.getCurrentInUpgradeOrder();
         alert.setContentText(text);
         alert.showAndWait();
     }
