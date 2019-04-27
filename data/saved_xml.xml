@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SavedGame>
+    <Player>
+        <TileIndex>12</TileIndex>
+        <Money>1220.0</Money>
+        <Property>
+            <OwnedIndex>12</OwnedIndex>
+            <UpgradeStatus>1Utility</UpgradeStatus>
+        </Property>
+    </Player>
+    <Player>
+        <TileIndex>15</TileIndex>
+        <Money>1250.0</Money>
+        <Property>
+            <OwnedIndex>6</OwnedIndex>
+            <UpgradeStatus>NoHouse</UpgradeStatus>
+        </Property>
+        <Property>
+            <OwnedIndex>15</OwnedIndex>
+            <UpgradeStatus>1Railroad</UpgradeStatus>
+        </Property>
+    </Player>
+    <Player>
+        <TileIndex>12</TileIndex>
+        <Money>1330.0</Money>
+    </Player>
+    <Player>
+        <TileIndex>9</TileIndex>
+        <Money>1430.0</Money>
+        <Property>
+            <OwnedIndex>9</OwnedIndex>
+            <UpgradeStatus>NoHouse</UpgradeStatus>
+        </Property>
+    </Player>
+</SavedGame>
