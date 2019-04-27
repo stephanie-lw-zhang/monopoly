@@ -133,13 +133,14 @@ public class GameController {
             for (int i = 0; i < numMoves; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
-                   handlePassedTiles(passedTile);
+                    handlePassedTiles(passedTile);
                 }
+                myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),passedTile);
             }
         } catch (MultiplePathException e) {
             e.popUp();
         }
-        myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), myTurn.getNumMoves());
+        //myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), myTurn.getNumMoves());
         //TODO: slow down options list popup
         handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
