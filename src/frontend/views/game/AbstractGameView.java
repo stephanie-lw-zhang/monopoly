@@ -10,6 +10,7 @@ import exceptions.PropertyNotFoundException;
 import frontend.views.board.AbstractBoardView;
 
 import frontend.views.player_options.AbstractOptionsView;
+import javafx.scene.control.Button;
 import frontend.views.player_options.BPaneOptionsView;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ButtonType;
@@ -91,7 +92,6 @@ abstract public class AbstractGameView {
         for (String option : options) {
             buttonOptions.add(new ButtonType(option));
         }
-
 
         alert.getButtonTypes().setAll(buttonOptions);
         Optional<ButtonType> result = alert.showAndWait();
