@@ -125,8 +125,7 @@ public class TileActionController {
                     myGameView.displayActionInfo( "Illegal Access Exception" );
                 } catch (NoSuchMethodException e){
                     myGameView.displayActionInfo( "There is no such method" );
-                }
-                catch (InvocationTargetException e1) {
+                } catch (InvocationTargetException e1) {
                     myGameView.displayActionInfo( "Invocation Target Exception" );
                 }
             }
