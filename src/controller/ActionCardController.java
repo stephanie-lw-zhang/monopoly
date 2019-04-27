@@ -38,19 +38,19 @@ public class ActionCardController{
     public void handleMove(List<Object> parameters){
         //System.out.println("BANG!!!");
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
-
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
     }
 
-    public void handleGetOutOfJail(List<Object> parameters){
+    public void handleGetOutOfJail(AbstractPlayer p){
         //TODO: can buy get out of jail card?
-        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
+        p.getOutOfJail();
+        myGameView.displayActionInfo( "You've used your get out of jail card. You're free now!" );
     }
 
 
     public void handleSave(List<Object> parameters){
         turn.getMyCurrPlayer().getCards().add( (HoldableCard) parameters.get( 0 ) );
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         myGameView.displayActionInfo( "You now own " + ((HoldableCard) parameters.get( 0 )).getName() + ". You can use this card at any time." );
     }
 
@@ -100,6 +100,6 @@ public class ActionCardController{
                 }
             }
         }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
 }

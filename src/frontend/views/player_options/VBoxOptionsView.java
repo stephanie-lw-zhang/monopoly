@@ -113,7 +113,7 @@ public class VBoxOptionsView extends AbstractOptionsView {
     }
 
     @Override
-    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter) {
 
     }
 

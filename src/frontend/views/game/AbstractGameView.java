@@ -99,7 +99,7 @@ abstract public class AbstractGameView {
 
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
     abstract public void updateDice(Turn turn);
-    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter);
 
     public abstract void disableButton(String str);
 
