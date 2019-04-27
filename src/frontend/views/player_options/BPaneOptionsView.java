@@ -165,7 +165,11 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void updateDice(Turn turn) {
         myDiceView.onUpdate(turn);
-        myLogView.gameLog.setText(myDiceView.getMyPopupText());
+        myLogView.updateLogDisplay(myDiceView.getMyPopupText());
+    }
+
+    public void updateLogDisplay(String s) {
+        myLogView.updateLogDisplay(s);
     }
 
     @Override
