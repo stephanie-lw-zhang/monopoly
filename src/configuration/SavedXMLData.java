@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class SavedXMLData {
     public SavedXMLData(String fileName, XMLData data){
         try {
             this.data = data;
+            playerPositionMap = new HashMap<>();
             File xmlFile = new File(this.getClass().getClassLoader().getResource(fileName).toURI());
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder;
@@ -79,4 +81,10 @@ public class SavedXMLData {
         Node node = nodeList.item(0);
         return node.getNodeValue();
     }
+
+    public static void main(String[] args){
+        XMLData data = new XMLData("OriginalMonopoly.xml");
+        SavedXMLData dat = new SavedXMLData("saved_xml.xml", data);
+    }
+
 }

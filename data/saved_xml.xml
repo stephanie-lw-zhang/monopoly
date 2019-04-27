@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <SavedGame>
     <Player>
-        <TileIndex>12</TileIndex>
-        <Money>1220.0</Money>
+        <Name>b</Name>
+        <Icon>icon2</Icon>
+        <TileIndex>13</TileIndex>
+        <Money>1310.0</Money>
         <Property>
-            <OwnedIndex>12</OwnedIndex>
-            <UpgradeStatus>1Utility</UpgradeStatus>
-        </Property>
-    </Player>
-    <Player>
-        <TileIndex>15</TileIndex>
-        <Money>1250.0</Money>
-        <Property>
-            <OwnedIndex>6</OwnedIndex>
+            <OwnedIndex>8</OwnedIndex>
             <UpgradeStatus>NoHouse</UpgradeStatus>
         </Property>
         <Property>
-            <OwnedIndex>15</OwnedIndex>
-            <UpgradeStatus>1Railroad</UpgradeStatus>
-        </Property>
-    </Player>
-    <Player>
-        <TileIndex>12</TileIndex>
-        <Money>1330.0</Money>
-    </Player>
-    <Player>
-        <TileIndex>9</TileIndex>
-        <Money>1430.0</Money>
-        <Property>
-            <OwnedIndex>9</OwnedIndex>
+            <OwnedIndex>13</OwnedIndex>
             <UpgradeStatus>NoHouse</UpgradeStatus>
         </Property>
+    </Player>
+    <Player>
+        <Name>a</Name>
+        <Icon>icon1</Icon>
+        <TileIndex>16</TileIndex>
+        <Money>1230.0</Money>
+        <Property>
+            <OwnedIndex>11</OwnedIndex>
+            <UpgradeStatus>NoHouse</UpgradeStatus>
+        </Property>
+        <Property>
+            <OwnedIndex>16</OwnedIndex>
+            <UpgradeStatus>NoHouse</UpgradeStatus>
+        </Property>
+    </Player>
+    <Player>
+        <Name>c</Name>
+        <Icon>icon3</Icon>
+        <TileIndex>7</TileIndex>
+        <Money>1350.0</Money>
+    </Player>
+    <Player>
+        <Name>d</Name>
+        <Icon>icon5</Icon>
+        <TileIndex>7</TileIndex>
+        <Money>1550.0</Money>
     </Player>
 </SavedGame>
