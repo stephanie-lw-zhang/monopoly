@@ -44,7 +44,7 @@ public class ActionCardController{
 
     public void handleGetOutOfJail(List<Object> parameters){
         //TODO: can buy get out of jail card?
-        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
+        myGameView.displayActionInfo( "You've used your get out of jail card. You're free now!" );
     }
 
 

@@ -137,8 +137,7 @@ public class TileActionController {
     public void handleDrawCard(){
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
-            if(actionCard.getActionType().contains("Pay")){
-                //System.out.println(actionCard.getActionType());
+            if(actionCard.getActionType().contains("Pay")) {
                 getClass().getMethod("reinitialize"+ actionCard.getActionType(), ActionCard.class).invoke(this, actionCard);
             }
             myGameView.displayActionInfo( actionCard.getText() );

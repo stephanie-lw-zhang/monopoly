@@ -74,7 +74,6 @@ public class GameController {
         numDoubleRolls = 0;
         myGameView.disableButton("End Turn");
         myGameView.enableButton("Roll");
-
     }
 
     private void handleEndGame() {
