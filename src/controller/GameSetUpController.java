@@ -155,7 +155,7 @@ public class GameSetUpController {
 //        }
 //    }
 
-        private ImageView makeIcon (String iconPath){
+        private ImageView makeIcon(String iconPath) {
             Image image = new Image(iconPath + ".png");
             ImageView imageView = new ImageView(image);
             imageView.setFitHeight(25);
