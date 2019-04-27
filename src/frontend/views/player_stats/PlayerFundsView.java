@@ -19,6 +19,7 @@ public class PlayerFundsView implements StatsView {
 
     public void update(List<AbstractPlayer> playerList, AbstractPlayer forfeiter){
         String text = "Player Funds \n";
+        System.out.println(playerList.size());
         for(AbstractPlayer p: playerList ){
             text = text + p.getMyPlayerName() + ": " + p.getMoney() + "\n";
         }

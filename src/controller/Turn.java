@@ -67,6 +67,7 @@ public class Turn {
     public int getNumMoves() {
         int sum = 0;
         for (int roll : myRolls) sum += roll;
+        //return 2;
         return sum;
     }
 

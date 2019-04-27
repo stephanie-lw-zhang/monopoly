@@ -7,7 +7,7 @@ import controller.Turn;
 import frontend.views.LogView;
 import frontend.views.game.AbstractGameView;
 
-import frontend.views.player_stats.PlayerCardsView;
+//import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
 import javafx.beans.value.ChangeListener;
@@ -45,7 +45,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private PlayerPropertiesView myPlayerPropertiesView;
     private AbstractBoard myBoard;
     private PlayerFundsView myPlayerFundsView;
-    private PlayerCardsView myPlayerCardsView;
+//    private PlayerCardsView myPlayerCardsView;
     private TextField myCheatMovesField;
 
     /**
@@ -65,11 +65,15 @@ public class BPaneOptionsView extends AbstractOptionsView {
     }
 
     private void makeAssetViews() {
+//        TabPane cards = new TabPane(  );
         myPlayerPropertiesView = new PlayerPropertiesView(myBoard.getMyPlayerList());
         myPlayerFundsView = new PlayerFundsView(myBoard.getMyPlayerList());
-        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList());
+//        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList(), cards);
         VBox aBox = new VBox();
-        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
+//        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
+        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode());
+
+
         myOptionsViewNode.setLeft(aBox);
     }
 
@@ -176,9 +180,9 @@ public class BPaneOptionsView extends AbstractOptionsView {
 
     @Override
     public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter) {
+//        myPlayerCardsView.update(myPlayerList, forfeiter);
+        myPlayerFundsView.update(myPlayerList, forfeiter);
         myPlayerPropertiesView.update(myPlayerList, forfeiter);
-        myPlayerFundsView.update(myPlayerList, null);
-        myPlayerCardsView.update(myPlayerList, forfeiter);
     }
 
 

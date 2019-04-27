@@ -70,11 +70,21 @@ public class GameController {
     }
 
     private void handleEndTurnButton() {
-        myTurn.skipTurn();
-        myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
-        numDoubleRolls = 0;
-        myGameView.disableButton("End Turn");
-        myGameView.enableButton("Roll");
+//        if(myBoard.getMyPlayerList().size()>1) {
+            myTurn.skipTurn();
+            myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
+            numDoubleRolls = 0;
+            myGameView.disableButton("End Turn");
+            myGameView.enableButton("Roll");
+//        }
+//        else {
+//            handleEndGame();
+//        }
+    }
+
+    private void handleEndGame() {
+        myGameView.displayActionInfo("Player " + myBoard.getMyPlayerList().get(0).getMyPlayerName() + " won the game! Return to main menu.");
+        mySetUpController.backToParent();
     }
 
     private void handleRollButton() {
@@ -130,13 +140,14 @@ public class GameController {
             for (int i = 0; i < numMoves; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
-                   handlePassedTiles(passedTile);
+                    handlePassedTiles(passedTile);
                 }
+                myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),passedTile);
             }
         } catch (MultiplePathException e) {
             e.popUp();
         }
-        myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), myTurn.getNumMoves());
+        //myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), myTurn.getNumMoves());
         //TODO: slow down options list popup
         myGameView.enableButton("End Turn");
         handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
@@ -161,6 +172,7 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
             e.printStackTrace();
         }
@@ -178,6 +190,7 @@ public class GameController {
         } catch (IllegalAccessException e) {
             myGameView.displayActionInfo("Illegal access exception");
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
             e.printStackTrace();
         }  catch (NoSuchMethodException e) {
@@ -341,10 +354,15 @@ public class GameController {
         }
         AbstractPlayer forfeiter = myBoard.getPlayerFromName(player);
         forfeiter.declareBankruptcy(myBoard.getBank());
-        myGameView.enableButton( "End Turn" );
+//        myGameView.enableButton( "End Turn" );
         myBoard.getMyPlayerList().remove(forfeiter);
         myBoard.getPlayerTileMap().remove(forfeiter);
+        System.out.println("PLAYER LIST CONTROLLER: " + myBoard.getMyPlayerList().size());
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
+        System.out.println("HI");
+        if(myBoard.getMyPlayerList().size() == 1){
+            handleEndGame();
+        }
     }
 
     public void handleUseHoldable(List<Object> parameters) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
@@ -381,7 +399,6 @@ public class GameController {
                 }
             }
         }
-
         ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
         Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
         handle.invoke(actionCardController, card.getParameters());
