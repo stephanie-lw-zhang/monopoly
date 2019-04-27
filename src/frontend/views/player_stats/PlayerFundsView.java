@@ -11,14 +11,15 @@ public class PlayerFundsView implements StatsView {
 
     public PlayerFundsView(List<AbstractPlayer> playerList){
         fundsDisplay = new TextArea( );
-        update(playerList);
+        update(playerList, null);
         fundsDisplay.setMaxHeight( 150 );
         fundsDisplay.setMaxWidth( 200 );
         fundsDisplay.setStyle( "-fx-background-color: white" );
     }
 
-    public void update(List<AbstractPlayer> playerList){
+    public void update(List<AbstractPlayer> playerList, AbstractPlayer forfeiter){
         String text = "Player Funds \n";
+        System.out.println(playerList.size());
         for(AbstractPlayer p: playerList ){
             text = text + p.getMyPlayerName() + ": " + p.getMoney() + "\n";
         }

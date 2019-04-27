@@ -2,6 +2,7 @@ package backend.card.property_cards;
 
 import backend.assetholder.AbstractPlayer;
 import backend.card.AbstractCard;
+import exceptions.UpgradeMaxedOutException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -57,13 +58,12 @@ public class PropertyCard extends AbstractCard {
         return rentPriceLookupTable;
     }
 
-    public String nextInUpgradeOrder(String current) {
+    public String nextInUpgradeOrder(String current) throws UpgradeMaxedOutException {
         try {
             return upgradeOrder.get(getUpgradeOrderIndexOf(current)+1);
         }
         catch (IndexOutOfBoundsException i) {
-            //throw exceptions
-            return "";
+             throw new UpgradeMaxedOutException( "You cannot upgrade anymore, this is the maximum upgrade potential." );
         }
     }
 
