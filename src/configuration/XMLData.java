@@ -5,6 +5,7 @@ import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.MoveCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
+import backend.tile.AbstractDrawCardTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import org.w3c.dom.Document;
@@ -55,6 +56,7 @@ public class XMLData {
             initializeTiles(doc);
             initializeNumDecks(doc);
             initializeDecks(doc);
+            reinitializeCardTiles();
             initializeAdjacencyList();
         }catch(ParserConfigurationException | SAXException | IOException | URISyntaxException e) {
             e.printStackTrace(); //change this !!!
@@ -101,6 +103,7 @@ public class XMLData {
     }
 
     private Tile getTile(Node node) throws Exception {
+        //make this more flexible !!!
         Tile tile;
         Element element = (Element) node;
         String tileType = getTagValue("TileType", element);
@@ -125,7 +128,7 @@ public class XMLData {
         NodeList deck = doc.getElementsByTagName("Deck");
         for(int i = 0; i<numDecks; i++){
             Element d = (Element) deck.item(i);
-            decks.add(new NormalDeck());
+            decks.add(new NormalDeck(d));
             NodeList actionCards = d.getElementsByTagName("ActionCard");
             for(int j = 0; j<actionCards.getLength(); j++){
                 decks.get(i).putBack(getActionCard(actionCards.item(j)));
@@ -142,7 +145,6 @@ public class XMLData {
         return card;
     }
 
-
     private void updateCategoryList(Element element, Tile tile){
         //change to category !!!
         String color;
@@ -156,6 +158,20 @@ public class XMLData {
                 propertyCategoryToSpecificListMap.put(color, new ArrayList<>());
             }
             propertyCategoryToSpecificListMap.get(color).add((AbstractPropertyTile)tile);
+        }
+    }
+
+    private void reinitializeCardTiles(){
+        for(Tile t: tiles){
+            String tileType = t.getName();
+            if(t.getTileType().equalsIgnoreCase("CommunityChestTile")||t.getTileType().equalsIgnoreCase("ChanceTile")){
+                for(NormalDeck deck: decks){
+                    //System.out.println(deck.getName() + "  " + tileType);
+                    if(deck.getName().equalsIgnoreCase(tileType)){
+                        ((AbstractDrawCardTile) t).setDeck(deck);
+                    }
+                }
+            }
         }
     }
 

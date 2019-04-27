@@ -172,6 +172,7 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
         }
     }
