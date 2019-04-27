@@ -2,6 +2,7 @@ package controller;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
+import backend.assetholder.AutomatedPlayer;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
@@ -23,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +47,11 @@ public class GameSetUpController {
     private GameController myGameController;
     private FormView myFormView;
     private AbstractScreen myScreen;
-    private double screenWidth,screenHeight;
+    private double screenWidth, screenHeight;
     private XMLData myData;
     private AbstractBoard myBoard;
 
-    public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen){
+    public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen) {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
@@ -63,10 +65,10 @@ public class GameSetUpController {
         //makeSetUpScreen();
     }
 
-    private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon) {
-        myBoard = makeBoard(playerToIcon);
+    private void makeSetUpScreen(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
+        myBoard = makeBoard(playerToIcon, playerToType);
         myGameController = new GameController(
-                screenWidth,screenHeight,
+                screenWidth, screenHeight,
                 this, myBoard, myData
         );
         myNode = myGameController.getGameNode();
@@ -76,14 +78,14 @@ public class GameSetUpController {
         return myNode;
     }
 
-    public void startGame(Map<TextField, ComboBox> playerToIcon) {
-        makeSetUpScreen(playerToIcon);
+    public void startGame(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
+        makeSetUpScreen(playerToIcon, playerToType);
         myScreen.changeDisplayNode(myNode);
     }
 
-    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
+    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
         AbstractBoard board = new StandardBoard(
-                makePlayerList(playerToIcon), myData.getAdjacencyList(),
+                makePlayerList(playerToIcon, playerToType), myData.getAdjacencyList(),
                 myData.getPropertyCategoryMap(), myData.getFirstTile(),
                 myData.getBank()
         );
@@ -91,22 +93,44 @@ public class GameSetUpController {
         return board;
     }
 
-    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
+    private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) {
         List<AbstractPlayer> playerList = new ArrayList<>();
 
         for (TextField pName : playerToIcon.keySet()) {
             String name = pName.getText();
-            if (!name.equals(""))
 
-                //use reflection to get class name and create a type of player dependent on user choice of playertype
-                
-                playerList.add(new HumanPlayer(
-                        name,
-                        (String) playerToIcon.get(pName).getValue(),
-                        1500.00));
+            if (!name.equals("")) {
+                try {
+                    Class humanClassType = Class.forName("HumanPlayer");
+                    Class botClassType = Class.forName("AutomatedPlayer");
+                    Constructor playerClassConstructor = humanClassType.getConstructor(String.class, String.class, Double.class);
+                    //use reflection to get class name and create a type of player dependent on user choice of playertype
+                    String playerType = playerToType.get(pName).getValue().toString();
+                    if (playerType.equals("human")) {
+                        playerList.add(new HumanPlayer(
+                                name,
+                                (String) playerToIcon.get(pName).getValue(),
+                                1500.00));
+                    }
+                    if (playerType.equals("bot")) {
+                        playerList.add(new AutomatedPlayer(
+                                name,
+                                (String) playerToIcon.get(pName).getValue(),
+                                1500.00));
+                        System.out.print("bot!");
+                    }
+                } catch (ClassNotFoundException e) {
+                    Class humanClassType = HumanPlayer.class;
+                    Class botClassType = AutomatedPlayer.class;
+                    e.printStackTrace();
+
+                } catch (NoSuchMethodException e) {
+                    Class humanClassType = HumanPlayer.class;
+                    Class botClassType = AutomatedPlayer.class;
+                }
+            }
+            return playerList;
         }
-        return playerList;
-    }
 
 //    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
 //        for(NormalDeck deck: decks){
@@ -131,12 +155,13 @@ public class GameSetUpController {
 //        }
 //    }
 
-    private ImageView makeIcon(String iconPath) {
-        Image image = new Image(iconPath + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
+        private ImageView makeIcon (String iconPath){
+            Image image = new Image(iconPath + ".png");
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(25);
+            imageView.setFitWidth(25);
 
-        return imageView;
+            return imageView;
+        }
     }
 }
