@@ -70,16 +70,12 @@ public class GameController {
     }
 
     private void handleEndTurnButton() {
-//        if(myBoard.getMyPlayerList().size()>1) {
-            myTurn.skipTurn();
-            myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
-            numDoubleRolls = 0;
-            myGameView.disableButton("End Turn");
-            myGameView.enableButton("Roll");
-//        }
-//        else {
-//            handleEndGame();
-//        }
+        myTurn.skipTurn();
+        myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
+        numDoubleRolls = 0;
+        myGameView.disableButton("End Turn");
+        myGameView.enableButton("Roll");
+
     }
 
     private void handleEndGame() {
@@ -94,6 +90,7 @@ public class GameController {
         }
         myTurn.start();
         myGameView.updateDice(myTurn);
+        System.out.println(myTurn.getMyCurrPlayer().getTurnsInJail());
 
         if (myTurn.isDoubleRoll(myTurn.getRolls())) {
             if(myTurn.getMyCurrPlayer().isInJail()) {
@@ -107,9 +104,11 @@ public class GameController {
                  if (numDoubleRolls < 2) {
                      numDoubleRolls++;
                      handleMove(myTurn.getNumMoves());
-                     myGameView.displayActionInfo("You rolled doubles. Roll again!");
-                     myGameView.disableButton( "End Turn" );
-                     myGameView.enableButton("Roll");
+                     if (!myTurn.getMyCurrPlayer().isInJail()) {
+                         myGameView.displayActionInfo("You rolled doubles. Roll again!");
+                         myGameView.disableButton( "End Turn" );
+                         myGameView.enableButton("Roll");
+                     }
                      //TODO: add log?
                 } else {
                     tileActionController.handleGoToJail();
@@ -125,11 +124,10 @@ public class GameController {
                 myGameView.enableButton("End Turn");
             }
             else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1){
-                handleMove(0);
+                handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
                 myGameView.enableButton("End Turn");
             }
             else {
-
                 handleMove(myTurn.getNumMoves());
             }
         }
@@ -163,7 +161,6 @@ public class GameController {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView, this);
                 Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
-                System.out.println("tile landing");
                 handle.invoke(tileActionController);
             }
         } catch (NoSuchMethodException e) {
@@ -175,7 +172,6 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
             e.printStackTrace();
         }
@@ -219,8 +215,6 @@ public class GameController {
     public void handleMoveCheat() {
         int moves = myGameView.getCheatMoves();
         this.handleMove(moves);
-        handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
     }
 
     public void handleUpgradeProperty() {
@@ -353,9 +347,7 @@ public class GameController {
 //        myGameView.enableButton( "End Turn" );
         myBoard.getMyPlayerList().remove(forfeiter);
         myBoard.getPlayerTileMap().remove(forfeiter);
-        System.out.println("PLAYER LIST CONTROLLER: " + myBoard.getMyPlayerList().size());
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
-        System.out.println("HI");
         if(myBoard.getMyPlayerList().size() == 1){
             handleEndGame();
         }

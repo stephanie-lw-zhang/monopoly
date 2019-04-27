@@ -127,6 +127,7 @@ public class TileActionController {
                 } catch (InvocationTargetException e1) {
                     myGameView.displayActionInfo("Invocation Target Exception");
                 } catch (NoSuchMethodException e1) {
+                    e1.printStackTrace();
                     myGameView.displayActionInfo("No Such Method Exception");
                 }
             }
