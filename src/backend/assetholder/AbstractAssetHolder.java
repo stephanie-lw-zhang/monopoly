@@ -1,6 +1,7 @@
 package backend.assetholder;
 
 import backend.tile.AbstractPropertyTile;
+import exceptions.NotEnoughMoneyException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public abstract class AbstractAssetHolder{
         return properties;
     }
 
-    public abstract void payFullAmountTo(AbstractAssetHolder receiver, Double debt);
+    public abstract void payFullAmountTo(AbstractAssetHolder receiver, Double debt) throws NotEnoughMoneyException;
 
     public abstract boolean checkIfOwnsAllOf(List<AbstractPropertyTile> properties);
 

@@ -102,10 +102,6 @@ public class SplitScreenGameView extends AbstractGameView {
         myPane.add(myBoardView.getBoardViewNode(), 0, 0);
     }
 
-    @Override
-    public void setTurnActions(List<String> turnActions) {
-
-    }
 
     @Override
     public String showInputTextDialog(String title, String header, String content) {

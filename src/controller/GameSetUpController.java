@@ -1,9 +1,15 @@
 package controller;
 
+import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
+import backend.card.AbstractCard;
+import backend.card.action_cards.ActionCard;
+import backend.card.action_cards.PayCard;
+import backend.deck.DeckInterface;
+import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
@@ -76,11 +82,13 @@ public class GameSetUpController {
     }
 
     private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
-        return new StandardBoard(
+        AbstractBoard board = new StandardBoard(
                 makePlayerList(playerToIcon), myData.getAdjacencyList(),
                 myData.getPropertyCategoryMap(), myData.getFirstTile(),
                 myData.getBank()
         );
+        //reinitializeDecks(myData.getDecks(), );
+        return board;
     }
 
     private List<AbstractPlayer> makePlayerList(Map<TextField, ComboBox> playerToIcon) {
@@ -89,11 +97,46 @@ public class GameSetUpController {
         for (TextField pName : playerToIcon.keySet()) {
             String name = pName.getText();
             if (!name.equals(""))
+
+                //use reflection to get class name and create a type of player dependent on user choice of playertype
+                
                 playerList.add(new HumanPlayer(
                         name,
                         (String) playerToIcon.get(pName).getValue(),
                         1500.00));
         }
         return playerList;
+    }
+
+//    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
+//        for(NormalDeck deck: decks){
+//            for(ActionCard card: deck.getCards()){
+//                //this is very hardcoded at the moment
+//                if(card.getActionType().equalsIgnoreCase("Pay")){
+//                    if(((PayCard) card).getPayeeString().equalsIgnoreCase("Everyone")){
+//                        ((PayCard) card).setPayees(playerList);
+//                    }
+//                    //else if()
+//                }
+//                else if(card.getActionType().equalsIgnoreCase("PayBuildings")){
+//                    if(((PayCard) card).getPayeeString().equalsIgnoreCase("Everyone")){
+//                        //((PayCard) card).setPayers();
+//                        ((PayCard) card).setPayees(playerList);
+//                    }
+//                }
+//                else if(card.getActionType().equalsIgnoreCase("MoveAndPay")){
+//
+//                }
+//            }
+//        }
+//    }
+
+    private ImageView makeIcon(String iconPath) {
+        Image image = new Image(iconPath + ".png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+
+        return imageView;
     }
 }
