@@ -13,6 +13,7 @@ import backend.deck.NormalDeck;
 import backend.dice.SixDice;
 import configuration.ImportPropertyFile;
 import configuration.XMLData;
+import engine.MonopolyDriver;
 import frontend.screens.AbstractScreen;
 import frontend.views.FormView;
 
@@ -26,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,12 +157,16 @@ public class GameSetUpController {
     }
 
     public void handleSave() {
+        myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
     }
 
     public void handleLoad(){
-
+        myGameConfigView.generateLoadDialog();
     }
 
     public void handleNewGame() {
+        Stage stage = new Stage();
+        MonopolyDriver newDriver = new MonopolyDriver();
+        newDriver.start(stage);
     }
 }
