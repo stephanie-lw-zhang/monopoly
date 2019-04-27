@@ -10,6 +10,7 @@ import frontend.bot_manager.AutomatedPlayerManager;
 import frontend.views.game.SplitScreenGameView;
 import frontend.views.player_options.BPaneOptionsView;
 
+import configuration.XMLWriter;
 
 import java.util.*;
 
@@ -33,6 +34,7 @@ public class Turn {
     private BPaneOptionsView bPane;
 
 
+    private Integer numMoves;
     public Turn (AbstractPlayer player, AbstractDice dice, AbstractBoard board) {
         myCurrPlayer = player;
 //        if(myCurrPlayer.isAuto()) {
@@ -43,6 +45,7 @@ public class Turn {
         myBoard = board;
         myDice = dice;
         myCurrentTileActions = new ArrayList<>();
+        numMoves = 0;
     }
 
     public void start() {
@@ -50,6 +53,7 @@ public class Turn {
         if(myCurrPlayer.isAuto()==true) {
             autoManager = new AutomatedPlayerManager(bPane);
         }
+        XMLWriter.writeXML("C:\\Users\\Matt Rose\\CS307\\monopoly_team05\\data\\saved_xml.xml", myBoard);
     }
 
     public void skipTurn() {
@@ -82,11 +86,19 @@ public class Turn {
         return rolls;
     }
 
+    public void setNumMoves(){
+        numMoves = 0;
+        for (int roll : myRolls) {
+            numMoves += roll;
+        }
+    }
+
     public int getNumMoves() {
-        int sum = 0;
-        for (int roll : myRolls) sum += roll;
-        //return 2;
-        return sum;
+        return numMoves;
+    }
+
+    public void setNumMoves(int moves){
+        numMoves = moves;
     }
 
     //in a turn a player can roll/move, trade, mortgage
