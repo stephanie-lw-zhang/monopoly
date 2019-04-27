@@ -49,7 +49,7 @@ public class GameController {
         myDice = new SixDice();
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
         this.numDoubleRolls = 0;
-        tileActionController = new TileActionController( myBoard, myTurn, myGameView);
+        tileActionController = new TileActionController( myBoard, myTurn, myGameView, this);
         myGameView.disableButton( "End Turn" );
     }
 
@@ -150,7 +150,7 @@ public class GameController {
             List<String> actions = tile.applyLandedOnAction( myTurn.getMyCurrPlayer() );
             if (!(actions.size() == 0)) {
                 String desiredAction = determineDesiredActionForReflection(actions);
-                TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView);
+                TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView, this);
                 Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
                 handle.invoke(tileActionController);
             }
@@ -185,7 +185,7 @@ public class GameController {
         }
     }
 
-    private String determineDesiredActionForReflection(List<String> actions) {
+    public String determineDesiredActionForReflection(List<String> actions) {
         String desiredAction;
         if (actions.size() > 1) {
             List<String> readableActions = new ArrayList<>();
@@ -511,7 +511,7 @@ public class GameController {
         return label;
     }
 
-    private String translateReadable(String s){
+    public String translateReadable(String s){
         return s.replaceAll("\\s+","");
     }
 }

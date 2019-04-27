@@ -3,7 +3,6 @@ package controller;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
-import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.MoveAndPayCard;
@@ -16,7 +15,6 @@ import frontend.views.game.AbstractGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -24,14 +22,14 @@ import java.util.*;
 public class TileActionController {
     private AbstractBoard myBoard;
     private Turn myTurn;
-    private AbstractBoardView boardView;
     private AbstractGameView myGameView;
-    private Bank myBank;
+    private GameController gameController;
 
-    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView) {
+    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView, GameController gameController) {
        this.myBoard = board;
        this.myTurn = turn;
        this.myGameView = gameView;
+       this.gameController = gameController;
     }
 
     public void handleStayInJail() {
@@ -39,7 +37,7 @@ public class TileActionController {
     }
 
     public void handleCollectMoneyLanded() {
-        myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
+        myBoard.getBank().payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
         myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() + " for landing on go." );
     }
 
@@ -92,6 +90,36 @@ public class TileActionController {
         } catch (NotEnoughMoneyException e) {
             e.popUp();
             myGameView.disableButton( "End Turn" );
+            while(myTurn.getMyCurrPlayer().getMoney() < tax){
+                List<String> options = new ArrayList<>(  );
+                if(myTurn.getMyCurrPlayer().getProperties().size() != 0){
+                    options.add( "Sell To Player" );
+                    options.add("Sell To Bank");
+                    options.add( "Mortgage" );
+                }
+                options.add( "Forfeit" );
+                String desiredAction = myGameView.displayOptionsPopup(options, "Pay Tax", "Paying Tax (" + tax +")", "You must tax or forfeit. Here are your options.");
+                gameController.translateReadable( desiredAction );
+                desiredAction = desiredAction.replaceAll("\\s+","");
+                Method handle = null;
+                try {
+                    handle = gameController.getClass().getMethod("handle" + desiredAction);
+                } catch (NoSuchMethodException e1) {
+                    myGameView.displayActionInfo( "No Such Method Exception" );
+                }
+                try {
+                    handle.invoke(gameController);
+                } catch (IllegalAccessException e1) {
+                    myGameView.displayActionInfo( "Illegal Access Exception" );
+                } catch (InvocationTargetException e1) {
+                    myGameView.displayActionInfo( "Invocation Target Exception" );
+                }
+            }
+            if(myTurn.getMyCurrPlayer().getMoney() >= tax){
+                handlePayTaxFixed();
+            }
+
+
         }
 
 //        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
