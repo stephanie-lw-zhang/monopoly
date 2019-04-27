@@ -450,7 +450,7 @@ public class RectangularBoardView extends AbstractBoardView {
     private void showBuildingTileClickedAlert(BuildingTile tile) {
         //System.out.print("BANG!");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(tile.getName());
+        alert.setTitle(tile.getTitleDeed());
         alert.setHeaderText("Tile Info:");
         String text = "Tile Price: " + tile.getCard().getTilePrice() + "\n";
         for(int i = 0; i<tile.getCard().getRentPriceLookupTable().size(); i++){

@@ -1,5 +1,5 @@
 
-package testing;
+package testing.backendtests;
 
 class PlayerTest {
 /**

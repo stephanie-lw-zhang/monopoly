@@ -1,4 +1,4 @@
-package testing;
+package testing.backendtests;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
