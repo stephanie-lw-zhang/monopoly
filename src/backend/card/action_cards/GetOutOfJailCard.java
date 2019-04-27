@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GetOutOfJailCard extends HoldableCard {
 
-    public GetOutOfJailCard(String text, Element n) {
+    public GetOutOfJailCard(String text) {
         super( "Save", text );
 
     }

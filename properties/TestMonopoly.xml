@@ -20,6 +20,7 @@
         <Name>Test Deck</Name>
         <ActionCard>
             <CardType>MoveCard</CardType>
+            <Type>Move</Type>
             <TileIndex>0</TileIndex>
             <Message>Advance to Go (Collect $200)</Message>
         </ActionCard>
@@ -141,6 +142,9 @@
             <Upgrades>
                 <Upgrade>1Railroad,1,,25</Upgrade>
             </Upgrades>
+            <Upgrades>
+                <Upgrade>2Railroads,2,,50</Upgrade>
+            </Upgrades>
             <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>5</NextTiles>
@@ -179,15 +183,33 @@
 
     <Tile>
         <TileNumber>8</TileNumber>
-        <TileType>GoToJailTile</TileType>
-        <TileName>Go to Jail</TileName>
-        <NextTiles>9</NextTiles>
+        <TileType>RailroadTile</TileType>
+        <Card>
+            <TitleDeed>Reading Railroad</TitleDeed>
+            <TileColor>Railroad</TileColor>
+            <Upgrades>
+                <Upgrade>1Railroad,1,,25</Upgrade>
+            </Upgrades>
+            <Upgrades>
+                <Upgrade>2Railroads,2,,50</Upgrade>
+            </Upgrades>
+            <TilePrice>200</TilePrice>
+            <TileMortgageValue>100</TileMortgageValue>
+            <NextTiles>9</NextTiles>
+        </Card>
     </Tile>
 
     <Tile>
         <TileNumber>9</TileNumber>
-        <TileType>FreeParkingTile</TileType>
+        <TileType>GoToJailTile</TileType>
+        <TileName>Go to Jail</TileName>
         <NextTiles>10</NextTiles>
+    </Tile>
+
+    <Tile>
+        <TileNumber>10</TileNumber>
+        <TileType>FreeParkingTile</TileType>
+        <NextTiles>11</NextTiles>
     </Tile>
 
 
