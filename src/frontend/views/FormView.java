@@ -86,6 +86,7 @@ public class FormView {
         playerChoices.addAll("human", "bot"
         );
         playerToIcon = new HashMap<>();
+        playerToType = new HashMap<>();
 
         for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
 
@@ -94,6 +95,7 @@ public class FormView {
             TextField pField = createPlayerTextField( i );
             myPane.getChildren().addAll( comboBox,playerBox,pField );
             playerToIcon.put( pField, comboBox );
+            playerToType.put( pField, playerBox );
         }
 
         submitFormButton = new Button("START GAME");
@@ -102,7 +104,7 @@ public class FormView {
         submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
                 try {
-                    handleSubmitFormButton(getPlayerToIconMap());
+                    handleSubmitFormButton(getPlayerToIconMap(), getPlayerToTypeMap());
                 } catch (FormInputException e) {
                     e.popUp();
                 }
@@ -169,7 +171,7 @@ public class FormView {
      * enough have signed up, calls for start of game
      * @param playerToIcon
      */
-    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
+    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) throws FormInputException {
         if (this.hasUnassignedIcon(playerToIcon)) {
             throw new InputIconMismatchException();
         }
@@ -182,8 +184,11 @@ public class FormView {
         if (hasDuplicatePlayers() || hasDuplicateIcons(playerToIcon)) {
             throw new DuplicatePlayerException();
         }
+        if (this.hasUnassignedType(playerToType)) {
+            throw new PlayerTypeAssignmentException();
+        }
 
-        myController.startGame(playerToIcon);
+        myController.startGame(playerToIcon, playerToType);
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {
@@ -194,6 +199,7 @@ public class FormView {
         }
         return false;
     }
+
     private boolean hasUnassignedName(Map<TextField, ComboBox> playerToIcon) {
         for (TextField t : playerToIcon.keySet()) {
             if (t.getText().equals("") && playerToIcon.get(t).getValue() != null) {
@@ -203,9 +209,15 @@ public class FormView {
         return false;
     }
 
-//    private boolean hasUnassignedType(){
-//
-//    }
+    private boolean hasUnassignedType(Map<TextField, ComboBox> playerToType){ {
+            for (TextField t : playerToType.keySet()) {
+                if (! t.getText().equals("") && playerToType.get(t).getValue() == null) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 
     /**
      * Checks for duplicate icons
@@ -278,6 +290,8 @@ public class FormView {
     public Map<TextField, ComboBox> getPlayerToIconMap() {
         return playerToIcon;
     }
+    public Map<TextField, ComboBox> getPlayerToTypeMap() { return playerToType; }
+
 
     public Node getNode() {
         return myPane;
