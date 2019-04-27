@@ -50,7 +50,7 @@ public class TileActionController {
             myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
             myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),jail);
         } catch (TileNotFoundException e){
-            e.printStackTrace();
+            e.popUp();
         }
     }
 
@@ -143,7 +143,6 @@ public class TileActionController {
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo( "There is no such method" );
         } catch (SecurityException e) {
             myGameView.displayActionInfo( "Security exception" );

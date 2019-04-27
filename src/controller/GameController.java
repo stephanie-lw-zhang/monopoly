@@ -235,7 +235,6 @@ public class GameController {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo("Invocation target exception");
-            e.printStackTrace();
         }
     }
 
@@ -251,9 +250,7 @@ public class GameController {
         } catch (IllegalAccessException e) {
             myGameView.displayActionInfo("Illegal access exception");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
-            e.printStackTrace();
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");
         }
@@ -427,6 +424,8 @@ public class GameController {
                     tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
                 } catch (IllegalActionOnImprovedPropertyException e) {
                     e.popUp();
+                } catch (UpgradeMinimumException e) {
+                    e.popUp();
                 }
                 //TODO: add front-end implementation
             }
@@ -506,7 +505,7 @@ public class GameController {
             } catch (CancelledActionException e) {
                 e.doNothing();
             } catch (PropertyNotFoundException e) {
-                e.printStackTrace();
+                e.popUp();
             }
         }
     }

@@ -3,6 +3,7 @@ package backend.card.property_cards;
 import backend.assetholder.AbstractPlayer;
 import backend.card.AbstractCard;
 import exceptions.UpgradeMaxedOutException;
+import exceptions.UpgradeMinimumException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -67,13 +68,12 @@ public class PropertyCard extends AbstractCard {
         }
     }
 
-    public String previousInUpgradeOrder(String current) {
+    public String previousInUpgradeOrder(String current) throws UpgradeMinimumException {
         try {
             return upgradeOrder.get(getUpgradeOrderIndexOf(current)-1);
         }
         catch (IndexOutOfBoundsException i) {
-            //throw exceptions
-            return "";
+            throw new UpgradeMinimumException( "You cannot upgrade anymore, this is the minimum upgrade." );
         }
     }
     public String getUpgradeOrderAtIndex(int index){
@@ -82,11 +82,6 @@ public class PropertyCard extends AbstractCard {
 
     public int getUpgradeOrderIndexOf(String current) {
         return upgradeOrder.indexOf(current);
-    }
-
-//    @Override
-    public void applyTo(AbstractPlayer player) {
-        return;
     }
 
     public Integer getNumericValueOfPropertyType(String specificPropertyType) {
