@@ -99,7 +99,7 @@ public class GameController {
         } else {
             String cardToUse = null;
             try {
-                cardToUse = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card to be used", possibleCards );
+                cardToUse = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card to be used", possibleCards);
             } catch (CancelledActionException e) {
                 e.doNothing();
             } catch (PropertyNotFoundException e) {
@@ -114,7 +114,7 @@ public class GameController {
             ActionCardController actionCardController = new ActionCardController( myBoard, myTurn, myGameView );
             Method handle = null;
             try {
-                handle = actionCardController.getClass().getMethod( "handle" + card.getActionType(), List.class );
+                handle = actionCardController.getClass().getMethod( "handle" + card.getHoldableCardAction(), AbstractPlayer.class);
             } catch (NoSuchMethodException e) {
                 myGameView.displayActionInfo( "No such method exception" );
             }
@@ -126,10 +126,8 @@ public class GameController {
                 myGameView.displayActionInfo( "Invocation Target Exception" );
             }
         }
-
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
-
 
     private void handleEndGame() {
         myGameView.displayActionInfo("Player " + myBoard.getMyPlayerList().get(0).getMyPlayerName() + " won the game! Return to main menu.");
@@ -405,47 +403,6 @@ public class GameController {
         if(myBoard.getMyPlayerList().size() == 1){
             handleEndGame();
         }
-    }
-
-    public void handleUseHoldable(List<Object> parameters) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        HoldableCard card = null;
-        ObservableList<String> players = getAllPlayerNames();
-        String playerName = null;
-        try {
-            playerName = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the player who wants to use a card: ", players );
-        } catch (CancelledActionException e) {
-            e.doNothing();
-        } catch (PropertyNotFoundException e) {
-            e.popUp();
-        }
-        AbstractPlayer player = myBoard.getPlayerFromName( playerName );
-
-        ObservableList<String> possibleCards = FXCollections.observableArrayList();
-        for(HoldableCard c: player.getCards()){
-            possibleCards.add( c.getName() );
-        }
-        if (possibleCards.size()==0){
-            myGameView.displayActionInfo( "You have no cards to use at this time." );
-        } else{
-            String desiredCard = null;
-            try {
-                desiredCard = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card you want to use: ", possibleCards );
-            } catch (CancelledActionException e) {
-                e.doNothing();
-            } catch (PropertyNotFoundException e) {
-                e.popUp();
-            }
-            for(HoldableCard c: player.getCards()){
-                if(c.getName().equalsIgnoreCase( desiredCard )){
-                    card = c;
-                }
-            }
-        }
-        ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
-        Method handle = actionCardController.getClass().getMethod("handle" + card.getHoldableCardAction(), List.class);
-        handle.invoke(actionCardController, card.getParameters());
-        myGameView.displayActionInfo( "You've successfully used " + card.getName());
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
 
     public void handleMortgage(){
