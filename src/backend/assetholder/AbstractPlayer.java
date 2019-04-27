@@ -20,6 +20,7 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
     private Boolean            isBankrupt;
     private int                turnsInJail; //-1 not in jail, 0 just got to jail, 1 = 1 turn in jail
     private final static int FREE = -1;
+
     /**
      * AbstractPlayer main constructor
      * @param name
