@@ -5,6 +5,7 @@ import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+import configuration.XMLWriter;
 
 
 import java.util.*;
@@ -35,6 +36,7 @@ public class Turn {
 
     public void start() {
         myRolls = rollDice(myBoard.getNumDie());
+        XMLWriter.writeXML("C:\\Users\\Matt Rose\\CS307\\monopoly_team05\\data\\saved_xml.xml", myBoard);
     }
 
     public void skipTurn() {
