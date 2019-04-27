@@ -68,20 +68,19 @@ public class TileActionController {
         }
     }
 
-        public void handlePayRent() {
-        AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
+    public void handlePayRent() {
+            AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
             double rent = property.calculateRentPrice( myTurn.getNumMoves());
             try {
                 myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), rent);
                 myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
                 myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+                myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+
             } catch (NotEnoughMoneyException e) {
                 e.popUp();
                 payOrForfeit( rent );
             }
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
-            myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
-            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
 
     }
 
