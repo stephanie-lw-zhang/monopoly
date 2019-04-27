@@ -68,11 +68,21 @@ public class GameController {
     }
 
     private void handleEndTurnButton() {
-        myTurn.skipTurn();
-        myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
-        numDoubleRolls = 0;
-        myGameView.disableButton("End Turn");
-        myGameView.enableButton("Roll");
+        if(myBoard.getMyPlayerList().size()>1) {
+            myTurn.skipTurn();
+            myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
+            numDoubleRolls = 0;
+            myGameView.disableButton("End Turn");
+            myGameView.enableButton("Roll");
+        }
+        else {
+            handleEndGame();
+        }
+    }
+
+    private void handleEndGame() {
+        myGameView.displayActionInfo("Player " + myBoard.getMyPlayerList().get(0) + " won the game! Return to main menu.");
+        mySetUpController.backToParent();
     }
 
     private void handleRollButton() {
