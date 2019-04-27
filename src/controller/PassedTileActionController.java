@@ -20,5 +20,6 @@ public class PassedTileActionController {
     public void handleCollectMoneyPassed() {
         myBoard.getBank().payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getPassedMoney() );
         myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getPassedMoney() + " for passing go." );
+        myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " collected " + myBoard.getGoTile().getPassedMoney() + " for passing go.");
     }
 }
