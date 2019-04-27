@@ -1,5 +1,6 @@
 package frontend.views.board.boardcomponents;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.StrokeType;
@@ -57,11 +58,19 @@ public class NormalDeckView extends AbstractTileView {
 
     @Override
     public void makeTileViewNode(double[] dimensions) {
+
+    }
+
+    public void makeTileViewNode(double[] dimensions, String imgPath) {
         myWidth = dimensions[0];
         myHeight = dimensions[1];
         myRoot.setMaxSize(myWidth, myHeight);
         myRoot.getChildren().add(makeText());
         myRoot.getChildren().add(makeBorder());
+        ImageView img = new ImageView(imgPath);
+        img.setFitHeight(90);
+        img.setPreserveRatio(true);
+        myRoot.getChildren().add(img);
     }
 
     /**
