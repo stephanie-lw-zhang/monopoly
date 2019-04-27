@@ -41,6 +41,7 @@ public class FormView {
     // private TestingScreen            myScreen;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
+    private Map<TextField, ComboBox> playerToType;
     private GameSetUpController myController;
     private GridPane myPane;
 
@@ -82,7 +83,7 @@ public class FormView {
                 "icon5", "icon6", "icon7", "icon8"
         );
         ObservableList<String> playerChoices = FXCollections.observableArrayList();
-        playerChoices.addAll("profile", "bot"
+        playerChoices.addAll("human", "bot"
         );
         playerToIcon = new HashMap<>();
 
