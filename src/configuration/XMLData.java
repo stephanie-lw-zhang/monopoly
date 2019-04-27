@@ -3,6 +3,7 @@ package configuration;
 import backend.assetholder.Bank;
 import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.MoveCard;
+import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
 import backend.tile.AbstractDrawCardTile;
 import backend.tile.AbstractPropertyTile;
@@ -34,7 +35,7 @@ public class XMLData {
     private int numDecks;
     private List<Tile> tiles;
     private Tile firstTile;
-    private List<NormalDeck> decks;
+    private List<DeckInterface> decks;
     private String monopolyType;
 
     public XMLData(String fileName) {
@@ -160,7 +161,7 @@ public class XMLData {
         for(Tile t: tiles){
             String tileType = t.getName();
             if(t.getTileType().equalsIgnoreCase("CommunityChestTile")||t.getTileType().equalsIgnoreCase("ChanceTile")){
-                for(NormalDeck deck: decks){
+                for(DeckInterface deck: decks){
                     //System.out.println(deck.getName() + "  " + tileType);
                     if(deck.getName().equalsIgnoreCase(tileType)){
                         ((AbstractDrawCardTile) t).setDeck(deck);
@@ -219,7 +220,7 @@ public class XMLData {
         return firstTile;
     }
 
-    public List<NormalDeck> getDecks(){
+    public List<DeckInterface> getDecks(){
         return decks;
     }
 

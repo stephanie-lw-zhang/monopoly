@@ -202,26 +202,4 @@ public abstract class AbstractPropertyTile extends Tile {
     }
 
     public boolean isBuildingTile(){return false;}
-
-    //    public boolean isRentNeeded(AbstractPlayer player) {
-//        return (!player.equals(getOwner()) && !mortgaged);
-//    }
-
-    //    public void buyPropertyFromBank(AbstractPlayer player) {
-//        //in controller, we first check if player can buy property --> sends to front-end
-////        if(player.getMoney() < tileprice) {
-////            //THROW EXCEPTION: CANNOT BUY PROPERTY WITH CURRENT AMOUNT OF MONEY
-////            //maybe options to sell other properties or mortgage or something from front end?
-////        }
-//        if (owner.equals(bank)) {
-//            player.addProperty(this);
-
-//
-//            player.payFullAmountTo( bank, tileprice );
-//            switchOwner(player);
-//        }
-//        else {
-//            //throw exceptions: CAN'T BUY BECAUSE BANK DOESN'T OWN
-//        }
-//    }
 }
