@@ -161,6 +161,7 @@ public class GameController {
                 String desiredAction = determineDesiredActionForReflection(actions);
                 TileActionController tileActionController = new TileActionController(myBoard, myTurn, myGameView, this);
                 Method handle = tileActionController.getClass().getMethod("handle" + desiredAction);
+                System.out.println("tile landing");
                 handle.invoke(tileActionController);
             }
         } catch (NoSuchMethodException e) {
@@ -215,16 +216,9 @@ public class GameController {
 
     public void handleMoveCheat() {
         int moves = myGameView.getCheatMoves();
-        for (int i = 0; i < moves; i++) {
-            try {
-                myBoard.movePlayerByOne( myTurn.getMyCurrPlayer() );
-            } catch (MultiplePathException e) {
-                e.popUp();
-            }
-        }
-        myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(), moves);
+        this.handleMove(moves);
         handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
-        myGameView.enableButton( "End Turn" );
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
     }
 
     public void handleUpgradeProperty() {

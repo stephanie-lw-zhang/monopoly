@@ -10,7 +10,6 @@ import backend.card.action_cards.PayBuildingsCard;
 import backend.card.action_cards.PayCard;
 import backend.tile.*;
 import exceptions.*;
-import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,21 +67,18 @@ public class TileActionController {
         }
     }
 
-        public void handlePayRent() {
+    public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
-            double rent = property.calculateRentPrice( myTurn.getNumMoves());
-            try {
-                myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), rent);
-                myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
-                myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
-            } catch (NotEnoughMoneyException e) {
-                e.popUp();
-                payOrForfeit( rent );
-            }
+        double rent = property.calculateRentPrice( myTurn.getNumMoves());
+        try {
+            myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), rent);
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
             myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
             myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
-
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
+            payOrForfeit( rent, "handlePayRent" );
+        }
     }
 
     public void handlePayTaxFixed() {
@@ -91,17 +87,14 @@ public class TileActionController {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
             myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
+            myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
-            payOrForfeit( tax );
+            payOrForfeit( tax, "PayTaxFixed" );
         }
-
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
-        myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
-        myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
-    private void payOrForfeit(double tax) {
+    private void payOrForfeit(double tax, String method) {
         myGameView.disableButton( "End Turn" );
         while(myTurn.getMyCurrPlayer().getMoney() < tax) {
             List<String> options = new ArrayList<>();
@@ -115,31 +108,30 @@ public class TileActionController {
             if (desiredAction.equals( "Forfeit" )) {
                 gameController.handleForfeit();
                 break;
-            } else {
-                gameController.translateReadable( desiredAction );
-                desiredAction = desiredAction.replaceAll( "\\s+", "" );
+            }
+            else {
+                gameController.translateReadable(desiredAction);
+                desiredAction = desiredAction.replaceAll("\\s+", "");
                 Method handle = null;
                 try {
-                    handle = gameController.getClass().getMethod( "handle" + desiredAction );
-                } catch (NoSuchMethodException e1) {
-                    myGameView.displayActionInfo( "No Such Method Exception" );
-                }
-                try {
-                    handle.invoke( gameController );
+                    handle = gameController.getClass().getMethod("handle" + desiredAction);
+                    handle.invoke(gameController);
+                    if (myTurn.getMyCurrPlayer().getMoney() >= tax) {
+                        Method redo = null;
+                        redo = this.getClass().getMethod(method);
+                        redo.invoke(this);
+                        break;
+                    }
                 } catch (IllegalAccessException e1) {
-                    myGameView.displayActionInfo( "Illegal Access Exception" );
+                    myGameView.displayActionInfo("Illegal Access Exception");
                 } catch (InvocationTargetException e1) {
-                    myGameView.displayActionInfo( "Invocation Target Exception" );
-                }
-                if (myTurn.getMyCurrPlayer().getMoney() >= tax) {
-                    handlePayTaxFixed();
-                    break;
+                    myGameView.displayActionInfo("Invocation Target Exception");
+                } catch (NoSuchMethodException e1) {
+                    myGameView.displayActionInfo("No Such Method Exception");
                 }
             }
-
         }
     }
-
 
     public void handleDrawCard(){
         try {
