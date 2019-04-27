@@ -331,12 +331,17 @@ public class RectangularBoardView extends AbstractBoardView {
                           double width, double length, double prop){
         var tile = new NormalDeckView(tileName,tileDescription);
         var height = length;
-        tile.makeTileViewNode(new double[]{width,height});
+        tile.makeTileViewNode(new double[]{width,height}, parseTileNamePath(tileName));
         Node tileNode = tile.getNodeOfTileView();
         tileNode.setRotate(-45);
         myRoot.setTopAnchor(tileNode,myScreenHeight*prop);
         myRoot.setLeftAnchor(tileNode,myScreenWidth*prop);
         myRoot.getChildren().add(tileNode);
+    }
+
+    private String parseTileNamePath(String tileName) {
+        String[] arr = tileName.split(" ");
+        return arr[0].toLowerCase() + "Card.png";
     }
 
     public PropertyTileView placePropertyTile(String tileName, BuildingTile propTile,
@@ -450,7 +455,7 @@ public class RectangularBoardView extends AbstractBoardView {
     private void showBuildingTileClickedAlert(BuildingTile tile) {
         //System.out.print("BANG!");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(tile.getName());
+        alert.setTitle(tile.getTitleDeed());
         alert.setHeaderText("Tile Info:");
         String text = "Tile Price: " + tile.getCard().getTilePrice() + "\n";
         for(int i = 0; i<tile.getCard().getRentPriceLookupTable().size(); i++){

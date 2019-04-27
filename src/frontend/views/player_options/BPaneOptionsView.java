@@ -5,11 +5,13 @@ import backend.board.AbstractBoard;
 import configuration.XMLData;
 import controller.Turn;
 import frontend.views.LogView;
+import frontend.views.TimerView;
 import frontend.views.game.AbstractGameView;
 
 //import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
+import frontend.views.player_stats.PlayerRosterView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
@@ -47,6 +49,8 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private PlayerFundsView myPlayerFundsView;
 //    private PlayerCardsView myPlayerCardsView;
     private TextField myCheatMovesField;
+    private TimerView myTimer;
+    private PlayerRosterView myPlayerRosterView;
 
     /**
      * VBoxOptionsView main constructor
@@ -68,19 +72,21 @@ public class BPaneOptionsView extends AbstractOptionsView {
 //        TabPane cards = new TabPane(  );
         myPlayerPropertiesView = new PlayerPropertiesView(myBoard.getMyPlayerList());
         myPlayerFundsView = new PlayerFundsView(myBoard.getMyPlayerList());
+        myPlayerRosterView = new PlayerRosterView(myBoard.getMyPlayerList());
 //        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList(), cards);
         VBox aBox = new VBox();
 //        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
-        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode());
+        aBox.getChildren().addAll(myPlayerRosterView.getNode(), myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode());
 
 
         myOptionsViewNode.setLeft(aBox);
     }
 
     private void makeNonActionViews() {
+        myTimer = new TimerView();
         myLogView = new LogView(myData);
         VBox NonActionBox = new VBox();
-        NonActionBox.getChildren().addAll(myLogView.getNode());
+        NonActionBox.getChildren().addAll(myTimer.getNode(),myLogView.getNode());
         myOptionsViewNode.setTop(NonActionBox);
     }
 
@@ -161,6 +167,8 @@ public class BPaneOptionsView extends AbstractOptionsView {
         return myOptionsViewNode;
     }
 
+    public Map getControls() { return myControls; }
+
     @Override
     public void updateDice(Turn turn) {
         myDiceView.onUpdate(turn);
@@ -180,8 +188,8 @@ public class BPaneOptionsView extends AbstractOptionsView {
 
     @Override
     public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter) {
-//        myPlayerCardsView.update(myPlayerList, forfeiter);
         myPlayerFundsView.update(myPlayerList, forfeiter);
         myPlayerPropertiesView.update(myPlayerList, forfeiter);
+        myPlayerRosterView.update(myPlayerList, forfeiter);
     }
 }

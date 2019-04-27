@@ -1,5 +1,6 @@
 package controller;
 
+import backend.assetholder.AutomatedPlayer;
 import backend.card.action_cards.HoldableCard;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
@@ -11,6 +12,7 @@ import backend.tile.*;
 import configuration.XMLData;
 import exceptions.*;
 
+import frontend.bot_manager.AutomatedPlayerManager;
 import frontend.views.game.AbstractGameView;
 import frontend.views.game.SplitScreenGameView;
 
@@ -39,6 +41,7 @@ public class GameController {
     private int numDoubleRolls;
     private AbstractGameView myGameView;
     private TileActionController tileActionController;
+    private AutomatedPlayerManager autoManager;
 
     public GameController(double width, double height, GameSetUpController controller, AbstractBoard board, XMLData data){
         myBoard = board;
@@ -50,6 +53,11 @@ public class GameController {
         myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
         this.numDoubleRolls = 0;
         tileActionController = new TileActionController( myBoard, myTurn, myGameView, this);
+        for(AbstractPlayer player : myBoard.getMyPlayerList()) {
+            if (player.isAuto() == true) {
+                autoManager = new AutomatedPlayerManager(myGameView.getMyOptionsView(), this);
+            }
+        }
         myGameView.disableButton( "End Turn" );
     }
 
@@ -75,6 +83,11 @@ public class GameController {
         numDoubleRolls = 0;
         myGameView.disableButton("End Turn");
         myGameView.enableButton("Roll");
+
+        if(myTurn.getMyCurrPlayer().isAuto()==(true)) {
+            autoManager.autoPlayerTurn(myTurn.getMyCurrPlayer());
+        }
+
     }
 
     private void handleUseCardButton() {
@@ -570,10 +583,18 @@ public class GameController {
         return label;
     }
 
+    public AbstractGameView getMyButtons() {
+        return myGameView;
+    }
+
     public String translateReadable(String s){
         return s.replaceAll("\\s+","");
     }
+
+    public AutomatedPlayerManager getMyAutoManager() { return autoManager; }
 }
+
+
 
 //    private AbstractBoard makeBoard(Map<TextField, ComboBox> playerToIcon) {
 //        return new StandardBoard(
@@ -592,7 +613,7 @@ public class GameController {
 //                playerList.add(new HumanPlayer(
 //                        name,
 //                        makeIcon((String) playerToIcon.get(pName).getValue()),
-//                        1500.00));
+//                        1g00.00));
 //        }
 //        return playerList;
 //    }

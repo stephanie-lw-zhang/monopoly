@@ -1,12 +1,16 @@
 package controller;
 
 import backend.assetholder.AbstractPlayer;
+import backend.assetholder.AutomatedPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
-import configuration.XMLWriter;
+import frontend.bot_manager.AutomatedPlayerManager;
+import frontend.views.game.SplitScreenGameView;
+import frontend.views.player_options.BPaneOptionsView;
 
+import configuration.XMLWriter;
 
 import java.util.*;
 
@@ -26,9 +30,18 @@ public class Turn {
     private AbstractDice   myDice;
     private List<String>   myCurrentTileActions;
     private Integer[]      myRolls;
+    private AutomatedPlayerManager autoManager;
+    private BPaneOptionsView bPane;
+
+
     private Integer numMoves;
     public Turn (AbstractPlayer player, AbstractDice dice, AbstractBoard board) {
         myCurrPlayer = player;
+//        if(myCurrPlayer.isAuto()) {
+//            view = SplitScreenGameView;
+//            bPane =
+//            autoManager = new AutomatedPlayerManager(bPane);
+//        }
         myBoard = board;
         myDice = dice;
         myCurrentTileActions = new ArrayList<>();
@@ -37,7 +50,7 @@ public class Turn {
 
     public void start() {
         myRolls = rollDice(myBoard.getNumDie());
-        XMLWriter.writeXML("C:\\Users\\Matt Rose\\CS307\\monopoly_team05\\data\\saved_xml.xml", myBoard);
+        XMLWriter.writeXML(System.getProperty("user.dir")+"\\data\\saved_xml.xml", myBoard);
     }
 
     public void skipTurn() {
@@ -53,6 +66,9 @@ public class Turn {
 
         while (iterator.hasNext()) {
             AbstractPlayer current = iterator.next();
+//            if(current.isAuto()==(true)) {
+//                GameController.getMyAutoManager().autoPlayerTurn(current);
+//            }
             if (current.equals(myCurrPlayer) && iterator.hasNext())  // employs custom AbstractPlayer.equals()
                 return iterator.next(); // get next player if myCurrPlayer not last element
         }

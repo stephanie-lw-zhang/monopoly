@@ -1,4 +1,4 @@
-package testing;
+package testing.backendtests;
 
 import backend.dice.AbstractDice;
 import backend.dice.NDice;
