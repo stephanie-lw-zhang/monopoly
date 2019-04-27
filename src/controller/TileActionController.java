@@ -90,14 +90,12 @@ public class TileActionController {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
             myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
+            myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
             payOrForfeit( tax );
         }
 
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
-        myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
-        myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
     private void payOrForfeit(double tax) {
