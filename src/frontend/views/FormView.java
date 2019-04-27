@@ -1,6 +1,6 @@
 package frontend.views;
 import controller.GameSetUpController;
-import exceptions.DuplicatePlayerException;
+import exceptions.DuplicatePlayeNameException;
 import exceptions.FormInputException;
 import exceptions.InsufficientPlayersException;
 import exceptions.*;
@@ -181,8 +181,11 @@ public class FormView {
         if (! hasEnoughPlayers()) {
             throw new InsufficientPlayersException();
         }
-        if (hasDuplicatePlayers() || hasDuplicateIcons(playerToIcon)) {
-            throw new DuplicatePlayerException();
+        if (hasDuplicatePlayers()) {
+            throw new DuplicatePlayeNameException();
+        }
+        if (hasDuplicateIcons(playerToIcon)) {
+            throw new DuplicatePlayerIconException();
         }
         if (this.hasUnassignedType(playerToType)) {
             throw new PlayerTypeAssignmentException();

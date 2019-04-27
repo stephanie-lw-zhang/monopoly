@@ -49,6 +49,7 @@ public class TileActionController {
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
             myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
             myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),jail);
+            myGameView.disableButton("Use Card");
         } catch (TileNotFoundException e){
             e.popUp();
         }

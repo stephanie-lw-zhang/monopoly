@@ -7,6 +7,7 @@ import backend.card.action_cards.HoldableCard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
+import exceptions.IncorrectUseOfHoldableException;
 import exceptions.NotEnoughMoneyException;
 import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
@@ -39,12 +40,19 @@ public class ActionCardController{
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
     }
 
-    public void handleGetOutOfJail(AbstractPlayer p){
+    public void handleGetOutOfJail(List<Object> parameters) {
+        AbstractPlayer cardUser = (AbstractPlayer)parameters.get(0);
+        HoldableCard card = (HoldableCard)parameters.get(1);
         //TODO: can buy get out of jail card?
-        p.getOutOfJail();
-        myGameView.displayActionInfo( "You've used your get out of jail card. You're free now!" );
+        if (!cardUser.isInJail()) {
+            new IncorrectUseOfHoldableException("You are not in jail so you cannot use this card at this time!").popUp();
+        }
+        else {
+            cardUser.getOutOfJail();
+            cardUser.getCards().remove(card);
+            myGameView.displayActionInfo( "You've used your get out of jail card. You're free now!" );
+        }
     }
-
 
     public void handleSave(List<Object> parameters){
         turn.getMyCurrPlayer().getCards().add( (HoldableCard) parameters.get( 0 ) );
