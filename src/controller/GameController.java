@@ -466,7 +466,7 @@ public class GameController {
                 possibleProperties.add( p.getTitleDeed() );
             }
 
-            if (possibleProperties.size()==0){
+            if (possibleProperties.size() == 0){
                 myGameView.displayActionInfo( "You have no properties to mortgage at this time." );
             } else{
                 String propertyToMortgage = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the property to be mortgaged", possibleProperties );
