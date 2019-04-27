@@ -120,7 +120,7 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 41; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
                    handlePassedTiles(passedTile);
@@ -153,6 +153,7 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
         }
     }
@@ -169,6 +170,7 @@ public class GameController {
         } catch (IllegalAccessException e) {
             myGameView.displayActionInfo("Illegal access exception");
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");
@@ -362,7 +364,6 @@ public class GameController {
                 }
             }
         }
-
         ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
         Method handle = actionCardController.getClass().getMethod("handle" + card.getActionType(), List.class);
         handle.invoke(actionCardController, card.getParameters());

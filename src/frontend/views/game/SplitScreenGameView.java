@@ -2,7 +2,6 @@ package frontend.views.game;
 
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import backend.board.StandardBoard;
 import backend.tile.Tile;
 import configuration.XMLData;
 
@@ -10,7 +9,6 @@ import controller.Turn;
 import frontend.views.LogView;
 import frontend.views.player_options.AbstractOptionsView;
 import frontend.views.player_options.BPaneOptionsView;
-import frontend.views.player_options.VBoxOptionsView;
 import frontend.views.player_options.DiceView;
 import frontend.views.board.AbstractBoardView;
 import frontend.views.board.SquareBoardView;
@@ -23,7 +21,6 @@ import javafx.scene.Node;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 import java.util.Map;
