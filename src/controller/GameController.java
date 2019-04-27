@@ -125,7 +125,7 @@ public class GameController {
 
     private void handleMove(int numMoves) {
         try {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < numMoves; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
                 if (passedTile != null && i != myTurn.getNumMoves()-1) {
                    handlePassedTiles(passedTile);
@@ -499,7 +499,7 @@ public class GameController {
 //                playerList.add(new HumanPlayer(
 //                        name,
 //                        makeIcon((String) playerToIcon.get(pName).getValue()),
-//                        1500.00));
+//                        1g00.00));
 //        }
 //        return playerList;
 //    }
