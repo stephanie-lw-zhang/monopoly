@@ -112,7 +112,7 @@ public class GameController {
         } else {
             String cardToUse = null;
             try {
-                cardToUse = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card to be used", possibleCards );
+                cardToUse = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card to be used", possibleCards);
             } catch (CancelledActionException e) {
                 e.doNothing();
             } catch (PropertyNotFoundException e) {
@@ -127,7 +127,7 @@ public class GameController {
             ActionCardController actionCardController = new ActionCardController( myBoard, myTurn, myGameView );
             Method handle = null;
             try {
-                handle = actionCardController.getClass().getMethod( "handle" + card.getActionType(), List.class );
+                handle = actionCardController.getClass().getMethod( "handle" + card.getHoldableCardAction(), AbstractPlayer.class);
             } catch (NoSuchMethodException e) {
                 myGameView.displayActionInfo( "No such method exception" );
             }
@@ -139,10 +139,8 @@ public class GameController {
                 myGameView.displayActionInfo( "Invocation Target Exception" );
             }
         }
-
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
-
 
     private void handleEndGame() {
         myGameView.displayActionInfo("Player " + myBoard.getMyPlayerList().get(0).getMyPlayerName() + " won the game! Return to main menu.");
@@ -385,11 +383,10 @@ public class GameController {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
             AbstractPlayer owner = getSelectedPlayer("Sell Buildings", "Choose who is selling a building", players);
             handleSellToBankFor(owner);
-
-        } catch (CancelledActionException e) {
-            e.doNothing();
         } catch (PropertyNotFoundException e) {
             e.popUp();
+        } catch (CancelledActionException e) {
+            e.doNothing();
         }
     }
 
@@ -399,31 +396,31 @@ public class GameController {
         BuildingTile tile = null;
         try {
             tile = (BuildingTile) getSelectedPropertyTile("Sell Buildings", "Choose which property to sell buildings from ", tiles);
-        } catch (CancelledActionException e) {
+            List<String> options = createListOf2OptionsAsStrings("SELL ALL BUILDINGS ON ALL PROPERTIES OF SAME GROUP",
+                    "SELL ONE BUILDING ON SELECTED PROPERTY");
+            String str = myGameView.displayOptionsPopup(options, "Sell Buildings", "Sell buildings options ", "Choose one ");
+            if (str.equalsIgnoreCase(options.get(0))) {
+                try {
+                    tile.sellAllBuildingsOnTile(myBoard.getSameSetProperties(tile));
+                } catch (IllegalActionOnImprovedPropertyException e) {
+                    e.popUp();
+                }
+                //TODO: add front-end implementation
+            } else {
+                try {
+                    tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
+                } catch (IllegalActionOnImprovedPropertyException e) {
+                    e.popUp();
+                }
+                //TODO: add front-end implementation
+            }
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+        }
+        catch (CancelledActionException e) {
             e.doNothing();
         } catch (PropertyNotFoundException e) {
             e.popUp();
         }
-        List<String> options = createListOf2OptionsAsStrings("SELL ALL BUILDINGS ON ALL PROPERTIES OF SAME GROUP",
-                "SELL ONE BUILDING ON SELECTED PROPERTY");
-        String str = myGameView.displayOptionsPopup(options, "Sell Buildings", "Sell buildings options ", "Choose one ");
-        if (str.equalsIgnoreCase(options.get(0))) {
-            try {
-                tile.sellAllBuildingsOnTile(myBoard.getSameSetProperties(tile));
-            } catch (IllegalActionOnImprovedPropertyException e) {
-                e.popUp();
-            }
-            //TODO: add front-end implementation
-        } else {
-            try {
-                tile.sellOneBuilding(myBoard.getSameSetProperties(tile));
-            } catch (IllegalActionOnImprovedPropertyException e) {
-                e.popUp();
-            }
-            //TODO: add front-end implementation
-        }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
-
     }
 
     public void handleForfeit() {
@@ -431,18 +428,17 @@ public class GameController {
         String player = null;
         try {
             player = myGameView.displayDropDownAndReturnResult("Forfeit", "Select the player who wants to forfeit: ", players);
+            AbstractPlayer forfeiter = myBoard.getPlayerFromName(player);
+            handleForfeitFor( forfeiter );
         } catch (CancelledActionException e) {
             e.doNothing();
         } catch (PropertyNotFoundException e) {
             e.popUp();
         }
-        AbstractPlayer forfeiter = myBoard.getPlayerFromName(player);
-        handleForfeitFor( forfeiter );
     }
 
     public void handleForfeitFor(AbstractPlayer forfeiter){
         forfeiter.declareBankruptcy(myBoard.getBank());
-//        myGameView.enableButton( "End Turn" );
         myBoard.getMyPlayerList().remove(forfeiter);
         myBoard.getPlayerTileMap().remove(forfeiter);
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
@@ -451,54 +447,12 @@ public class GameController {
         }
     }
 
-    public void handleUseHoldable(List<Object> parameters) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        HoldableCard card = null;
-        ObservableList<String> players = getAllPlayerNames();
-        String playerName = null;
-        try {
-            playerName = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the player who wants to use a card: ", players );
-        } catch (CancelledActionException e) {
-            e.doNothing();
-        } catch (PropertyNotFoundException e) {
-            e.popUp();
-        }
-        AbstractPlayer player = myBoard.getPlayerFromName( playerName );
-
-        ObservableList<String> possibleCards = FXCollections.observableArrayList();
-        for(HoldableCard c: player.getCards()){
-            possibleCards.add( c.getName() );
-        }
-        if (possibleCards.size()==0){
-            myGameView.displayActionInfo( "You have no cards to use at this time." );
-        } else{
-            String desiredCard = null;
-            try {
-                desiredCard = myGameView.displayDropDownAndReturnResult( "Use Card", "Select the card you want to use: ", possibleCards );
-            } catch (CancelledActionException e) {
-                e.doNothing();
-            } catch (PropertyNotFoundException e) {
-                e.popUp();
-            }
-            for(HoldableCard c: player.getCards()){
-                if(c.getName().equalsIgnoreCase( desiredCard )){
-                    card = c;
-                }
-            }
-        }
-        ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
-        Method handle = actionCardController.getClass().getMethod("handle" + card.getHoldableCardAction(), List.class);
-        handle.invoke(actionCardController, card.getParameters());
-        myGameView.displayActionInfo( "You've successfully used " + card.getName());
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
-    }
-
     public void handleMortgage(){
         try{
             ObservableList<String> players = getAllPlayerNames();
             String mortgagerName = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the player who wants to mortgage: ", players );
             AbstractPlayer mortgager = myBoard.getPlayerFromName( mortgagerName );
             handleMortgageFor( mortgager );
-
         } catch (PropertyNotFoundException e) {
             e.popUp();
         } catch (CancelledActionException e) {
@@ -507,12 +461,11 @@ public class GameController {
     }
 
     public void handleMortgageFor(AbstractPlayer mortgager) {
-        System.out.println("got here");
+
         ObservableList<String> possibleProperties = FXCollections.observableArrayList();
         for (AbstractPropertyTile p : mortgager.getProperties()) {
             possibleProperties.add( p.getTitleDeed() );
         }
-
         if (possibleProperties.size() == 0) {
             myGameView.displayActionInfo( "You have no properties to mortgage at this time." );
         } else {
@@ -520,22 +473,20 @@ public class GameController {
             String propertyToMortgage = null;
             try {
                 propertyToMortgage = myGameView.displayDropDownAndReturnResult( "Mortgage", "Select the property to be mortgaged", possibleProperties );
-            } catch (CancelledActionException e) {
-                e.doNothing();
-            } catch (PropertyNotFoundException e) {
-                e.printStackTrace();
-            }
-            for (AbstractPropertyTile prop : mortgager.getProperties()) {
-                if (prop.getTitleDeed().equalsIgnoreCase( propertyToMortgage )) {
-                    property = prop;
+                for (AbstractPropertyTile prop : mortgager.getProperties()) {
+                    if (prop.getTitleDeed().equalsIgnoreCase( propertyToMortgage )) {
+                        property = prop;
+                    }
                 }
-            }
-            try {
                 property.mortgageProperty();
             } catch (MortgagePropertyException e) {
                 e.popUp();
             } catch (IllegalActionOnImprovedPropertyException e) {
                 e.popUp();
+            } catch (CancelledActionException e) {
+                e.doNothing();
+            } catch (PropertyNotFoundException e) {
+                e.printStackTrace();
             }
             myGameView.displayActionInfo( "You've successfully mortgaged " + property.getTitleDeed() );
             myGameView.updateAssetDisplay( myBoard.getMyPlayerList(), null );

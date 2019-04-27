@@ -12,4 +12,6 @@ public interface DeckInterface {
 
     void addCards(List<ActionCard> cardList);
 
+    String getName();
+
 }
