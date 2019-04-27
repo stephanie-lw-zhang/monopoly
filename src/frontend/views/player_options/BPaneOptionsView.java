@@ -166,6 +166,10 @@ public class BPaneOptionsView extends AbstractOptionsView {
         myLogView.updateLogDisplay(myDiceView.getMyPopupText());
     }
 
+    public void updateLogDisplay(String s) {
+        myLogView.updateLogDisplay(s);
+    }
+
     @Override
     public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
