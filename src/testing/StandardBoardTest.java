@@ -1,7 +1,8 @@
-package backend.board;
+package testing;
 
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.HumanPlayer;
+import backend.board.StandardBoard;
 import backend.tile.Tile;
 import configuration.XMLData;
 import exceptions.MultiplePathException;
@@ -57,19 +58,4 @@ class StandardBoardTest {
     void testGetGoTile(){
         assertEquals(data.getTiles().get(0), board.getGoTile());
     }
-
-/**
-    @Test
-    void testBoardCycle() {
-//        board.movePlayer(playerList.get(0), new int[]{6, 6});
-        assertEquals(goToJailNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-    }
-
-    @Test
-    void testGoToJailTile() {
-//        board.movePlayer(playerList.get(0), new int[]{5, 6});
-        board.getPlayerTile(playerList.get(0)).applyLandedOnAction(playerList.get(0));
-        assertEquals(buildingNeighbor.get(0), board.getPlayerTile(playerList.get(0)));
-    }
-    */
 }
