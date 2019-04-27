@@ -92,6 +92,7 @@ abstract public class AbstractGameView {
             buttonOptions.add(new ButtonType(option));
         }
 
+
         alert.getButtonTypes().setAll(buttonOptions);
         Optional<ButtonType> result = alert.showAndWait();
 

@@ -90,7 +90,7 @@ public class TileActionController {
             myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
-            payOrForfeit( tax, "PayTaxFixed" );
+            payOrForfeit( tax, "handlePayTaxFixed" );
         }
     }
 
@@ -106,16 +106,15 @@ public class TileActionController {
             options.add( "Forfeit" );
             String desiredAction = myGameView.displayOptionsPopup( options, "Pay", "Pay " + debt + " monopoly dollars", "You must pay or forfeit. Here are your options." );
             if (desiredAction.equals( "Forfeit" )) {
-                gameController.handleForfeit();
+                gameController.handleForfeitFor(myTurn.getMyCurrPlayer());
                 break;
-            }
-            else {
-                gameController.translateReadable(desiredAction);
-                desiredAction = desiredAction.replaceAll("\\s+", "");
+            } else {
+                gameController.translateReadable( desiredAction );
+                desiredAction = desiredAction.replaceAll( "\\s+", "" );
                 Method handle = null;
                 try {
-                    handle = gameController.getClass().getMethod("handle" + desiredAction);
-                    handle.invoke(gameController);
+                    handle = gameController.getClass().getMethod( "handle" + desiredAction + "For", AbstractPlayer.class);
+                    handle.invoke( gameController , myTurn.getMyCurrPlayer());
                     if (myTurn.getMyCurrPlayer().getMoney() >= debt) {
                         Method redo = null;
                         redo = this.getClass().getMethod(method);
@@ -123,12 +122,12 @@ public class TileActionController {
                         break;
                     }
                 } catch (IllegalAccessException e1) {
-                    myGameView.displayActionInfo("Illegal Access Exception");
-                } catch (InvocationTargetException e1) {
-                    myGameView.displayActionInfo("Invocation Target Exception");
-                } catch (NoSuchMethodException e1) {
-                    e1.printStackTrace();
-                    myGameView.displayActionInfo("No Such Method Exception");
+                    myGameView.displayActionInfo( "Illegal Access Exception" );
+                } catch (NoSuchMethodException e){
+                    myGameView.displayActionInfo( "There is no such method" );
+                }
+                catch (InvocationTargetException e1) {
+                    myGameView.displayActionInfo( "Invocation Target Exception" );
                 }
             }
         }
