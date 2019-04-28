@@ -43,7 +43,7 @@ public class TileActionController {
 
     public void handleGoToJail() {
         try {
-            JailTile jail = (JailTile) myBoard.getJailTile();
+            JailTile jail = myBoard.getJailTile();
             myBoard.getPlayerTileMap().put( myTurn.getMyCurrPlayer(), jail);
             myTurn.getMyCurrPlayer().addTurnInJail();
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
@@ -143,7 +143,7 @@ public class TileActionController {
                 getClass().getMethod("reinitialize"+ actionCard.getActionType(), ActionCard.class).invoke(this, actionCard);
             }
             myGameView.displayActionInfo( actionCard.getText() );
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView, gameController);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {

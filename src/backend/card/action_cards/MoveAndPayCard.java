@@ -44,11 +44,10 @@ public class MoveAndPayCard extends ActionCard{
     @Override
     public List<Object> getParameters() {
         List<Object> parameters = new ArrayList<Object>();
-        parameters.add( targetTileType);
+        parameters.add(tile);
         parameters.add( payers );
         parameters.add( payees );
         parameters.add( multiplier );
-        parameters.add(tile);
         return parameters;
     }
 

@@ -3,18 +3,14 @@ package controller;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.HoldableCard;
-import backend.card.action_cards.MoveAndPayCard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
 import exceptions.IncorrectUseOfHoldableException;
 import exceptions.NotEnoughMoneyException;
-import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +20,13 @@ public class ActionCardController{
     AbstractBoard myBoard;
     Turn turn;
     AbstractGameView myGameView;
+    GameController myGameController;
 
-    public ActionCardController(AbstractBoard board, Turn turn, AbstractGameView myGameView) {
+    public ActionCardController(AbstractBoard board, Turn turn, AbstractGameView myGameView, GameController myGameController) {
         this.myBoard = board;
         this.turn = turn;
         this.myGameView = myGameView;
+        this.myGameController = myGameController;
     }
 
     public void handlePay(List<Object> parameters){
@@ -41,6 +39,8 @@ public class ActionCardController{
     public void handleMove(List<Object> parameters){
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
+        myGameController.handleTileLanding((Tile) parameters.get(0));
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
     }
 
     public void handleGetOutOfJail(List<Object> parameters) {
@@ -64,10 +64,10 @@ public class ActionCardController{
     }
 
     public void handleMoveAndPay(List<Object> parameters){
+        Tile tile = (Tile) parameters.get(0);
         List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 1 );
         List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 2 );
         double amount = (Double) parameters.get( 3 );
-        Tile tile = (Tile) parameters.get(4);
         myBoard.movePlayer(turn.getMyCurrPlayer(),tile);
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(),tile);
         if (payees.size()!= 1 || !(payees.get(0).equals(myBoard.getBank()))) {
