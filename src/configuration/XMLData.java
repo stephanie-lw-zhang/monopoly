@@ -5,6 +5,7 @@ import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.MoveCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;
+import backend.dice.AbstractDice;
 import backend.tile.AbstractDrawCardTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
@@ -21,6 +22,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +52,7 @@ public class XMLData {
     private String background;
     private String boxColor;
     private int horizontalTiles, verticalTiles;
+    private AbstractDice diceType;
 
     public XMLData(String fileName) {
         try {
@@ -60,6 +64,7 @@ public class XMLData {
             doc.getDocumentElement().normalize();
             initializeMaxPlayers(doc);
             initializeMinPlayers(doc);
+            initializeDiceType(doc);
             initializeNumDie(doc);
             initializePlayerMoney(doc);
             initializeBackground(doc);
@@ -86,6 +91,27 @@ public class XMLData {
 
     private void initializeMinPlayers(Document doc) {
         minPlayers = Integer.parseInt(getTagValue("MinPlayers", (Element) doc.getElementsByTagName("NumPlayers").item(0)));
+    }
+
+    private void initializeDiceType(Document doc) {
+        Class<?> diceTypeClass;
+        Constructor<?> diceTypeConstructor;
+
+        try {
+            diceTypeClass = Class.forName("backend.dice." + getTagValue("DiceType", (Element) doc.getElementsByTagName("Dice").item(0)));
+            diceTypeConstructor = diceTypeClass.getConstructor();
+            diceType = (AbstractDice) diceTypeConstructor.newInstance();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void initializeNumDie(Document doc){
@@ -262,6 +288,10 @@ public class XMLData {
 
     public int[] getDimensions(){
         return new int[]{horizontalTiles,verticalTiles};
+    }
+
+    public AbstractDice getDiceType() {
+        return diceType;
     }
 
     public int getNumDie(){

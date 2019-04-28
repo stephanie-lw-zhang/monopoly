@@ -34,7 +34,7 @@ public class GameController {
     private GameSetUpController mySetUpController;
     //TODO: make all the back-end stuff be managed by a MonopolyModel/myBoard class
     private AbstractBoard myBoard;
-    private AbstractDice myDice;
+    private AbstractDice myDiceType;
     private Turn myTurn;
     private Map<String, EventHandler<ActionEvent>> handlerMap = new LinkedHashMap<>();
     private int numDoubleRolls;
@@ -47,8 +47,9 @@ public class GameController {
         myGameView = new SplitScreenGameView(width, height, data, myBoard);
         mySetUpController = controller;
         addHandlers();
-        myDice = new SixDice();
-        myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDice, myBoard);
+//        myDiceType = new SixDice();
+        myDiceType = data.getDiceType();
+        myTurn = new Turn(myBoard.getMyPlayerList().get(0), myDiceType, myBoard);
         this.numDoubleRolls = 0;
         tileActionController = new TileActionController( myBoard, myTurn, myGameView, this);
         for(AbstractPlayer player : myBoard.getMyPlayerList()) {
