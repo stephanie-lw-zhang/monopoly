@@ -25,6 +25,7 @@
     </NumPlayers>
 
     <Dice>
+        <DiceType>SixDice</DiceType>
         <NumDie>1</NumDie>
     </Dice>
 
