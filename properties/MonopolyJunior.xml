@@ -6,6 +6,16 @@
         <MonopolyType>Original Monopoly</MonopolyType>
     </Type>
 
+    <Background>
+        <BackgroundPath>background.jpg</BackgroundPath>
+    </Background>
+
+    <Box>
+        <BoxColor>#d32f2f</BoxColor>
+    </Box>
+    <Players>
+        <NumPlayers>4</NumPlayers>
+    </Players>
     <Dice>
         <NumDie>1</NumDie>
     </Dice>
