@@ -91,12 +91,15 @@ public class FormView {
 
         for (int i = 1; i <= maxPlayers; i++) {
 
-            ComboBox<String> playerBox = createPlayerDropDown(playerChoices, i);
-            ComboBox<String> comboBox = createIconDropDown( options, i );
+            ComboBox<String> playerTypeDropdown = createPlayerDropDown(playerChoices, i);
+            ComboBox<String> iconDropdown = createIconDropDown( options, i );
+            playerTypeDropdown.setMinHeight(30);
+            iconDropdown.setMinHeight(30);
+
             TextField pField = createPlayerTextField( i );
-            myPane.getChildren().addAll( comboBox,playerBox,pField );
-            playerToIcon.put( pField, comboBox );
-            playerToType.put( pField, playerBox );
+            myPane.getChildren().addAll( iconDropdown,playerTypeDropdown,pField );
+            playerToIcon.put( pField, iconDropdown );
+            playerToType.put( pField, playerTypeDropdown );
         }
 
         submitFormButton = new Button("START GAME");
