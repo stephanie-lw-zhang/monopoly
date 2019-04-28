@@ -136,7 +136,6 @@ public class GameController {
             } catch (IllegalAccessException e) {
                 myGameView.displayActionInfo( "Illegal access exception" );
             } catch (InvocationTargetException e) {
-                e.printStackTrace();
                 myGameView.displayActionInfo( "Invocation Target Exception" );
             }
         }
@@ -229,6 +228,7 @@ public class GameController {
                 handle.invoke(tileActionController);
             }
         } catch (NoSuchMethodException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo("There is no such method");
         } catch (SecurityException e) {
             myGameView.displayActionInfo("Security exception");
@@ -237,7 +237,6 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
         }
     }
@@ -254,7 +253,6 @@ public class GameController {
         } catch (IllegalAccessException e) {
             myGameView.displayActionInfo("Illegal access exception");
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo("Invocation target exception");
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");

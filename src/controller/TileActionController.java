@@ -155,8 +155,8 @@ public class TileActionController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo( "Illegal argument exception" );
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo( "Invocation target exception" );
+            e.printStackTrace();
         }
     }
 
@@ -255,7 +255,7 @@ public class TileActionController {
         }
     }
 
-    public void reinitializePayBuildings(ActionCard actionCard) {
+    public void reinitializePayBuilding(ActionCard actionCard) {
         List<AbstractAssetHolder> players = new ArrayList<>();
         for (AbstractPlayer p : myBoard.getMyPlayerList()) players.add(p);
         List<AbstractAssetHolder> bank = new ArrayList<>();

@@ -153,13 +153,25 @@
     <Deck>
         <Name>Chance</Name>
         <ActionCard>
-            <CardType>MoveAndPayCard</CardType>
-            <Type>MoveAndPay</Type>
+            <CardType>PayBuildingsCard</CardType>
+            <Type>PayBuilding</Type>
             <Payer>CurrentPlayer</Payer>
-            <Payee>Owner</Payee>
-            <Multiplier>2</Multiplier>
-            <TargetTileType>RailroadTile</TargetTileType>
-            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+            <Payee>Bank</Payee>
+            <Message>For each House pay 25, for each Hotel pay 100</Message>
+            <Multiplier>
+                <Property>House</Property>
+                <Amount>25</Amount>
+            </Multiplier>
+            <Multiplier>
+                <Property>Hotel</Property>
+                <Amount>100</Amount>
+            </Multiplier>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>39</TileIndex>
+            <Message>Advance Token to Boardwalk</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -168,6 +180,15 @@
             <Payee>Everyone</Payee>
             <Amount>50</Amount>
             <Message>You Have Been Elected Chairman of the Board Pay Each Player $50</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveAndPayCard</CardType>
+            <Type>MoveAndPay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
+            <TargetTileType>RailroadTile</TargetTileType>
+            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
             <CardType>GetOutOfJailCard</CardType>
@@ -193,15 +214,6 @@
             <Type>Move</Type>
             <TileIndex>3</TileIndex>
             <Message>Go Back 3 Spaces</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveAndPayCard</CardType>
-            <Type>MoveAndPay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Owner</Payee>
-            <Multiplier>2</Multiplier>
-            <TargetTileType>RailroadTile</TargetTileType>
-            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
@@ -238,10 +250,13 @@
             <Message>Advance to St. Charles Place</Message>
         </ActionCard>
         <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>39</TileIndex>
-            <Message>Advance Token to Boardwalk</Message>
+            <CardType>MoveAndPayCard</CardType>
+            <Type>MoveAndPay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
+            <TargetTileType>RailroadTile</TargetTileType>
+            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
@@ -257,21 +272,6 @@
             <Type>Move</Type>
             <TileIndex>24</TileIndex>
             <Message>Advance Token to Illinois Avenue</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>PayBuildingsCard</CardType>
-            <Type>PayBuilding</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Bank</Payee>
-            <Message>For each House pay 25, for each Hotel pay 100</Message>
-            <Multiplier>
-                <Property>House</Property>
-                <Amount>25</Amount>
-            </Multiplier>
-            <Multiplier>
-                <Property>Hotel</Property>
-                <Amount>100</Amount>
-            </Multiplier>
         </ActionCard>
     </Deck>
 

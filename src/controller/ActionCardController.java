@@ -75,7 +75,7 @@ public class ActionCardController{
         }
     }
 
-    public void handlePayBuildings(List<Object> parameters) throws BuildingDoesNotExistException {
+    public void handlePayBuilding(List<Object> parameters) throws BuildingDoesNotExistException {
         List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 0 );
         List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 1 );
         Map<String, Double> baseToMultiplier = (Map<String, Double>) parameters.get( 2 );
@@ -86,7 +86,8 @@ public class ActionCardController{
                 BuildingCard card = ((BuildingCard) property.getCard());
                 String base = card.getBasePropertyType(property.getCurrentInUpgradeOrder());
                 if(baseToMultiplier.containsKey( base )){
-                    int number = card.getNumericValueOfPropertyType( base );
+                    int number = card.getNumericValueOfPropertyType( property.getCurrentInUpgradeOrder() );
+                    System.out.println(total);
                     total += baseToMultiplier.get( base ) * number;
                 } else{
                     throw new BuildingDoesNotExistException( "Building does not exist" );
