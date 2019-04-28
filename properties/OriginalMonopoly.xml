@@ -6,6 +6,10 @@
         <MonopolyType>Original Monopoly</MonopolyType>
     </Type>
 
+    <Players>
+        <NumPlayers>4</NumPlayers>
+    </Players>
+
     <Dice>
         <NumDie>2</NumDie>
     </Dice>
@@ -24,7 +28,7 @@
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>0</TileIndex>
-            <Message>Advance to Go (Collect $200)</Message>
+            <Message>Advance to Go</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>

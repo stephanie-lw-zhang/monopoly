@@ -65,7 +65,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
      * or they may be sold one house at a time (one hotel equals five houses),
      * evenly, in reverse of the manner in which they were erected.
      */
-    public void sellOneBuilding(List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException {
+    public void sellOneBuilding(List<AbstractPropertyTile> sameSetProperties) throws IllegalActionOnImprovedPropertyException, UpgradeMinimumException {
         if(checkIfImprovedProperty() && checkIfUpdatingEvenly(sameSetProperties,false)) {
             getBank().recalculateTotalPropertiesLeftOneBuildingUpdate(this, false);
             getBank().payFullAmountTo( getOwner(), sellBuildingToBankPrice() );
@@ -82,7 +82,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     @Override
-    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
+    public void sellTo(AbstractAssetHolder assetHolder, double price, List<AbstractPropertyTile> sameColorProperties) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         if (!checkIfImprovedProperty()) {
             super.sellTo(assetHolder,price, sameColorProperties);
             if (assetHolder.checkIfOwnsAllOf(sameColorProperties) && card.getUpgradeOrderIndexOf(getCurrentInUpgradeOrder()) == 0){
@@ -98,7 +98,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
     }
 
     //CHECK IF WE NEED UPGRADE FOR RAILROAD AND UTILITY
-    public void upgrade(AbstractPlayer player, List<AbstractPropertyTile> sameCategoryProperties) throws IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException {
+    public void upgrade(AbstractPlayer player, List<AbstractPropertyTile> sameCategoryProperties) throws IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         BuildingCard card = (BuildingCard) this.getCard();
         String building = card.getBasePropertyType(card.nextInUpgradeOrder(getCurrentInUpgradeOrder()));
         if (player.checkIfOwnsAllOf(sameCategoryProperties) && checkIfUpdatingEvenly(sameCategoryProperties, true) && getBank().buildingsRemain( building )) {
@@ -176,7 +176,7 @@ public class BuildingTile extends backend.tile.AbstractPropertyTile {
 
     @Override
     public void mortgageProperty() throws MortgagePropertyException, IllegalActionOnImprovedPropertyException {
-        if (!isMortgaged() && checkIfImprovedProperty()) {
+        if (!isMortgaged() && !checkIfImprovedProperty()) {
             getBank().payFullAmountTo(getOwner(), card.getMortgageValue() );
             setMortgaged(true);
         }

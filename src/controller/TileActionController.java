@@ -2,8 +2,7 @@ package controller;
 
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
-import backend.assetholder.Bank;
-import backend.assetholder.HumanPlayer;
+
 import backend.board.AbstractBoard;
 import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.MoveAndPayCard;
@@ -11,12 +10,10 @@ import backend.card.action_cards.PayBuildingsCard;
 import backend.card.action_cards.PayCard;
 import backend.tile.*;
 import exceptions.*;
-import frontend.views.board.AbstractBoardView;
 import frontend.views.game.AbstractGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -24,14 +21,15 @@ import java.util.*;
 public class TileActionController {
     private AbstractBoard myBoard;
     private Turn myTurn;
-    private AbstractBoardView boardView;
     private AbstractGameView myGameView;
-    private Bank myBank;
+    private GameController gameController;
 
-    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView) {
+
+    public TileActionController(AbstractBoard board, Turn turn, AbstractGameView gameView, GameController gameController) {
        this.myBoard = board;
        this.myTurn = turn;
        this.myGameView = gameView;
+       this.gameController = gameController;
     }
 
     public void handleStayInJail() {
@@ -39,7 +37,7 @@ public class TileActionController {
     }
 
     public void handleCollectMoneyLanded() {
-        myBank.payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
+        myBoard.getBank().payFullAmountTo( myTurn.getMyCurrPlayer(), myBoard.getGoTile().getLandedOnMoney() );
         myGameView.displayActionInfo( "You collected " + myBoard.getGoTile().getLandedOnMoney() + " for landing on go." );
     }
 
@@ -49,18 +47,22 @@ public class TileActionController {
             myBoard.getPlayerTileMap().put( myTurn.getMyCurrPlayer(), jail);
             myTurn.getMyCurrPlayer().addTurnInJail();
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
-//            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
+            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
+            myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),jail);
+            myGameView.disableButton("Use Card");
         } catch (TileNotFoundException e){
-            e.printStackTrace();
+            e.popUp();
         }
     }
 
     public void handlePayBail(){
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
+            myTurn.getMyCurrPlayer().getOutOfJail();
             myGameView.displayActionInfo("You've successfully paid the fine. You're free now!");
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
-//            myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
+            gameController.handleMove(myTurn.getNumMoves());
         } catch(TileNotFoundException e) {
             e.popUp();
         } catch (NotEnoughMoneyException e) {
@@ -68,37 +70,75 @@ public class TileActionController {
         }
     }
 
-        public void handlePayRent() {
+    public void handlePayRent() {
         AbstractPropertyTile property = (AbstractPropertyTile) myBoard.getPlayerTile( myTurn.getMyCurrPlayer());
-            try {
-                myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), property.calculateRentPrice( myTurn.getNumMoves()));
-            } catch (NotEnoughMoneyException e) {
-                e.popUp();
-            }
-            myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
-        myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
-//        myLogView.gameLog.setText(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
-
+        double rent = property.calculateRentPrice( myTurn.getNumMoves());
+        try {
+            myTurn.getMyCurrPlayer().payFullAmountTo(property.getOwner(), rent);
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.displayActionInfo( "You paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+            myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid " + property.calculateRentPrice( myTurn.getNumMoves()) + " of rent to " + ( (AbstractPlayer) property.getOwner()).getMyPlayerName() + ".");
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
+            payOrForfeit( rent, "handlePayRent" );
+        }
     }
 
     public void handlePayTaxFixed() {
         double tax = ((AbstractTaxTile)myTurn.currPlayerTile()).getAmountToDeduct();
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(), tax);
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
+            myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
+            payOrForfeit( tax, "handlePayTaxFixed" );
         }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
-        myGameView.displayActionInfo( "It's tax season! You've paid " + tax + " in taxes.");
-//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
+    private void payOrForfeit(double debt, String method) {
+        myGameView.disableButton( "End Turn" );
+        while(myTurn.getMyCurrPlayer().getMoney() < debt) {
+            List<String> options = new ArrayList<>();
+            if (myTurn.getMyCurrPlayer().getProperties().size() != 0) {
+                options.add( "Sell To Player" );
+                options.add( "Sell To Bank" );
+                options.add( "Mortgage" );
+            }
+            options.add( "Forfeit" );
+            String desiredAction = myGameView.displayOptionsPopup( options, "Pay", "Pay " + debt + " monopoly dollars", "You must pay or forfeit. Here are your options." );
+            if (desiredAction.equals( "Forfeit" )) {
+                gameController.handleForfeitFor(myTurn.getMyCurrPlayer());
+                break;
+            } else {
+                gameController.translateReadable( desiredAction );
+                desiredAction = desiredAction.replaceAll( "\\s+", "" );
+                Method handle = null;
+                try {
+                    handle = gameController.getClass().getMethod( "handle" + desiredAction + "For", AbstractPlayer.class);
+                    handle.invoke( gameController , myTurn.getMyCurrPlayer());
+                    if (myTurn.getMyCurrPlayer().getMoney() >= debt) {
+                        Method redo = null;
+                        redo = this.getClass().getMethod(method);
+                        redo.invoke(this);
+                        break;
+                    }
+                } catch (IllegalAccessException e1) {
+                    myGameView.displayActionInfo( "Illegal Access Exception" );
+                } catch (NoSuchMethodException e){
+                    myGameView.displayActionInfo( "There is no such method" );
+                } catch (InvocationTargetException e1) {
+                    myGameView.displayActionInfo( "Invocation Target Exception" );
+                }
+            }
+        }
+    }
 
     public void handleDrawCard(){
         try {
             ActionCard actionCard = ((AbstractDrawCardTile) myBoard.getPlayerTile(myTurn.getMyCurrPlayer())).drawCard();
-            if(actionCard.getActionType().contains("Pay")){
-                //System.out.println(actionCard.getActionType());
+            if(actionCard.getActionType().contains("Pay")) {
                 getClass().getMethod("reinitialize"+ actionCard.getActionType(), ActionCard.class).invoke(this, actionCard);
             }
             myGameView.displayActionInfo( actionCard.getText() );
@@ -106,7 +146,6 @@ public class TileActionController {
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo( "There is no such method" );
         } catch (SecurityException e) {
             myGameView.displayActionInfo( "Security exception" );
@@ -232,9 +271,17 @@ public class TileActionController {
                     "Enter your auction amount:",
                     "Amount:");
             try {
-                auctionAmount.put(key, Double.parseDouble((value)));
+                if (Double.parseDouble((value)) > key.getMoney()){
+                    new NotEnoughMoneyException("You don't have enough money! Please enter again.").popUp();
+                    i--;
+                } else if (Double.parseDouble((value)) < 0.0){
+                    new IllegalInputTypeException( "Input must be a positive number!" ).popUp();
+                    i--;
+                }else {
+                    auctionAmount.put(key, Double.parseDouble((value)));
+                }
             } catch (NumberFormatException n) {
-                new IllegalInputTypeException("Input must be a number!");
+                new IllegalInputTypeException("Input must be a number!").popUp();
                 i--;
             }
         }
@@ -242,7 +289,7 @@ public class TileActionController {
         Map.Entry<AbstractPlayer, Double> winner = property.determineAuctionResults(auctionAmount);
         String info = winner.getKey().getMyPlayerName() + " wins " + myTurn.getTileNameforPlayer(myTurn.getMyCurrPlayer()) + " for " + winner.getValue() + " Monopoly Dollars!";
         myGameView.displayActionInfo(info);
-//        myLogView.gameLog.setText(info);
+        myGameView.updateLogDisplay(info);
         Map<AbstractPlayer, Double> playerValue = convertEntrytoMap(winner);
         try {
             buyHelper(playerValue);
@@ -252,8 +299,12 @@ public class TileActionController {
             e.popUp();
         } catch (OutOfBuildingStructureException e) {
             e.popUp();
+        } catch (NotEnoughMoneyException e) {
+            e.popUp();
+        } catch (UpgradeMaxedOutException e) {
+            e.popUp();
         }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
     }
 
 
@@ -261,10 +312,13 @@ public class TileActionController {
         double tax = myTurn.getMyCurrPlayer().getMoney() * ((IncomeTaxTile) myTurn.currPlayerTile()).getTaxMultiplier();
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo( myBoard.getBank(),tax);
+            myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
+            myGameView.displayActionInfo( "You've paid " + tax + " in taxes.");
         } catch (NotEnoughMoneyException e) {
             e.popUp();
+            myGameView.disableButton( "End Turn" );
         }
-//        myLogView.gameLog.setText( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
+        myGameView.updateLogDisplay( myTurn.getMyCurrPlayer().getMyPlayerName() + " payed " + tax + " in taxes.");
     }
 
     public void handleBuy(){
@@ -278,10 +332,16 @@ public class TileActionController {
             e.popUp();
         } catch (OutOfBuildingStructureException e) {
             e.popUp();
+        } catch (NotEnoughMoneyException e){
+            e.popUp();
+            myGameView.displayActionInfo( "This property must go to auction." );
+            handleAuction();
+        } catch (UpgradeMaxedOutException e) {
+            e.popUp();
         }
     }
 
-    private Map.Entry<AbstractPlayer, Double> buyHelper(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+    private Map.Entry<AbstractPlayer, Double> buyHelper(Map<AbstractPlayer,Double> paramMap) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         AbstractPlayer player = null;
         double value = 0;
         if (paramMap != null) {
@@ -301,15 +361,12 @@ public class TileActionController {
         return ret;
     }
 
-    private void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException {
+    private void buyProperty(AbstractPlayer player, Double value) throws IllegalActionOnImprovedPropertyException, IllegalInputTypeException, OutOfBuildingStructureException, NotEnoughMoneyException, UpgradeMaxedOutException {
         AbstractPropertyTile property;
         property = (AbstractPropertyTile) myTurn.currPlayerTile();
         List<AbstractPropertyTile> sameSetProperties = myBoard.getColorListMap().get( property.getCard().getCategory());
-        try {
-            property.sellTo( player, value, sameSetProperties );
-        } catch (NotEnoughMoneyException e) {
-            e.popUp();
-        }
+        property.sellTo( player, value, sameSetProperties );
+
     }
 
     private ObservableList<String> getAllPlayerNames() {

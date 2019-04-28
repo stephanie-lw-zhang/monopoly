@@ -1,6 +1,6 @@
 package frontend.views;
 import controller.GameSetUpController;
-import exceptions.DuplicatePlayerException;
+import exceptions.DuplicatePlayeNameException;
 import exceptions.FormInputException;
 import exceptions.InsufficientPlayersException;
 import exceptions.*;
@@ -37,22 +37,21 @@ import java.util.List;
  */
 public class FormView {
 
-    private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
-    // private TestingScreen            myScreen;
+    private int                      POSSIBLE_PLAYERS;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
     private Map<TextField, ComboBox> playerToType;
-    private GameSetUpController myController;
-    private GridPane myPane;
+    private GameSetUpController      myController;
+    private GridPane                 myPane;
 
     /**
      * FormView main constructor
-     *
-     * TODO: REFACTOR OUT
-     * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
-     * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
      */
-    private void initialize(){
+    private void initialize() {
+        POSSIBLE_PLAYERS = myController.getNumPlayers();
+
+//        POSSIBLE_PLAYERS = numPlayers;
+
         myPane = new GridPane();
         myPane.setHgap(5);
         myPane.setVgap(10);
@@ -86,6 +85,7 @@ public class FormView {
         playerChoices.addAll("human", "bot"
         );
         playerToIcon = new HashMap<>();
+        playerToType = new HashMap<>();
 
         for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
 
@@ -94,6 +94,7 @@ public class FormView {
             TextField pField = createPlayerTextField( i );
             myPane.getChildren().addAll( comboBox,playerBox,pField );
             playerToIcon.put( pField, comboBox );
+            playerToType.put( pField, playerBox );
         }
 
         submitFormButton = new Button("START GAME");
@@ -102,23 +103,23 @@ public class FormView {
         submitFormButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
                 try {
-                    handleSubmitFormButton(getPlayerToIconMap());
+                    handleSubmitFormButton(getPlayerToIconMap(), getPlayerToTypeMap());
                 } catch (FormInputException e) {
                     e.popUp();
                 }
             }
         });
-        myPane.setConstraints( submitFormButton, 0, 6);
+        myPane.setConstraints( submitFormButton, 0, POSSIBLE_PLAYERS + 2);
         myPane.getChildren().add( submitFormButton );
     }
 
-    public FormView(){
+    public FormView() {
         initialize();
     }
 
-    public FormView(GameSetUpController controller){
-        this();
+    public FormView(GameSetUpController controller) {
         myController = controller;
+        initialize();
     }
 
     /**
@@ -169,7 +170,7 @@ public class FormView {
      * enough have signed up, calls for start of game
      * @param playerToIcon
      */
-    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon) throws FormInputException {
+    private void handleSubmitFormButton(Map<TextField, ComboBox> playerToIcon, Map<TextField, ComboBox> playerToType) throws FormInputException {
         if (this.hasUnassignedIcon(playerToIcon)) {
             throw new InputIconMismatchException();
         }
@@ -179,11 +180,17 @@ public class FormView {
         if (! hasEnoughPlayers()) {
             throw new InsufficientPlayersException();
         }
-        if (hasDuplicatePlayers() || hasDuplicateIcons(playerToIcon)) {
-            throw new DuplicatePlayerException();
+        if (hasDuplicatePlayers()) {
+            throw new DuplicatePlayeNameException();
+        }
+        if (hasDuplicateIcons(playerToIcon)) {
+            throw new DuplicatePlayerIconException();
+        }
+        if (this.hasUnassignedType(playerToType)) {
+            throw new PlayerTypeAssignmentException();
         }
 
-        myController.startGame(playerToIcon);
+        myController.startGame(playerToIcon, playerToType);
     }
 
     private boolean hasUnassignedIcon(Map<TextField, ComboBox> playerToIcon) {
@@ -194,6 +201,7 @@ public class FormView {
         }
         return false;
     }
+
     private boolean hasUnassignedName(Map<TextField, ComboBox> playerToIcon) {
         for (TextField t : playerToIcon.keySet()) {
             if (t.getText().equals("") && playerToIcon.get(t).getValue() != null) {
@@ -203,9 +211,15 @@ public class FormView {
         return false;
     }
 
-//    private boolean hasUnassignedType(){
-//
-//    }
+    private boolean hasUnassignedType(Map<TextField, ComboBox> playerToType){ {
+            for (TextField t : playerToType.keySet()) {
+                if (! t.getText().equals("") && playerToType.get(t).getValue() == null) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 
     /**
      * Checks for duplicate icons
@@ -278,6 +292,8 @@ public class FormView {
     public Map<TextField, ComboBox> getPlayerToIconMap() {
         return playerToIcon;
     }
+    public Map<TextField, ComboBox> getPlayerToTypeMap() { return playerToType; }
+
 
     public Node getNode() {
         return myPane;

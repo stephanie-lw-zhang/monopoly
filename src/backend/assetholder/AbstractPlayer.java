@@ -4,6 +4,7 @@ import backend.card.action_cards.HoldableCard;
 import backend.tile.AbstractPropertyTile;
 import exceptions.NotEnoughMoneyException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 abstract public class AbstractPlayer extends AbstractAssetHolder {
 
-    private List<HoldableCard> cards;
+    private List<HoldableCard> cards = new ArrayList<>();
     private String             myPlayerName;
     private String             myIconPath;
     private Boolean            isBankrupt;
@@ -142,6 +143,10 @@ abstract public class AbstractPlayer extends AbstractAssetHolder {
      */
     public boolean isInJail(){
         return turnsInJail != FREE;
+    }
+
+    public boolean isAuto() {
+        return (this.isAuto());
     }
 
     /**

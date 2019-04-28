@@ -9,7 +9,6 @@ public class RailroadTile extends AbstractNonBuildingPropertyTile {
     public RailroadTile(Bank bank, Element n){
         super(bank, n);
         setCard( new RailroadCard(n.getElementsByTagName("Card").item(0) ));
-
     }
 
     public double calculateRentPrice(int roll) {
@@ -20,7 +19,6 @@ public class RailroadTile extends AbstractNonBuildingPropertyTile {
             return getCard().lookupPrice(getCurrentInUpgradeOrder());
         }
     }
-
 
 
 }

@@ -19,14 +19,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 public class XMLData {
 
     //ideally all the tags names would come from properties files
@@ -34,13 +30,15 @@ public class XMLData {
     private Map<Tile, List<Tile>> adjacencyList;
     private Map<Tile, List<Integer>> indexNeighborList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
+    private int numPlayers;
     private Bank bank;
     private int numDie;
     private int numDecks;
     private List<Tile> tiles;
     private Tile firstTile;
-    private List<NormalDeck> decks;
+    private List<DeckInterface> decks;
     private String monopolyType;
+    private double initialFunds;
 
     public XMLData(String fileName) {
         try {
@@ -50,9 +48,11 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
+            initializeNumPlayers(doc);
             initializeNumDie(doc);
             initializeGameType(doc);
             initializeBank(doc);
+            initializeFunds(doc);
             initializeTiles(doc);
             initializeNumDecks(doc);
             initializeDecks(doc);
@@ -63,6 +63,10 @@ public class XMLData {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void initializeNumPlayers(Document doc) {
+        numPlayers = Integer.parseInt(getTagValue("NumPlayers", (Element) doc.getElementsByTagName("Players").item(0)));
     }
 
     private void initializeNumDie(Document doc){
@@ -89,6 +93,10 @@ public class XMLData {
             totalPropertiesLeft.put(entry[0], Integer.parseInt(entry[1]));
         }
         bank = new Bank(money, totalPropertiesLeft);
+    }
+
+    private void initializeFunds(Document doc) {
+        initialFunds = Integer.parseInt(getTagValue("Player", (Element) doc.getElementsByTagName("InitialFunds").item(0)));
     }
 
     private void initializeTiles(Document doc) throws Exception {
@@ -165,7 +173,7 @@ public class XMLData {
         for(Tile t: tiles){
             String tileType = t.getName();
             if(t.getTileType().equalsIgnoreCase("CommunityChestTile")||t.getTileType().equalsIgnoreCase("ChanceTile")){
-                for(NormalDeck deck: decks){
+                for(DeckInterface deck: decks){
                     //System.out.println(deck.getName() + "  " + tileType);
                     if(deck.getName().equalsIgnoreCase(tileType)){
                         ((AbstractDrawCardTile) t).setDeck(deck);
@@ -190,7 +198,6 @@ public class XMLData {
         }
     }
 
-
     public Map<Tile, List<Tile>> getAdjacencyList(){
         return adjacencyList;
     }
@@ -199,8 +206,18 @@ public class XMLData {
         return propertyCategoryToSpecificListMap;
     }
 
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
     public Bank getBank(){
         return bank;
+    }
+
+    public double getInitialFunds() { return initialFunds; }
+
+    public List<Tile> getTiles() {
+        return tiles;
     }
 
     public int getNumDie(){
@@ -221,9 +238,8 @@ public class XMLData {
         return firstTile;
     }
 
-    public List<NormalDeck> getDecks(){
+    public List<DeckInterface> getDecks(){
         return decks;
     }
-
 
 }

@@ -35,7 +35,7 @@ public abstract class AbstractBoard {
     private int                                     numDie;
     private Bank                                    bank;
     private List<DeckInterface>                     myDecks;
-    private AbstractDice                            myDice;
+    private int                                     myNumDice;
 
     /**
      * Constructor that takes in the list of players, tiles, and an adjacency list for the graph of tiles
@@ -58,6 +58,8 @@ public abstract class AbstractBoard {
         bank = data.getBank();
         playerPositionMap = new HashMap<>();
         for (AbstractPlayer p : playerList) playerPositionMap.put(p, data.getFirstTile());
+        myDecks = data.getDecks();
+        myNumDice = data.getNumDie();
     }
 
     /**
@@ -188,5 +190,13 @@ public abstract class AbstractBoard {
 
     public List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {
         return getColorListMap().get( property.getCard().getCategory());
+    }
+
+    public List<DeckInterface> getMyDecks() {
+        return myDecks;
+    }
+
+    public int getMyNumDice() {
+        return myNumDice;
     }
 }

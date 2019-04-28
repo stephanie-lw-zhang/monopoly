@@ -10,6 +10,8 @@ import exceptions.PropertyNotFoundException;
 import frontend.views.board.AbstractBoardView;
 
 import frontend.views.player_options.AbstractOptionsView;
+import javafx.scene.control.Button;
+import frontend.views.player_options.BPaneOptionsView;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
@@ -69,9 +71,8 @@ abstract public class AbstractGameView {
             ChoiceDialog choices = new ChoiceDialog( options.get( 0 ), options );
             choices.setHeaderText( title );
             choices.setContentText(prompt);
-            //"Select the player who wants to mortgage a property: "
+
             Optional<String> result = choices.showAndWait();
-//        choices.showAndWait();
             if (result.isEmpty()) {
                 throw new CancelledActionException("Action has been cancelled");
             }
@@ -97,16 +98,19 @@ abstract public class AbstractGameView {
         return result.orElse(null).getText();
     }
 
+
+    abstract public BPaneOptionsView getMyOptionsView();
+
     abstract public void createOptions(Map<String, EventHandler<ActionEvent>> handlerMap);
     abstract public void updateDice(Turn turn);
-    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList);
+    public abstract void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter);
 
     public abstract void disableButton(String str);
 
     public abstract void enableButton(String str);
+//    public abstract void requestFocus(String str);
 
     public abstract void updateCurrPlayerDisplay(AbstractPlayer currPlayer);
-    public abstract void updateIconDisplay(AbstractPlayer currPlayer, int nMoves);
     public abstract void updateIconDisplay(AbstractPlayer currPlayer, Tile tile);
     public abstract void updateLogDisplay(String s);
     public abstract int getCheatMoves();

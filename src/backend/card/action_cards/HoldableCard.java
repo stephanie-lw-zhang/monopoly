@@ -29,4 +29,10 @@ public abstract class HoldableCard extends ActionCard {
     public String getName(){
         return name;
     }
+
+    public String getActionType() {
+        return "Save";
+    }
+
+    public abstract String getHoldableCardAction();
 }

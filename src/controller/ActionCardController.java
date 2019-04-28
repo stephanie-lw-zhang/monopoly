@@ -7,10 +7,10 @@ import backend.card.action_cards.HoldableCard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
+import exceptions.IncorrectUseOfHoldableException;
 import exceptions.NotEnoughMoneyException;
 import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
-import frontend.views.player_stats.PlayerFundsView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,20 +36,27 @@ public class ActionCardController{
     }
 
     public void handleMove(List<Object> parameters){
-        //System.out.println("BANG!!!");
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
     }
 
-    public void handleGetOutOfJail(List<Object> parameters){
+    public void handleGetOutOfJail(List<Object> parameters) {
+        AbstractPlayer cardUser = (AbstractPlayer)parameters.get(0);
+        HoldableCard card = (HoldableCard)parameters.get(1);
         //TODO: can buy get out of jail card?
-        myGameView.displayActionInfo( "You've used your handle get out of jail card. You're free now!" );
+        if (!cardUser.isInJail()) {
+            new IncorrectUseOfHoldableException("You are not in jail so you cannot use this card at this time!").popUp();
+        }
+        else {
+            cardUser.getOutOfJail();
+            cardUser.getCards().remove(card);
+            myGameView.displayActionInfo( "You've used your get out of jail card. You're free now!" );
+        }
     }
-
 
     public void handleSave(List<Object> parameters){
         turn.getMyCurrPlayer().getCards().add( (HoldableCard) parameters.get( 0 ) );
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
         myGameView.displayActionInfo( "You now own " + ((HoldableCard) parameters.get( 0 )).getName() + ". You can use this card at any time." );
     }
 
@@ -87,9 +94,7 @@ public class ActionCardController{
         payHelper( payers, payees, total );
     }
 
-
     private void payHelper(List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, Double amount) {
-        //System.out.println("test");
         for (AbstractAssetHolder payer : payers) {
             for (AbstractAssetHolder payee : payees) {
                 try {
@@ -99,6 +104,6 @@ public class ActionCardController{
                 }
             }
         }
-        myGameView.updateAssetDisplay(myBoard.getMyPlayerList());
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
     }
 }

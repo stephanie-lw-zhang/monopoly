@@ -4,20 +4,17 @@ import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
 import configuration.XMLData;
 import controller.Turn;
-import exceptions.CancelledActionException;
-import exceptions.PropertyNotFoundException;
-import frontend.views.FundsView;
 import frontend.views.LogView;
+import frontend.views.TimerView;
 import frontend.views.game.AbstractGameView;
 
-import frontend.views.player_stats.PlayerCardsView;
+//import frontend.views.player_stats.PlayerCardsView;
 import frontend.views.player_stats.PlayerFundsView;
 import frontend.views.player_stats.PlayerPropertiesView;
+import frontend.views.player_stats.PlayerRosterView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
@@ -29,7 +26,6 @@ import javafx.event.ActionEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Represents some abstract VBox node that offers
@@ -51,8 +47,10 @@ public class BPaneOptionsView extends AbstractOptionsView {
     private PlayerPropertiesView myPlayerPropertiesView;
     private AbstractBoard myBoard;
     private PlayerFundsView myPlayerFundsView;
-    private PlayerCardsView myPlayerCardsView;
+//    private PlayerCardsView myPlayerCardsView;
     private TextField myCheatMovesField;
+    private TimerView myTimer;
+    private PlayerRosterView myPlayerRosterView;
 
     /**
      * VBoxOptionsView main constructor
@@ -71,18 +69,24 @@ public class BPaneOptionsView extends AbstractOptionsView {
     }
 
     private void makeAssetViews() {
+//        TabPane cards = new TabPane(  );
         myPlayerPropertiesView = new PlayerPropertiesView(myBoard.getMyPlayerList());
         myPlayerFundsView = new PlayerFundsView(myBoard.getMyPlayerList());
-        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList());
+        myPlayerRosterView = new PlayerRosterView(myBoard.getMyPlayerList());
+//        myPlayerCardsView = new PlayerCardsView(myBoard.getMyPlayerList(), cards);
         VBox aBox = new VBox();
-        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
+//        aBox.getChildren().addAll(myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode(),myPlayerCardsView.getNode());
+        aBox.getChildren().addAll(myPlayerRosterView.getNode(), myPlayerFundsView.getNode(),myPlayerPropertiesView.getNode());
+
+
         myOptionsViewNode.setLeft(aBox);
     }
 
     private void makeNonActionViews() {
+        myTimer = new TimerView();
         myLogView = new LogView(myData);
         VBox NonActionBox = new VBox();
-        NonActionBox.getChildren().addAll(myLogView.getNode());
+        NonActionBox.getChildren().addAll(myTimer.getNode(),myLogView.getNode());
         myOptionsViewNode.setTop(NonActionBox);
     }
 
@@ -152,8 +156,14 @@ public class BPaneOptionsView extends AbstractOptionsView {
     public void enableControl(String control) {
         Control selected = myControls.get(control);
         selected.setDisable(false);
+        selected.requestFocus();
     }
 
+//    @Override
+//    public void requestFocus(String control) {
+//        Control selected = myControls.get(control);
+//        selected.requestFocus();
+//    }
     /**
      * Getter of the Node of the VBoxOptionsView
      * @return Node         the internal VBox
@@ -162,6 +172,8 @@ public class BPaneOptionsView extends AbstractOptionsView {
     public Node getOptionsViewNode() {
         return myOptionsViewNode;
     }
+
+    public Map getControls() { return myControls; }
 
     @Override
     public void updateDice(Turn turn) {
@@ -176,16 +188,14 @@ public class BPaneOptionsView extends AbstractOptionsView {
     @Override
     public void updateCurrPlayerDisplay(AbstractPlayer currPlayer) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("NEED TO CHANGE BPaneOptionsView.updateCurrPlayerDisplay()\n\n Current Player is: " + currPlayer.getMyPlayerName());
+        alert.setContentText("Current Player is: " + currPlayer.getMyPlayerName());
         alert.showAndWait();
     }
 
     @Override
-    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList) {
-        myPlayerPropertiesView.update(myPlayerList);
-        myPlayerFundsView.update(myPlayerList);
-        myPlayerCardsView.update(myPlayerList);
+    public void updateAssetDisplay(List<AbstractPlayer> myPlayerList, AbstractPlayer forfeiter) {
+        myPlayerFundsView.update(myPlayerList, forfeiter);
+        myPlayerPropertiesView.update(myPlayerList, forfeiter);
+        myPlayerRosterView.update(myPlayerList, forfeiter);
     }
-
-
 }

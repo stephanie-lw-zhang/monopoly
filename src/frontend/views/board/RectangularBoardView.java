@@ -138,7 +138,7 @@ public class RectangularBoardView extends AbstractBoardView {
             while(myNumMoves>0) {
                 try {
                     Thread.sleep(300);
-                    Platform.runLater(() -> this.movePieceDemo(
+                    Platform.runLater(() -> this.movePiece(
                             myPlayerIconMap.get(currPlayer)
                     ));
                 } catch (InterruptedException e) {
@@ -150,22 +150,46 @@ public class RectangularBoardView extends AbstractBoardView {
         updateThread.start();
     }
 
-    private void movePieceDemo(IconView icon) {
+    private void movePiece(IconView icon) {
         if(myNumMoves>0) {
-            if (iconToIndexMap.get(icon) >= myTiles.size()) {
-                iconToIndexMap.put(icon, 0);
-            }
-            myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
-            iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
+            moverHelper(icon);
             myNumMoves--;
         }
     }
 
-    public void move(AbstractPlayer currPlayer, Tile tile){
-        AbstractTileView target = tileToTileView.get( tile );
-        myPlayerIconMap.get(currPlayer).setOn(target);
+    private void movePieceIncrementally(IconView icon) {
+        moverHelper(icon);
     }
 
+    private void moverHelper(IconView icon) {
+        if (iconToIndexMap.get(icon) >= myTiles.size()) {
+            iconToIndexMap.put(icon, 0);
+        }
+        myTiles.get(iconToIndexMap.get(icon)).moveTo(icon.getMyNode());
+        iconToIndexMap.put(icon, iconToIndexMap.get(icon) + 1);
+    }
+
+    public void move(AbstractPlayer currPlayer, Tile tile){
+//        Thread updateThread = new Thread(() -> {
+//            try {
+//                Thread.sleep(500);
+//                Platform.runLater(() -> this.moveHelper(
+//                       currPlayer,tile));
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//            }
+//        });
+//        updateThread.setDaemon(true);
+//        updateThread.start();
+        this.moveHelper(currPlayer,tile);
+    }
+
+    private void moveHelper(AbstractPlayer currPlayer, Tile tile){
+        AbstractTileView target = tileToTileView.get( tile );
+        IconView pIcon = myPlayerIconMap.get(currPlayer);
+        target.moveTo(pIcon.getMyNode());
+        //System.out.println(target.getMyTileName());
+    }
     /**
      * Setter of the RectangularBoardView object's AnchorPane
      */
@@ -231,7 +255,7 @@ public class RectangularBoardView extends AbstractBoardView {
             if (s.equalsIgnoreCase("BuildingTile")) {//||s.equalsIgnoreCase("RailroadTile")||s.equalsIgnoreCase("UtilityTile")){
                 PropertyCard card = ((AbstractPropertyTile) tile).getCard();
                 try {
-                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), (BuildingTile) tile, "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), 9, x, myHorizontals, myScreenWidth, 90));
+                    tileToTileView.put(tile, placePropertyTile(card.getTitleDeed(), (BuildingTile) tile, "", (Color) Color.class.getField(card.getCategory().toUpperCase()).get(null), 9, x, myVerticals, myScreenWidth, 90));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace(); // change this !!!
                 } catch (NoSuchFieldException e) {
@@ -307,12 +331,17 @@ public class RectangularBoardView extends AbstractBoardView {
                           double width, double length, double prop){
         var tile = new NormalDeckView(tileName,tileDescription);
         var height = length;
-        tile.makeTileViewNode(new double[]{width,height});
+        tile.makeTileViewNode(new double[]{width,height}, parseTileNamePath(tileName));
         Node tileNode = tile.getNodeOfTileView();
         tileNode.setRotate(-45);
         myRoot.setTopAnchor(tileNode,myScreenHeight*prop);
         myRoot.setLeftAnchor(tileNode,myScreenWidth*prop);
         myRoot.getChildren().add(tileNode);
+    }
+
+    private String parseTileNamePath(String tileName) {
+        String[] arr = tileName.split(" ");
+        return arr[0].toLowerCase() + "Card.png";
     }
 
     public PropertyTileView placePropertyTile(String tileName, BuildingTile propTile,
@@ -426,7 +455,7 @@ public class RectangularBoardView extends AbstractBoardView {
     private void showBuildingTileClickedAlert(BuildingTile tile) {
         //System.out.print("BANG!");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(tile.getName());
+        alert.setTitle(tile.getTitleDeed());
         alert.setHeaderText("Tile Info:");
         String text = "Tile Price: " + tile.getCard().getTilePrice() + "\n";
         for(int i = 0; i<tile.getCard().getRentPriceLookupTable().size(); i++){
@@ -439,6 +468,7 @@ public class RectangularBoardView extends AbstractBoardView {
         text+= "Mortgage Value = " + tile.getCard().getMortgageValue() + "\n";
         //this is hardcoded ...
         text+="Upgrade Price = " + ((BuildingCard) tile.getCard()).getPriceNeededToUpgradeLookupTable("1House") + "\n";
+        text += "\n current buildings: " + tile.getCurrentInUpgradeOrder();
         alert.setContentText(text);
         alert.showAndWait();
     }
