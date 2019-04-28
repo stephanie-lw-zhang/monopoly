@@ -106,7 +106,6 @@ abstract public class AbstractScreen{
 
     public void backToParent(){
         if(myParent!=null){
-            System.out.println(myParent.getClass());
             myStage.close();
             myStage.setScene(myParent.makeScreen());
             myStage.show();

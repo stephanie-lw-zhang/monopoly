@@ -42,7 +42,7 @@
     </Dimensions>
 
     <Deck>
-        <Name>Chance Deck</Name>
+        <Name>Chance</Name>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
