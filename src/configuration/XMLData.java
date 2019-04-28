@@ -37,6 +37,7 @@ public class XMLData {
     private Tile firstTile;
     private List<DeckInterface> decks;
     private String monopolyType;
+    private double initialFunds;
 
     public XMLData(String fileName) {
         try {
@@ -49,6 +50,7 @@ public class XMLData {
             initializeNumDie(doc);
             initializeGameType(doc);
             initializeBank(doc);
+            initializeFunds(doc);
             initializeTiles(doc);
             initializeNumDecks(doc);
             initializeDecks(doc);
@@ -85,6 +87,10 @@ public class XMLData {
             totalPropertiesLeft.put(entry[0], Integer.parseInt(entry[1]));
         }
         bank = new Bank(money, totalPropertiesLeft);
+    }
+
+    private void initializeFunds(Document doc) {
+        initialFunds = Integer.parseInt(getTagValue("Player", (Element) doc.getElementsByTagName("InitialFunds").item(0)));
     }
 
     private void initializeTiles(Document doc) throws Exception {
@@ -197,6 +203,8 @@ public class XMLData {
     public Bank getBank(){
         return bank;
     }
+
+    public double getInitialFunds() { return initialFunds; }
 
     public List<Tile> getTiles() {
         return tiles;

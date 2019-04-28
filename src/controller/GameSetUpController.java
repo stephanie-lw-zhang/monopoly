@@ -117,20 +117,20 @@ public class GameSetUpController {
                     playerList.add(new HumanPlayer(
                             name,
                             (String) playerToIcon.get(pName).getValue(),
-                            1500.00));
+                            myData.getInitialFunds()
+                    ));
                 }
                 if (playerType.equals("bot")) {
                     playerList.add(new AutomatedPlayer(
                             name,
                             (String) playerToIcon.get(pName).getValue(),
-                            1500.00));
-                    System.out.print("bot!");
+                            myData.getInitialFunds()
+                    ));
                 }
             }
         }
 
         return playerList;
-
     }
 
     public void backToParent() {
