@@ -37,6 +37,7 @@ public class XMLData {
     private Tile firstTile;
     private List<DeckInterface> decks;
     private String monopolyType;
+    private double playerMoney;
 
     public XMLData(String fileName) {
         try {
@@ -47,6 +48,7 @@ public class XMLData {
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
             initializeNumDie(doc);
+            initializePlayerMoney(doc);
             initializeGameType(doc);
             initializeBank(doc);
             initializeTiles(doc);
@@ -63,6 +65,10 @@ public class XMLData {
 
     private void initializeNumDie(Document doc){
         numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
+    }
+
+    private void initializePlayerMoney(Document doc){
+        playerMoney = Double.parseDouble(getTagValue("Player", (Element) doc.getElementsByTagName("InitialFunds").item(0)));
     }
 
     private void initializeGameType(Document doc){
@@ -218,6 +224,10 @@ public class XMLData {
 
     public Tile getFirstTile() {
         return firstTile;
+    }
+
+    public double getPlayerMoney(){
+        return playerMoney;
     }
 
     public List<DeckInterface> getDecks(){
