@@ -40,12 +40,9 @@ public class XMLData {
     private List<DeckInterface> decks;
     private String monopolyType;
     private double initialFunds;
-<<<<<<< HEAD
     private double playerMoney;
     private String background;
     private String boxColor;
-=======
->>>>>>> c6b081c7424fe119d70eb7d5b590ee686a158c8c
 
     public XMLData(String fileName) {
         try {
@@ -59,6 +56,7 @@ public class XMLData {
             initializeNumDie(doc);
             initializePlayerMoney(doc);
             initializeBackground(doc);
+            initializeBoxColor(doc);
             initializeGameType(doc);
             initializeBank(doc);
             initializeFunds(doc);
@@ -266,7 +264,6 @@ public class XMLData {
     }
 
     public String getBoxColor() {
-        System.out.print(boxColor);
         return (boxColor);
     }
 }
