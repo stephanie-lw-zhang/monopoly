@@ -6,6 +6,23 @@
         <MonopolyType>Original Monopoly</MonopolyType>
     </Type>
 
+    <Dimensions>
+        <Horizontal>11</Horizontal>
+        <Vertical>11</Vertical>
+    </Dimensions>
+
+    <Background>
+        <BackgroundPath>background.jpg</BackgroundPath>
+    </Background>
+
+    <Box>
+        <BoxColor>#d32f2f</BoxColor>
+    </Box>
+    <NumPlayers>
+        <MaxPlayers>4</MaxPlayers>
+        <MinPlayers>2</MinPlayers>
+    </NumPlayers>
+
     <Dice>
         <NumDie>2</NumDie>
     </Dice>
@@ -18,13 +35,18 @@
         <Player>1500</Player>
     </InitialFunds>
 
+    <Dimensions>
+        <Horizontal>11</Horizontal>
+        <Vertical>11</Vertical>
+    </Dimensions>
+
     <Deck>
         <Name>Community Chest</Name>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>0</TileIndex>
-            <Message>Advance to Go (Collect $200)</Message>
+            <Message>Advance to Go</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>

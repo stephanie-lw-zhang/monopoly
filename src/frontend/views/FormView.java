@@ -37,27 +37,28 @@ import java.util.List;
  */
 public class FormView {
 
-    private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
-    // private TestingScreen            myScreen;
+    private int                      maxPlayers;
+    private int                      minPlayers;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
     private Map<TextField, ComboBox> playerToType;
-    private GameSetUpController myController;
-    private GridPane myPane;
+    private GameSetUpController      myController;
+    private GridPane                 myPane;
 
     /**
      * FormView main constructor
-     *
-     * TODO: REFACTOR OUT
-     * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
-     * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
      */
-    private void initialize(){
+    private void initialize() {
+        maxPlayers = myController.getMaxPlayers();
+        minPlayers = myController.getMinPlayers();
+
+//        POSSIBLE_PLAYERS = numPlayers;
+
         myPane = new GridPane();
         myPane.setHgap(5);
         myPane.setVgap(10);
         myPane.setAlignment(Pos.CENTER);
-        myPane.setStyle("-fx-background-color: #d32f2f;");
+        myPane.setStyle("-fx-background-color: " + (myController.getBoxColor()));
         myPane.setMaxSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 400);
         myPane.setPadding(new Insets(20, 20, 20, 20));
         myPane.maxWidthProperty().bind(myPane.widthProperty());
@@ -88,7 +89,7 @@ public class FormView {
         playerToIcon = new HashMap<>();
         playerToType = new HashMap<>();
 
-        for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
+        for (int i = 1; i <= maxPlayers; i++) {
 
             ComboBox<String> playerBox = createPlayerDropDown(playerChoices, i);
             ComboBox<String> comboBox = createIconDropDown( options, i );
@@ -110,17 +111,17 @@ public class FormView {
                 }
             }
         });
-        myPane.setConstraints( submitFormButton, 0, 6);
+        myPane.setConstraints( submitFormButton, 0, maxPlayers + 2);
         myPane.getChildren().add( submitFormButton );
     }
 
-    public FormView(){
+    public FormView() {
         initialize();
     }
 
-    public FormView(GameSetUpController controller){
-        this();
+    public FormView(GameSetUpController controller) {
         myController = controller;
+        initialize();
     }
 
     /**
@@ -178,6 +179,9 @@ public class FormView {
         if (this.hasUnassignedName(playerToIcon)) {
             throw new InputPlayerNameMismatchException();
         }
+        if (this.hasUnassignedType(playerToType)) {
+            throw new PlayerTypeAssignmentException();
+        }
         if (! hasEnoughPlayers()) {
             throw new InsufficientPlayersException();
         }
@@ -186,9 +190,6 @@ public class FormView {
         }
         if (hasDuplicateIcons(playerToIcon)) {
             throw new DuplicatePlayerIconException();
-        }
-        if (this.hasUnassignedType(playerToType)) {
-            throw new PlayerTypeAssignmentException();
         }
 
         myController.startGame(playerToIcon, playerToType);
@@ -248,7 +249,7 @@ public class FormView {
         for (TextField p : playerToIcon.keySet())
             if (p.getText().equals(""))
                 empties++;
-        return empties <= 2;
+        return empties <= (maxPlayers - minPlayers);
     }
 
     /**

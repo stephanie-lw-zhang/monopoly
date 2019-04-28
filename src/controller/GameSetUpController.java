@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Constructor;
@@ -44,10 +45,8 @@ import java.util.Map;
  */
 public class GameSetUpController {
 
-    private static final String CONFIG_FILE = "OriginalMonopoly.xml";
+    private static final String CONFIG_FILE = "MonopolyJunior.xml";
 
-
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private Node myNode;
 
     private GameController myGameController;
@@ -63,17 +62,19 @@ public class GameSetUpController {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
-        myLayoutPane = new BorderPane();
-        myFormView = new FormView(this);
-        myLayoutPane.setCenter(myFormView.getNode());
         myGameConfigView = new GameConfigView(this);
-        myLayoutPane.setTop(myGameConfigView.getNode());
-        myNode = myLayoutPane;
+
         try {
             myData = new XMLData(CONFIG_FILE);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        myFormView = new FormView(this);
+        myLayoutPane = new BorderPane();
+        myLayoutPane.setCenter(myFormView.getNode());
+        myLayoutPane.setTop(myGameConfigView.getNode());
+        myNode = myLayoutPane;
         //makeSetUpScreen();
     }
 
@@ -117,37 +118,36 @@ public class GameSetUpController {
                     playerList.add(new HumanPlayer(
                             name,
                             (String) playerToIcon.get(pName).getValue(),
-                            1500.00));
+                            myData.getInitialFunds()
+                    ));
                 }
                 if (playerType.equals("bot")) {
                     playerList.add(new AutomatedPlayer(
                             name,
                             (String) playerToIcon.get(pName).getValue(),
-                            1500.00));
-                    System.out.print("bot!");
+                            myData.getInitialFunds()
+                    ));
                 }
             }
         }
 
         return playerList;
-
     }
 
-    private ImageView makeIcon(String iconPath) {
-        Image image = new Image(iconPath + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-
-        return imageView;
-    }
+    public int getMaxPlayers() { return myData.getMaxPlayers(); }
+    public int getMinPlayers() { return myData.getMinPlayers(); }
 
     public void backToParent() {
         myScreen.backToParent();
     }
 
+    public void handleNewGame() {
+        Stage stage = new Stage();
+        MonopolyDriver newDriver = new MonopolyDriver();
+        newDriver.start(stage);
+    }
 
-//    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
+    //    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
 //        for(NormalDeck deck: decks){
 //            for(ActionCard card: deck.getCards()){
 //                //this is very hardcoded at the moment
@@ -169,7 +169,6 @@ public class GameSetUpController {
 //            }
 //        }
 //    }
-
     public void handleSave() {
         myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
     }
@@ -178,9 +177,12 @@ public class GameSetUpController {
         myGameConfigView.generateLoadDialog();
     }
 
-    public void handleNewGame() {
-        Stage stage = new Stage();
-        MonopolyDriver newDriver = new MonopolyDriver();
-        newDriver.start(stage);
+    public String getBackround() {
+        return myData.getBackground();
     }
+
+    public String getBoxColor() {
+        return myData.getBoxColor();
+    }
+
 }

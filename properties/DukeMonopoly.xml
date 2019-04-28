@@ -1,10 +1,298 @@
-<OGMonopoly>
+<DukeMonopoly>
 
-    <BoardLayout>DukeMonopoly.csv</BoardLayout>
+    <Type>
+        <MonopolyType>Duke Monopoly</MonopolyType>
+    </Type>
+
+    <Dimensions>
+        <Horizontal>11</Horizontal>
+        <Vertical>11</Vertical>
+    </Dimensions>
+
+    <Background>
+        <BackgroundPath>dukebackground.jpg</BackgroundPath>
+    </Background>
+
+    <Box>
+        <BoxColor>#0000ff</BoxColor>
+    </Box>
+
+    <NumPlayers>
+        <MaxPlayers>6</MaxPlayers>
+        <MinPlayers>4</MinPlayers>
+    </NumPlayers>
 
     <Dice>
         <NumDie>2</NumDie>
     </Dice>
+
+    <Decks>
+        <NumDecks>2</NumDecks>
+    </Decks>
+
+    <InitialFunds>
+        <Player>2000</Player>
+    </InitialFunds>
+
+    <Dimensions>
+        <Horizontal>11</Horizontal>
+        <Vertical>11</Vertical>
+    </Dimensions>
+
+    <Deck>
+        <Name>Community Chest</Name>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>0</TileIndex>
+            <Message>Advance to Go</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>150</Amount>
+            <Message>Pay School Tax of $150</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>100</Amount>
+            <Message>You Inherit $100</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Everyone</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>50</Amount>
+            <Message>You Collect $50 From Every Player</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>25</Amount>
+            <Message>Receive For Services $25</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>10</TileIndex>
+            <Message>Go To Jail</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>100</Amount>
+            <Message>XMAS Fund Matures</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>GetOutOfJailCard</CardType>
+            <Type>GetOutOfJail</Type>
+            <Message>Get Out of Jail Free</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>10</Amount>
+            <Message>You Win Second Place in a Beauty Contest Collect $10</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>45</Amount>
+            <Message>From A Sale of Stock You Get $45</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>100</Amount>
+            <Message>Pay Hospital $100</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>20</Amount>
+            <Message>Income Tax Refund Collect $20</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>50</Amount>
+            <Message>Doctor's Fee Pay $50</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>200</Amount>
+            <Message>Bank Error In Your Favor Collect $200</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>100</Amount>
+            <Message>Life Insurance Matures Collect $100</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayBuildingsCard</CardType>
+            <Type>PayBuilding</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Message>For each House pay 40, For each Hotel pay 115</Message>
+            <Multiplier>
+                <Property>House</Property>
+                <Amount>40</Amount>
+            </Multiplier>
+            <Multiplier>
+                <Property>Hotel</Property>
+                <Amount>115</Amount>
+            </Multiplier>
+        </ActionCard>
+    </Deck>
+
+    <Deck>
+        <Name>Chance</Name>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Everyone</Payee>
+            <Amount>50</Amount>
+            <Message>You Have Been Elected Chairman of the Board Pay Each Player $50</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>GetOutOfJailCard</CardType>
+            <Type>GetOutOfJail</Type>
+            <Message>Get Out of Jail Free</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>15</Amount>
+            <Message>Pay Poor Tax of $15</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>0</TileIndex>
+            <Message>Advance to Go (Collect $200)</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>3</TileIndex>
+            <Message>Go Back 3 Spaces</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveAndPayCard</CardType>
+            <Type>MoveAndPay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
+            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveAndPayCard</CardType>
+            <Type>MoveAndPay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
+            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>10</TileIndex>
+            <Message>Go To Jail</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>150</Amount>
+            <Message>Your Building and Loan Matures Collect $150</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>50</Amount>
+            <Message>Bank Pays You Dividend of $50</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>5</TileIndex>
+            <Message>Take a Ride on the Reading</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>11</TileIndex>
+            <Message>Advance to St. Charles Place</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>39</TileIndex>
+            <Message>Advance Token to Boardwalk</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveAndPayCard</CardType>
+            <Type>MoveAndPay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
+            <Message>Advance to Nearest Utility and Pay Double if Owned</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>24</TileIndex>
+            <Message>Advance Token to Illinois Avenue</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayBuildingsCard</CardType>
+            <Type>PayBuilding</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Message>For each House pay 25, for each Hotel pay 100</Message>
+            <Multiplier>
+                <Property>House</Property>
+                <Amount>25</Amount>
+            </Multiplier>
+            <Multiplier>
+                <Property>Hotel</Property>
+                <Amount>100</Amount>
+            </Multiplier>
+        </ActionCard>
+    </Deck>
+
 
     <Bank>
         <Money>100000</Money>
@@ -19,7 +307,7 @@
     <Tile>
         <TileNumber>0</TileNumber>
         <TileType>GoTile</TileType>
-        <TileColor>Blue</TileColor>
+        <TileColor>Green</TileColor>
         <LandedMoney>200</LandedMoney>
         <PassedMoney>200</PassedMoney>
         <NextTiles>1</NextTiles>
@@ -29,7 +317,6 @@
         <TileNumber>1</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Brown</TileColor>
-        <TilePrice>60</TilePrice>
         <Card>
             <TitleDeed>Alspaugh</TitleDeed>
             <TileColor>Brown</TileColor>
@@ -54,6 +341,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,250,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>60</TilePrice>
             <TileMortgageValue>30</TileMortgageValue>
             <TileDormPrice>50</TileDormPrice>
             <TileApartmentPrice>50</TileApartmentPrice>
@@ -72,7 +360,6 @@
         <TileNumber>3</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Brown</TileColor>
-        <TilePrice>60</TilePrice>
         <Card>
             <TitleDeed>Epworth</TitleDeed>
             <TileColor>Brown</TileColor>
@@ -97,6 +384,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,450,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>60</TilePrice>
             <TileMortgageValue>30</TileMortgageValue>
             <TileDormPrice>50</TileDormPrice>
             <TileApartmentPrice>50</TileApartmentPrice>
@@ -110,6 +398,7 @@
         <TileType>IncomeTaxTile</TileType>
         <TileName>Tuition</TileName>
         <TileRent>200</TileRent>
+        <TaxMultiplier>0.1</TaxMultiplier>
         <NextTiles>5</NextTiles>
     </Tile>
 
@@ -117,7 +406,6 @@
     <Tile>
         <TileNumber>5</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>C1</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -133,6 +421,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>6</NextTiles>
         </Card>
@@ -142,11 +431,10 @@
     <Tile>
         <TileNumber>6</TileNumber>
         <TileType>BuildingTile</TileType>
-        <TileColor>Sky Blue</TileColor>
-        <TilePrice>100</TilePrice>
+        <TileColor>LightBlue</TileColor>
         <Card>
             <TitleDeed>Randolph</TitleDeed>
-            <TileColor>Sky Blue</TileColor>
+            <TileColor>LightBlue</TileColor>
             <Upgrades>
                 <Upgrade>NoDorm,0,Dorm,6,0,0</Upgrade>
             </Upgrades>
@@ -168,6 +456,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,550,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>100</TilePrice>
             <TileMortgageValue>50</TileMortgageValue>
             <TileDormPrice>50</TileDormPrice>
             <TileApartmentPrice>50</TileApartmentPrice>
@@ -185,11 +474,10 @@
     <Tile>
         <TileNumber>8</TileNumber>
         <TileType>BuildingTile</TileType>
-        <TileColor>Sky Blue</TileColor>
-        <TilePrice>100</TilePrice>
+        <TileColor>LightBlue</TileColor>
         <Card>
             <TitleDeed>Blackwell</TitleDeed>
-            <TileColor>Sky Blue</TileColor>
+            <TileColor>LightBlue</TileColor>
             <Upgrades>
                 <Upgrade>NoDorm,0,Dorm,6,0,0</Upgrade>
             </Upgrades>
@@ -211,6 +499,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,550,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>100</TilePrice>
             <TileMortgageValue>50</TileMortgageValue>
             <TileDormPrice>50</TileDormPrice>
             <TileApartmentPrice>50</TileApartmentPrice>
@@ -222,11 +511,10 @@
     <Tile>
         <TileNumber>9</TileNumber>
         <TileType>BuildingTile</TileType>
-        <TileColor>Sky Blue</TileColor>
-        <TilePrice>120</TilePrice>
+        <TileColor>LightBlue</TileColor>
         <Card>
             <TitleDeed>Gilbert-Addoms</TitleDeed>
-            <TileColor>Sky Blue</TileColor>
+            <TileColor>LightBlue</TileColor>
             <Upgrades>
                 <Upgrade>NoDorm,0,Dorm,8,0,0</Upgrade>
             </Upgrades>
@@ -248,6 +536,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,600,0,25</Upgrade>
             </Upgrades>
+            <TilePrice>120</TilePrice>
             <TileMortgageValue>50</TileMortgageValue>
             <TileDormPrice>50</TileDormPrice>
             <TileApartmentPrice>50</TileApartmentPrice>
@@ -267,7 +556,6 @@
         <TileNumber>11</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
-        <TilePrice>140</TilePrice>
         <Card>
             <TitleDeed>Pegram</TitleDeed>
             <TileColor>Magenta</TileColor>
@@ -292,6 +580,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,750,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>140</TilePrice>
             <TileMortgageValue>70</TileMortgageValue>
             <TileDormPrice>100</TileDormPrice>
             <TileApartmentPrice>100</TileApartmentPrice>
@@ -302,7 +591,6 @@
     <Tile>
         <TileNumber>12</TileNumber>
         <TileType>UtilityTile</TileType>
-        <TilePrice>150</TilePrice>
         <Card>
             <TitleDeed>Grass Company</TitleDeed>
             <TileColor>Utility</TileColor>
@@ -312,6 +600,7 @@
             <Upgrades>
                 <Upgrade>2Utility,2,,10</Upgrade>
             </Upgrades>
+            <TilePrice>150</TilePrice>
             <TileMortgageValue>75</TileMortgageValue>
             <NextTiles>13</NextTiles>
         </Card>
@@ -323,7 +612,6 @@
         <TileNumber>13</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
-        <TilePrice>140</TilePrice>
         <Card>
             <TitleDeed>Bassett</TitleDeed>
             <TileColor>Magenta</TileColor>
@@ -348,6 +636,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,750,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>140</TilePrice>
             <TileMortgageValue>70</TileMortgageValue>
             <TileDormPrice>100</TileDormPrice>
             <TileApartmentPrice>100</TileApartmentPrice>
@@ -359,7 +648,6 @@
         <TileNumber>14</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Magenta</TileColor>
-        <TilePrice>160</TilePrice>
         <Card>
             <TitleDeed>Wilson</TitleDeed>
             <TileColor>Magenta</TileColor>
@@ -384,6 +672,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,950,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>160</TilePrice>
             <TileMortgageValue>80</TileMortgageValue>
             <TileDormPrice>100</TileDormPrice>
             <TileApartmentPrice>100</TileApartmentPrice>
@@ -394,7 +683,6 @@
     <Tile>
         <TileNumber>15</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>C2</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -410,6 +698,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>16</NextTiles>
         </Card>
@@ -419,7 +708,6 @@
         <TileNumber>16</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
-        <TilePrice>180</TilePrice>
         <Card>
             <TitleDeed>Edens Quad</TitleDeed>
             <TileColor>Orange</TileColor>
@@ -444,6 +732,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,950,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>180</TilePrice>
             <TileMortgageValue>90</TileMortgageValue>
             <TileDormPrice>100</TileDormPrice>
             <TileApartmentPrice>100</TileApartmentPrice>
@@ -463,7 +752,6 @@
         <TileNumber>18</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
-        <TilePrice>180</TilePrice>
         <Card>
             <TitleDeed>Few Quad</TitleDeed>
             <TileColor>Orange</TileColor>
@@ -488,6 +776,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,950,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>180</TilePrice>
             <TileMortgageValue>90</TileMortgageValue>
             <TileDormPrice>100</TileDormPrice>
             <TileApartmentPrice>100</TileApartmentPrice>
@@ -500,7 +789,6 @@
         <TileNumber>19</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Orange</TileColor>
-        <TilePrice>180</TilePrice>
         <Card>
             <TitleDeed>Keohane Quad</TitleDeed>
             <TileColor>Orange</TileColor>
@@ -525,6 +813,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1000,0,50</Upgrade>
             </Upgrades>
+            <TilePrice>180</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <TileDormPrice>100</TileDormPrice>
             <TileApartmentPrice>100</TileApartmentPrice>
@@ -544,7 +833,6 @@
         <TileNumber>21</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
-        <TilePrice>220</TilePrice>
         <Card>
             <TitleDeed>Craven Quad</TitleDeed>
             <TileColor>Red</TileColor>
@@ -569,6 +857,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1050,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>220</TilePrice>
             <TileMortgageValue>110</TileMortgageValue>
             <TileDormPrice>150</TileDormPrice>
             <TileApartmentPrice>150</TileApartmentPrice>
@@ -579,6 +868,7 @@
     <Tile>
         <TileNumber>22</TileNumber>
         <TileType>ChanceTile</TileType>
+        <TileName>Chance</TileName>
         <NextTiles>23</NextTiles>
     </Tile>
 
@@ -586,7 +876,6 @@
         <TileNumber>23</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
-        <TilePrice>220</TilePrice>
         <Card>
             <TitleDeed>Crowell Quad</TitleDeed>
             <TileColor>Red</TileColor>
@@ -611,6 +900,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1050,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>220</TilePrice>
             <TileMortgageValue>110</TileMortgageValue>
             <TileDormPrice>150</TileDormPrice>
             <TileApartmentPrice>150</TileApartmentPrice>
@@ -622,7 +912,6 @@
         <TileNumber>24</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Red</TileColor>
-        <TilePrice>240</TilePrice>
         <Card>
             <TitleDeed>Kilgo Quad</TitleDeed>
             <TileColor>Red</TileColor>
@@ -647,6 +936,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1100,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>240</TilePrice>
             <TileMortgageValue>120</TileMortgageValue>
             <TileDormPrice>150</TileDormPrice>
             <TileApartmentPrice>150</TileApartmentPrice>
@@ -658,7 +948,6 @@
     <Tile>
         <TileNumber>25</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>C3</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -674,6 +963,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>26</NextTiles>
         </Card>
@@ -684,7 +974,6 @@
         <TileNumber>26</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
-        <TilePrice>260</TilePrice>
         <Card>
             <TitleDeed>Wannamaker Quad</TitleDeed>
             <TileColor>Yellow</TileColor>
@@ -709,6 +998,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1150,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>260</TilePrice>
             <TileMortgageValue>130</TileMortgageValue>
             <TileDormPrice>150</TileDormPrice>
             <TileApartmentPrice>150</TileApartmentPrice>
@@ -721,7 +1011,6 @@
         <TileNumber>27</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
-        <TilePrice>260</TilePrice>
         <Card>
             <TitleDeed>The Hollows</TitleDeed>
             <TileColor>Yellow</TileColor>
@@ -746,6 +1035,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1150,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>260</TilePrice>
             <TileMortgageValue>130</TileMortgageValue>
             <TileDormPrice>150</TileDormPrice>
             <TileApartmentPrice>150</TileApartmentPrice>
@@ -756,7 +1046,6 @@
     <Tile>
         <TileNumber>28</TileNumber>
         <TileType>UtilityTile</TileType>
-        <TilePrice>150</TilePrice>
         <Card>
             <TitleDeed>Drainage</TitleDeed>
             <TileColor>Utility</TileColor>
@@ -766,6 +1055,7 @@
             <Upgrades>
                 <Upgrade>2Utility,2,,10</Upgrade>
             </Upgrades>
+            <TilePrice>150</TilePrice>
             <TileMortgageValue>75</TileMortgageValue>
             <NextTiles>29</NextTiles>
         </Card>
@@ -775,7 +1065,6 @@
         <TileNumber>29</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Yellow</TileColor>
-        <TilePrice>280</TilePrice>
         <Card>
             <TitleDeed>300 Swift</TitleDeed>
             <TileColor>Yellow</TileColor>
@@ -800,6 +1089,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1200,0,75</Upgrade>
             </Upgrades>
+            <TilePrice>280</TilePrice>
             <TileMortgageValue>140</TileMortgageValue>
             <TileDormPrice>150</TileDormPrice>
             <TileApartmentPrice>150</TileApartmentPrice>
@@ -819,7 +1109,6 @@
         <TileNumber>31</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
-        <TilePrice>300</TilePrice>
         <Card>
             <TitleDeed>University Apartments</TitleDeed>
             <TileColor>Green</TileColor>
@@ -844,6 +1133,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1275,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>300</TilePrice>
             <TileMortgageValue>150</TileMortgageValue>
             <TileDormPrice>200</TileDormPrice>
             <TileApartmentPrice>200</TileApartmentPrice>
@@ -856,7 +1146,6 @@
         <TileNumber>32</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
-        <TilePrice>300</TilePrice>
         <Card>
             <TitleDeed>Erwin Mills</TitleDeed>
             <TileColor>Green</TileColor>
@@ -881,6 +1170,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1275,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>300</TilePrice>
             <TileMortgageValue>150</TileMortgageValue>
             <TileDormPrice>200</TileDormPrice>
             <TileApartmentPrice>200</TileApartmentPrice>
@@ -901,7 +1191,6 @@
         <TileNumber>34</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Green</TileColor>
-        <TilePrice>320</TilePrice>
         <Card>
             <TitleDeed>Berkshire</TitleDeed>
             <TileColor>Green</TileColor>
@@ -926,6 +1215,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1400,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>320</TilePrice>
             <TileMortgageValue>160</TileMortgageValue>
             <TileDormPrice>200</TileDormPrice>
             <TileApartmentPrice>200</TileApartmentPrice>
@@ -936,7 +1226,6 @@
     <Tile>
         <TileNumber>35</TileNumber>
         <TileType>RailroadTile</TileType>
-        <TilePrice>200</TilePrice>
         <Card>
             <TitleDeed>CCX</TitleDeed>
             <TileColor>Railroad</TileColor>
@@ -952,6 +1241,7 @@
             <Upgrades>
                 <Upgrade>4Railroad,4,,200</Upgrade>
             </Upgrades>
+            <TilePrice>200</TilePrice>
             <TileMortgageValue>100</TileMortgageValue>
             <NextTiles>36</NextTiles>
         </Card>
@@ -968,7 +1258,6 @@
         <TileNumber>37</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
-        <TilePrice>350</TilePrice>
         <Card>
             <TitleDeed>Baldwin Auditorium</TitleDeed>
             <TileColor>Blue</TileColor>
@@ -993,6 +1282,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,1500,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>350</TilePrice>
             <TileMortgageValue>175</TileMortgageValue>
             <TileDormPrice>200</TileDormPrice>
             <TileApartmentPrice>200</TileApartmentPrice>
@@ -1015,9 +1305,8 @@
         <TileNumber>39</TileNumber>
         <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
-        <TilePrice>400</TilePrice>
         <Card>
-            <TitleDeed>The Chapel</TitleDeed>
+            <TitleDeed>Duke Chapel</TitleDeed>
             <TileColor>Blue</TileColor>
             <Upgrades>
                 <Upgrade>NoDorm,0,Dorm,50,0,0</Upgrade>
@@ -1040,6 +1329,7 @@
             <Upgrades>
                 <Upgrade>Apartment,1,Apartment,2000,0,100</Upgrade>
             </Upgrades>
+            <TilePrice>400</TilePrice>
             <TileMortgageValue>200</TileMortgageValue>
             <TileDormPrice>200</TileDormPrice>
             <TileApartmentPrice>200</TileApartmentPrice>
@@ -1047,5 +1337,4 @@
         </Card>
     </Tile>
 
-
-</OGMonopoly>
+</DukeMonopoly>
