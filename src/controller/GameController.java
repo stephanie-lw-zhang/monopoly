@@ -137,6 +137,7 @@ public class GameController {
                 myGameView.displayActionInfo( "Illegal access exception" );
             } catch (InvocationTargetException e) {
                 myGameView.displayActionInfo( "Invocation Target Exception" );
+                e.printStackTrace();
             }
         }
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
@@ -237,6 +238,7 @@ public class GameController {
             myGameView.displayActionInfo("Illegal argument");
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo("Invocation target exception");
+            e.printStackTrace();
         }
     }
 
@@ -253,6 +255,7 @@ public class GameController {
             myGameView.displayActionInfo("Illegal access exception");
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo("Invocation target exception");
+            e.printStackTrace();
         }  catch (NoSuchMethodException e) {
             myGameView.displayActionInfo("No such method exception");
         }
