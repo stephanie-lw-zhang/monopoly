@@ -156,8 +156,14 @@ public class BPaneOptionsView extends AbstractOptionsView {
     public void enableControl(String control) {
         Control selected = myControls.get(control);
         selected.setDisable(false);
+        selected.requestFocus();
     }
 
+//    @Override
+//    public void requestFocus(String control) {
+//        Control selected = myControls.get(control);
+//        selected.requestFocus();
+//    }
     /**
      * Getter of the Node of the VBoxOptionsView
      * @return Node         the internal VBox

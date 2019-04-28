@@ -33,7 +33,6 @@ public class GameController {
 
     private GameSetUpController mySetUpController;
     //TODO: make all the back-end stuff be managed by a MonopolyModel/myBoard class
-//    private XMLData myData;
     private AbstractBoard myBoard;
     private AbstractDice myDice;
     private Turn myTurn;
@@ -45,7 +44,6 @@ public class GameController {
 
     public GameController(double width, double height, GameSetUpController controller, AbstractBoard board, XMLData data){
         myBoard = board;
-//        myData = data;
         myGameView = new SplitScreenGameView(width, height, data, myBoard);
         mySetUpController = controller;
         addHandlers();
@@ -81,13 +79,12 @@ public class GameController {
         myTurn.skipTurn();
         myGameView.updateCurrPlayerDisplay(myTurn.getMyCurrPlayer());
         numDoubleRolls = 0;
+        myGameView.enableButton("Use Card");
         myGameView.disableButton("End Turn");
         myGameView.enableButton("Roll");
-
         if(myTurn.getMyCurrPlayer().isAuto()==(true)) {
             autoManager.autoPlayerTurn(myTurn.getMyCurrPlayer());
         }
-
     }
 
     private void handleUseCardButton() {
@@ -123,16 +120,19 @@ public class GameController {
                     card = c;
                 }
             }
+            List<Object> parameters = new ArrayList<>();
+            parameters.add(cardUser);
+            parameters.add(card);
 
             ActionCardController actionCardController = new ActionCardController( myBoard, myTurn, myGameView );
             Method handle = null;
             try {
-                handle = actionCardController.getClass().getMethod( "handle" + card.getHoldableCardAction(), AbstractPlayer.class);
+                handle = actionCardController.getClass().getMethod( "handle" + card.getHoldableCardAction(), List.class);
             } catch (NoSuchMethodException e) {
                 myGameView.displayActionInfo( "No such method exception" );
             }
             try {
-                handle.invoke( actionCardController, cardUser );
+                handle.invoke( actionCardController, parameters );
             } catch (IllegalAccessException e) {
                 myGameView.displayActionInfo( "Illegal access exception" );
             } catch (InvocationTargetException e) {
@@ -174,18 +174,20 @@ public class GameController {
                      }
                 } else {
                     tileActionController.handleGoToJail();
-                    myGameView.enableButton("End Turn");
+                     myGameView.enableButton("End Turn");
                  }
             }
         } else {
             if (myTurn.getMyCurrPlayer().getTurnsInJail() == 2) {
+                myGameView.disableButton("Use Card");
                 myTurn.getMyCurrPlayer().getOutOfJail();
                 myGameView.displayActionInfo("You have had three turns in jail! You are free after you pay the fine.");
                 tileActionController.handlePayBail();
                 handleMove(myTurn.getNumMoves());
                 myGameView.enableButton("End Turn");
             }
-            else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1){
+            else if(myTurn.getMyCurrPlayer().getTurnsInJail() != -1) {
+                myGameView.disableButton("Use Card");
                 handleTileLanding(myBoard.getPlayerTile(myTurn.getMyCurrPlayer()));
                 myGameView.enableButton("End Turn");
             }
@@ -195,7 +197,7 @@ public class GameController {
         }
     }
 
-    private void handleMove(int numMoves) {
+    public void handleMove(int numMoves) {
         try {
             for (int i = 0; i < numMoves-1; i++) {
                 Tile passedTile = myBoard.movePlayerByOne( myTurn.getMyCurrPlayer());
@@ -272,6 +274,7 @@ public class GameController {
     }
 
     public void handleMoveCheat() {
+        myGameView.disableButton("Roll");
         int moves = myGameView.getCheatMoves();
         myTurn.setNumMoves( moves );
         this.handleMove( moves );

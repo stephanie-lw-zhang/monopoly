@@ -49,6 +49,7 @@ public class TileActionController {
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
             myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has been sent to Jail!");
             myGameView.updateIconDisplay(myTurn.getMyCurrPlayer(),jail);
+            myGameView.disableButton("Use Card");
         } catch (TileNotFoundException e){
             e.popUp();
         }
@@ -57,9 +58,11 @@ public class TileActionController {
     public void handlePayBail(){
         try {
             myTurn.getMyCurrPlayer().payFullAmountTo(myBoard.getBank(), myBoard.getJailTile().getBailAmount());
+            myTurn.getMyCurrPlayer().getOutOfJail();
             myGameView.displayActionInfo("You've successfully paid the fine. You're free now!");
             myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), null);
             myGameView.updateLogDisplay(myTurn.getMyCurrPlayer().getMyPlayerName() + " has paid the fine and can move!");
+            gameController.handleMove(myTurn.getNumMoves());
         } catch(TileNotFoundException e) {
             e.popUp();
         } catch (NotEnoughMoneyException e) {
