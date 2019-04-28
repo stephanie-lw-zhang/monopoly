@@ -44,7 +44,7 @@ import java.util.Map;
  */
 public class GameSetUpController {
 
-    private static final String CONFIG_FILE = "DukeMonopoly.xml";
+    private static final String CONFIG_FILE = "MonopolyJunior.xml";
 
     private Node myNode;
 
