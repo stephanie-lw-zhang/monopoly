@@ -44,7 +44,7 @@ import java.util.Map;
  */
 public class GameSetUpController {
 
-    private static final String CONFIG_FILE = "OriginalMonopoly.xml";
+    private static final String CONFIG_FILE = "DukeMonopoly.xml";
 
 
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");

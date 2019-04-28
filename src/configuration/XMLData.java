@@ -38,6 +38,7 @@ public class XMLData {
     private List<DeckInterface> decks;
     private String monopolyType;
     private double initialFunds;
+    private double playerMoney;
 
     public XMLData(String fileName) {
         try {
