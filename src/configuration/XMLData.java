@@ -8,6 +8,7 @@ import backend.deck.NormalDeck;
 import backend.tile.AbstractDrawCardTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+import javafx.scene.paint.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,7 +31,8 @@ public class XMLData {
     private Map<Tile, List<Tile>> adjacencyList;
     private Map<Tile, List<Integer>> indexNeighborList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
-    private int numPlayers;
+    private int maxPlayers;
+    private int minPlayers;
     private Bank bank;
     private int numDie;
     private int numDecks;
@@ -39,6 +41,9 @@ public class XMLData {
     private List<DeckInterface> decks;
     private String monopolyType;
     private double initialFunds;
+    private double playerMoney;
+    private String background;
+    private String boxColor;
 
     public XMLData(String fileName) {
         try {
@@ -48,8 +53,12 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-            initializeNumPlayers(doc);
+            initializeMaxPlayers(doc);
+            initializeMinPlayers(doc);
             initializeNumDie(doc);
+            initializePlayerMoney(doc);
+            initializeBackground(doc);
+            initializeBoxColor(doc);
             initializeGameType(doc);
             initializeBank(doc);
             initializeFunds(doc);
@@ -65,12 +74,28 @@ public class XMLData {
         }
     }
 
-    private void initializeNumPlayers(Document doc) {
-        numPlayers = Integer.parseInt(getTagValue("NumPlayers", (Element) doc.getElementsByTagName("Players").item(0)));
+    private void initializeMaxPlayers(Document doc) {
+        maxPlayers = Integer.parseInt(getTagValue("MaxPlayers", (Element) doc.getElementsByTagName("NumPlayers").item(0)));
+    }
+
+    private void initializeMinPlayers(Document doc) {
+        minPlayers = Integer.parseInt(getTagValue("MinPlayers", (Element) doc.getElementsByTagName("NumPlayers").item(0)));
     }
 
     private void initializeNumDie(Document doc){
         numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
+    }
+
+    private void initializePlayerMoney(Document doc){
+        playerMoney = Double.parseDouble(getTagValue("Player", (Element) doc.getElementsByTagName("InitialFunds").item(0)));
+    }
+
+    private void initializeBackground(Document doc) {
+        background = getTagValue("BackgroundPath", (Element) doc.getElementsByTagName("Background").item(0));
+    }
+
+    private void initializeBoxColor(Document doc) {
+        boxColor = (getTagValue("BoxColor", (Element) doc.getElementsByTagName("Box").item(0)));
     }
 
     private void initializeGameType(Document doc){
@@ -206,8 +231,12 @@ public class XMLData {
         return propertyCategoryToSpecificListMap;
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
     }
 
     public Bank getBank(){
@@ -234,6 +263,8 @@ public class XMLData {
         return node.getNodeValue();
     }
 
+    public String getBackground() {return background; }
+
     public Tile getFirstTile() {
         return firstTile;
     }
@@ -242,4 +273,7 @@ public class XMLData {
         return decks;
     }
 
+    public String getBoxColor() {
+        return (boxColor);
+    }
 }

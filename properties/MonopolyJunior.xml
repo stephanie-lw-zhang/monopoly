@@ -3,12 +3,21 @@
     <BoardLayout>MonopolyJunior.csv</BoardLayout>
 
     <Type>
-        <MonopolyType>Original Monopoly</MonopolyType>
+        <MonopolyType>Monopoly Junior</MonopolyType>
     </Type>
 
-    <Players>
-        <NumPlayers>3</NumPlayers>
-    </Players>
+    <Background>
+        <BackgroundPath>background.jpg</BackgroundPath>
+    </Background>
+
+    <Box>
+        <BoxColor>#d32f2f</BoxColor>
+    </Box>
+
+    <NumPlayers>
+        <MaxPlayers>4</MaxPlayers>
+        <MinPlayers>2</MinPlayers>
+    </NumPlayers>
 
     <Dice>
         <NumDie>1</NumDie>
