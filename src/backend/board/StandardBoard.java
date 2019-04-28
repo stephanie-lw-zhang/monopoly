@@ -53,15 +53,15 @@ public class StandardBoard extends AbstractBoard {
     }
 
     @Override
-    public void movePlayerToNearest(AbstractPlayer p, Tile tile) throws TileNotFoundException {
-        if(containsTileType( tile )){
+    public Tile findNearest(AbstractPlayer p, String tileType) throws TileNotFoundException {
+        if(containsTileType(tileType)){
             Tile current = getPlayerTile(p);
             Tile next = getAdjacentTiles(current).get(0);
             //this needs to change for a non-standard board, could be informed by property file
-            while(!next.getTileType().equals( tile.getTileType())){
+            while(!next.getTileType().equals( tileType)){
                 next = getAdjacentTiles(next).get(0);
             }
-            movePlayer( p, next );
+            return next;
         } else {
             throw new TileNotFoundException( "Tile does not exist" );
         }

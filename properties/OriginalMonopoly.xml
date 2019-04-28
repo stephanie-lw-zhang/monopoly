@@ -153,6 +153,15 @@
     <Deck>
         <Name>Chance</Name>
         <ActionCard>
+            <CardType>MoveAndPayCard</CardType>
+            <Type>MoveAndPay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Owner</Payee>
+            <Multiplier>2</Multiplier>
+            <TargetTileType>RailroadTile</TargetTileType>
+            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+        </ActionCard>
+        <ActionCard>
             <CardType>PayCard</CardType>
             <Type>Pay</Type>
             <Payer>CurrentPlayer</Payer>
@@ -191,14 +200,7 @@
             <Payer>CurrentPlayer</Payer>
             <Payee>Owner</Payee>
             <Multiplier>2</Multiplier>
-            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveAndPayCard</CardType>
-            <Type>MoveAndPay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Owner</Payee>
-            <Multiplier>2</Multiplier>
+            <TargetTileType>RailroadTile</TargetTileType>
             <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>
@@ -247,6 +249,7 @@
             <Payer>CurrentPlayer</Payer>
             <Payee>Owner</Payee>
             <Multiplier>2</Multiplier>
+            <TargetTileType>UtilityTile</TargetTileType>
             <Message>Advance to Nearest Utility and Pay Double if Owned</Message>
         </ActionCard>
         <ActionCard>

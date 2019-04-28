@@ -42,7 +42,7 @@ class StandardBoardTest {
     void movePlayerToNearest() {
         Tile railroad = data.getTiles().get(8);
         try {
-            board.movePlayerToNearest(playerList.get(0), railroad);
+            board.findNearest(playerList.get(0), railroad.getTileType());
         } catch (TileNotFoundException e) { }
         assertEquals(data.getTiles().get(4), board.getPlayerTile(playerList.get(0)));
     }

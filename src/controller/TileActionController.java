@@ -129,6 +129,7 @@ public class TileActionController {
                 } catch (NoSuchMethodException e){
                     myGameView.displayActionInfo( "There is no such method" );
                 } catch (InvocationTargetException e1) {
+                    e1.printStackTrace();
                     myGameView.displayActionInfo( "Invocation Target Exception" );
                 }
             }
@@ -154,6 +155,7 @@ public class TileActionController {
         } catch (IllegalArgumentException e) {
             myGameView.displayActionInfo( "Illegal argument exception" );
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
             myGameView.displayActionInfo( "Invocation target exception" );
         }
     }
@@ -221,6 +223,13 @@ public class TileActionController {
         bank.add(myBoard.getBank());
         List<AbstractAssetHolder> currPlayer = new ArrayList<>();
         currPlayer.add(myTurn.getMyCurrPlayer());
+        Tile tile = null;
+        try {
+            tile = myBoard.findNearest(myTurn.getMyCurrPlayer(), ((MoveAndPayCard) actionCard).getTargetTileType());
+        } catch (TileNotFoundException e) {
+            e.popUp();
+        }
+        ((MoveAndPayCard)actionCard).setTile(tile);
         if (((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("Everyone")) {
             ((MoveAndPayCard) actionCard).setPayees(players);
         }
@@ -229,6 +238,11 @@ public class TileActionController {
         }
         else if(((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("CurrentPlayer")) {
             ((MoveAndPayCard) actionCard).setPayees(currPlayer);
+        }
+        else if (((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("Owner")) {
+            List<AbstractAssetHolder> payees = new ArrayList<>();
+            payees.add(((AbstractPropertyTile)tile).getOwner());
+            ((MoveAndPayCard) actionCard).setPayees(payees);
         }
         if (((MoveAndPayCard) actionCard).getPayerString().equalsIgnoreCase("Everyone")) {
             ((MoveAndPayCard) actionCard).setPayers(players);

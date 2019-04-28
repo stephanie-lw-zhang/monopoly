@@ -2,6 +2,7 @@ package configuration;
 
 import backend.assetholder.Bank;
 import backend.card.action_cards.ActionCard;
+import backend.card.action_cards.MoveAndPayCard;
 import backend.card.action_cards.MoveCard;
 import backend.deck.DeckInterface;
 import backend.deck.NormalDeck;

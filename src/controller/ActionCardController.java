@@ -3,7 +3,9 @@ package controller;
 import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
+import backend.card.action_cards.ActionCard;
 import backend.card.action_cards.HoldableCard;
+import backend.card.action_cards.MoveAndPayCard;
 import backend.card.property_cards.BuildingCard;
 import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
@@ -12,6 +14,7 @@ import exceptions.NotEnoughMoneyException;
 import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,15 +64,14 @@ public class ActionCardController{
     }
 
     public void handleMoveAndPay(List<Object> parameters){
-        Tile targetTile = (Tile) parameters.get( 0 );
         List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 1 );
         List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 2 );
         double amount = (Double) parameters.get( 3 );
-        try {
-            myBoard.movePlayerToNearest( turn.getMyCurrPlayer(), targetTile );
-            payHelper( payers, payees, amount );
-        } catch (TileNotFoundException e) {
-            e.popUp();
+        Tile tile = (Tile) parameters.get(4);
+        myBoard.movePlayer(turn.getMyCurrPlayer(),tile);
+        myGameView.updateIconDisplay(turn.getMyCurrPlayer(),tile);
+        if (payees.size()!= 1 || !(payees.get(0).equals(myBoard.getBank()))) {
+            payHelper( payers, payees, amount * ((AbstractPropertyTile) tile).getCard().getRentPriceLookupTable().get(((AbstractPropertyTile) tile).getCurrentInUpgradeOrder()));
         }
     }
 
