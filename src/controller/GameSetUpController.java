@@ -44,10 +44,8 @@ import java.util.Map;
  */
 public class GameSetUpController {
 
-    private static final String CONFIG_FILE = "DukeMonopoly.xml";
+    private static final String CONFIG_FILE = "OriginalMonopoly.xml";
 
-
-    private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
     private Node myNode;
 
     private GameController myGameController;
@@ -58,22 +56,25 @@ public class GameSetUpController {
     private AbstractBoard myBoard;
     private BorderPane myLayoutPane;
     private GameConfigView myGameConfigView;
+    private int             myNumPlayers;
 
     public GameSetUpController(double sWidth, double sHeight, AbstractScreen screen) {
         screenWidth = sWidth;
         screenHeight = sHeight;
         myScreen = screen;
-        myLayoutPane = new BorderPane();
-        myFormView = new FormView(this);
-        myLayoutPane.setCenter(myFormView.getNode());
         myGameConfigView = new GameConfigView(this);
-        myLayoutPane.setTop(myGameConfigView.getNode());
-        myNode = myLayoutPane;
         try {
             myData = new XMLData(CONFIG_FILE);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        myNumPlayers = myData.getNumPlayers();
+        System.out.println(myNumPlayers);
+        myFormView = new FormView(this, myNumPlayers);
+        myLayoutPane = new BorderPane();
+        myLayoutPane.setCenter(myFormView.getNode());
+        myLayoutPane.setTop(myGameConfigView.getNode());
+        myNode = myLayoutPane;
         //makeSetUpScreen();
     }
 
@@ -132,6 +133,8 @@ public class GameSetUpController {
 
         return playerList;
     }
+
+    public int getMyNumPlayers() { return myNumPlayers; }
 
     public void backToParent() {
         myScreen.backToParent();
