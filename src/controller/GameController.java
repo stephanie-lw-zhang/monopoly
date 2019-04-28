@@ -228,7 +228,6 @@ public class GameController {
                 handle.invoke(tileActionController);
             }
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
             myGameView.displayActionInfo("There is no such method");
         } catch (SecurityException e) {
             myGameView.displayActionInfo("Security exception");

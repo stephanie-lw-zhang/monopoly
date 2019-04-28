@@ -344,7 +344,7 @@ public class RectangularBoardView extends AbstractBoardView {
         return arr[0].toLowerCase() + "Card.png";
     }
 
-    public PropertyTileView placePropertyTile(String tileName, BuildingTile propTile,
+    public PropertyTileView placePropertyTile(String tileName, AbstractPropertyTile propTile,
                                   String tileDescription,
                                   Paint tileColor,
                                   int xoffset,
@@ -452,8 +452,7 @@ public class RectangularBoardView extends AbstractBoardView {
  *
  * FIND THIS LINE OF CODE IN PLACEPROP and PLACENONPROP methods
  */
-    private void showBuildingTileClickedAlert(BuildingTile tile) {
-        //System.out.print("BANG!");
+    private void showBuildingTileClickedAlert(AbstractPropertyTile tile) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(tile.getTitleDeed());
         alert.setHeaderText("Tile Info:");
