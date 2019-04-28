@@ -22,6 +22,11 @@
         <Player>1500</Player>
     </InitialFunds>
 
+    <Dimensions>
+        <Horizontal>11</Horizontal>
+        <Vertical>11</Vertical>
+    </Dimensions>
+
     <Deck>
         <Name>Community Chest</Name>
         <ActionCard>
