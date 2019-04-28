@@ -264,7 +264,7 @@ public class RectangularBoardView extends AbstractBoardView {
             //} else if (s.equalsIgnoreCase("RailroadTile") || s.equalsIgnoreCase("UtilityTile")) {
             //    placePropertyTile(tile.getTileType(), "", Color.GREEN, 9, i-10, myHorizontals, myScreenWidth, 90);
             } else {
-                tileToTileView.put(tile, placeNonPropertyTile(tile.getTileType(), "", 9, i-10, myHorizontals, myScreenWidth, 90));
+                tileToTileView.put(tile, placeNonPropertyTile(tile.getTileType(), "", 9, x, myVerticals, myScreenWidth, 90));
                 //this needs to be changed, might need to give names to non-property tiles
                 //AbstractCard card = tile;
                 //placeNonPropertyTile();
@@ -436,15 +436,15 @@ public class RectangularBoardView extends AbstractBoardView {
     public void makeCorners(){
         //System.out.print(myPropertyFile.getProp("TileOName"));
         //System.out.print(myPropertyFile.getProp("TileOFile®"))
-        Tile tileZero = myBoard.getTilesIndex(0);
-        Tile tileTen = myBoard.getTilesIndex(10);
-        Tile tileTwenty = myBoard.getTilesIndex(20);
-        Tile tileThirty = myBoard.getTilesIndex(30);
+        Tile tileLowerRight = myBoard.getTilesIndex(0);
+        Tile tileLowerLeft = myBoard.getTilesIndex(myHorizontals-1);
+        Tile tileUpperLeft = myBoard.getTilesIndex(myHorizontals+myVerticals-2);
+        Tile tileUpperRight = myBoard.getTilesIndex(myHorizontals*2+myVerticals-3   );
 
-        tileToTileView.put(tileZero, placeCornerTile(tileZero.getTileType(), tileZero.getTileType(), "clear", 1, 1));
-        tileToTileView.put(tileTen, placeCornerTile(tileTen.getTileType(), tileTen.getTileType(), "clear", 0, 1));
-        tileToTileView.put(tileTwenty, placeCornerTile(tileTwenty.getTileType(), tileTwenty.getTileType(), "clear", 0, 0));
-        tileToTileView.put(tileThirty, placeCornerTile(tileThirty.getTileType(), tileThirty.getTileType(), "clear", 1, 0));
+        tileToTileView.put(tileLowerRight, placeCornerTile(tileLowerRight.getTileType(), tileLowerRight.getTileType(), "clear", 1, 1));
+        tileToTileView.put(tileLowerLeft, placeCornerTile(tileLowerLeft.getTileType(), tileLowerLeft.getTileType(), "clear", 0, 1));
+        tileToTileView.put(tileUpperLeft, placeCornerTile(tileUpperLeft.getTileType(), tileUpperLeft.getTileType(), "clear", 0, 0));
+        tileToTileView.put(tileUpperRight, placeCornerTile(tileUpperRight.getTileType(), tileUpperRight.getTileType(), "clear", 1, 0));
     }
 
 /**

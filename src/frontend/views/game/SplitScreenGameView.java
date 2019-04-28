@@ -53,7 +53,7 @@ public class SplitScreenGameView extends AbstractGameView {
         myData = data;
         try {
 //            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), myData), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
-            myBoardView = new SquareBoardView(board, 0.9*screenWidth, 0.9*screenHeight,90,11,11);
+            //myBoardView = new SquareBoardView(board, 0.9*screenWidth, 0.9*screenHeight,90,11,11);
         // FOr monopoly junior
             myBoardView = new SquareBoardView(board, 0.9*screenWidth, 0.9*screenHeight,90,7,7);
 
