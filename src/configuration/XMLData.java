@@ -31,6 +31,7 @@ public class XMLData {
     private Map<Tile, List<Tile>> adjacencyList;
     private Map<Tile, List<Integer>> indexNeighborList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
+    private int numPlayers;
     private Bank bank;
     private int numDie;
     private int numDecks;
@@ -39,9 +40,12 @@ public class XMLData {
     private List<DeckInterface> decks;
     private String monopolyType;
     private double initialFunds;
+<<<<<<< HEAD
     private double playerMoney;
     private String background;
     private String boxColor;
+=======
+>>>>>>> c6b081c7424fe119d70eb7d5b590ee686a158c8c
 
     public XMLData(String fileName) {
         try {
@@ -51,6 +55,7 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
+            initializeNumPlayers(doc);
             initializeNumDie(doc);
             initializePlayerMoney(doc);
             initializeBackground(doc);
@@ -67,6 +72,10 @@ public class XMLData {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void initializeNumPlayers(Document doc) {
+        numPlayers = Integer.parseInt(getTagValue("NumPlayers", (Element) doc.getElementsByTagName("Players").item(0)));
     }
 
     private void initializeNumDie(Document doc){
@@ -216,6 +225,10 @@ public class XMLData {
 
     public Map<String, List<AbstractPropertyTile>> getPropertyCategoryMap(){
         return propertyCategoryToSpecificListMap;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
     }
 
     public Bank getBank(){

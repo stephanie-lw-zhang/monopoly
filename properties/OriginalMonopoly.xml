@@ -13,6 +13,9 @@
     <Box>
         <BoxColor>#d32f2f</BoxColor>
     </Box>
+    <Players>
+        <NumPlayers>4</NumPlayers>
+    </Players>
 
     <Dice>
         <NumDie>2</NumDie>
