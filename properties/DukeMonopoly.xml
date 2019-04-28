@@ -4,6 +4,10 @@
         <MonopolyType>Duke Monopoly</MonopolyType>
     </Type>
 
+    <Players>
+        <NumPlayers>6</NumPlayers>
+    </Players>
+
     <Dice>
         <NumDie>2</NumDie>
     </Dice>
