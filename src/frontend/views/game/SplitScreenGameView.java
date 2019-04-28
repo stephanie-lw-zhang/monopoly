@@ -52,11 +52,15 @@ public class SplitScreenGameView extends AbstractGameView {
         super(screenWidth,screenHeight, data, board);
         myData = data;
         try {
+            myBoardView = new SquareBoardView(board, 0.9 * screenWidth, 0.9 * screenHeight, 90, 11, 11);
 //            myBoardView = new SquareBoardView(new StandardBoard(new ArrayList<>(), myData), 0.9*screenWidth, 0.9*screenHeight,90,11,11);
-            myBoardView = new SquareBoardView(board, 0.9*screenWidth, 0.9*screenHeight,90,11,11);
-        // FOr monopoly junior
-            myBoardView = new SquareBoardView(board, 0.9*screenWidth, 0.9*screenHeight,90,7,7);
-
+//            if(myData.getMonopolyType()=="Duke Monopoly" || myData.getMonopolyType()=="Original Monopoly") {
+//                myBoardView = new SquareBoardView(board, 0.9 * screenWidth, 0.9 * screenHeight, 90, 11, 11);
+//            }
+//        // FOr monopoly junior
+//            if(myData.getMonopolyType()=="Monopoly Junior") {
+//                myBoardView = new SquareBoardView(board, 0.9 * screenWidth, 0.9 * screenHeight, 90, 7, 7);
+//            }
         } catch (Exception e) {
             e.printStackTrace(); //change this !!!
         }

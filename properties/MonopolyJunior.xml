@@ -3,7 +3,7 @@
     <BoardLayout>MonopolyJunior.csv</BoardLayout>
 
     <Type>
-        <MonopolyType>Original Monopoly</MonopolyType>
+        <MonopolyType>Monopoly Junior</MonopolyType>
     </Type>
 
     <Background>
