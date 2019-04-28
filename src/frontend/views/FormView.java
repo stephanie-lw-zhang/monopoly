@@ -37,7 +37,8 @@ import java.util.List;
  */
 public class FormView {
 
-    private int                      POSSIBLE_PLAYERS;
+    private int                      maxPlayers;
+    private int                      minPlayers;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
     private Map<TextField, ComboBox> playerToType;
@@ -48,7 +49,8 @@ public class FormView {
      * FormView main constructor
      */
     private void initialize() {
-        POSSIBLE_PLAYERS = myController.getNumPlayers();
+        maxPlayers = myController.getMaxPlayers();
+        minPlayers = myController.getMinPlayers();
 
 //        POSSIBLE_PLAYERS = numPlayers;
 
@@ -87,7 +89,7 @@ public class FormView {
         playerToIcon = new HashMap<>();
         playerToType = new HashMap<>();
 
-        for (int i = 1; i <= POSSIBLE_PLAYERS; i++) {
+        for (int i = 1; i <= maxPlayers; i++) {
 
             ComboBox<String> playerBox = createPlayerDropDown(playerChoices, i);
             ComboBox<String> comboBox = createIconDropDown( options, i );
@@ -109,7 +111,7 @@ public class FormView {
                 }
             }
         });
-        myPane.setConstraints( submitFormButton, 0, POSSIBLE_PLAYERS + 2);
+        myPane.setConstraints( submitFormButton, 0, maxPlayers + 2);
         myPane.getChildren().add( submitFormButton );
     }
 
@@ -247,7 +249,7 @@ public class FormView {
         for (TextField p : playerToIcon.keySet())
             if (p.getText().equals(""))
                 empties++;
-        return empties <= 2;
+        return empties <= (maxPlayers - minPlayers);
     }
 
     /**

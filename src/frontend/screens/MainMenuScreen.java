@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -63,6 +64,8 @@ public class MainMenuScreen extends AbstractScreen {
 
         Button boardButton = new Button("PLAY: NORMAL MODE");
         boardButton.setOnAction(i -> handleBoardButton(getMyStage()));
+
+//        ComboBox
 
 //        Button rulesButton = new Button("rules");
 //        rulesButton.setOnAction(i -> handleRulesButton(getMyStage()));

@@ -134,7 +134,8 @@ public class GameSetUpController {
         return playerList;
     }
 
-    public int getNumPlayers() { return myData.getNumPlayers(); }
+    public int getMaxPlayers() { return myData.getMaxPlayers(); }
+    public int getMinPlayers() { return myData.getMinPlayers(); }
 
     public void backToParent() {
         myScreen.backToParent();

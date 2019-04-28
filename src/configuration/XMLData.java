@@ -31,7 +31,8 @@ public class XMLData {
     private Map<Tile, List<Tile>> adjacencyList;
     private Map<Tile, List<Integer>> indexNeighborList;
     private Map<String, List<AbstractPropertyTile>> propertyCategoryToSpecificListMap;
-    private int numPlayers;
+    private int maxPlayers;
+    private int minPlayers;
     private Bank bank;
     private int numDie;
     private int numDecks;
@@ -52,7 +53,8 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-            initializeNumPlayers(doc);
+            initializeMaxPlayers(doc);
+            initializeMinPlayers(doc);
             initializeNumDie(doc);
             initializePlayerMoney(doc);
             initializeBackground(doc);
@@ -72,8 +74,12 @@ public class XMLData {
         }
     }
 
-    private void initializeNumPlayers(Document doc) {
-        numPlayers = Integer.parseInt(getTagValue("NumPlayers", (Element) doc.getElementsByTagName("Players").item(0)));
+    private void initializeMaxPlayers(Document doc) {
+        maxPlayers = Integer.parseInt(getTagValue("MaxPlayers", (Element) doc.getElementsByTagName("NumPlayers").item(0)));
+    }
+
+    private void initializeMinPlayers(Document doc) {
+        minPlayers = Integer.parseInt(getTagValue("MinPlayers", (Element) doc.getElementsByTagName("NumPlayers").item(0)));
     }
 
     private void initializeNumDie(Document doc){
@@ -225,8 +231,12 @@ public class XMLData {
         return propertyCategoryToSpecificListMap;
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
     }
 
     public Bank getBank(){
