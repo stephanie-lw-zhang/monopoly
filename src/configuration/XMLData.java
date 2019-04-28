@@ -38,6 +38,7 @@ public class XMLData {
     private List<DeckInterface> decks;
     private String monopolyType;
     private double playerMoney;
+    private String background;
 
     public XMLData(String fileName) {
         try {
@@ -49,6 +50,7 @@ public class XMLData {
             doc.getDocumentElement().normalize();
             initializeNumDie(doc);
             initializePlayerMoney(doc);
+            initializeBackground(doc);
             initializeGameType(doc);
             initializeBank(doc);
             initializeTiles(doc);
@@ -69,6 +71,10 @@ public class XMLData {
 
     private void initializePlayerMoney(Document doc){
         playerMoney = Double.parseDouble(getTagValue("Player", (Element) doc.getElementsByTagName("InitialFunds").item(0)));
+    }
+
+    private void initializeBackground(Document doc) {
+        background = getTagValue("BackgroundPath", (Element) doc.getElementsByTagName("Background").item(0));
     }
 
     private void initializeGameType(Document doc){
@@ -221,6 +227,8 @@ public class XMLData {
         Node node = nodeList.item(0);
         return node.getNodeValue();
     }
+
+    public String getBackground() {return background; }
 
     public Tile getFirstTile() {
         return firstTile;

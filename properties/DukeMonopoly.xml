@@ -4,6 +4,9 @@
         <MonopolyType>Duke Monopoly</MonopolyType>
     </Type>
 
+    <Background>
+        <BackgroundPath>dukebackground.jpg</BackgroundPath>
+    </Background>
     <Dice>
         <NumDie>2</NumDie>
     </Dice>

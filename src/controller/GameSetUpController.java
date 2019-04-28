@@ -178,6 +178,10 @@ public class GameSetUpController {
         myGameConfigView.generateLoadDialog();
     }
 
+    public String getBackround() {
+        return myData.getBackground();
+    }
+
     public void handleNewGame() {
         Stage stage = new Stage();
         MonopolyDriver newDriver = new MonopolyDriver();
