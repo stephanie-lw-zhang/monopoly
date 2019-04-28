@@ -47,8 +47,10 @@ public class FormView {
     /**
      * FormView main constructor
      */
-    private void initialize(int numPlayers) {
-        POSSIBLE_PLAYERS = numPlayers;
+    private void initialize() {
+        POSSIBLE_PLAYERS = myController.getNumPlayers();
+
+//        POSSIBLE_PLAYERS = numPlayers;
 
         myPane = new GridPane();
         myPane.setHgap(5);
@@ -111,13 +113,13 @@ public class FormView {
         myPane.getChildren().add( submitFormButton );
     }
 
-    public FormView(int numPlayers) {
-        initialize(numPlayers);
+    public FormView() {
+        initialize();
     }
 
-    public FormView(GameSetUpController controller, int numPlayers) {
-        this(numPlayers);
+    public FormView(GameSetUpController controller) {
         myController = controller;
+        initialize();
     }
 
     /**
