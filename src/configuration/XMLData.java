@@ -178,6 +178,7 @@ public class XMLData {
                 decks.get(i).putBack(getActionCard(actionCards.item(j)));
             }
         }
+
     }
 
     private ActionCard getActionCard(Node node) throws Exception{
@@ -210,7 +211,6 @@ public class XMLData {
             String tileType = t.getName();
             if(t.getTileType().equalsIgnoreCase("CommunityChestTile")||t.getTileType().equalsIgnoreCase("ChanceTile")){
                 for(DeckInterface deck: decks){
-                    //System.out.println(deck.getName() + "  " + tileType);
                     if(deck.getName().equalsIgnoreCase(tileType)){
                         ((AbstractDrawCardTile) t).setDeck(deck);
                     }
