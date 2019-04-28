@@ -57,7 +57,7 @@ public class FormView {
         myPane.setHgap(5);
         myPane.setVgap(10);
         myPane.setAlignment(Pos.CENTER);
-        myPane.setStyle("-fx-background-color: " + Color.decode(myController.getBoxColor()) + ";");
+        myPane.setStyle("-fx-background-color: " + Color.decode(myController.getBoxColor()));
         myPane.setMaxSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 400);
         myPane.setPadding(new Insets(20, 20, 20, 20));
         myPane.maxWidthProperty().bind(myPane.widthProperty());
