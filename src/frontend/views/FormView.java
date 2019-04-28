@@ -93,6 +93,7 @@ public class FormView {
 
             ComboBox<String> playerTypeDropdown = createPlayerDropDown(playerChoices, i);
             ComboBox<String> iconDropdown = createIconDropDown( options, i );
+            playerTypeDropdown.setMinHeight(30);
             iconDropdown.setMinHeight(30);
 
             TextField pField = createPlayerTextField( i );
