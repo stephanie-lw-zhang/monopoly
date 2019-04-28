@@ -44,6 +44,7 @@ public class XMLData {
     private double playerMoney;
     private String background;
     private String boxColor;
+    private int horizontalTiles, verticalTiles;
 
     public XMLData(String fileName) {
         try {
@@ -53,6 +54,7 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
+            initializeDimensions(doc);
             initializeMaxPlayers(doc);
             initializeMinPlayers(doc);
             initializeNumDie(doc);
@@ -72,6 +74,11 @@ public class XMLData {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void initializeDimensions(Document doc){
+        horizontalTiles = Integer.parseInt(getTagValue("Horizontal",(Element) doc.getElementsByTagName("Dimensions").item(0)));
+        verticalTiles = Integer.parseInt(getTagValue("Horizontal",(Element) doc.getElementsByTagName("Dimensions").item(0)));
     }
 
     private void initializeMaxPlayers(Document doc) {
@@ -247,6 +254,10 @@ public class XMLData {
 
     public List<Tile> getTiles() {
         return tiles;
+    }
+
+    public int[] getDimensions(){
+        return new int[]{horizontalTiles,verticalTiles};
     }
 
     public int getNumDie(){

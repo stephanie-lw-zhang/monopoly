@@ -6,6 +6,11 @@
         <MonopolyType>Monopoly Junior</MonopolyType>
     </Type>
 
+    <Dimensions>
+        <Horizontal>7</Horizontal>
+        <Vertical>7</Vertical>
+    </Dimensions>
+
     <Background>
         <BackgroundPath>background.jpg</BackgroundPath>
     </Background>
