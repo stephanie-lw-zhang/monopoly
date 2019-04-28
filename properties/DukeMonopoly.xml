@@ -1283,7 +1283,7 @@
         <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
         <Card>
-            <TitleDeed>The Chapel</TitleDeed>
+            <TitleDeed>Duke Chapel</TitleDeed>
             <TileColor>Blue</TileColor>
             <Upgrades>
                 <Upgrade>NoDorm,0,Dorm,50,0,0</Upgrade>
