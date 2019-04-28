@@ -44,7 +44,7 @@ import java.util.Map;
  */
 public class GameSetUpController {
 
-    private static final String CONFIG_FILE = "OriginalMonopoly.xml";
+    private static final String CONFIG_FILE = "DukeMonopoly.xml";
 
 
     private ImportPropertyFile myPropertyFile = new ImportPropertyFile("OriginalMonopoly.properties");
@@ -117,13 +117,13 @@ public class GameSetUpController {
                     playerList.add(new HumanPlayer(
                             name,
                             (String) playerToIcon.get(pName).getValue(),
-                            1500.00));
+                            myData.getPlayerMoney()));
                 }
                 if (playerType.equals("bot")) {
                     playerList.add(new AutomatedPlayer(
                             name,
                             (String) playerToIcon.get(pName).getValue(),
-                            1500.00));
+                            myData.getPlayerMoney()));
                     System.out.print("bot!");
                 }
             }
