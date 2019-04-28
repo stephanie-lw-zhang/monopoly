@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Constructor;
@@ -133,18 +134,11 @@ public class GameSetUpController {
         return playerList;
     }
 
-    public int getNumPlayers() { return myData.getNumPlayers(); }
+    public int getMaxPlayers() { return myData.getMaxPlayers(); }
+    public int getMinPlayers() { return myData.getMinPlayers(); }
 
     public void backToParent() {
         myScreen.backToParent();
-    }
-
-    public void handleSave() {
-        myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
-    }
-
-    public void handleLoad(){
-        myGameConfigView.generateLoadDialog();
     }
 
     public void handleNewGame() {
@@ -175,4 +169,20 @@ public class GameSetUpController {
 //            }
 //        }
 //    }
+    public void handleSave() {
+        myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
+    }
+
+    public void handleLoad(){
+        myGameConfigView.generateLoadDialog();
+    }
+
+    public String getBackround() {
+        return myData.getBackground();
+    }
+
+    public String getBoxColor() {
+        return myData.getBoxColor();
+    }
+
 }

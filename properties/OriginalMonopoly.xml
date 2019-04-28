@@ -6,9 +6,17 @@
         <MonopolyType>Original Monopoly</MonopolyType>
     </Type>
 
-    <Players>
-        <NumPlayers>4</NumPlayers>
-    </Players>
+    <Background>
+        <BackgroundPath>background.jpg</BackgroundPath>
+    </Background>
+
+    <Box>
+        <BoxColor>#d32f2f</BoxColor>
+    </Box>
+    <NumPlayers>
+        <MaxPlayers>4</MaxPlayers>
+        <MinPlayers>2</MinPlayers>
+    </NumPlayers>
 
     <Dice>
         <NumDie>2</NumDie>

@@ -4,9 +4,18 @@
         <MonopolyType>Duke Monopoly</MonopolyType>
     </Type>
 
-    <Players>
-        <NumPlayers>6</NumPlayers>
-    </Players>
+    <Background>
+        <BackgroundPath>dukebackground.jpg</BackgroundPath>
+    </Background>
+
+    <Box>
+        <BoxColor>#0000ff</BoxColor>
+    </Box>
+
+    <NumPlayers>
+        <MaxPlayers>6</MaxPlayers>
+        <MinPlayers>4</MinPlayers>
+    </NumPlayers>
 
     <Dice>
         <NumDie>2</NumDie>
@@ -1292,7 +1301,7 @@
         <TileType>BuildingTile</TileType>
         <TileColor>Blue</TileColor>
         <Card>
-            <TitleDeed>The Chapel</TitleDeed>
+            <TitleDeed>Duke Chapel</TitleDeed>
             <TileColor>Blue</TileColor>
             <Upgrades>
                 <Upgrade>NoDorm,0,Dorm,50,0,0</Upgrade>
