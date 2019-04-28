@@ -13,9 +13,10 @@
     <Box>
         <BoxColor>#d32f2f</BoxColor>
     </Box>
-    <Players>
-        <NumPlayers>4</NumPlayers>
-    </Players>
+    <NumPlayers>
+        <MaxPlayers>4</MaxPlayers>
+        <MinPlayers>2</MinPlayers>
+    </NumPlayers>
 
     <Dice>
         <NumDie>2</NumDie>
