@@ -4,6 +4,11 @@
         <MonopolyType>Duke Monopoly</MonopolyType>
     </Type>
 
+    <Dimensions>
+        <Horizontal>11</Horizontal>
+        <Vertical>11</Vertical>
+    </Dimensions>
+
     <Background>
         <BackgroundPath>dukebackground.jpg</BackgroundPath>
     </Background>

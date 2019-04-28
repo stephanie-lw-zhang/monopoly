@@ -48,6 +48,7 @@ public class XMLData {
     private double playerMoney;
     private String background;
     private String boxColor;
+    private int horizontalTiles, verticalTiles;
 
     public XMLData(String fileName) {
         try {
@@ -257,6 +258,10 @@ public class XMLData {
 
     public List<Tile> getTiles() {
         return tiles;
+    }
+
+    public int[] getDimensions(){
+        return new int[]{horizontalTiles,verticalTiles};
     }
 
     public int getNumDie(){
