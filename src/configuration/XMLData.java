@@ -37,6 +37,7 @@ public class XMLData {
     private Tile firstTile;
     private List<DeckInterface> decks;
     private String monopolyType;
+    private double initialFunds;
     private double playerMoney;
 
     public XMLData(String fileName) {
@@ -48,9 +49,9 @@ public class XMLData {
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
             initializeNumDie(doc);
-            initializePlayerMoney(doc);
             initializeGameType(doc);
             initializeBank(doc);
+            initializeFunds(doc);
             initializeTiles(doc);
             initializeNumDecks(doc);
             initializeDecks(doc);
@@ -65,10 +66,6 @@ public class XMLData {
 
     private void initializeNumDie(Document doc){
         numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
-    }
-
-    private void initializePlayerMoney(Document doc){
-        playerMoney = Double.parseDouble(getTagValue("Player", (Element) doc.getElementsByTagName("InitialFunds").item(0)));
     }
 
     private void initializeGameType(Document doc){
@@ -91,6 +88,10 @@ public class XMLData {
             totalPropertiesLeft.put(entry[0], Integer.parseInt(entry[1]));
         }
         bank = new Bank(money, totalPropertiesLeft);
+    }
+
+    private void initializeFunds(Document doc) {
+        initialFunds = Integer.parseInt(getTagValue("Player", (Element) doc.getElementsByTagName("InitialFunds").item(0)));
     }
 
     private void initializeTiles(Document doc) throws Exception {
@@ -204,6 +205,8 @@ public class XMLData {
         return bank;
     }
 
+    public double getInitialFunds() { return initialFunds; }
+
     public List<Tile> getTiles() {
         return tiles;
     }
@@ -224,10 +227,6 @@ public class XMLData {
 
     public Tile getFirstTile() {
         return firstTile;
-    }
-
-    public double getPlayerMoney(){
-        return playerMoney;
     }
 
     public List<DeckInterface> getDecks(){
