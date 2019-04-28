@@ -64,8 +64,8 @@ public class RectangularBoardView extends AbstractBoardView {
         myBoard = board;
         myTiles = new ArrayList<>();
         myTileHeight = tileHeight;
-        myHorizontals = horizontalTiles;
-        myVerticals = verticalTiles;
+        myHorizontals = horizontalTiles; //10
+        myVerticals = verticalTiles; //10
 
         makeBoard();
         makeBackground();
