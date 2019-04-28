@@ -133,21 +133,25 @@ public class GameSetUpController {
 
     }
 
-    private ImageView makeIcon(String iconPath) {
-        Image image = new Image(iconPath + ".png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-
-        return imageView;
-    }
-
     public void backToParent() {
         myScreen.backToParent();
     }
 
+    public void handleSave() {
+        myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
+    }
 
-//    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
+    public void handleLoad(){
+        myGameConfigView.generateLoadDialog();
+    }
+
+    public void handleNewGame() {
+        Stage stage = new Stage();
+        MonopolyDriver newDriver = new MonopolyDriver();
+        newDriver.start(stage);
+    }
+
+    //    private List<NormalDeck> reinitializeDecks(List<NormalDeck> decks, List<AbstractAssetHolder> playerList){
 //        for(NormalDeck deck: decks){
 //            for(ActionCard card: deck.getCards()){
 //                //this is very hardcoded at the moment
@@ -169,18 +173,4 @@ public class GameSetUpController {
 //            }
 //        }
 //    }
-
-    public void handleSave() {
-        myGameConfigView.getSavePath("Choose Folder to save in","/src/resources");
-    }
-
-    public void handleLoad(){
-        myGameConfigView.generateLoadDialog();
-    }
-
-    public void handleNewGame() {
-        Stage stage = new Stage();
-        MonopolyDriver newDriver = new MonopolyDriver();
-        newDriver.start(stage);
-    }
 }
