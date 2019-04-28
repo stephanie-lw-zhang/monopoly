@@ -14,6 +14,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import javax.print.Doc;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,6 +43,8 @@ public class XMLData {
     private List<DeckInterface> decks;
     private String monopolyType;
     private double initialFunds;
+    private int myHorizontal;
+    private int myVertical;
     private double playerMoney;
     private String background;
     private String boxColor;
@@ -54,7 +58,6 @@ public class XMLData {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-            initializeDimensions(doc);
             initializeMaxPlayers(doc);
             initializeMinPlayers(doc);
             initializeNumDie(doc);
@@ -64,6 +67,7 @@ public class XMLData {
             initializeGameType(doc);
             initializeBank(doc);
             initializeFunds(doc);
+            initializeDimensions(doc);
             initializeTiles(doc);
             initializeNumDecks(doc);
             initializeDecks(doc);
@@ -76,11 +80,6 @@ public class XMLData {
         }
     }
 
-    private void initializeDimensions(Document doc){
-        horizontalTiles = Integer.parseInt(getTagValue("Horizontal",(Element) doc.getElementsByTagName("Dimensions").item(0)));
-        verticalTiles = Integer.parseInt(getTagValue("Horizontal",(Element) doc.getElementsByTagName("Dimensions").item(0)));
-    }
-
     private void initializeMaxPlayers(Document doc) {
         maxPlayers = Integer.parseInt(getTagValue("MaxPlayers", (Element) doc.getElementsByTagName("NumPlayers").item(0)));
     }
@@ -91,6 +90,11 @@ public class XMLData {
 
     private void initializeNumDie(Document doc){
         numDie = Integer.parseInt(getTagValue("NumDie", (Element) doc.getElementsByTagName("Dice").item(0)));
+    }
+
+    private void initializeDimensions(Document doc) {
+        myHorizontal = Integer.parseInt(getTagValue("Horizontal", (Element) doc.getElementsByTagName("Dimensions").item(0)));
+        myVertical = Integer.parseInt(getTagValue("Vertical", (Element) doc.getElementsByTagName("Dimensions").item(0)));
     }
 
     private void initializePlayerMoney(Document doc){
@@ -284,7 +288,15 @@ public class XMLData {
         return decks;
     }
 
+    public int getMyHorizontal() {
+        return myHorizontal;
+    }
+
+    public int getMyVertical() {
+        return myVertical;
+    }
+
     public String getBoxColor() {
-        return (boxColor);
+        return boxColor;
     }
 }

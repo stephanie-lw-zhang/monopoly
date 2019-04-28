@@ -179,6 +179,9 @@ public class FormView {
         if (this.hasUnassignedName(playerToIcon)) {
             throw new InputPlayerNameMismatchException();
         }
+        if (this.hasUnassignedType(playerToType)) {
+            throw new PlayerTypeAssignmentException();
+        }
         if (! hasEnoughPlayers()) {
             throw new InsufficientPlayersException();
         }
@@ -187,9 +190,6 @@ public class FormView {
         }
         if (hasDuplicateIcons(playerToIcon)) {
             throw new DuplicatePlayerIconException();
-        }
-        if (this.hasUnassignedType(playerToType)) {
-            throw new PlayerTypeAssignmentException();
         }
 
         myController.startGame(playerToIcon, playerToType);

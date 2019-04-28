@@ -34,6 +34,11 @@
         <Player>2000</Player>
     </InitialFunds>
 
+    <Dimensions>
+        <Horizontal>11</Horizontal>
+        <Vertical>11</Vertical>
+    </Dimensions>
+
     <Deck>
         <Name>Community Chest</Name>
         <ActionCard>
@@ -302,7 +307,7 @@
     <Tile>
         <TileNumber>0</TileNumber>
         <TileType>GoTile</TileType>
-        <TileColor>Blue</TileColor>
+        <TileColor>Green</TileColor>
         <LandedMoney>200</LandedMoney>
         <PassedMoney>200</PassedMoney>
         <NextTiles>1</NextTiles>
@@ -1331,6 +1336,5 @@
             <NextTiles>0</NextTiles>
         </Card>
     </Tile>
-
 
 </DukeMonopoly>
