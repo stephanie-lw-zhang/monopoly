@@ -18,138 +18,14 @@
         <Player>31</Player>
     </InitialFunds>
 
-    <!--<Deck>-->
-        <!--<Name>Community Chest Deck</Name>-->
-        <!--<ActionCard>-->
-            <!--<CardType>MoveCard</CardType>-->
-            <!--<Type>Move</Type>-->
-            <!--<TileIndex>0</TileIndex>-->
-            <!--<Message>Advance to Go (Collect $200)</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Bank</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>100</Amount>-->
-            <!--<Message>You Inherit $100</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Everyone</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>50</Amount>-->
-            <!--<Message>You Collect $50 From Every Player</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Everyone</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>50</Amount>-->
-            <!--<Message>Receive For Services $25</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>MoveCard</CardType>-->
-            <!--<Type>Move</Type>-->
-            <!--<TileIndex>10</TileIndex>-->
-            <!--<Message>Go To Jail</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Bank</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>100</Amount>-->
-            <!--<Message>XMAS Fund Matures</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>GetOutOfJailCard</CardType>-->
-            <!--<Type>GetOutOfJail</Type>-->
-            <!--<Message>Get Out of Jail Free</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Bank</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>10</Amount>-->
-            <!--<Message>You Win Second Place in a Beauty Contest Collect $10</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Bank</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>45</Amount>-->
-            <!--<Message>From A Sale of Stock You Get $45</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>CurrentPlayer</Payer>-->
-            <!--<Payee>Bank</Payee>-->
-            <!--<Amount>100</Amount>-->
-            <!--<Message>Pay Hospital $100</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Bank</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>20</Amount>-->
-            <!--<Message>Income Tax Refund Collect $20</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>CurrentPlayer</Payer>-->
-            <!--<Payee>Bank</Payee>-->
-            <!--<Amount>50</Amount>-->
-            <!--<Message>Doctor's Fee Pay $50</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Bank</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>200</Amount>-->
-            <!--<Message>Bank Error In Your Favor Collect $200</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>Bank</Payer>-->
-            <!--<Payee>CurrentPlayer</Payee>-->
-            <!--<Amount>100</Amount>-->
-            <!--<Message>Life Insurance Matures Collect $100</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayCard</CardType>-->
-            <!--<Type>Pay</Type>-->
-            <!--<Payer>CurrentPlayer</Payer>-->
-            <!--<Payee>Bank</Payee>-->
-            <!--<Amount>150</Amount>-->
-            <!--<Message>Pay School Tax of $150</Message>-->
-        <!--</ActionCard>-->
-        <!--<ActionCard>-->
-            <!--<CardType>PayBuildingsCard</CardType>-->
-            <!--<Type>PayBuilding</Type>-->
-
-            <!--<Amount>0</Amount>-->
-        <!--</ActionCard>-->
-    <!--</Deck>-->
 
     <Deck>
         <Name>Chance Deck</Name>
         <ActionCard>
-            <CardType>PayCard</CardType>
-            <Type>Pay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Everyone</Payee>
-            <Amount>50</Amount>
-            <Message>You Have Been Elected Chairman of the Board Pay Each Player $50</Message>
+            <CardType>MoveCard</CardType>
+            <Type>Move</Type>
+            <TileIndex>7</TileIndex>
+            <Message>Advance to Pink Card</Message>
         </ActionCard>
         <ActionCard>
             <CardType>GetOutOfJailCard</CardType>
@@ -161,98 +37,35 @@
             <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
-            <Amount>15</Amount>
-            <Message>Pay Poor Tax of $15</Message>
+            <Amount>2</Amount>
+            <Message>Collect 2 dollars from the Bank</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Everyone</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>1</Amount>
+            <Message>Everyone gives you 1 dollar. Happy birthday! </Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>2</Amount>
+            <Message>Pay 2 dollars to the bank.</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>0</TileIndex>
-            <Message>Advance to Go (Collect $200)</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>3</TileIndex>
-            <Message>Go Back 3 Spaces</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveAndPayCard</CardType>
-            <Type>MoveAndPay</Type>
-
-            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveAndPayCard</CardType>
-            <Type>MoveAndPay</Type>
-
-            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>10</TileIndex>
-            <Message>Go To Jail</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>PayCard</CardType>
-            <Type>Pay</Type>
-            <Payer>Bank</Payer>
-            <Payee>CurrentPlayer</Payee>
-            <Amount>150</Amount>
-            <Message>Your Building and Loan Matures Collect $150</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>PayCard</CardType>
-            <Type>Pay</Type>
-            <Payer>Bank</Payer>
-            <Payee>CurrentPlayer</Payee>
-            <Amount>50</Amount>
-            <Message>Bank Pays You Dividend of $50</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>5</TileIndex>
-            <Message>Take a Ride on the Reading</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>11</TileIndex>
-            <Message>Advance to St. Charles Place</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>39</TileIndex>
-            <Message>Advance Token to Boardwalk</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveAndPayCard</CardType>
-            <Type>MoveAndPay</Type>
-
-            <Message>Advance to Nearest Utility and Pay Double if Owned</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>24</TileIndex>
-            <Message>Advance Token to Illinois Avenue</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>PayBuildingsCard</CardType>
-            <Type>PayBuilding</Type>
-            <Amount>0</Amount>
+            <Message>Advance to Go</Message>
         </ActionCard>
     </Deck>
 
     <Bank>
         <Money>100000</Money>
-        <Properties>
-            <Property> ,0</Property>
-            //BETTER TO DELETE OR JUST LEAVE BLANK? HOW DO I CONVEY EMPTY STRING?
-        </Properties>
         <Properties>
             <Property> ,0</Property>
         </Properties>
@@ -281,6 +94,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,2,0,0</Upgrade>
             </Upgrades>
             <TilePrice>1</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>2</NextTiles>
         </Card>
     </Tile>
@@ -299,6 +113,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,2,0,0</Upgrade>
             </Upgrades>
             <TilePrice>1</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>3</NextTiles>
         </Card>
     </Tile>
@@ -325,6 +140,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,4,0,0</Upgrade>
             </Upgrades>
             <TilePrice>2</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>5</NextTiles>
         </Card>
     </Tile>
@@ -344,6 +160,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,4,0,0</Upgrade>
             </Upgrades>
             <TilePrice>2</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>6</NextTiles>
         </Card>
     </Tile>
@@ -370,6 +187,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,4,0,0</Upgrade>
             </Upgrades>
             <TilePrice>2</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>8</NextTiles>
         </Card>
     </Tile>
@@ -388,6 +206,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,4,0,0</Upgrade>
             </Upgrades>
             <TilePrice>2</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>9</NextTiles>
         </Card>
     </Tile>
@@ -414,6 +233,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,4,0,0</Upgrade>
             </Upgrades>
             <TilePrice>2</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>11</NextTiles>
         </Card>
     </Tile>
@@ -433,6 +253,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,4,0,0</Upgrade>
             </Upgrades>
             <TilePrice>2</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>12</NextTiles>
         </Card>
     </Tile>
@@ -459,6 +280,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,6,0,0</Upgrade>
             </Upgrades>
             <TilePrice>3</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>14</NextTiles>
         </Card>
     </Tile>
@@ -477,6 +299,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,6,0,0</Upgrade>
             </Upgrades>
             <TilePrice>3</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>15</NextTiles>
         </Card>
     </Tile>
@@ -502,6 +325,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,6,0,0</Upgrade>
             </Upgrades>
             <TilePrice>3</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>17</NextTiles>
         </Card>
     </Tile>
@@ -520,6 +344,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,6,0,0</Upgrade>
             </Upgrades>
             <TilePrice>3</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>18</NextTiles>
         </Card>
     </Tile>
@@ -547,6 +372,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,8,0,0</Upgrade>
             </Upgrades>
             <TilePrice>4</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>20</NextTiles>
         </Card>
     </Tile>
@@ -566,6 +392,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,8,0,0</Upgrade>
             </Upgrades>
             <TilePrice>4</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>21</NextTiles>
         </Card>
     </Tile>
@@ -592,6 +419,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,10,0,0</Upgrade>
             </Upgrades>
             <TilePrice>5</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>23</NextTiles>
         </Card>
     </Tile>
@@ -610,6 +438,7 @@
                 <Upgrade>CompleteColorSet,0,Booth,10,0,0</Upgrade>
             </Upgrades>
             <TilePrice>5</TilePrice>
+            <TileMortgageValue>0</TileMortgageValue>
             <NextTiles>24</NextTiles>
         </Card>
     </Tile>
