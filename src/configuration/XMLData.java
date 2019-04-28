@@ -8,6 +8,7 @@ import backend.deck.NormalDeck;
 import backend.tile.AbstractDrawCardTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
+import javafx.scene.paint.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,6 +41,7 @@ public class XMLData {
     private double initialFunds;
     private double playerMoney;
     private String background;
+    private String boxColor;
 
     public XMLData(String fileName) {
         try {
@@ -77,6 +79,10 @@ public class XMLData {
 
     private void initializeBackground(Document doc) {
         background = getTagValue("BackgroundPath", (Element) doc.getElementsByTagName("Background").item(0));
+    }
+
+    private void initializeBoxColor(Document doc) {
+        boxColor = (getTagValue("BoxColor", (Element) doc.getElementsByTagName("Box").item(0)));
     }
 
     private void initializeGameType(Document doc){
@@ -246,4 +252,8 @@ public class XMLData {
         return decks;
     }
 
+    public String getBoxColor() {
+        System.out.print(boxColor);
+        return (boxColor);
+    }
 }

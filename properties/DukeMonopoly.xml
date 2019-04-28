@@ -7,6 +7,11 @@
     <Background>
         <BackgroundPath>dukebackground.jpg</BackgroundPath>
     </Background>
+
+    <Box>
+        <BoxColor>#0000ff</BoxColor>
+    </Box>
+
     <Dice>
         <NumDie>2</NumDie>
     </Dice>
