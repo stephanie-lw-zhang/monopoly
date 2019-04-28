@@ -100,7 +100,7 @@ public class GameSetUpController {
         AbstractBoard board = new StandardBoard(
                 makePlayerList(playerToIcon, playerToType), myData.getAdjacencyList(),
                 myData.getPropertyCategoryMap(), myData.getFirstTile(),
-                myData.getBank()
+                myData.getNumDie(), myData.getBank()
         );
         //reinitializeDecks(myData.getDecks(), );
         return board;
