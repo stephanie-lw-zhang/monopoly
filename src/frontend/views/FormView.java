@@ -37,22 +37,21 @@ import java.util.List;
  */
 public class FormView {
 
-    private final int                POSSIBLE_PLAYERS = 4; // TODO: READ IN FROM DATA FILE
-    // private TestingScreen            myScreen;
+    private int                      POSSIBLE_PLAYERS;
     private Button                   submitFormButton;
     private Map<TextField, ComboBox> playerToIcon;
     private Map<TextField, ComboBox> playerToType;
-    private GameSetUpController myController;
-    private GridPane myPane;
+    private GameSetUpController      myController;
+    private GridPane                 myPane;
 
     /**
      * FormView main constructor
-     *
-     * TODO: REFACTOR OUT
-     * TODO: STILL NEED MYSCREEN AS INSTANCE VARIABLE???
-     * TODO: REFACTOR PLAYERTOICON MAPPING TO TEXTFIELD -> ICONVIEW
      */
-    private void initialize(){
+    private void initialize() {
+        POSSIBLE_PLAYERS = myController.getNumPlayers();
+
+//        POSSIBLE_PLAYERS = numPlayers;
+
         myPane = new GridPane();
         myPane.setHgap(5);
         myPane.setVgap(10);
@@ -110,17 +109,17 @@ public class FormView {
                 }
             }
         });
-        myPane.setConstraints( submitFormButton, 0, 6);
+        myPane.setConstraints( submitFormButton, 0, POSSIBLE_PLAYERS + 2);
         myPane.getChildren().add( submitFormButton );
     }
 
-    public FormView(){
+    public FormView() {
         initialize();
     }
 
-    public FormView(GameSetUpController controller){
-        this();
+    public FormView(GameSetUpController controller) {
         myController = controller;
+        initialize();
     }
 
     /**

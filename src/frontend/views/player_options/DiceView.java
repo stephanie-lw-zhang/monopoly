@@ -30,7 +30,7 @@ public class DiceView extends HBox {
     private List<RotateTransition>    myRTList;
     private List<ImageView>           myDiceIcons;
     private String                    myPopupText;
-    private Integer[]                     myRolls;
+    private Integer[]                 myRolls;
     private int                       myNumDieStates;
     private int                       myNumDie;
 
