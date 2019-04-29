@@ -54,15 +54,15 @@
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
             <Amount>150</Amount>
-            <Message>Pay School Tax of $150</Message>
+            <Message>Pay SLG Dues of $150</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
             <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
-            <Amount>100</Amount>
-            <Message>You Inherit $100</Message>
+            <Amount>30</Amount>
+            <Message>You Win $30 from Krafthouse Trivia</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -78,13 +78,13 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>25</Amount>
-            <Message>Receive For Services $25</Message>
+            <Message>Receive For Work Study $25</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>10</TileIndex>
-            <Message>Go To Jail</Message>
+            <Message>Go To Fourth Floor Perkins</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -92,12 +92,12 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>100</Amount>
-            <Message>XMAS Fund Matures</Message>
+            <Message>Win $100 Grant for Research</Message>
         </ActionCard>
         <ActionCard>
             <CardType>GetOutOfJailCard</CardType>
             <Type>GetOutOfJail</Type>
-            <Message>Get Out of Jail Free</Message>
+            <Message>Get Out of Perkins Free</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -105,7 +105,7 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>10</Amount>
-            <Message>You Win Second Place in a Beauty Contest Collect $10</Message>
+            <Message>You Find a $10 Bill on the East Campus Quad</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -113,23 +113,7 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>45</Amount>
-            <Message>From A Sale of Stock You Get $45</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>PayCard</CardType>
-            <Type>Pay</Type>
-            <Payer>CurrentPlayer</Payer>
-            <Payee>Bank</Payee>
-            <Amount>100</Amount>
-            <Message>Pay Hospital $100</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>PayCard</CardType>
-            <Type>Pay</Type>
-            <Payer>Bank</Payer>
-            <Payee>CurrentPlayer</Payee>
-            <Amount>20</Amount>
-            <Message>Income Tax Refund Collect $20</Message>
+            <Message>From A Sale of Old Textbooks You Get $45</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -137,7 +121,7 @@
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
             <Amount>50</Amount>
-            <Message>Doctor's Fee Pay $50</Message>
+            <Message>You Spent 50 Food Points at Nasher Brunch</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -145,7 +129,23 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>200</Amount>
-            <Message>Bank Error In Your Favor Collect $200</Message>
+            <Message>Tuition Refund Collect $200</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
+            <Amount>50</Amount>
+            <Message>Pay $50 For Duke Health Insurance</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>PayCard</CardType>
+            <Type>Pay</Type>
+            <Payer>Bank</Payer>
+            <Payee>CurrentPlayer</Payee>
+            <Amount>200</Amount>
+            <Message>Collect $200 For Your Work As a UTA</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -153,20 +153,20 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>100</Amount>
-            <Message>Life Insurance Matures Collect $100</Message>
+            <Message>Win $100 in a Midnight Breakfast Raffle</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayBuildingsCard</CardType>
             <Type>PayBuilding</Type>
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
-            <Message>For each House pay 40, For each Hotel pay 115</Message>
+            <Message>For each Dorm pay 40, For each Apartment pay 115</Message>
             <Multiplier>
-                <Property>House</Property>
+                <Property>Dorm</Property>
                 <Amount>40</Amount>
             </Multiplier>
             <Multiplier>
-                <Property>Hotel</Property>
+                <Property>Apartment</Property>
                 <Amount>115</Amount>
             </Multiplier>
         </ActionCard>
@@ -180,32 +180,26 @@
             <Payer>CurrentPlayer</Payer>
             <Payee>Everyone</Payee>
             <Amount>50</Amount>
-            <Message>You Have Been Elected Chairman of the Board Pay Each Player $50</Message>
+            <Message>You Have Been Elected Young Trustee Pay Each Player $50</Message>
         </ActionCard>
         <ActionCard>
             <CardType>GetOutOfJailCard</CardType>
             <Type>GetOutOfJail</Type>
-            <Message>Get Out of Jail Free</Message>
+            <Message>Get Out of Perkins Free</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
             <Type>Pay</Type>
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
-            <Amount>15</Amount>
-            <Message>Pay Poor Tax of $15</Message>
+            <Amount>250</Amount>
+            <Message>Pay $250 for Greek Dues</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>0</TileIndex>
-            <Message>Advance to Go (Collect $200)</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>3</TileIndex>
-            <Message>Go Back 3 Spaces</Message>
+            <Message>Advance to Go</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
@@ -213,7 +207,8 @@
             <Payer>CurrentPlayer</Payer>
             <Payee>Owner</Payee>
             <Multiplier>2</Multiplier>
-            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+            <Message>Advance to Nearest Bus Stop and Pay Double if Owned</Message>
+            <TargetTileType>Railroad</TargetTileType>
         </ActionCard>
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
@@ -221,13 +216,14 @@
             <Payer>CurrentPlayer</Payer>
             <Payee>Owner</Payee>
             <Multiplier>2</Multiplier>
-            <Message>Advance to Nearest Railroad and Pay Double if Owned</Message>
+            <Message>Advance to Nearest Bus Stop and Pay Double if Owned</Message>
+            <TargetTileType>Railroad</TargetTileType>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>10</TileIndex>
-            <Message>Go To Jail</Message>
+            <Message>Go To Fourth Floor Perkins</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -235,7 +231,7 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>150</Amount>
-            <Message>Your Building and Loan Matures Collect $150</Message>
+            <Message>Financial Aid Error in Your Favor Collect $150</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayCard</CardType>
@@ -243,25 +239,25 @@
             <Payer>Bank</Payer>
             <Payee>CurrentPlayer</Payee>
             <Amount>50</Amount>
-            <Message>Bank Pays You Dividend of $50</Message>
+            <Message>Bursar Pays You Dividend of $50</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>5</TileIndex>
-            <Message>Take a Ride on the Reading</Message>
+            <Message>Take a Ride on the C1</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
-            <TileIndex>11</TileIndex>
-            <Message>Advance to St. Charles Place</Message>
+            <TileIndex>14</TileIndex>
+            <Message>Advance to Wilson</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
             <TileIndex>39</TileIndex>
-            <Message>Advance Token to Boardwalk</Message>
+            <Message>Advance Token to Duke Chapel</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveAndPayCard</CardType>
@@ -270,25 +266,26 @@
             <Payee>Owner</Payee>
             <Multiplier>2</Multiplier>
             <Message>Advance to Nearest Utility and Pay Double if Owned</Message>
+            <TargetTileType>Utility</TargetTileType>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>
-            <TileIndex>24</TileIndex>
-            <Message>Advance Token to Illinois Avenue</Message>
+            <TileIndex>29</TileIndex>
+            <Message>Advance Token to 300 Swift Avenue</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayBuildingsCard</CardType>
             <Type>PayBuilding</Type>
             <Payer>CurrentPlayer</Payer>
             <Payee>Bank</Payee>
-            <Message>For each House pay 25, for each Hotel pay 100</Message>
+            <Message>For each Dorm pay 25, for each Apartment pay 100</Message>
             <Multiplier>
-                <Property>House</Property>
+                <Property>Dorm</Property>
                 <Amount>25</Amount>
             </Multiplier>
             <Multiplier>
-                <Property>Hotel</Property>
+                <Property>Apartment</Property>
                 <Amount>100</Amount>
             </Multiplier>
         </ActionCard>
