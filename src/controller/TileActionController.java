@@ -155,6 +155,7 @@ public class TileActionController {
             myGameView.displayActionInfo( "Illegal argument exception" );
         } catch (InvocationTargetException e) {
             myGameView.displayActionInfo( "Invocation target exception" );
+            e.printStackTrace();
         }
     }
 
