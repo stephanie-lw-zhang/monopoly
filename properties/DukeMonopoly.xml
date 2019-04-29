@@ -190,8 +190,8 @@
         <ActionCard>
             <CardType>PayCard</CardType>
             <Type>Pay</Type>
-            <Payer>Bank</Payer>
-            <Payee>CurrentPlayer</Payee>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
             <Amount>250</Amount>
             <Message>Pay $250 for Greek Dues</Message>
         </ActionCard>
