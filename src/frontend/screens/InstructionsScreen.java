@@ -27,12 +27,14 @@ public class InstructionsScreen extends AbstractScreen {
     private static final String SCREEN_TITLE = "Monopoly";
     private Scene myScene;
     private BorderPane myPane;
-    private Label myInstructions = new Label("Instructions");
+    private Label myInstructions = new Label("https://en.wikipedia.org/wiki/Monopoly_(game)");
     
     public InstructionsScreen(double sWidth, double sHeight, Stage stage, AbstractScreen parent) {
         super (sWidth, sHeight, stage,parent);
+        myScene=makeScreen();
     }
 
+    @Override
     public Scene makeScreen() {
         Text titleText = new Text("**MENU TITLE FROM PROPERTIES**");
         titleText.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 25));
@@ -82,6 +84,11 @@ public class InstructionsScreen extends AbstractScreen {
     @Override
     public void changeDisplayNode(Node n) {
 
+    }
+
+    @Override
+    public Scene getMyScene(){
+        return myScene;
     }
 
 }
