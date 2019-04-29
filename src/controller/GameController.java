@@ -461,6 +461,7 @@ public class GameController {
     public void handleForfeitFor(AbstractPlayer forfeiter){
         forfeiter.declareBankruptcy(myBoard.getBank());
         myBoard.getMyPlayerList().remove(forfeiter);
+        myGameView.removePlayer(forfeiter, myBoard.getPlayerTile(forfeiter));
         myBoard.getPlayerTileMap().remove(forfeiter);
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
         myGameView.updateLogDisplay(forfeiter.getMyPlayerName() + " has forfeited.");
