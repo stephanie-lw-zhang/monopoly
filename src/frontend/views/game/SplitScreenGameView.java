@@ -6,7 +6,6 @@ import backend.tile.Tile;
 import configuration.XMLData;
 
 import controller.Turn;
-import exceptions.CancelledActionException;
 import frontend.views.LogView;
 import frontend.views.player_options.AbstractOptionsView;
 import frontend.views.player_options.BPaneOptionsView;
@@ -185,6 +184,11 @@ public class SplitScreenGameView extends AbstractGameView {
     @Override
     public int getCheatMoves() {
         return myOptionsView.getCheatMoves();
+    }
+
+    @Override
+    public void removePlayer(AbstractPlayer forfeiter, Tile tile) {
+        myBoardView.removePlayer(forfeiter, tile);
     }
 
 //    @Override

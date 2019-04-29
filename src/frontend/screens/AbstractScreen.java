@@ -1,7 +1,6 @@
 package frontend.screens;
 
 import engine.MonopolyDriver;
-import frontend.Handlers;
 
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;

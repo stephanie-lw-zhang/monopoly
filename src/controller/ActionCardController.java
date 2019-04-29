@@ -43,6 +43,16 @@ public class ActionCardController{
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
     }
 
+    public void handleMoveBackwards(List<Object> parameters) {
+        int index = (int) parameters.get(1);
+        int newIndex = myBoard.getPlayerTile(turn.getMyCurrPlayer()).getTileIndex() - index;
+        Tile newTile = myBoard.getTilesIndex(newIndex);
+        myBoard.movePlayer(turn.getMyCurrPlayer(), newTile);
+        myGameView.updateIconDisplay(turn.getMyCurrPlayer(), newTile);
+        myGameController.handleTileLanding(newTile);
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
+    }
+
     public void handleGetOutOfJail(List<Object> parameters) {
         AbstractPlayer cardUser = (AbstractPlayer)parameters.get(0);
         HoldableCard card = (HoldableCard)parameters.get(1);
