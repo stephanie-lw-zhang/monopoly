@@ -1,3 +1,1 @@
-
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><SavedGame><Player><Name>fdsf</Name><Icon>icon1</Icon><TileIndex>0</TileIndex><Money>2000.0</Money></Player><Player><Name>dsf</Name><Icon>icon6</Icon><TileIndex>0</TileIndex><Money>2000.0</Money></Player></SavedGame>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><SavedGame><Player><Name>fdsf</Name><Icon>icon8</Icon><TileIndex>5</TileIndex><Money>1850.0</Money><Property><OwnedIndex>5</OwnedIndex><UpgradeStatus>1Railroad</UpgradeStatus></Property></Player><Player><Name>df</Name><Icon>icon5</Icon><TileIndex>8</TileIndex><Money>1956.0</Money><Property><OwnedIndex>8</OwnedIndex><UpgradeStatus>NoDorm</UpgradeStatus></Property></Player><Player><Name>h</Name><Icon>icon2</Icon><TileIndex>8</TileIndex><Money>2044.0</Money></Player><Player><Name>njjk</Name><Icon>icon1</Icon><TileIndex>7</TileIndex><Money>1850.0</Money></Player></SavedGame>
