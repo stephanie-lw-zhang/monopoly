@@ -1,13 +1,11 @@
 package controller;
 
 import backend.assetholder.AbstractPlayer;
-import backend.assetholder.AutomatedPlayer;
 import backend.board.AbstractBoard;
 import backend.dice.AbstractDice;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
 import frontend.bot_manager.AutomatedPlayerManager;
-import frontend.views.game.SplitScreenGameView;
 import frontend.views.player_options.BPaneOptionsView;
 
 import configuration.XMLWriter;
