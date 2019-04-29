@@ -1,11 +1,9 @@
 package controller;
 
-import backend.assetholder.AutomatedPlayer;
 import backend.card.action_cards.HoldableCard;
 import backend.dice.AbstractDice;
 import backend.assetholder.AbstractPlayer;
 import backend.board.AbstractBoard;
-import backend.dice.SixDice;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.*;
 

@@ -35,6 +35,7 @@ public class MoveCard extends ActionCard {
     public List<Object> getParameters() {
         List<Object> parameters = new ArrayList<Object>();
         parameters.add( tile );
+        parameters.add(index);
         return parameters;
     }
 }

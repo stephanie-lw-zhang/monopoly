@@ -200,10 +200,16 @@
         <ActionCard>
             <CardType>PayCard</CardType>
             <Type>Pay</Type>
-            <Payer>Bank</Payer>
-            <Payee>CurrentPlayer</Payee>
+            <Payer>CurrentPlayer</Payer>
+            <Payee>Bank</Payee>
             <Amount>15</Amount>
             <Message>Pay Poor Tax of $15</Message>
+        </ActionCard>
+        <ActionCard>
+            <CardType>MoveCard</CardType>
+            <Type>MoveBackwards</Type>
+            <TileIndex>3</TileIndex>
+            <Message>Go Back 3 Spaces</Message>
         </ActionCard>
         <ActionCard>
             <CardType>PayBuildingsCard</CardType>
@@ -225,12 +231,6 @@
             <Type>Move</Type>
             <TileIndex>0</TileIndex>
             <Message>Advance to Go (Collect $200)</Message>
-        </ActionCard>
-        <ActionCard>
-            <CardType>MoveCard</CardType>
-            <Type>Move</Type>
-            <TileIndex>3</TileIndex>
-            <Message>Go Back 3 Spaces</Message>
         </ActionCard>
         <ActionCard>
             <CardType>MoveCard</CardType>

@@ -1,37 +1,23 @@
 package controller;
 
-import backend.assetholder.AbstractAssetHolder;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.AutomatedPlayer;
 import backend.assetholder.HumanPlayer;
 import backend.board.AbstractBoard;
 import backend.board.StandardBoard;
-import backend.card.AbstractCard;
-import backend.card.action_cards.ActionCard;
-import backend.card.action_cards.PayCard;
-import backend.deck.DeckInterface;
-import backend.deck.NormalDeck;
-import backend.dice.SixDice;
-import configuration.ImportPropertyFile;
+
 import configuration.XMLData;
 import engine.MonopolyDriver;
 import frontend.screens.AbstractScreen;
+import frontend.views.GameConfigView;
 import frontend.views.FormView;
 
-import frontend.views.GameConfigView;
-import frontend.views.board.SquareBoardView;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

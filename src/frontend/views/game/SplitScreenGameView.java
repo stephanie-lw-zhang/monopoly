@@ -6,7 +6,6 @@ import backend.tile.Tile;
 import configuration.XMLData;
 
 import controller.Turn;
-import exceptions.CancelledActionException;
 import frontend.views.LogView;
 import frontend.views.player_options.AbstractOptionsView;
 import frontend.views.player_options.BPaneOptionsView;
