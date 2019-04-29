@@ -114,4 +114,6 @@ abstract public class AbstractGameView {
     public abstract void updateIconDisplay(AbstractPlayer currPlayer, Tile tile);
     public abstract void updateLogDisplay(String s);
     public abstract int getCheatMoves();
+
+    public abstract void removePlayer(AbstractPlayer forfeiter, Tile tile);
 }
