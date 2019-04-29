@@ -24,9 +24,8 @@ public abstract class ActionCard extends AbstractCard {
         public abstract List<Object> getParameters();
 
         public void setType(String s){
-                type = s;
+        type = s;
         }
 
         public void setText(String t) {text = t;}
-
 }

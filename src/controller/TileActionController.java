@@ -43,7 +43,7 @@ public class TileActionController {
 
     public void handleGoToJail() {
         try {
-            JailTile jail = (JailTile) myBoard.getJailTile();
+            JailTile jail = myBoard.getJailTile();
             myBoard.getPlayerTileMap().put( myTurn.getMyCurrPlayer(), jail);
             myTurn.getMyCurrPlayer().addTurnInJail();
             myGameView.displayActionInfo( "Arrested! You're going to Jail." );
@@ -142,7 +142,7 @@ public class TileActionController {
                 getClass().getMethod("reinitialize"+ actionCard.getActionType(), ActionCard.class).invoke(this, actionCard);
             }
             myGameView.displayActionInfo( actionCard.getText() );
-            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView);
+            ActionCardController actionCardController = new ActionCardController(myBoard, myTurn, myGameView, gameController);
             Method handle = actionCardController.getClass().getMethod("handle" + actionCard.getActionType(), List.class);
             handle.invoke(actionCardController, actionCard.getParameters());
         } catch (NoSuchMethodException e) {
@@ -221,6 +221,13 @@ public class TileActionController {
         bank.add(myBoard.getBank());
         List<AbstractAssetHolder> currPlayer = new ArrayList<>();
         currPlayer.add(myTurn.getMyCurrPlayer());
+        Tile tile = null;
+        try {
+            tile = myBoard.findNearest(myTurn.getMyCurrPlayer(), ((MoveAndPayCard) actionCard).getTargetTileType());
+        } catch (TileNotFoundException e) {
+            e.popUp();
+        }
+        ((MoveAndPayCard)actionCard).setTile(tile);
         if (((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("Everyone")) {
             ((MoveAndPayCard) actionCard).setPayees(players);
         }
@@ -229,6 +236,11 @@ public class TileActionController {
         }
         else if(((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("CurrentPlayer")) {
             ((MoveAndPayCard) actionCard).setPayees(currPlayer);
+        }
+        else if (((MoveAndPayCard) actionCard).getPayeeString().equalsIgnoreCase("Owner")) {
+            List<AbstractAssetHolder> payees = new ArrayList<>();
+            payees.add(((AbstractPropertyTile)tile).getOwner());
+            ((MoveAndPayCard) actionCard).setPayees(payees);
         }
         if (((MoveAndPayCard) actionCard).getPayerString().equalsIgnoreCase("Everyone")) {
             ((MoveAndPayCard) actionCard).setPayers(players);
@@ -241,7 +253,7 @@ public class TileActionController {
         }
     }
 
-    public void reinitializePayBuildings(ActionCard actionCard) {
+    public void reinitializePayBuilding(ActionCard actionCard) {
         List<AbstractAssetHolder> players = new ArrayList<>();
         for (AbstractPlayer p : myBoard.getMyPlayerList()) players.add(p);
         List<AbstractAssetHolder> bank = new ArrayList<>();

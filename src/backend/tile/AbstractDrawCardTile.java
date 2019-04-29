@@ -38,7 +38,9 @@ public abstract class AbstractDrawCardTile extends Tile {
     }
 
     public ActionCard drawCard(){
-        return myDeck.drawCard();
+        ActionCard card = myDeck.drawCard();
+        myDeck.putBack(card);
+        return card;
     }
 
     public void setDeck(DeckInterface deck){

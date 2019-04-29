@@ -14,12 +14,13 @@ public class MoveAndPayCard extends ActionCard{
     private String payerString;
     private String payeeString;
     private Tile tile;
-    //private int index;
+    private String targetTileType;
+//    private int index;
     private double multiplier;
 
     public MoveAndPayCard(Tile tile, List<AbstractAssetHolder> payers, List<AbstractAssetHolder> payees, double multiplier, String type, String text) {
         super(type,text);
-        this.tile = tile;
+//        this.tile = tile;
         this.payers =  payers;
         this.payees = payees;
         this.multiplier = multiplier;
@@ -30,8 +31,9 @@ public class MoveAndPayCard extends ActionCard{
         payerString = getTagValue("Payer", n);
         payeeString = getTagValue("Payee", n);
         multiplier = Integer.parseInt(getTagValue("Multiplier", n));
-        //index = Integer.parseInt(getTagValue("TileIndex", n));
+//        index = Integer.parseInt(getTagValue("TileIndex", n));
         setType(getTagValue("Type", n));
+        targetTileType = getTagValue("TargetTileType",n);
         setText(getTagValue("Message", n));
     }
 
@@ -39,14 +41,10 @@ public class MoveAndPayCard extends ActionCard{
         tile = t;
     }
 
-//    public int getIndex(){
-//        return index;
-//    }
-
     @Override
     public List<Object> getParameters() {
         List<Object> parameters = new ArrayList<Object>();
-        parameters.add( tile);
+        parameters.add(tile);
         parameters.add( payers );
         parameters.add( payees );
         parameters.add( multiplier );
@@ -67,6 +65,10 @@ public class MoveAndPayCard extends ActionCard{
 
     public void setPayees(List<AbstractAssetHolder> p){
         payees = p;
+    }
+
+    public String getTargetTileType() {
+        return targetTileType;
     }
 
 }

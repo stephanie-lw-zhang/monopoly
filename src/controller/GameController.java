@@ -125,7 +125,7 @@ public class GameController {
             parameters.add(cardUser);
             parameters.add(card);
 
-            ActionCardController actionCardController = new ActionCardController( myBoard, myTurn, myGameView );
+            ActionCardController actionCardController = new ActionCardController( myBoard, myTurn, myGameView, this );
             Method handle = null;
             try {
                 handle = actionCardController.getClass().getMethod( "handle" + card.getHoldableCardAction(), List.class);

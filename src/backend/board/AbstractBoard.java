@@ -3,20 +3,14 @@ package backend.board;
 import backend.assetholder.AbstractPlayer;
 import backend.assetholder.Bank;
 import backend.deck.DeckInterface;
-import backend.dice.AbstractDice;
-import exceptions.PlayerDoesNotExistException;
 import exceptions.TileNotFoundException;
 import exceptions.MultiplePathException;
-import exceptions.TileNotFoundException;
 import backend.tile.GoTile;
 import backend.tile.JailTile;
 import backend.tile.AbstractPropertyTile;
 import backend.tile.Tile;
-import exceptions.TileNotFoundException;
-import backend.tile.*;
 import configuration.XMLData;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -75,7 +69,7 @@ public abstract class AbstractBoard {
 
     public abstract void movePlayer(AbstractPlayer p, Tile tile);
 
-    public abstract void movePlayerToNearest(AbstractPlayer p, Tile tile) throws TileNotFoundException;
+    public abstract Tile findNearest(AbstractPlayer p, String tileType) throws TileNotFoundException;
 
     public abstract Tile movePlayerByOne(AbstractPlayer p) throws MultiplePathException;
 
@@ -84,13 +78,12 @@ public abstract class AbstractBoard {
     }
 
     public List<Tile> getAdjacentTiles(Tile tile) {
-        //System.out.println(adjacencyMap.get(backend.tile.GoTile@746de32));
         return adjacencyMap.get(tile);
     }
 
-    public Boolean containsTileType(Tile tile){
-        for(Tile t: adjacencyMap.keySet()){
-            if (t.getTileType().equals( tile.getTileType() )){
+    public Boolean containsTileType(String tileType) {
+        for(Tile t: adjacencyMap.keySet()) {
+            if (t.getTileType().equalsIgnoreCase( tileType )){
                 return true;
             }
         }

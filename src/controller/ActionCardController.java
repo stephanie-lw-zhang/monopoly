@@ -9,7 +9,6 @@ import backend.tile.*;
 import exceptions.BuildingDoesNotExistException;
 import exceptions.IncorrectUseOfHoldableException;
 import exceptions.NotEnoughMoneyException;
-import exceptions.TileNotFoundException;
 import frontend.views.game.AbstractGameView;
 
 import java.util.HashMap;
@@ -21,11 +20,13 @@ public class ActionCardController{
     AbstractBoard myBoard;
     Turn turn;
     AbstractGameView myGameView;
+    GameController myGameController;
 
-    public ActionCardController(AbstractBoard board, Turn turn, AbstractGameView myGameView) {
+    public ActionCardController(AbstractBoard board, Turn turn, AbstractGameView myGameView, GameController myGameController) {
         this.myBoard = board;
         this.turn = turn;
         this.myGameView = myGameView;
+        this.myGameController = myGameController;
     }
 
     public void handlePay(List<Object> parameters){
@@ -38,6 +39,8 @@ public class ActionCardController{
     public void handleMove(List<Object> parameters){
         myBoard.movePlayer( turn.getMyCurrPlayer(), (Tile) parameters.get( 0 ) );
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), (Tile) parameters.get(0));
+        myGameController.handleTileLanding((Tile) parameters.get(0));
+        myGameView.updateAssetDisplay(myBoard.getMyPlayerList(),null);
     }
 
     public void handleGetOutOfJail(List<Object> parameters) {
@@ -61,19 +64,18 @@ public class ActionCardController{
     }
 
     public void handleMoveAndPay(List<Object> parameters){
-        Tile targetTile = (Tile) parameters.get( 0 );
+        Tile tile = (Tile) parameters.get(0);
         List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 1 );
         List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 2 );
         double amount = (Double) parameters.get( 3 );
-        try {
-            myBoard.movePlayerToNearest( turn.getMyCurrPlayer(), targetTile );
-            payHelper( payers, payees, amount );
-        } catch (TileNotFoundException e) {
-            e.popUp();
+        myBoard.movePlayer(turn.getMyCurrPlayer(),tile);
+        myGameView.updateIconDisplay(turn.getMyCurrPlayer(),tile);
+        if (payees.size()!= 1 || !(payees.get(0).equals(myBoard.getBank()))) {
+            payHelper( payers, payees, amount * ((AbstractPropertyTile) tile).getCard().getRentPriceLookupTable().get(((AbstractPropertyTile) tile).getCurrentInUpgradeOrder()));
         }
     }
 
-    public void handlePayBuildings(List<Object> parameters) throws BuildingDoesNotExistException {
+    public void handlePayBuilding(List<Object> parameters) throws BuildingDoesNotExistException {
         List<AbstractAssetHolder> payers = (List<AbstractAssetHolder>) parameters.get( 0 );
         List<AbstractAssetHolder> payees = (List<AbstractAssetHolder>) parameters.get( 1 );
         Map<String, Double> baseToMultiplier = (Map<String, Double>) parameters.get( 2 );
@@ -84,7 +86,8 @@ public class ActionCardController{
                 BuildingCard card = ((BuildingCard) property.getCard());
                 String base = card.getBasePropertyType(property.getCurrentInUpgradeOrder());
                 if(baseToMultiplier.containsKey( base )){
-                    int number = card.getNumericValueOfPropertyType( base );
+                    int number = card.getNumericValueOfPropertyType( property.getCurrentInUpgradeOrder() );
+                    System.out.println(total);
                     total += baseToMultiplier.get( base ) * number;
                 } else{
                     throw new BuildingDoesNotExistException( "Building does not exist" );
