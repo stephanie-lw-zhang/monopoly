@@ -181,6 +181,10 @@ public abstract class AbstractBoard {
         return null;
     }
 
+    public int getBoardSize() {
+        return adjacencyMap.keySet().size();
+    }
+
     public List<AbstractPropertyTile> getSameSetProperties(AbstractPropertyTile property) {
         return getColorListMap().get( property.getCard().getCategory());
     }

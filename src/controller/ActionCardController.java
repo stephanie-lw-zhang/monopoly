@@ -46,6 +46,9 @@ public class ActionCardController{
     public void handleMoveBackwards(List<Object> parameters) {
         int index = (int) parameters.get(1);
         int newIndex = myBoard.getPlayerTile(turn.getMyCurrPlayer()).getTileIndex() - index;
+        if (newIndex < 0) {
+            newIndex = myBoard.getBoardSize() + newIndex;
+        }
         Tile newTile = myBoard.getTilesIndex(newIndex);
         myBoard.movePlayer(turn.getMyCurrPlayer(), newTile);
         myGameView.updateIconDisplay(turn.getMyCurrPlayer(), newTile);
