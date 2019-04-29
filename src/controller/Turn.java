@@ -104,6 +104,7 @@ public class Turn {
     }
 
     public boolean isDoubleRoll(Integer[] rolls) {
+        if (rolls.length == 1) return false;
         HashSet<Integer> doubles = new HashSet(Arrays.asList(rolls));
         return doubles.size() == 1;
     }

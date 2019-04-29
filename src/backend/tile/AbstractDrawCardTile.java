@@ -47,6 +47,8 @@ public abstract class AbstractDrawCardTile extends Tile {
         myDeck = deck;
     }
 
+
+
     public String getName(){
         return deckName;
     }

@@ -25,6 +25,7 @@
     </NumPlayers>
 
     <Dice>
+        <DiceType>SixDice</DiceType>
         <NumDie>1</NumDie>
     </Dice>
 
@@ -42,7 +43,7 @@
     </Dimensions>
 
     <Deck>
-        <Name>Chance Deck</Name>
+        <Name>Chance</Name>
         <ActionCard>
             <CardType>MoveCard</CardType>
             <Type>Move</Type>

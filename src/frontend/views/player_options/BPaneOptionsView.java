@@ -108,7 +108,7 @@ public class BPaneOptionsView extends AbstractOptionsView {
     }
 
     private Node makeRollDisplay() {
-        myDiceView = new DiceView(2,6);
+        myDiceView = new DiceView(myData.getNumDie(),6);
         return myDiceView;
     }
 

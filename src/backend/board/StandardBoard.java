@@ -21,8 +21,9 @@ public class StandardBoard extends AbstractBoard {
                          Map<Tile, List<Tile>> adjacencyMap,
                          Map<String, List<AbstractPropertyTile>> colorListMap,
                          Tile go,
+                         int nDie,
                          Bank bank) {
-        super(playerList, adjacencyMap, colorListMap, go, 2, bank);
+        super(playerList, adjacencyMap, colorListMap, go, nDie, bank);
     }
 
     public StandardBoard(List<AbstractPlayer> playerList, XMLData data){
