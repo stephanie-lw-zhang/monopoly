@@ -464,6 +464,7 @@ public class GameController {
         myBoard.getPlayerTileMap().remove(forfeiter);
         myGameView.updateAssetDisplay(myBoard.getMyPlayerList(), forfeiter);
         myGameView.updateLogDisplay(forfeiter.getMyPlayerName() + " has forfeited.");
+        myTurn.skipTurn();
         if(myBoard.getMyPlayerList().size() == 1){
             handleEndGame();
         }
