@@ -75,6 +75,7 @@ public class SavedXMLData {
     public List<AbstractPlayer> getPlayerList(){
         return playerList;
     }
+    public Map<AbstractPlayer, Tile> getPlayerPositionMap() { return playerPositionMap; }
 
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -82,9 +83,22 @@ public class SavedXMLData {
         return node.getNodeValue();
     }
 
-//    public static void main(String[] args){
-//        XMLData data = new XMLData("OriginalMonopoly.xml");
-//        SavedXMLData dat = new SavedXMLData("saved_xml.xml", data);
-//    }
+    // to show off during demo (comment out later)
+    public static void main(String[] args){
+        XMLData data = new XMLData("DukeMonopoly.xml");
+        SavedXMLData dat = new SavedXMLData("saved_xml.xml", data);
+        for(AbstractPlayer p: dat.getPlayerList()){
+            System.out.println("Player name: " + p.getMyPlayerName());
+            System.out.println("Player icon: " + p.getMyIconPath());
+            System.out.println("Player funds "+ p.getMoney());
+            System.out.println("Player properties: ");
+            for(AbstractPropertyTile prop: p.getProperties()){
+                System.out.println(prop.getTitleDeed());
+            }
+        }
+        for(AbstractPlayer p: dat.getPlayerPositionMap().keySet()){
+            System.out.println("Player " + p.getMyPlayerName() + " is on Tile Number " + dat.getPlayerPositionMap().get(p).getTileIndex());
+        }
+    }
 
 }

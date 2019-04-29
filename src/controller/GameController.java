@@ -10,6 +10,7 @@ import backend.tile.AbstractPropertyTile;
 import backend.tile.*;
 
 import configuration.XMLData;
+import configuration.XMLWriter;
 import exceptions.*;
 
 import frontend.bot_manager.AutomatedPlayerManager;
@@ -287,6 +288,8 @@ public class GameController {
     }
 
     public void handleUpgradeProperty() {
+        //this line below is for the demo, comment out later
+        XMLWriter.writeXML("saved_xml.xml", myBoard);
         try {
             ObservableList<String> players = getAllOptionNames(myBoard.getPlayerNamesAsStrings());
             AbstractPlayer owner = getSelectedPlayer("Upgrade Property", "Choose who is upgrading their property ", players);
