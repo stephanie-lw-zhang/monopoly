@@ -187,6 +187,11 @@ public class SplitScreenGameView extends AbstractGameView {
         return myOptionsView.getCheatMoves();
     }
 
+    @Override
+    public void removePlayer(AbstractPlayer forfeiter, Tile tile) {
+        myBoardView.removePlayer(forfeiter, tile);
+    }
+
 //    @Override
 //    public void requestFocus(String str) {
 //        myOptionsView.requestFocus(str);

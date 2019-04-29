@@ -20,4 +20,6 @@ abstract public class AbstractBoardView {
     abstract public void setScreenLimits(double screenWidth,double screenHeight);
     abstract public void makeBoard();
     abstract public Node getBoardViewNode();
+
+    public abstract void removePlayer(AbstractPlayer forfeiter,Tile tile);
 }

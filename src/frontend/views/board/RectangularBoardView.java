@@ -218,6 +218,12 @@ public class RectangularBoardView extends AbstractBoardView {
         return myRoot;
     }
 
+    @Override
+    public void removePlayer(AbstractPlayer forfeiter,Tile tile) {
+        AbstractTileView removeFrom = tileToTileView.get(tile);
+        removeFrom.moveFrom(myPlayerIconMap.get(forfeiter).getMyNode());
+    }
+
     private void makeBottomRow() {
         for(int i = 1; i<myHorizontals-1;i++){
             Tile tile= myBoard.getTilesIndex(i);
