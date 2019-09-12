@@ -19,13 +19,13 @@
         <BoxColor>#d32f2f</BoxColor>
     </Box>
     <NumPlayers>
-        <MaxPlayers>4</MaxPlayers>
+        <MaxPlayers>5</MaxPlayers>
         <MinPlayers>2</MinPlayers>
     </NumPlayers>
 
     <Dice>
         <DiceType>SixDice</DiceType>
-        <NumDie>2</NumDie>
+        <NumDie>3</NumDie>
     </Dice>
 
     <Decks>
@@ -320,10 +320,10 @@
     <Tile>
         <TileNumber>1</TileNumber>
         <TileType>BuildingTile</TileType>
-        <TileColor>Brown</TileColor>
+        <TileColor>Turquoise</TileColor>
         <Card>
-            <TitleDeed>Mediterranean Avenue</TitleDeed>
-            <TileColor>Brown</TileColor>
+            <TitleDeed>This is a Test</TitleDeed>
+            <TileColor>Turquoise</TileColor>
             <Upgrades>
                 <Upgrade>NoHouse,0,House,2,0,0</Upgrade>
             </Upgrades>
@@ -339,15 +339,9 @@
             <Upgrades>
                 <Upgrade>3House,3,House,90,50,25</Upgrade>
             </Upgrades>
-            <Upgrades>
-                <Upgrade>4House,4,House,160,50,25</Upgrade>
-            </Upgrades>
-            <Upgrades>
-                <Upgrade>Hotel,1,Hotel,250,0,25</Upgrade>
-            </Upgrades>
-            <TilePrice>60</TilePrice>
-            <TileMortgageValue>30</TileMortgageValue>
-            <TileHousePrice>50</TileHousePrice>
+            <TilePrice>200</TilePrice>
+            <TileMortgageValue>500</TileMortgageValue>
+            <TileHousePrice>15</TileHousePrice>
             <TileHotelPrice>50</TileHotelPrice>
             <NextTiles>2</NextTiles>
         </Card>

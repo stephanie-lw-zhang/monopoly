@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This contains all the handlers, use re
+ */
 public class ActionCardController{
 
     AbstractBoard myBoard;

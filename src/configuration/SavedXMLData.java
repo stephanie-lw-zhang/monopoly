@@ -85,7 +85,7 @@ public class SavedXMLData {
 
     // to show off during demo (comment out later)
     public static void main(String[] args){
-        XMLData data = new XMLData("DukeMonopoly.xml");
+        XMLData data = new XMLData("OriginalMonopoly.xml");
         SavedXMLData dat = new SavedXMLData("saved_xml.xml", data);
         for(AbstractPlayer p: dat.getPlayerList()){
             System.out.println("Player name: " + p.getMyPlayerName());
