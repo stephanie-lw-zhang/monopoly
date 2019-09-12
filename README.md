@@ -1,6 +1,6 @@
-# monopoly
+# Monopoly Game
 
-Luis Fornes (laf30), Edward Hsieh (eh158), Matt Rose (mjr68), Connie Wu (cw342), Stephanie Zhang (slz6), Sam Zhang (syz5)
+Authors: Stephanie Zhang, Edward Hsieh, Matt Rose, Connie Wu, Sam Zhang, Luis Fornes
 
 ### Project Structure
 ```md
@@ -50,19 +50,6 @@ Enter all necessary information based on the rules of the type of game started.
 Play the game and find instructions for the game on the main menu.
 ```
 
-### Assumptions
-```md
-- 
-```
-
-### Extra Features
-```md
-- Auctions/Trading
-- Multiple Games at Once 
-cheat keys
--
-```
-
 ### Bugs / Known Issues
 ```md
 - Current player not bolding on update of a player anymore
@@ -70,39 +57,4 @@ cheat keys
 - Funds adding cheat key removed after not working
 ```
 
-### Impressions
-```md
-Sam: 
-This project has shown me a lot of how much can go into a game logistically
-and technically. Logistically, the process of 'agile development' has
-certainly been a benefit. Having sprints and demos each end-of-sprint
-provided incentive to continue to meet development goals of the project on a
-more consistent basis than if we had not used this agile mindset. Also, with 
-such an involved project, I've learned how important communication and planning 
-are for a successful project. While I think our team met and planned
-extensively pre-coding, in retrospect even we could have improved how our 
-planning went.
 
-Technically, I've learned more about the importance of clean design. Our
-project mostly employed an MVC structure. We deviated away from MVC in the
-middle of our project, which, while not breaking the project in any way, made
-our code much less navigatble / readable. Thus, it certainly became harder to
-implement new features. After cleaning our design to strictly follow MVC
-and encapsulation of classes, our game had a much cleaner "pipeline" for the
-controller to talk between the backend models and frontend views. And from this,
-I've definitely learned how to develop with more awareness of game design.
-One mistake I made was choosing convenience of feature implementation over 
-going the "longer" way and following our design goals. In the future, I think
-it is definitely a much better investment to always follow design before
-convenience for future ease of development. 
-
-Generally, I've also learned more about data-driven development. While I did 
-not work with the data/configuration side of the project, I've still been
-able to see how important data-driven development is to make projects much
-more flexible, generalizable, and even customizable (like in the case of
-Monopoly and having a change in XML's be all you need to change the view /
-rules of a custom game.
--------------------------------------------------------------------------------
-
-
-```
